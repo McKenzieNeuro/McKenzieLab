@@ -69,7 +69,9 @@ ch1 = 25;%ripple channel (base 0)
 chN = 8;
 ripples = sm_FindRipples(pwd,ch1,'noise', chN,'restrict',eps);
 
+%%
 
+sm_TheStateEditor
 %%
 
 %line up video
