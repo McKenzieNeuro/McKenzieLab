@@ -76,11 +76,9 @@ for ii=1:nbChunks
     h=waitbar(ii/(nbChunks+1));
     dat = fread(fidI,nbChan*chunk,'int16');
     dat = reshape(dat,nbChan,[]);
-     dat = dat(8:23,:);
+  
     dat = dat- median(dat);
     
- %  dat = dat(38,:);
-    %dat = InstAmplitude(BandpassFilter(dat,20000,[100 5000]));
     fwrite(fidO,dat(:),'int16');
 end
 
@@ -88,10 +86,9 @@ remainder = nBytes/(sizeInBytes*nbChan) - nbChunks*chunk;
 if ~isempty(remainder)
     dat = fread(fidI,nbChan*remainder,'int16');
     dat = reshape(dat,nbChan,[]);
-%    dat = dat(38,:);
-    dat = dat(8:23,:);
+%
     dat = dat- median(dat);
-  % dat = InstAmplitude(BandpassFilter(dat,20000,[100 5000]));
+
     fwrite(fidO,dat(:),'int16');
 end
 close(h);
