@@ -1,11 +1,11 @@
-function [estimateLabel,trueLabel,time2seizure] = sm_getSeizurePred(fname,seizFil,rusTree,ops)
+function [estimateLabel,trueLabel,inTrainingSet,time2seizure] = sm_getSeizurePred(fname,seizFil,rusTree,trainingTime,ops)
 
 
 %%
 
 Fs =ops.Fs;
 bins = ops.bins;
-nCh_featureFil = ops.nCh_featureFil;
+nCh_featureFil = ops.nCh_featureFile;
 
 %%
 
@@ -27,7 +27,7 @@ dur = s.bytes/nCh_featureFil/Fs/2;
 
 
 
-ts = 1:dur;
+ts = 0: (dur-ops.durFeat);
 time2seizure = ts;
 kp = true(size(ts));
 for i = 1:length(seizure_start)
@@ -42,13 +42,14 @@ for i = 1:length(seizure_start)
 end
 
 [~,trueLabel] = histc(time2seizure,[-inf -(bins) 0 1 2]);
+inTrainingSet = histc(trainingTime,ts)>0;
 %%
 
 
 %get prediction
 estimateLabel =[];
 dat1 =[];
-for i = 1:dur<ops.durFeat
+for i = ts
     
     
     
