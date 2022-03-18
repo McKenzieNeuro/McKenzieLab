@@ -65,7 +65,7 @@ for i = ts
         dat1 =[];
     elseif i > (dur- mod(dur,100))
         estimateLabel = [estimateLabel;predict(rusTree,dat1)];
-        
+         dat1 =[];
     end
     
 end
