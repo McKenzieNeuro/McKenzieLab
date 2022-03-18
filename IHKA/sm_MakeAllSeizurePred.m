@@ -23,7 +23,7 @@ load(ClassifierFileOutput)
 for i = 1:size(sessions,1)
     featureFile =  sessions{i,2};
     seizureFile = sessions{i,1};
-    [estimateLabel,trueLabel,time2seizure] = sm_SeizurePred(featureFile,seizureFile,rusTree,ops);
+    [estimateLabel,trueLabel,time2seizure] = sm_getSeizurePred(featureFile,seizureFile,rusTree,ops);
     
     save([dirOut filesep d{b(i)} '_predict.mat'],'estimateLabel','trueLabel','time2seizure')
     disp([' saved: E:\Dropbox\UNM\Analysis\IHKA\data\' d{b(i)} '_predict.mat'])
