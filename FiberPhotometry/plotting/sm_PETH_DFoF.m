@@ -79,6 +79,32 @@ evs = load(evFile);
 
 %%
 
+
+% 
+% close all
+% textLabel = {'Home','Home','Home','Home','Novel A','Novel B','Novel C'};
+% 
+% signal_DFoF = nanconvn(signal_DFoF,k');
+% 
+% signal_DFoF(1:5000) = nan;
+% figure
+% 
+% hold on
+% plot([-100 max(ts_data)],[0 0],'k')
+% plot([0 0; cell2mat(data(:,2)) cell2mat(data(:,2))]',[3*ones(size(data,1)+1,1) 4*ones(size(data,1)+1,1) ]','k')
+% plot(ts_data,signal_DFoF,'r','linewidth',2)
+% 
+% %h = text(cell2mat(data(:,2)),15*ones(size(data,1),1),data(:,1));
+% %h = text([0 ;cell2mat(data(:,2))],4.5*ones(size(data,1)+1,1),textLabel);
+% ylim([-5 8])
+% xlim([-100 max(ts_data)])
+%  set(h,'Rotation',45);
+% 
+% xlabel ('Time (s)') 
+% ylabel ('Z-score')
+
+
+%%
 % get indices of events
 
 for ii = 1:length(evType)
