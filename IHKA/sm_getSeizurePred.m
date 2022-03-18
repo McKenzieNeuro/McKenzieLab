@@ -1,4 +1,4 @@
-function [estimateLabel,trueLabel,ts1] = sm_getSeizurePred(fname,seizFil,rusTree)
+function [estimateLabel,trueLabel,ts1] = sm_getSeizurePred(fname,seizFil,rusTree,ops)
 
 TSname1 = 'Seizure starts'; % TS name in file.
 
