@@ -60,7 +60,7 @@ end
 
 
 if isempty(dirOut)
-    masterDir = 'F:\data1\IHKA';
+    masterDir = 'E:\data\IHKA';
     [a,basename] = fileparts(fileOut); % define output directory
     dirOut = [masterDir filesep basename ];
 end

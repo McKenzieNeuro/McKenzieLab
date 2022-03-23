@@ -10,15 +10,15 @@
 
 %%
 %load classifier, loads 'ops','rusTree','sessions'
-ClassifierFileOutput =  'F:\data1\IHKA\classification.mat';
+ClassifierFileOutput =  'E:\data\IHKA\classification.mat';
 load(ClassifierFileOutput)
 
-FeatureFileOutput = 'F:\data1\IHKA\features.mat';
+FeatureFileOutput = 'E:\data\IHKA\features.mat';
 load(FeatureFileOutput,'sesID')
 
 %%
 
-
+warning off
 % loop over files to predict
 for i = 1:size(sessions,1)
     featureFile =  sessions{i,2};
@@ -26,12 +26,24 @@ for i = 1:size(sessions,1)
     
     %get times used in training
     trainingTime = sort(cell2mat(cellfun(@(a) a(a(:,1)==i,2),sesID,'UniformOutput',false)'));
-    [estimateLabel,trueLabel,inTrainingSet,time2seizure] = sm_getSeizurePred(featureFile,seizureFile,rusTree,trainingTime,ops);
+    [estimateLabel,trueLabel,inTrainingSet,time2seizure,seizure_start] = sm_getSeizurePred(featureFile,seizureFile,rusTree,trainingTime,ops);
     [dirOut,fileOut] = fileparts(sessions{i,2});
-    save([dirOut filesep fileOut '_predict.mat'],'estimateLabel','trueLabel','time2seizure','inTrainingSet')
+    save([dirOut filesep fileOut '_predict.mat'],'estimateLabel','trueLabel','time2seizure','inTrainingSet','seizure_start')
     disp([' saved: ' dirOut filesep fileOut '_predict.mat'])
 end
 
 
 %%
-
+close all
+figure
+k = gaussian2Dfilter([1 100],[ 1 50]);
+%estimateLabel1 = estimateLabel;
+%estimateLabel1(inTrainingSet) = nan;
+for i = 1:6
+    subplot(6,1,i)
+   
+    hold on
+    plot([seizure_start seizure_start],[0 1],'--','color','r')
+     plot(nanconvn(estimateLabel==i,k'),'k')
+end
+    

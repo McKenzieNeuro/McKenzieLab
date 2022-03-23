@@ -1,4 +1,4 @@
-function [estimateLabel,trueLabel,inTrainingSet,time2seizure] = sm_getSeizurePred(fname,seizFil,rusTree,trainingTime,ops)
+function [estimateLabel,trueLabel,inTrainingSet,time2seizure,seizure_start] = sm_getSeizurePred(fname,seizFil,rusTree,trainingTime,ops)
 
 % this function takes the classifier in rusTree and applease the feature
 % space specified in ops and classified ever moment in time for the file
