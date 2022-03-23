@@ -18,9 +18,9 @@ edf_fils = fils_edf(ismember(b_edf,goodFils));
 %%
 
 
-masterDir = 'F:\data1\IHKA';
+masterDir = 'E:\data\IHKA';
 
-for i = 49:length(fils_edf)
+for i = 74:length(fils_edf)
     
     % check if file exists
     fileOut = regexprep(fils_edf{i},' ','_');

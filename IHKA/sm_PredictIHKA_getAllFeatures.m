@@ -12,8 +12,8 @@
 
 %path where raw data is stored with seizure labels
 ops.RawDataPath = 'R:\IHKA_Scharfman\IHKA data';
-ops.FeaturePath = 'F:\data1\IHKA';
-ops.FeatureFileOutput = 'F:\data1\IHKA\features.mat';
+ops.FeaturePath = {'F:\data1\IHKA','E:\data\IHKA'};
+ops.FeatureFileOutput = 'E:\data\IHKA\features.mat';
 
 
 % define time windows around to predict (s)
@@ -90,7 +90,36 @@ edf_fils = fils_edf(ismember(b_edf,goodFils));
 
 
 
+
 %%
+
+sessions = [];
+
+%find feature files that match annotation file
+for j = 1:length(ops.FeaturePath)
+d = dir(ops.FeaturePath{j});
+d = {d(cell2mat({d.isdir})).name}';
+[a,b] = fileparts(seizure_fils);
+seizure_fils_txt = regexprep(b,' ','_');
+[~,b] = ismember(seizure_fils_txt,d);
+kp = b>0;
+b(~kp) =[];
+seizure_filst = seizure_fils(kp);
+
+
+% save list of file names for the paired annotation/feature files
+
+sessions = [sessions;seizure_filst cellfun(@(a) [ops.FeaturePath{j} filesep a filesep a],d(b),'uni',0)];
+
+
+
+end
+
+nSessions = size(sessions,1);
+
+
+%%
+
 warning off
 %get all relevant timepoints around the seizure start and end
 
@@ -100,13 +129,13 @@ TSname2 = 'ends';
 
 
 % loop over all seizures
-for i= 1:length(seizure_fils)
+for i= 1:size(sessions,1)
     
     %  tims{i} = [NxM] , N = seizure number, M = timestamp for bin of interest length(bins)+2
     tims{i} = [];
     
     
-    TSdata = readtable(seizure_fils{i});
+    TSdata = readtable(sessions{i,1});
     TSdata = table2cell(TSdata);
     
     seizure_start = cell2mat(TSdata(cellfun(@any,regexp(TSdata(:,6),TSname1)),4));
@@ -141,28 +170,6 @@ for i= 1:length(seizure_fils)
     
 end
 
-%%
-
-
-%find feature files that match annotation file
-
-d = dir(ops.FeaturePath);
-d = {d(cell2mat({d.isdir})).name}';
-[a,b] = fileparts(seizure_fils);
-seizure_fils_txt = regexprep(b,' ','_');
-[~,b] = ismember(seizure_fils_txt,d);
-kp = b>0;
-b(~kp) =[];
-seizure_fils(~kp) = [];
-
-
-% save list of file names for the paired annotation/feature files
-clear sessions
-sessions(:,1) = seizure_fils;
-sessions(:,2) = cellfun(@(a) [ops.FeaturePath filesep a filesep a],d(b),'uni',0);
-
-
-nSessions = size(sessions,1);
 %%
 
 % clear feature variable that will be used to aggregate across sesions
@@ -208,7 +215,7 @@ for i = 1:nSessions
             %make sure the even does not exceed duration of recording
             if ~isnan(tim) && (dur-tim)>ops.durFeat
                 
-                
+                try
                 %get features (some pre calculated, some calculated on the fly)
                 features = ops.features(fname,tim,ops);
                 
@@ -218,7 +225,12 @@ for i = 1:nSessions
                 
                 %keep track of which session matches which feature
                 sesID{k} = [sesID{k}; i tim];
-                
+                catch
+                    disp(fname)
+                    disp(['file length: ' num2str(dur) ' time of read:' num2str(tim)])
+                    
+                    
+                end
                 
             end
             
