@@ -1,4 +1,7 @@
+*.m
+*.asv
 *.ipynb
 *.dat
 *.edf
 env/
+playground/
