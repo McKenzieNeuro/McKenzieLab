@@ -3,66 +3,117 @@ import numpy as np
 
 
 def load_binary(
-        file_name: str,
-        sample_rate: int,
-        start: int,
-        duration: int,):
+        file_path : str,
+        sample_rate : int,
+        n_chan : int = 1,
+        n_samples : int = np.inf,
+        offset_time : float = None,
+        duration_time : float = None,
+        offset_size : int = None,
+        duration_size : int = None,
+        channels : list = [],
+        precision : type = "int16"):
     """Load data from a multiplexed binary file.
 
     Reading a subset of data can be done in two different manners: 
-    either by specifying start time and duration (more intuitive), or
-    by indicating the position and size of the subset in terms of 
-    number of samples per channel (more accurate)
+    either by specifying start time ("offset_time") and duration ("duration_time") 
+    (more intuitive), or by indicating the position ("offset_size") and size of 
+    the subset in terms of number of samples per channel ("duration_size") 
+    (more accurate). The script will complain if both 'time' and 'size'
+    arguments are provided. 
 
     Parameters
     ----------
-    file_name : str
+    file_path : str
         Path to a .dat binary file
     sample_rate : int or float
         Sample rate in Hz, (aka fs, frequency, sr is the MNE convention) 
-    start : int or float
-        Position to start reading in seconds
-    duration : int or float
-        Duration to read in seconds, (can be Inf)
-    offset : int 
-        Position to start reading (in samples per channel)
-    samples : int
-        Number of samples (per channel) to read, (can be Inf)
-    n_channels : int
-        Number of data channels in the file
-    channels_to_read : str or list
+    offset_time : int or float or None
+        Position to start reading in seconds, (aka start_time) (defaults to None)
+    duration_time : int or float or None
+        Duration to read in seconds, (defaults to Inf)
+    offset_size : int or None
+        Position to start reading in samples (per channel) (defaults to None)
+    duration_size : int or None
+        Duration to read in number of samples (per channel) (defaults to None)
+    n_chan : int
+        Number of data channels in the file (defaults to 1)
+    n_samples : int
+        Number of samples (per channel) to read, (can be Inf, defaults to None)
+    channels : str or list
         Indices of channels to read from (default = 'all').
     precision : str, optional
         Sample precision (default = 'int16').
-    skip : int
-        Number of bytes to skip after each value is read (default = 0).
-        
-
     """
-    # Tests
-    assert filename[-4:] == ".dat" , "load_binary can only be called on binary files with the .dat extension."
-    return # dummy
+    # Some tests
+    assert n_chan == int(nchan)
+    assert n_chan >= 1
+    print(f"{n_chan} channel(s) in this binary file")
+    assert os.path.exists(file_path) , f"{file_path} appears not to exist."
+    assert sample_rate > 0 , f"Sample rate must be positive {sample_rate}"
+    if channels: 
+        assert len(channels) <= n_chan , "Too many channels passed"
+        assert len(set(channels)) == len(channels) , "Repeating channels"
+        for chan in channels: 
+            assert chan < n_chan and chan >= 0 , "Channel out of range"
+            assert int(chan) == chan , "Wrong type, must be int"
+    else: channels = [i for i in range(n_chan)]
+
+    # Either all four args are none -> read whole file xor:
+    #     offset_time,duration_time xor offset_size,duration_size
+    #     are both None (not just Falsy!)
+    if (offset_time,duration_time,offset_size,duration_size)==(None,)*4:
+        offset_size = 0
+        duration_size = np.inf
+    elif offset_time==None and duration_time==None:
+        assert offset_size != None and duration_size != None
+    elif offset_size==None and duration_size == None:
+        assert offset_time != None and duration_time != None
+        offset_size = int(offset_time * sample_rate + 0.5) 
+        duration_size = int(duration_time * sample_rate + 0.5)
+    else:
+        raise Exception("Invalid Argument Combination!")
+    assert offset_size >=0 and int(offset) == offset , f"Bad offset {offset_size}"
+    assert duration_size > 0 , f"Non-positive duration size {duration_size}"
+
+    # Figure out what the data offset is in bytes
+    bytes_per_sample = np.dtype(precision).itemsize
+    data_offset = offset_size * n_chan * bytes_per_sample
+    n_samples = duration_size * bytes_per_sample
+    
+    return _load_binary(file_path,n_chan,n_samples,precision,data_offset)
 
 
-def _load_binary() -> np.ndarray: 
-    """Helper for load_binary; this is the method that does all the work.
+def _load_binary(
+        file_path : str,
+        n_chan : int,
+        n_samples : int,
+        precision : type,
+        data_offset : int = 0) -> np.ndarray: 
+    """Helper for load_binary; this is the method that contains the logic.
 
     Parameters
     ----------
-    file_name : str
-        ...
-    n_samples : int
-        Number of samples per channel
+    file_path : str
+        Path to binary file with multiplexed data.
     n_chan : int
-        Number of channels. 
+        The number of channels. 
+    n_samples : int
+        The number of units (measurements) in the sample 
+    precision : type (or a str representation of a valid type)
+        The precision of the binary data, 
+        e.g. numpy.int16 or "int16" are both valid
+    data_offset : int
+        Exact index of starting time.
     """
-    # TODO: email John D. Long jlong29@gmail.com or Michaël Zugaro about this
-    # they are the authors of the matlab script upon which this script is based
-    # I don't understand memory allocation stuff well enough to understand
-    # why this max_samples_per_chunk monkey business is required
+    # TODO: email John D. Long jlong29@gmail.com or Michaël Zugaro 
+    # about this they are the authors of the matlab script upon which 
+    # this script is based I don't understand memory allocation stuff 
+    # well enough to understand why this max_samples_per_chunk monkey 
+    # business is required
     MAX_SAMPLES_PER_CHUNK = 10000 
     n_samples = n_samples_per_chan * n_chan
-    with open(file_name , "rb") as file:
+    with open(file_path , "rb") as file:
         # Rem.  data_offset: uint = 
         #           start_time * sample_rate * n_chan * bytes_per_sample
         # Rem.  bytes_per_sample = np.dtype(precision).itemsize
@@ -70,12 +121,26 @@ def _load_binary() -> np.ndarray:
         if n_samples <= MAX_SAMPLES_PER_CHUNK:
             data = _load_chunk(file,n_chan,n_samples,precision)
         else:
-            def ciel(x): return int(x + 1) 
             # Preallocate memory
-            data = np.zeros((n_chan , n_samples))
+            data = np.zeros((n_samples , n_chan) , dtype=precision)
 
-
-    return arr
+            # Read all chunks
+            n_samples_per_chunk = int(MAX_SAMPLES_PER_CHUNK / n_chan) * n_chan
+            n_chunks = n_samples // n_samples_per_chunk 
+            if not n_chunks: m=0 # extreme rare case, required for assertion
+            for j in range(n_chunks):
+                d =  _load_chunk(file,n_chan,n_samples,precision)
+                m,_ = d.shape
+                data[j*m:(j+1)*m , :] = d
+            # If data size not multiple of chunk size, read remainder
+            remainder = n_samples - n_chunks * n_samples_per_chunk
+            if remainder:
+                d = _load_chunk(file,n_chan,remainder//n_chan,precision)
+                m_rem,_ = d.shape[0]
+                assert m_remi # sanity check: logically m_rem cannot be zero
+                assert n_chunks*m == data.shape[0] - m_rem # sanity check
+                data[-m_rem: , :] = d
+    return data
 
 
 
@@ -134,7 +199,7 @@ def _load_chunk(
     ----------
     file : an io file buffered reader object
         The binary file that you are reading. The python built-in type
-        that you get from open(file_name , "rb")
+        that you get from open(file_path , "rb")
     n_chan : int
         The number of channels. 
     n_samples : int
@@ -151,11 +216,11 @@ def _load_chunk(
         then calling _load_chunk with n_chan = 2 and n_samples = 3 will
         result in the following array [[0, 1], [2, 3], [4, 5]]
     """
-    arr = np.fromfile(
+    d = np.fromfile(
         file,
         dtype = precision,
         count = n_chan * n_samples).reshape((n_samples,n_chan))
-    return arr
+    return d
 
 
 
@@ -177,20 +242,5 @@ if __name__=="__main__":
     # Assert that result must be equal to matlab version
     assert (arrout == np.array([[0,1],[2,3],[4,5],[6,7],[8,9]])).all()
     print("Passed")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
