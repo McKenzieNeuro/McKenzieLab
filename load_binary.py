@@ -2,11 +2,14 @@ import os
 import numpy as np
 
 
+# TODO
+# Find and remove all n_samples, rename to duration_size
+# Write Tests
+# Move tests into seperate file
 def load_binary(
         file_path : str,
         sample_rate : int,
         n_chan : int = 1,
-        n_samples : int = np.inf,
         offset_time : float = None,
         duration_time : float = None,
         offset_size : int = None,
@@ -28,6 +31,8 @@ def load_binary(
         Path to a .dat binary file
     sample_rate : int or float
         Sample rate in Hz, (aka fs, frequency, sr is the MNE convention) 
+    n_chan : int
+        Number of data channels in the file (defaults to 1)
     offset_time : int or float or None
         Position to start reading in seconds, (aka start_time) (defaults to None)
     duration_time : int or float or None
@@ -36,10 +41,6 @@ def load_binary(
         Position to start reading in samples (per channel) (defaults to None)
     duration_size : int or None
         Duration to read in number of samples (per channel) (defaults to None)
-    n_chan : int
-        Number of data channels in the file (defaults to 1)
-    n_samples : int
-        Number of samples (per channel) to read, (can be Inf, defaults to None)
     channels : str or list
         Indices of channels to read from (default = 'all').
     precision : str, optional
