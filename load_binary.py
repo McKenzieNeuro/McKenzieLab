@@ -3,13 +3,12 @@ import numpy as np
 
 
 # TODO
-# Find and remove all n_samples, rename to duration_size
 # Write Tests
 # Move tests into seperate file
 def load_binary(
         file_path : str,
-        sample_rate : int,
         n_chan : int = 1,
+        sample_rate : int = None,
         offset_time : float = None,
         duration_time : float = None,
         offset_size : int = None,
@@ -29,10 +28,11 @@ def load_binary(
     ----------
     file_path : str
         Path to a .dat binary file
-    sample_rate : int or float
-        Sample rate in Hz, (aka fs, frequency, sr is the MNE convention) 
     n_chan : int
         Number of data channels in the file (defaults to 1)
+    sample_rate : int or float
+        Sample rate in Hz, (aka fs, frequency, sr is the MNE convention) 
+        Defaults to None, if none, must specify offset_size and duration_size
     offset_time : int or float or None
         Position to start reading in seconds, (aka start_time) (defaults to None)
     duration_time : int or float or None
@@ -45,8 +45,12 @@ def load_binary(
         Indices of channels to read from (default = 'all').
     precision : str, optional
         Sample precision (default = 'int16').
+
+    Returns
+    -------
+
     """
-    # Some tests
+    # Make sure the intput is correct
     assert n_chan == int(nchan)
     assert n_chan >= 1
     print(f"{n_chan} channel(s) in this binary file")
@@ -63,22 +67,45 @@ def load_binary(
     # Either all four args are none -> read whole file xor:
     #     offset_time,duration_time xor offset_size,duration_size
     #     are both None (not just Falsy!)
+    if sample_rate == None: assert (offset_time,duration_time)==(None,)*2
     if (offset_time,duration_time,offset_size,duration_size)==(None,)*4:
         offset_size = 0
         duration_size = np.inf
-    elif offset_time==None and duration_time==None:
-        assert offset_size != None and duration_size != None
-    elif offset_size==None and duration_size == None:
-        assert offset_time != None and duration_time != None
-        offset_size = int(offset_time * sample_rate + 0.5) 
-        duration_size = int(duration_time * sample_rate + 0.5)
+    elif (offset_time,duration_time) == (None,)*2:
+        if offset_size == None: offset_size = 0
+        if duration_size == None: duration_size = np.inf
+    elif (offset_size,duration_size) == (None,)*2:
+        assert sample_rate
+        offset_size = 0
+        duration_size = np.inf
+        if offset_time: 
+            offset_size = int(offset_time * sample_rate + 0.5)
+        if duration_time: 
+            duration_size = int(offset_time * sample_rate + 0.5)
     else:
-        raise Exception("Invalid Argument Combination!")
-    assert offset_size >=0 and int(offset) == offset , f"Bad offset {offset_size}"
+        raise Exception("Invalid Argument Combination!\\
+                \nYou cannot specify both size-like and a time-like arguments \\
+                for the duration and offset.")
+    assert offset_size >= 0 and int(offset) == offset , f"Bad offset {offset_size}"
     assert duration_size > 0 , f"Non-positive duration size {duration_size}"
+
+        
 
     # Figure out what the data offset is in bytes
     bytes_per_sample = np.dtype(precision).itemsize
+    fsize_bytes = os.path.getsize(file_path)        # file size in num of bytes
+    fsize_samples = fsize_bytes // bytes_per_sample # file size in num of samples
+    assert fsize_bytes / bytes_per_sample == fsize_samples
+    fsize_samples_tail = fsize_samples - offset_size
+
+    # Make sure duration_size is compatible with file size and offset
+    if duration_size == np.inf:
+        duration_size = fsize_samples_tail // n_chan
+        assert fsize_samples_tail / n_chan == duration_size , f"Incompatability of parameters with shape of file. Either n_chan={nchan} is incorrect or your file {file_path} is corrupted."
+    else: 
+        assert duration_size * n_chan <= fsize_samples_tail , f"Duration size ={duration_size} and offset={offset_size} exceed the end of the file {file_name}"
+
+
     data_offset = offset_size * n_chan * bytes_per_sample
     n_samples = duration_size * bytes_per_sample
     
@@ -221,6 +248,7 @@ def _load_chunk(
         file,
         dtype = precision,
         count = n_chan * n_samples).reshape((n_samples,n_chan))
+    assert (n_samples,n_chan) == d.size , f"Incompatible size ({n_chan},{n_samples} == {d.shape})"
     return d
 
 
@@ -229,19 +257,51 @@ if __name__=="__main__":
     # TESTS
     import array
     
-    # Test _load_chunk
+    ### Test _load_chunk
     print("\nTesting _load_chunk()...",end="\t")
     # Write a binary file
     arrin = array.array("h" , np.arange(50))
-    with open(".testdat.dat","wb") as file:
+    with open("temp_test.dat","wb") as file:
         arrin.tofile(file)
 
     # Read the binary file we just created with _load_chunk
-    with open(".testdat.dat","rb") as file:
+    with open("temp_test.dat","rb") as file:
         arrout = _load_chunk(file, n_chan=2, n_samples=5, precision="int16")
 
     # Assert that result must be equal to matlab version
     assert (arrout == np.array([[0,1],[2,3],[4,5],[6,7],[8,9]])).all()
+
+    # Remove temp binary file
+    os.remove("temp_test.dat")
     print("Passed")
+
+    ### Test load_binary
+    print("\nTesting load_binary()...",end="\t")
+
+    # Write a binary file
+    arrin = array.array("h" , np.arange(50))
+    with open("temp_test.dat","wb") as file:
+        arrin.tofile(file)
+
+    def load(fname="temp_test.dat" , **kwargs): # helper
+        with open(fname,"rb") as file:
+            arrout = load_binary(fname,**kwargs)
+        return arrout
+    arrout = load(n_chan=2)
+    assert (arrout == np.arange(50).reshape(25,2)).all()
+    arrout = load(n_chan=2,offset_size=2,duration_size=2)
+    assert (arrout == np.arange(4,8)).reshape(2,2)).all()
+    
+
+
+
+
+
+
+
+
+
+
+
 
 
