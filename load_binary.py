@@ -1,10 +1,20 @@
+# Copyright (C) 2004-2011 by Michaël Zugaro
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# 22/04/2022 Modified and translated to Python (3.9.5) 
+#            by Stephen Fay. Contact: dcxstephen@gmail.com 
+# 03/20/2014 Modified by John D. Long to use only built-in Matlab 8.1
+#            functions. Contact: jlong29@gmail.com
+
 import os
 import numpy as np
+import logging 
+logging.basicConfig(level=logging.DEBUG)
 
-
-# TODO
-# Write Tests
-# Move tests into seperate file
 def load_binary(
         file_path : str,
         n_chan : int = 1,
@@ -48,14 +58,15 @@ def load_binary(
 
     Returns
     -------
-
+    numpy.ndarray
+        An array containg the specified segment's data. 
     """
     # Make sure the intput is correct
-    assert n_chan == int(nchan)
+    assert n_chan == int(n_chan)
     assert n_chan >= 1
-    print(f"{n_chan} channel(s) in this binary file")
+    logging.info(f"{n_chan} channel(s) in this binary file") 
     assert os.path.exists(file_path) , f"{file_path} appears not to exist."
-    assert sample_rate > 0 , f"Sample rate must be positive {sample_rate}"
+    if sample_rate is not None: assert sample_rate > 0 , f"Sample rate must be positive {sample_rate}"
     if channels: 
         assert len(channels) <= n_chan , "Too many channels passed"
         assert len(set(channels)) == len(channels) , "Repeating channels"
@@ -81,12 +92,10 @@ def load_binary(
         if offset_time: 
             offset_size = int(offset_time * sample_rate + 0.5)
         if duration_time: 
-            duration_size = int(offset_time * sample_rate + 0.5)
+            duration_size = int(duration_time * sample_rate + 0.5)
     else:
-        raise Exception("Invalid Argument Combination!\\
-                \nYou cannot specify both size-like and a time-like arguments \\
-                for the duration and offset.")
-    assert offset_size >= 0 and int(offset) == offset , f"Bad offset {offset_size}"
+        raise Exception("Invalid Argument Combination!\nYou cannot specify both size-like and a time-like arguments for the duration and offset.")
+    assert offset_size >= 0 and int(offset_size) == offset_size , f"Bad offset {offset_size}"
     assert duration_size > 0 , f"Non-positive duration size {duration_size}"
 
         
@@ -100,6 +109,7 @@ def load_binary(
 
     # Make sure duration_size is compatible with file size and offset
     if duration_size == np.inf:
+        logging.info("duration_size is np.inf")
         duration_size = fsize_samples_tail // n_chan
         assert fsize_samples_tail / n_chan == duration_size , f"Incompatability of parameters with shape of file. Either n_chan={nchan} is incorrect or your file {file_path} is corrupted."
     else: 
@@ -107,9 +117,9 @@ def load_binary(
 
 
     data_offset = offset_size * n_chan * bytes_per_sample
-    n_samples = duration_size * bytes_per_sample
-    
-    return _load_binary(file_path,n_chan,n_samples,precision,data_offset)
+    n_samples = duration_size # number of samples per channel
+
+    return _load_binary(file_path,n_chan,n_samples,precision,data_offset)[:,channels]
 
 
 def _load_binary(
@@ -127,7 +137,7 @@ def _load_binary(
     n_chan : int
         The number of channels. 
     n_samples : int
-        The number of units (measurements) in the sample 
+        The number of units (samples/measurements) per channel 
     precision : type (or a str representation of a valid type)
         The precision of the binary data, 
         e.g. numpy.int16 or "int16" are both valid
@@ -140,13 +150,13 @@ def _load_binary(
     # well enough to understand why this max_samples_per_chunk monkey 
     # business is required
     MAX_SAMPLES_PER_CHUNK = 10000 
-    n_samples = n_samples_per_chan * n_chan
+    total_n_samples = n_samples * n_chan 
     with open(file_path , "rb") as file:
         # Rem.  data_offset: uint = 
         #           start_time * sample_rate * n_chan * bytes_per_sample
         # Rem.  bytes_per_sample = np.dtype(precision).itemsize
         file.seek(data_offset)
-        if n_samples <= MAX_SAMPLES_PER_CHUNK:
+        if total_n_samples <= MAX_SAMPLES_PER_CHUNK:
             data = _load_chunk(file,n_chan,n_samples,precision)
         else:
             # Preallocate memory
@@ -155,7 +165,7 @@ def _load_binary(
             # Read all chunks
             n_samples_per_chunk = int(MAX_SAMPLES_PER_CHUNK / n_chan) * n_chan
             n_chunks = n_samples // n_samples_per_chunk 
-            if not n_chunks: m=0 # extreme rare case, required for assertion
+            if not n_chunks: m=0 # extreme rare case, required define m for assertion
             for j in range(n_chunks):
                 d =  _load_chunk(file,n_chan,n_samples,precision)
                 m,_ = d.shape
@@ -171,46 +181,6 @@ def _load_binary(
     return data
 
 
-
-# %LoadBinary - Load data from a multiplexed binary file.
-# %
-# %  Reading a subset of the data can be done in two different manners: either
-# %  by specifying start time and duration (more intuitive), or by indicating
-# %  the position and size of the subset in terms of number of samples per
-# %  channel (more accurate).
-# %
-# %  USAGE
-# %
-# %    data = LoadBinary(filename,<options>)
-# %
-# %    filename       file to read
-# %    <options>      optional list of property-value pairs (see table below)
-# %
-# %    =========================================================================
-# %     Properties    Values
-# %    -------------------------------------------------------------------------
-# %     'frequency'   sampling rate (in Hz, default = 20kHz)
-# %     'start'       position to start reading (in s, default = 0)
-# %     'duration'    duration to read (in s, default = Inf)
-# %     'offset'      position to start reading (in samples per channel,
-# %                   default = 0)
-# %     'samples'     number of samples (per channel) to read (default = Inf)
-# %     'nChannels'   number of data channels in the file (default = 1)
-# %     'channels'    channels to read (default = all) (base 1)
-# %     'precision'   sample precision (default = 'int16')
-# %     'skip'        number of bytes to skip after each value is read
-# %                   (default = 0)
-# %    =========================================================================
-# 
-# % Copyright (C) 2004-2011 by Michaël Zugaro
-# %
-# % This program is free software; you can redistribute it and/or modify
-# % it under the terms of the GNU General Public License as published by
-# % the Free Software Foundation; either version 3 of the License, or
-# % (at your option) any later version.
-# 
-# % 03/20/2014 Modified by John D. Long to use only built-in Matlab 8.1
-# % functions. Contact: jlong29@gmail.com
 
 
 
@@ -248,7 +218,7 @@ def _load_chunk(
         file,
         dtype = precision,
         count = n_chan * n_samples).reshape((n_samples,n_chan))
-    assert (n_samples,n_chan) == d.size , f"Incompatible size ({n_chan},{n_samples} == {d.shape})"
+    assert (n_samples,n_chan) == d.shape , f"Incompatible size (({n_samples},{n_chan}) == {d.shape})"
     return d
 
 
@@ -258,7 +228,7 @@ if __name__=="__main__":
     import array
     
     ### Test _load_chunk
-    print("\nTesting _load_chunk()...",end="\t")
+    logging.debug("Testing _load_chunk()...")
     # Write a binary file
     arrin = array.array("h" , np.arange(50))
     with open("temp_test.dat","wb") as file:
@@ -273,10 +243,10 @@ if __name__=="__main__":
 
     # Remove temp binary file
     os.remove("temp_test.dat")
-    print("Passed")
+    logging.debug("_load_chunk() passed all tests.")
 
     ### Test load_binary
-    print("\nTesting load_binary()...",end="\t")
+    logging.debug("Testing load_binary()...")
 
     # Write a binary file
     arrin = array.array("h" , np.arange(50))
@@ -290,14 +260,11 @@ if __name__=="__main__":
     arrout = load(n_chan=2)
     assert (arrout == np.arange(50).reshape(25,2)).all()
     arrout = load(n_chan=2,offset_size=2,duration_size=2)
-    assert (arrout == np.arange(4,8)).reshape(2,2)).all()
+    assert (arrout == np.arange(4,8).reshape(2,2)).all()
+    arrout = load(n_chan=5,sample_rate=1,offset_time=5,duration_time=3)
+    assert (arrout == np.arange(25,40).reshape(3,5)).all()
+    logging.debug("load_binary() passed all tests.")
     
-
-
-
-
-
-
 
 
 
