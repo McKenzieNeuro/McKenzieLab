@@ -3,5 +3,6 @@
 *.ipynb
 *.dat
 *.edf
+*.swp
 env/
 playground/
