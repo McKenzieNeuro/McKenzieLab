@@ -4,6 +4,7 @@
 *.dat
 *.edf
 *.swp
+*metadata.txt
 __pycache__/
 env/
 playground/
