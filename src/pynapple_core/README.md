@@ -4,7 +4,7 @@
 
 To use core, clone this repo into your project, then do
 ```
-from pynapple_core.pynapple_core import core as nap
+from pynapple_core import core as nap
 ```
 and use core classes and functions to your hearts content without having to install Qt or numba. Admitedly this fork is a complete hack, but it's a relatively small and useful piece of code... 
 
