@@ -4,9 +4,9 @@
 python modules for ihka data analysis
 
 ### Dependencies
+- toml
 - numpy 
 - scipy
-- MNE 
 
 For a more detailed list of dependencies see env.yml. 
 
