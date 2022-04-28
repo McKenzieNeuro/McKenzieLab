@@ -1,0 +1,56 @@
+# Previously ops variable in MatLab scripts
+
+[fileio]
+RAW_DATA_PATH = "/Users/steve/Documents/code/unm/data/small_data/raw" # "/Users/steve/Documents/code/unm/data"
+WAVELET_BINARIES_PATH = "/Users/steve/Documents/code/unm/data/small_data/binaries" # "/Users/steve/Documents/code/unm/data/feature" # previously FeaturePath
+FEATURES_OUTPUT_PATH = "/Users/steve/Documents/code/unm/data/small_data/features" # "/Users/steve/Documents/code/unm/data/features.npy" # previously .mat file
+CLASSIFIER_OUTPUT_PATH = "/Users/steve/Documents/code/unm/data/small_data/models" # "/Users/steve/Documents/code/unm/data/classifier_output.npy"
+
+[params.data]
+FS = 2000
+NUM_FREQ = 20                     # number of frequencies to sample
+LOW_FREQ = 0.5                    # lowest freq to sample
+HIGH_FREQ = 200                   # highest freq to sample
+SPACING = "LOGARITHMIC"           # can only be "LOGARITHMIC" or "LINEAR"
+ZSCORE_POWER = true               # bool, if true zscore the power
+SCALE_PHASE = 1000                # scale factor exploit int16 range
+SCALE_POWER = 1000                # scale factor exploit int16 range
+N_CHAN_RAW = 4                    # Number of raw channels in .edf files
+CH_PHASE_AMP = 2                  # Select the channel for which to 
+                                  # compute phase-amplitude correlation
+TS_FEATURES = ["wavelet_power","wavelet_phase"] # Select what to compute
+# I don't like amp_idx and ph_idx... 
+# perhaps we can find a way to write them out of the software
+amp_idx = [15,16,17,18,19,20]
+ph_idx = [1,2,3,4,5,6,7,8,9,10]
+
+[params.model.hyper]
+DUR_FEAT = 5                              # five second windows
+N_CHAN_FREQ_BANK = 20                     # 20 Frequency channels
+N_PREICTAL_BINS = 4                       # must be compatible with bins
+PREICTAL.BINS = [ 10800, 3600, 600, 10  ] # 3h,1h,10min,10sec
+PREICTAL.PCT =  [ 0.05,  0.05, 0.2, 1.0 ] # 5%,5%,20%,100%
+INTRAICTAL.PCT = 1.0                      # 100%
+POSTICTAL.DELAY = 600         # post-ictal ends 10mins after seizure end
+POSTICTAL.PCT = 0.2
+
+# nCh_featureFile, the number of channels in .dat files was 41 but 
+# hoping to have a more explicit format, see above comment in params.dat
+n_chan_binary_file = 41 # = 20 + 20 + 1, phase, amp, raw
+
+[params.model.hyper.wavelet_freqs]
+START = -0.3010299956639812               # log10(0.5)
+END = 2.3010299956639813                  # log10(200)
+NUMBER = 20                               # twenty frequencies
+SCALE = "log10"                           # linspace / logspace
+
+
+[params.model.training]
+train_val_test = [ 0.6, 0.2, 0.2 ]        # must sum to 1
+n_learning_cycles = 500
+rate = 0.1
+method = "RUSBoost"
+
+
+
+

@@ -1,3 +1,5 @@
+# sm_getPowerPerChannel.m is the MatLab equivalent
+
 
 config = load_toml()    # load the toml config file
 RAW_DATA_PATH = config.fileio.RAW_DATA_PATH # somthing like this
