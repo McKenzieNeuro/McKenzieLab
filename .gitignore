@@ -4,5 +4,6 @@
 *.dat
 *.edf
 *.swp
+__pycache__/
 env/
 playground/
