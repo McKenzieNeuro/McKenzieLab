@@ -13,6 +13,7 @@
 import os
 import numpy as np
 import logging 
+from tqdm import tqdm # progress bar
 from contextlib import ExitStack # Context manager for opening many files at once
 logging.basicConfig(level=logging.DEBUG)
 
@@ -209,6 +210,8 @@ def merge_dats(
         ):
     """Merges all binary files fnames from the directory dir_in. 
 
+    Returns nothing (void). 
+
     Parameters
     ----------
     fpaths_in : list
@@ -242,56 +245,28 @@ def merge_dats(
     n_chunks = n_samples // chunk_size
     remainder_chunksize = n_samples % chunk_size # In n of samples
     
-    # Init a waitbar
-    with ExitStack() as stack and open(fpath_out,"wb") as f_out:
+    logging.info("Started merging files...")
+    with ExitStack() as stack, open(fpath_out,"wb") as f_out:
         files = [stack.enter_context(open(fpath,"rb")) for fpath in fpaths_in]
 
-        d_buffer = np.zeros([chunk_size,n_files]) # data buffer
-        for _ in range(n_chunks): 
+        d_buffer = np.zeros([chunk_size,n_files],dtype=precision) # data buffer, load into f_out
+        for _ in tqdm(range(n_chunks)): # tqdm is a progress bar
             # Load a chunk from each of the files we are merging into memory
             for idx,f in enumerate(files):
                 d_buffer[:,idx] = np.squeeze(_load_chunk(f,1,chunk_size,precision))
             # Combine the chunks and write them to file
-            f_out.writelines(d_buffer.flatten())
-            # Update the waitbar
-            # TODO: CONTINUE HERE
+            f_out.write(bytearray(d_buffer.flatten().tobytes()))
 
-"""
-    total_n_samples = n_samples * n_chan 
-    with open(file_path , "rb") as file:
-        # Rem.  data_offset: uint = 
-        #           start_time * sample_rate * n_chan * bytes_per_sample
-        # Rem.  bytes_per_sample = np.dtype(precision).itemsize
-        file.seek(data_offset)
-        if total_n_samples <= MAX_SAMPLES_PER_CHUNK:
-            data = _load_chunk(file,n_chan,n_samples,precision)
-        else:
-            # Preallocate memory
-            data = np.zeros((n_samples , n_chan) , dtype=precision)
-
-            # Read all chunks
-            n_samples_per_chunk = MAX_SAMPLES_PER_CHUNK // n_chan * n_chan
-            n_chunks = n_samples // n_samples_per_chunk 
-            if not n_chunks: m=0 # extreme rare case, required define m for assertion
-            for j in range(n_chunks):
-                d =  _load_chunk(file,n_chan,n_samples,precision)
-                m,_ = d.shape
-                data[j*m:(j+1)*m , :] = d
-            # If data size not multiple of chunk size, read remainder
-            remainder = n_samples - n_chunks * n_samples_per_chunk
-            if remainder:
-                d = _load_chunk(file,n_chan,remainder//n_chan,precision)
-                m_rem,_ = d.shape[0]
-                assert m_remi # sanity check: logically m_rem cannot be zero
-                assert n_chunks*m == data.shape[0] - m_rem # sanity check
-                data[-m_rem: , :] = d
-    return data
-"""
-
-
-
-
-
+        # Add the left over chunk
+        if remainder_chunksize:
+            d_buffer = np.zeros([remainder_chunksize,n_files],dtype=precision)
+            for idx,f in enumerate(files):
+                d_buffer[:,idx] = np.squeeze(_load_chunk(f,1,remainder_chunksize,precision))
+                # Verify that we truely have reached the end of the file
+                assert not f.read(1), "Logic Error! Wrongly calculated file size."
+            # Combine the chunks and write them to file
+            f_out.write(bytearray(d_buffer.flatten().tobytes()))
+    logging.info("...Done merging files.")
     return 
 
 
@@ -305,7 +280,7 @@ def _assert_all_files_same_size(filepaths:list):
     for fpath in filepaths[1:]:
         assert os.path.exists(fpath) # Make sure fname exists
         assert size == os.path.getsize(fpath)
-    logging.debug(f"Test passed: all '{extension}' files in {directory} have {size} bytes")
+    logging.debug(f"All {len(filepaths)} files passed are of size={size} bytes")
     return size
 
 
@@ -370,6 +345,7 @@ if __name__=="__main__":
     os.remove("temp_test.dat")
     logging.debug("_load_chunk() passed all tests.")
 
+
     ### Test load_binary
     logging.debug("Testing load_binary()...")
 
@@ -377,7 +353,6 @@ if __name__=="__main__":
     arrin = array.array("h" , np.arange(50))
     with open("temp_test.dat","wb") as file:
         arrin.tofile(file)
-
     def load(fname="temp_test.dat" , **kwargs): # helper
         with open(fname,"rb") as file:
             arrout = load_binary(fname,**kwargs)
@@ -388,11 +363,56 @@ if __name__=="__main__":
     assert (arrout == np.arange(4,8).reshape(2,2)).all()
     arrout = load(n_chan=5,sample_rate=1,offset_time=5,duration_time=3)
     assert (arrout == np.arange(25,40).reshape(3,5)).all()
+
+    # Remove temp binary file
+    os.remove("temp_test.dat")
     logging.debug("load_binary() passed all tests.")
     
 
+    ### Test merge_dats
+    logging.debug("Testing merge_dats()...")
+    # TEST 1
+    # Create some binary files
+    arr1 = np.asarray([0,2,4,6,8,10,12,14])
+    arr2 = np.asarray([1,3,5,7,9,11,13,15])
+    arr1.astype('int16').tofile("./arr1.dat")
+    arr2.astype('int16').tofile("./arr2.dat")
+    # Merge them
+    merge_dats(
+            fpaths_in=["./arr1.dat","./arr2.dat"],
+            dir_out="./",
+            fname_out="arrs1and2.dat",
+            precision="int16")
+    # Examine outfile
+    merged = np.fromfile("./arrs1and2.dat",dtype="int16")
+    expected_merged = np.arange(16,dtype="int16") 
+    print(f"Merged {merged}")
+    print(f"Expected {expected_merged}")
+    for i,j in zip(merged,expected_merged): assert i==j
+    # TEST 2
+    # Create some binary files
+    arr1 = np.arange(0,2*MAX_SAMPLES_PER_CHUNK,2) % 32768 # max val int16
+    arr2 = np.arange(1,2*MAX_SAMPLES_PER_CHUNK,2) % 32768 # max val int16
+    arr1.astype('int16').tofile("./arr1.dat")
+    arr2.astype('int16').tofile("./arr2.dat")
+    # Merge them
+    merge_dats(
+            fpaths_in=["./arr1.dat","./arr2.dat"],
+            dir_out="./",
+            fname_out="arrs1and2.dat",
+            precision="int16")
+    merged = np.fromfile("./arrs1and2.dat",dtype="int16")
+    expected_merged = np.arange(0,2*MAX_SAMPLES_PER_CHUNK) % 32768
+    # Examine outfile
+    for i,j in zip(merged,expected_merged): assert i==j
+    # Clean up
+    os.remove("./arr1.dat")
+    os.remove("./arr2.dat")
+    os.remove("./arrs1and2.dat")
 
 
+
+    
 
 
 
