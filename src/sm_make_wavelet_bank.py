@@ -4,6 +4,7 @@ from fileio.load_binary import merge_dats # local dependency
 import toml                     # I/O parameters config file Options.toml
 import os                       # I/O
 import shutil                   # I/O
+from tqdm import tqdm           # Progressbar
 import logging                  # Document code 
 import warnings                 # Bulletproof code
 import re                       # Regexp library, to bulletproof code
@@ -137,19 +138,26 @@ def make_wavelet_bank(edf_fname,options_filepath):
     Parameters
     ----------
 
-    Returns nothing (look up how to express this in numpy doc syntax)
+    edf_fname
+        The name of the '.edf' raw data file. We look for this in 
+        fileio.RAW_DATA_PATH from Options.toml
 
+    options_filepath
+        The path to our Options.toml config file. This file contains
+        user defined parameters, including fileio params, data and 
+        data-processing params, ML model hyper-params, and training 
+        params.
     """
     assert len(edf_fname.split("."))==2, f"There can be no dots in the base file name, {edf_fname}"
     basename,ext = edf_fname.split(".") 
     assert ext == "edf", f"Incorrect file format, expected .edf, got {edf_fname}"
     assert options_path[-5:] == ".toml", f"Incorect file format, expected .toml extension, got {options_path}"
-    fileio,data_ops = load_fileio_and_data_ops(options_path)
 
+    ### UNPACK parameters and user-defined constants
+    fileio,data_ops = load_fileio_and_data_ops(options_path)
     # Unpack File IO constants
     RAW_DATA_PATH = fileio["RAW_DATA_PATH"]
     WAVELET_BINARIES_PATH = fileio["WAVELET_BINARIES_PATH"]
-
     # Unpack Data config constants
     FS = data_ops["FS"]
     NUM_FREQ = data_ops["NUM_FREQ"]
@@ -194,11 +202,15 @@ def make_wavelet_bank(edf_fname,options_filepath):
             sig = f.readSignal(i)
         assert sig.shape==(f.getNSamples()[0],) # make sure exists and right shape
 
+        # Save raw channel data as .dat binary
+        sig.tofile(os.path.join(cache_dir_path, cached_bin_fname_power), format="int16") # TODO: This has yet to be tested
+
+        print(f"Computing {NUM_FREQ} Gabor wavelet convolutions for channel {channel}.")
         # Loop through each frequency, convolve with Gabor wavelet
-        for f_idx,freq in enumerate(FREQS):
+        for f_idx,freq in tqdm(enumerate(FREQS)):
             # Define cache filepath for this channel & freq
             cached_bin_fname_power = f"{basename}_ch_{str(channel).zfill(3)}_freqidx_{str(f_idx).zfill(2)}_A.dat" # A for amplitude
-            cached_bin_fname_phase = f"{basename}_ch_{str(channel).zfill(3)}_freqidx_{str(f_idx).zfill(2)}_P.dat"
+            cached_bin_fname_phase = f"{basename}_ch_{str(channel).zfill(3)}_freqidx_{str(f_idx).zfill(2)}_P.dat" # P for phase
             # Check if this frequency has already been computed & cached
             if _contains_all(cache_dir_path,cached_bin_fname_power,cached_bin_fname_phase):
                 continue 
@@ -228,7 +240,7 @@ def make_wavelet_bank(edf_fname,options_filepath):
                 extension = "dat",
                 regexp_base = regex)
 
-        ### TODO: Merge all the cached frequency .dat files into a single one.
+        ### Merge all the cached frequency .dat files into a single one.
         # Sort the cached binaries, this will put lower f_idx first and 
         # alternate A before P, exact same order they are created
         # All of the files in the cache have the same channel number (checked above)
@@ -240,16 +252,13 @@ def make_wavelet_bank(edf_fname,options_filepath):
                 fpaths_in = scb_paths,
                 dir_out = WAVELET_BINARIES_PATH,
                 fname_out = f"{basename}_ch_{str(channel).zfill(3)}.dat")
-            
 
+        # Delete the cached single-channel binary files
+        shutil.rmtree(cache_dir_path) # TODO: This has yet to be tested
 
-
-
-
-        # TODO: Delete cache
     # TODO: Check that each file and frequency is correct
 
-    return # dummy 
+    return
 
 
 
