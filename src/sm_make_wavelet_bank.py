@@ -1,15 +1,16 @@
 # This file is based off of sm_getPowerPerChannel.m 
 
-import toml
-import warnings
-import os
-import logging
-import shutil
-import pyedflib
-import numpy as np
-from numpy.fft import fft, ifft
-from scipy.stats import zscore
-import re
+from fileio.load_binary import merge_dats # local dependency
+import toml                     # I/O parameters config file Options.toml
+import os                       # I/O
+import shutil                   # I/O
+import logging                  # Document code 
+import warnings                 # Bulletproof code
+import re                       # Regexp library, to bulletproof code
+import pyedflib                 # Read from edf files
+import numpy as np              # Signal processing
+from numpy.fft import fft, ifft # Signal processing
+from scipy.stats import zscore  # Signal processing
 
 # For variables containing strings of with absolute path, we explicitly 
 # include the word "path" in the variable name. For those with relative 
@@ -84,12 +85,10 @@ def compute_wavelet_gabor(
         psi = (4*np.pi*sigma2)**0.25 * np.sqrt(s) * np.exp(-sigma2/2 * freq*freq)
         wt[:,idx] = ifft(fft(signal) * psi)
 
-    return np.squeeze(wt) # turns 2d into 1d if single freq 
+    return np.squeeze(wt) # turns 2d into 1d IFF single freq 
 
-def wavelet_convolve(signal, fs, freq,...):
-    return # dummy
-
-def _contains_all(directory:str,file1:str,*args):
+# Helper
+def _contains_all(directory:str,*args):
     """Determines whether the directory contains all of the file strings provided
 
     Helper for cacheing. 
@@ -99,11 +98,8 @@ def _contains_all(directory:str,file1:str,*args):
     directory : str
         Absolute path of the directory to look inside of.
 
-    file1 : str
-        Relative name of file we're looking for
-
     *args : str
-        Any number of other files we're looking for
+        Relative name of any number of other files we're looking for.
 
     Returns
     -------
@@ -111,14 +107,13 @@ def _contains_all(directory:str,file1:str,*args):
         True if all of the files exist inside the directory
     """
     all_files = os.listdir(directory)
-    if file1 in all_files: 
-        for filestr in args:
-            if filestr not in all_files: return False
-        return True
-    return False
+    for filestr in args:
+        if filestr not in all_files: return False
+    return True
 
 
-def _assert_all_ext_type_match_regexp( # this is a helper test to make sure our cached folder is not corrupted
+# Helper, test to make sure our cache folder is not corrupted
+def _assert_all_ext_type_match_regexp( 
         directory: str,
         extension: str = "dat",
         regexp_base: str = f"^{basename}_ch_\d\d\d_freqidx_\d\d_(A|P)$"
@@ -131,7 +126,10 @@ def _assert_all_ext_type_match_regexp( # this is a helper test to make sure our 
         else:
             if ext==extension:
                 assert bool(re.search(regexp,base))
-         
+    logging.debug(f"Test passed: all '{ext}' files in {directory} match the regexp\n{regexp_base}")
+    return 
+
+
 
 def make_wavelet_bank(edf_fname,options_filepath):
     """Computes and saves a wavelet decomposition of each channel. 
@@ -196,7 +194,7 @@ def make_wavelet_bank(edf_fname,options_filepath):
             sig = f.readSignal(i)
         assert sig.shape==(f.getNSamples()[0],) # make sure exists and right shape
 
-        # Loop through each frequency
+        # Loop through each frequency, convolve with Gabor wavelet
         for f_idx,freq in enumerate(FREQS):
             # Define cache filepath for this channel & freq
             cached_bin_fname_power = f"{basename}_ch_{str(channel).zfill(3)}_freqidx_{str(f_idx).zfill(2)}_A.dat" # A for amplitude
@@ -221,21 +219,48 @@ def make_wavelet_bank(edf_fname,options_filepath):
                 wt_phase.tofile(os.path.join(cache_dir_path, cached_bin_fname_phase), format="in16")
         logging.info("Finished computing wavelet transforms for channel={channel}.")
 
-        ### TODO: Merge all the cached frequency .dat files into a single one.
-        # Check all the dat files in the cache match with the regex
-        _assert_all_ext_type_match_regexp( # this is a test to make sure our cached folder is not corrupted
+        # Check all the dat files in the cache match with the regex—–
+        # this is a test to make sure our cached folder is not corrupted
+        # Filenames must not contain any dots!
+        regex = f"^{basename}_ch_{str(channel).zfill(3)}_freqidx_\d\d_(A|P)$"
+        _assert_all_ext_type_match_regexp( 
                 directory = cache_dir_path,
                 extension = "dat",
-                regexp_base = f"^{basename}_ch_\d\d\d_freqidx_\d\d_(A|P)$")
+                regexp_base = regex)
 
+        ### TODO: Merge all the cached frequency .dat files into a single one.
+        # Sort the cached binaries, this will put lower f_idx first and 
+        # alternate A before P, exact same order they are created
+        # All of the files in the cache have the same channel number (checked above)
         sorted_cache_binaries = [i for i in os.listdir(cache_dir_path) if i[-4:]==".dat"]
-        sorted_cache_binaries.sort() # this will put lower f_idx first and alternate A before P, exact same order they are created
-        
-        
-         
+        sorted_cache_binaries.sort() # The are already be sorted, this line
+                                     # is mainly a crutch for the reader
+        scb_paths = [os.path.join(cache_dir_path,i) for i in sorted_cache_binaries]
+        merge_dats(
+                fpaths_in = scb_paths,
+                dir_out = WAVELET_BINARIES_PATH,
+                fname_out = f"{basename}_ch_{str(channel).zfill(3)}.dat")
+            
+
+
+
+
 
         # TODO: Delete cache
     # TODO: Check that each file and frequency is correct
 
     return # dummy 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
