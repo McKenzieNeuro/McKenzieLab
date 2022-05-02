@@ -13,7 +13,12 @@
 import os
 import numpy as np
 import logging 
+from contextlib import ExitStack # Context manager for opening many files at once
 logging.basicConfig(level=logging.DEBUG)
+
+
+# Constant, used in _load_binary (=> it's parent load_binary too) and merge_dats
+MAX_SAMPLES_PER_CHUNK = 10000 
 
 def load_binary(
         file_path : str,
@@ -38,21 +43,29 @@ def load_binary(
     ----------
     file_path : str
         Path to a .dat binary file
+
     n_chan : int
         Number of data channels in the file (defaults to 1)
+
     sample_rate : int or float
         Sample rate in Hz, (aka fs, frequency, sr is the MNE convention) 
         Defaults to None, if none, must specify offset_size and duration_size
+
     offset_time : int or float or None
         Position to start reading in seconds, (aka start_time) (defaults to None)
+
     duration_time : int or float or None
         Duration to read in seconds, (defaults to Inf)
+
     offset_size : int or None
         Position to start reading in samples (per channel) (defaults to None)
+
     duration_size : int or None
         Duration to read in number of samples (per channel) (defaults to None)
+
     channels : str or list
         Indices of channels to read from (default = 'all').
+
     precision : str, optional
         Sample precision (default = 'int16').
 
@@ -134,22 +147,29 @@ def _load_binary(
     ----------
     file_path : str
         Path to binary file with multiplexed data.
+
     n_chan : int
         The number of channels. 
+        
     n_samples : int
         The number of units (samples/measurements) per channel 
+
     precision : type (or a str representation of a valid type)
         The precision of the binary data, 
         e.g. numpy.int16 or "int16" are both valid
+
     data_offset : int
         Exact index of starting time.
+
+    Returns
+    -------
+    np.ndarray
     """
     # TODO: email John D. Long jlong29@gmail.com or Michaël Zugaro 
     # about this they are the authors of the matlab script upon which 
     # this script is based I don't understand memory allocation stuff 
     # well enough to understand why this max_samples_per_chunk monkey 
     # business is required
-    MAX_SAMPLES_PER_CHUNK = 10000 
     total_n_samples = n_samples * n_chan 
     with open(file_path , "rb") as file:
         # Rem.  data_offset: uint = 
@@ -163,7 +183,7 @@ def _load_binary(
             data = np.zeros((n_samples , n_chan) , dtype=precision)
 
             # Read all chunks
-            n_samples_per_chunk = int(MAX_SAMPLES_PER_CHUNK / n_chan) * n_chan
+            n_samples_per_chunk = MAX_SAMPLES_PER_CHUNK // n_chan * n_chan
             n_chunks = n_samples // n_samples_per_chunk 
             if not n_chunks: m=0 # extreme rare case, required define m for assertion
             for j in range(n_chunks):
@@ -181,7 +201,112 @@ def _load_binary(
     return data
 
 
+def merge_dats(
+        fpaths_in: list,
+        dir_out: str,
+        fname_out: str,
+        precision: str = "int16"
+        ):
+    """Merges all binary files fnames from the directory dir_in. 
 
+    Parameters
+    ----------
+    fpaths_in : list
+        The ordered list of binary file paths (names) we are merging. 
+
+    dir_out : str
+        The directory we want to save the output to. 
+
+    fname_out : str
+        The name of the output file we are saving in dir_out
+        (including the extension, e.g. '.bin' or '.dat')
+
+    precision : str (optional, defaults to "int16")
+        The precision of the data stored in our binary files e.g. "int16"
+    """
+
+    assert os.path.exists(dir_out)
+    # Assert that all the binary files exist and have equal num of bytes
+    # Also, get the size of all the files, in bytes
+    size_in_bytes = _assert_all_files_same_size(fpaths_in)
+    fpath_out = os.path.join(dir_out,fname_out)
+    
+    # Define loading parameters
+    n_files = len(fpaths_in) # Equal to number of channels in the output file
+    n_samples_per_chunk = MAX_SAMPLES_PER_CHUNK // n_files * n_files
+    bytes_per_sample = np.dtype(precision).itemsize
+    assert size_in_bytes % bytes_per_sample == 0 # Sanity check
+    n_samples = size_in_bytes // bytes_per_sample # Number of samples in each file
+    # n_chunks = num of full chunks we need to load (there will be a remainder)
+    chunk_size = MAX_SAMPLES_PER_CHUNK
+    n_chunks = n_samples // chunk_size
+    remainder_chunksize = n_samples % chunk_size # In n of samples
+    
+    # Init a waitbar
+    with ExitStack() as stack and open(fpath_out,"wb") as f_out:
+        files = [stack.enter_context(open(fpath,"rb")) for fpath in fpaths_in]
+
+        d_buffer = np.zeros([chunk_size,n_files]) # data buffer
+        for _ in range(n_chunks): 
+            # Load a chunk from each of the files we are merging into memory
+            for idx,f in enumerate(files):
+                d_buffer[:,idx] = np.squeeze(_load_chunk(f,1,chunk_size,precision))
+            # Combine the chunks and write them to file
+            f_out.writelines(d_buffer.flatten())
+            # Update the waitbar
+            # TODO: CONTINUE HERE
+
+"""
+    total_n_samples = n_samples * n_chan 
+    with open(file_path , "rb") as file:
+        # Rem.  data_offset: uint = 
+        #           start_time * sample_rate * n_chan * bytes_per_sample
+        # Rem.  bytes_per_sample = np.dtype(precision).itemsize
+        file.seek(data_offset)
+        if total_n_samples <= MAX_SAMPLES_PER_CHUNK:
+            data = _load_chunk(file,n_chan,n_samples,precision)
+        else:
+            # Preallocate memory
+            data = np.zeros((n_samples , n_chan) , dtype=precision)
+
+            # Read all chunks
+            n_samples_per_chunk = MAX_SAMPLES_PER_CHUNK // n_chan * n_chan
+            n_chunks = n_samples // n_samples_per_chunk 
+            if not n_chunks: m=0 # extreme rare case, required define m for assertion
+            for j in range(n_chunks):
+                d =  _load_chunk(file,n_chan,n_samples,precision)
+                m,_ = d.shape
+                data[j*m:(j+1)*m , :] = d
+            # If data size not multiple of chunk size, read remainder
+            remainder = n_samples - n_chunks * n_samples_per_chunk
+            if remainder:
+                d = _load_chunk(file,n_chan,remainder//n_chan,precision)
+                m_rem,_ = d.shape[0]
+                assert m_remi # sanity check: logically m_rem cannot be zero
+                assert n_chunks*m == data.shape[0] - m_rem # sanity check
+                data[-m_rem: , :] = d
+    return data
+"""
+
+
+
+
+
+    return 
+
+
+# Helper, make sure all files contain the same number of bytes
+def _assert_all_files_same_size(filepaths:list):
+    if len(filepaths) == 0:
+        logging.debug("Zero files provided")
+        return None
+    os.path.exists(filepaths[0])
+    size = os.path.getsize(filepaths[0])
+    for fpath in filepaths[1:]:
+        assert os.path.exists(fpath) # Make sure fname exists
+        assert size == os.path.getsize(fpath)
+    logging.debug(f"Test passed: all '{extension}' files in {directory} have {size} bytes")
+    return size
 
 
 def _load_chunk(
