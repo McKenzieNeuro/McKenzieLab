@@ -29,6 +29,26 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG) # DEBUG < INFO < WARNING < ERROR < CRITICAL
 
 def _load_fileio_and_data_ops(options_path="./Options.toml"):
+    """Load the 'fileio' and 'data' dictionaries from options config file
+
+    Helper for make_wavelet_bank() 
+    Parses the .toml config file at `options_path` into a dictionary. 
+    Returns the sub-dictionaries at the files "fileio" and "params.data"
+
+    Parameters
+    ----------
+    options_path : str
+        Path to the config file
+
+    Returns
+    -------
+    dict
+        A dictionary containing paths to data files.
+    dict
+        A dictionary containing data parameters needed in data
+        manipulation 
+    """
+
     warnings.warning("Change this relative path once package is configured properly. \nWe need a more reliable way of accessing the options.toml config file")
     with open(options_path,"r") as f:
         ops_string = f.read()
@@ -172,7 +192,7 @@ def make_wavelet_bank(edf_fname,options_filepath):
     assert options_path[-5:] == ".toml", f"Incorect file format, expected .toml extension, got {options_path}"
 
     ### UNPACK parameters and user-defined constants
-    fileio,data_ops = load_fileio_and_data_ops(options_path)
+    fileio,data_ops = _load_fileio_and_data_ops(options_path)
     # Unpack File IO constants
     RAW_DATA_PATH = fileio["RAW_DATA_PATH"]
     WAVELET_BINARIES_PATH = fileio["WAVELET_BINARIES_PATH"]
