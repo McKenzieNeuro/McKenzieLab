@@ -94,7 +94,7 @@ def compute_wavelet_gabor(
 
     tolerance = 0.5
     mincenterfreq = 2*tolerance*np.sqrt(sigma2)*fs*xi / len_sig
-    maxcenterfreq = fs*xi/(xi+tolerance/np.sqrt(sigma2))
+    maxcenterfreq = fs*xi/(xi+tolerance/np.sqrt(sigma2)) # shouldn't this be divided by two because of aliasing?
     logger.debug(f"fs = {fs}")
     logger.debug(f"freqs = {freqs}")
     logger.debug(f"\n\tLowest freq = {min(freqs)}\n\tHighest freq = {max(freqs)}")
@@ -148,7 +148,11 @@ def _assert_all_ext_type_match_regexp(
 
 def make_wavelet_bank(edf_fname,options_filepath):
     """Computes and saves a wavelet decomposition of each channel. 
-    
+
+    Uses user defined options from Options.toml (options_filepath) 
+    file to compute the Gabor wavelet decomposition of the raw signals 
+    in the provided edf file (edf_fname). 
+ 
     Parameters
     ----------
 
@@ -282,8 +286,8 @@ if __name__ == "__main__":
         # logger.debug(f"Test compute_wavelet_gabor\nfreqs = {freqs}")
         xi = 5
         wt = compute_wavelet_gabor(signal,fs,freqs,xi)
-        print("\n")
-        print(f"wt.shape={wt.shape}")
+        logger.debug(f"\n\twt.shape={wt.shape}\n\tInput signal shape={signal.shape}\n\tLen freqs={len(freqs)}")
+        assert len(signal),len(freqs) == wt.shape
         if plot==True:
             logging.getLogger('matplotlib').setLevel(logging.WARNING)
             import matplotlib.pyplot as plt
@@ -294,21 +298,27 @@ if __name__ == "__main__":
             plt.subplot(2,1,1)
             plt.title("REAL")
             labels = [f"freq = {i:.2f}" for i in freqs]
-            plt.plot(np.real(wt[:100,:]),".",alpha=0.5,label=labels)
-            plt.plot(np.real(wt[:100,:]),"--",color="k",linewidth=0.5,alpha=0.1)
+            plt.plot(np.real(wt[100:200,:]),".",alpha=0.5,label=labels)
+            plt.plot(np.real(wt[100:200,:]),"--",color="k",linewidth=0.5,alpha=0.1)
             plt.legend()
 
             plt.subplot(2,1,2)
             plt.title("IMAGINARY")
             labels = [f"freq = {i:.2f}" for i in freqs]
-            plt.plot(np.imag(wt[:100,:]),".",alpha=0.5,label=labels)
-            plt.plot(np.imag(wt[:100,:]),"--",color="k",linewidth=0.5,alpha=0.1)
+            plt.plot(np.imag(wt[100:200,:]),".",alpha=0.5,label=labels)
+            plt.plot(np.imag(wt[100:200,:]),"--",color="k",linewidth=0.5,alpha=0.1)
             plt.legend()
 
             plt.show(block=True)
+    test_compute_wavelet_gabor()#plot=True)        
+    logger.info("TEST PASSED: compute_wavelet_gabor()")
 
-    test_compute_wavelet_gabor(plot=True)        
-    logger.debug("Test Passed: compute_wavelet_gabor()")
+    def test_make_wavelet_bank():
+        # TODO: implement this test
+        return
+    test_make_wavelet_bank()
+    # ucomment below once implemented
+    # logger.info("TEST PASSED: make_wavelet_bank()") 
 
 
 
