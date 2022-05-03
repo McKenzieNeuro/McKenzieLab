@@ -7,7 +7,7 @@ Translated and adapted to python in May 2022 by Stephen Fay dcxstephen@gmail.com
 """
 
 
-from fileio.load_binary import merge_dats # local dependency
+from fileio.binary_io import merge_dats # local dependency
 import toml                     # Parameters/config file Options.toml
 import os                       # I/O
 import shutil                   # I/O
@@ -210,7 +210,7 @@ def make_wavelet_bank(edf_fname,options_filepath):
                 break
 
     # Define features space (based on num, lo, high-freq)
-    FREQS = 10**np.linspace(np.log10(LOW_FREQ), np.log10(HIGH_FREQ), NUM_FREQ)
+    FREQS = np.power(10, np.linspace(np.log10(LOW_FREQ), np.log10(HIGH_FREQ), NUM_FREQ))
 
     # Read edf file and loop through each channel one at a time
     for channel in range(N_CHAN_RAW):

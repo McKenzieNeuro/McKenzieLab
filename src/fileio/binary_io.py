@@ -15,8 +15,10 @@ import numpy as np
 import logging 
 from tqdm import tqdm # progress bar
 from contextlib import ExitStack # Context manager for opening many files at once
-logging.basicConfig(level=logging.DEBUG)
 
+# Init logger and set the logging level
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG) # DEBUG < INFO < WARNING < ERROR < CRITICAL
 
 # Constant, used in _load_binary (=> it's parent load_binary too) and merge_dats
 MAX_SAMPLES_PER_CHUNK = 10000 
@@ -78,7 +80,7 @@ def load_binary(
     # Make sure the intput is correct
     assert n_chan == int(n_chan)
     assert n_chan >= 1
-    logging.info(f"{n_chan} channel(s) in this binary file") 
+    logger.info(f"{n_chan} channel(s) in this binary file") 
     assert os.path.exists(file_path) , f"{file_path} appears not to exist."
     if sample_rate is not None: assert sample_rate > 0 , f"Sample rate must be positive {sample_rate}"
     if channels: 
@@ -122,7 +124,7 @@ def load_binary(
 
     # Make sure duration_size is compatible with file size and offset
     if duration_size == np.inf:
-        logging.info("duration_size is np.inf")
+        logger.info("duration_size is np.inf")
         duration_size = fsize_samples_tail // n_chan
         assert fsize_samples_tail / n_chan == duration_size , f"Incompatability of parameters with shape of file. Either n_chan={nchan} is incorrect or your file {file_path} is corrupted."
     else: 
@@ -244,7 +246,7 @@ def merge_dats(
     n_chunks = n_samples // chunk_size
     remainder_chunksize = n_samples % chunk_size # In n of samples
     
-    logging.info("Started merging files...")
+    logger.info("Started merging files...")
     with ExitStack() as stack, open(fpath_out,"wb") as f_out:
         files = [stack.enter_context(open(fpath,"rb")) for fpath in fpaths_in]
 
@@ -265,21 +267,21 @@ def merge_dats(
                 assert not f.read(1), "Logic Error! Wrongly calculated file size."
             # Combine the chunks and write them to file
             f_out.write(bytearray(d_buffer.flatten().tobytes()))
-    logging.info("...Done merging files.")
+    logger.info("...Done merging files.")
     return 
 
 
 # Helper, make sure all files contain the same number of bytes
 def _assert_all_files_same_size(filepaths:list):
     if len(filepaths) == 0:
-        logging.debug("Zero files provided")
+        logger.debug("Zero files provided")
         return None
     os.path.exists(filepaths[0])
     size = os.path.getsize(filepaths[0])
     for fpath in filepaths[1:]:
         assert os.path.exists(fpath) # Make sure fname exists
         assert size == os.path.getsize(fpath)
-    logging.debug(f"All {len(filepaths)} files passed are of size={size} bytes")
+    logger.debug(f"All {len(filepaths)} files passed are of size={size} bytes")
     return size
 
 
@@ -327,7 +329,7 @@ if __name__=="__main__":
     import array
     
     ### Test _load_chunk
-    logging.debug("Testing _load_chunk()...")
+    logger.debug("Testing _load_chunk()...")
     # Write a binary file
     arrin = array.array("h" , np.arange(50))
     with open("temp_test.dat","wb") as file:
@@ -342,11 +344,11 @@ if __name__=="__main__":
 
     # Remove temp binary file
     os.remove("temp_test.dat")
-    logging.debug("_load_chunk() passed all tests.")
+    logger.debug("_load_chunk() passed all tests.")
 
 
     ### Test load_binary
-    logging.debug("Testing load_binary()...")
+    logger.debug("Testing load_binary()...")
 
     # Write a binary file
     arrin = array.array("h" , np.arange(50))
@@ -365,11 +367,11 @@ if __name__=="__main__":
 
     # Remove temp binary file
     os.remove("temp_test.dat")
-    logging.debug("load_binary() passed all tests.")
+    logger.debug("load_binary() passed all tests.")
     
 
     ### Test merge_dats
-    logging.debug("Testing merge_dats()...")
+    logger.debug("Testing merge_dats()...")
     # TEST 1
     # Create some binary files
     arr1 = np.asarray([0,2,4,6,8,10,12,14])

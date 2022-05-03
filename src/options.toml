@@ -1,10 +1,14 @@
 # Previously ops variable in MatLab scripts
 
 [fileio]
-RAW_DATA_PATH = "/Users/steve/Documents/code/unm/data/small_data/raw" # "/Users/steve/Documents/code/unm/data"
-WAVELET_BINARIES_PATH = "/Users/steve/Documents/code/unm/data/small_data/binaries" # "/Users/steve/Documents/code/unm/data/feature" # previously FeaturePath
-FEATURES_OUTPUT_PATH = "/Users/steve/Documents/code/unm/data/small_data/features" # "/Users/steve/Documents/code/unm/data/features.npy" # previously .mat file
-CLASSIFIER_OUTPUT_PATH = "/Users/steve/Documents/code/unm/data/small_data/models" # "/Users/steve/Documents/code/unm/data/classifier_output.npy"
+# RAW_DATA_PATH = "/Users/steve/Documents/code/unm/data"
+RAW_DATA_PATH = "/Users/steve/Documents/code/unm/data/small_data/raw" 
+# WAVELET_BINARIES_PATH = "/Users/steve/Documents/code/unm/data/feature" # previously FeaturePath
+WAVELET_BINARIES_PATH = "/Users/steve/Documents/code/unm/data/small_data/binaries" 
+# FEATURES_OUTPUT_PATH = "/Users/steve/Documents/code/unm/data/features.npy" # previously .mat file
+FEATURES_OUTPUT_PATH = "/Users/steve/Documents/code/unm/data/small_data/features" 
+# "/Users/steve/Documents/code/unm/data/classifier_output.npy"
+CLASSIFIER_OUTPUT_PATH = "/Users/steve/Documents/code/unm/data/small_data/models" 
 
 [params.data]
 FS = 2000                         # Sample frequency in Hz
