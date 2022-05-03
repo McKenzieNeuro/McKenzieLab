@@ -10,10 +10,10 @@
 # 03/20/2014 Modified by John D. Long to use only built-in Matlab 8.1
 #            functions. Contact: jlong29@gmail.com
 
-import os
-import numpy as np
-import logging 
-from tqdm import tqdm # progress bar
+import os                        # io
+import numpy as np               # Scientific computing
+import logging                   # Debug
+from tqdm import tqdm            # Progress Bar
 from contextlib import ExitStack # Context manager for opening many files at once
 
 # Init logger and set the logging level
