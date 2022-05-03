@@ -7,7 +7,7 @@ FEATURES_OUTPUT_PATH = "/Users/steve/Documents/code/unm/data/small_data/features
 CLASSIFIER_OUTPUT_PATH = "/Users/steve/Documents/code/unm/data/small_data/models" # "/Users/steve/Documents/code/unm/data/classifier_output.npy"
 
 [params.data]
-FS = 2000
+FS = 2000                         # Sample frequency in Hz
 NUM_FREQ = 20                     # number of frequencies to sample
 LOW_FREQ = 0.5                    # lowest freq to sample
 HIGH_FREQ = 200                   # highest freq to sample
@@ -39,8 +39,8 @@ POSTICTAL.PCT = 0.2
 n_chan_binary_file = 41 # = 20 + 20 + 1, phase, amp, raw
 
 [params.model.hyper.wavelet_freqs]
-START = -0.3010299956639812               # log10(0.5)
-END = 2.3010299956639813                  # log10(200)
+START = -0.3010299956639812               # = log10(0.5)
+END = 2.3010299956639813                  # = log10(200)
 NUMBER = 20                               # twenty frequencies
 SCALE = "log10"                           # linspace / logspace
 

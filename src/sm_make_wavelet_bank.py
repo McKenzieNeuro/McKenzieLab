@@ -1,15 +1,22 @@
-# This file is based off of sm_getPowerPerChannel.m 
+"""
+Author statement
+----------------
+This file is based off of sm_getPowerPerChannel.m written by Samuel McKenzie, 
+and awt_freqlist.m and Maureen Clerc, Christian Benar, october 2007 
+Translated and adapted to python in May 2022 by Stephen Fay dcxstephen@gmail.com
+"""
+
 
 from fileio.load_binary import merge_dats # local dependency
-import toml                     # I/O parameters config file Options.toml
+import toml                     # Parameters/config file Options.toml
 import os                       # I/O
 import shutil                   # I/O
 from tqdm import tqdm           # Progressbar
-import logging                  # Document code 
+import logging                  # For debugging and following code
 import warnings                 # Bulletproof code
 import re                       # Regexp library, to bulletproof code
 import pyedflib                 # Read from edf files
-import numpy as np              # Signal processing
+import numpy as np              # Array manipulation, Scientific computing
 from numpy.fft import fft, ifft # Signal processing
 from scipy.stats import zscore  # Signal processing
 
@@ -17,9 +24,12 @@ from scipy.stats import zscore  # Signal processing
 # include the word "path" in the variable name. For those with relative 
 # or leaf paths, we do not put "path" in the name. 
 
+# Init logger and set the logging level
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG) # DEBUG < INFO < WARNING < ERROR < CRITICAL
 
-def _load_fileio_and_data_ops(options_path="../Options.toml"):
-    warnings.warning("Change this relative path once package is configured properly. We need a more reliable way of accessing the options.toml config file")
+def _load_fileio_and_data_ops(options_path="./Options.toml"):
+    warnings.warning("Change this relative path once package is configured properly. \nWe need a more reliable way of accessing the options.toml config file")
     with open(options_path,"r") as f:
         ops_string = f.read()
     ops = toml.loads(ops_string)
@@ -28,12 +38,23 @@ def _load_fileio_and_data_ops(options_path="../Options.toml"):
     return fileio,data_ops
 
 # TODO: implement for Lusin and Sombrero wavelets too
+# Note, Lusin wasn't implemented in Matlab, and pipeline only used Gabor
+# 
+# compute_wavelet_gabor corresponds to awt_freqlist in the MatLab code
+# 
+# %  Maureen Clerc, Christian Benar, october 2007
+# %  modified from awt from wavelab toolbox
+# 
+# % History of changes
+# % 1/11/2007: (cgb) psi_array: output in complex 
+# % 3/06/2008: (cgb) init of psi_array to size of wt
+#   3/05/2022: SF translated awt_freqlist to 
 def compute_wavelet_gabor(
         signal: np.ndarray,
         fs: int or float,
         freqs: list or float,
         xi: int = 5 # only needed for Gabor
-        ): 
+        ) -> np.ndarray: 
     """Computes one or multiple wavelet transforms of the input signal.
 
     Follows awt_freqlist.m from the buzzcode repository.
@@ -61,16 +82,23 @@ def compute_wavelet_gabor(
     if isinstance(freqs, float) or isinstance(freqs, int): freqs = [freqs]
     signal = np.asarray(signal)
     assert fs > 0 and (isinstance(fs, float) or isinstance(fs, int))
-    assert wavelet_type.lower() in ("gabor","lusin","sombrero")
-    assert signal.ndim == 1, "Must be single dim signal" # TODO: implement multi-dim
+    # assert wavelet_type.lower() in ("gabor","lusin","sombrero")
+    assert signal.ndim == 1, "Must be single dim signal" 
+    # TODO: implement multi-dim and remove above assertion
+    # Note, not crucial because we don't (yet) use that in pipeline
 
     (len_sig,) = signal.shape
     sigma2 = 1
-    omega = np.concatenate((np.arange(0,n//2+1) , np.arange(-((n+1)//2)+1,0)))
-    omega *= fs / len_sig
+    omega = np.concatenate((np.arange(0,len_sig//2+1) , np.arange(-((len_sig+1)//2)+1,0))) * fs / len_sig
+    # omega *= fs / len_sig
 
-    mincenterfreq = 2*tolerance*np.sqrt(sigma2)*fs*xi/n
-    maxcenterfreq = fs*xi/(x+tolerance/np.sqrt(sigma1))
+    tolerance = 0.5
+    mincenterfreq = 2*tolerance*np.sqrt(sigma2)*fs*xi / len_sig
+    maxcenterfreq = fs*xi/(xi+tolerance/np.sqrt(sigma2))
+    logger.debug(f"fs = {fs}")
+    logger.debug(f"freqs = {freqs}")
+    logger.debug(f"\n\tLowest freq = {min(freqs)}\n\tHighest freq = {max(freqs)}")
+    logger.debug(f"\n\tmincenterfreq = {mincenterfreq}\n\tmaxcenterfreq = {maxcenterfreq}")
 
     s_arr = xi / freqs
     minscale = xi / maxcenterfreq
@@ -79,34 +107,19 @@ def compute_wavelet_gabor(
     assert ((s_arr >= minscale) & (s_arr <= maxscale)).all() , "Invalid frequencies"
 
     n_freqs = len(freqs)
-    wt = np.zeros((len_sig,n_freqs))
+    # np.complex64 is numpy's coarsest complex numpy type
+    wt = np.zeros((len_sig,n_freqs),dtype=np.complex64) 
     
     for idx,s in enumerate(s_arr):
         freq = (s * omega - xi)
-        psi = (4*np.pi*sigma2)**0.25 * np.sqrt(s) * np.exp(-sigma2/2 * freq*freq)
+        psi = np.power(4*np.pi*sigma2,0.25) * np.sqrt(s) * np.exp(-sigma2/2 * freq*freq)
         wt[:,idx] = ifft(fft(signal) * psi)
 
     return np.squeeze(wt) # turns 2d into 1d IFF single freq 
 
 # Helper
-def _contains_all(directory:str,*args):
-    """Determines whether the directory contains all of the file strings provided
-
-    Helper for cacheing. 
-
-    Parameters
-    ----------
-    directory : str
-        Absolute path of the directory to look inside of.
-
-    *args : str
-        Relative name of any number of other files we're looking for.
-
-    Returns
-    -------
-    bool
-        True if all of the files exist inside the directory
-    """
+def _contains_all(directory:str,*args) -> bool:
+    """Determines whether the directory contains all of the file strings provided"""
     all_files = os.listdir(directory)
     for filestr in args:
         if filestr not in all_files: return False
@@ -116,18 +129,19 @@ def _contains_all(directory:str,*args):
 # Helper, test to make sure our cache folder is not corrupted
 def _assert_all_ext_type_match_regexp( 
         directory: str,
-        extension: str = "dat",
-        regexp_base: str = f"^{basename}_ch_\d\d\d_freqidx_\d\d_(A|P)$"
-        ):
+        extension: str,
+        regexp_base: str):
     for fname in os.listdir(directory):
         try:
             base,ext = fname.split(".")
-        except:
-            assert fname.split(".")[-1] != extension # enforce that there can be no dots in our file
+        except ValueError:
+            # enforce that there can be no dots in files with 
+            # the 'extension' extension
+            assert fname.split(".")[-1] != extension, "ValueError, all {extension} files must have no dots in the basename!" 
         else:
             if ext==extension:
                 assert bool(re.search(regexp,base))
-    logging.debug(f"Test passed: all '{ext}' files in {directory} match the regexp\n{regexp_base}")
+    logger.debug(f"Test passed: all '{ext}' files in {directory} match the regexp:\n{regexp_base}")
     return 
 
 
@@ -179,7 +193,7 @@ def make_wavelet_bank(edf_fname,options_filepath):
     # Check if the cache folder for binaries exists
     cache_dir_path = os.path.join(WAVELET_BINARIES_PATH, "cache")
     if not os.path.exists(cache_dir_path): 
-        logging.info(f"No cache directory, creating one at\n{cache_dir_path}")
+        logger.info(f"No cache directory, creating one at\n{cache_dir_path}")
         os.mkdir(cache_dir_path)
     else:
         # Check if cached binaries are right, if not delete all and start over
@@ -229,7 +243,7 @@ def make_wavelet_bank(edf_fname,options_filepath):
             if "wavelet_phase" in TS_FEAT|URES:
                 wt_phase = np.arctan(np.real(wt) / np.imag(wt))
                 wt_phase.tofile(os.path.join(cache_dir_path, cached_bin_fname_phase), format="in16")
-        logging.info("Finished computing wavelet transforms for channel={channel}.")
+        logger.info("Finished computing wavelet transforms for channel={channel}.")
 
         # Check all the dat files in the cache match with the regex—–
         # this is a test to make sure our cached folder is not corrupted
@@ -254,11 +268,50 @@ def make_wavelet_bank(edf_fname,options_filepath):
                 fname_out = f"{basename}_ch_{str(channel).zfill(3)}.dat")
 
         # Delete the cached single-channel binary files
-        shutil.rmtree(cache_dir_path) # TODO: This has yet to be tested
-
-    # TODO: Check that each file and frequency is correct
-
+        shutil.rmtree(cache_dir_path) # TODO: This has yet to be teted
     return
+
+
+
+if __name__ == "__main__":
+    #[test]
+    def test_compute_wavelet_gabor(plot=False):
+        signal = np.random.normal(0,1000,np.power(2,16))
+        fs = 16.0 # Hz
+        freqs = np.power(10,np.linspace(np.log10(0.5),np.log10(8),5))
+        # logger.debug(f"Test compute_wavelet_gabor\nfreqs = {freqs}")
+        xi = 5
+        wt = compute_wavelet_gabor(signal,fs,freqs,xi)
+        print("\n")
+        print(f"wt.shape={wt.shape}")
+        if plot==True:
+            logging.getLogger('matplotlib').setLevel(logging.WARNING)
+            import matplotlib.pyplot as plt
+            # plt.figure(figsize=(12,8))
+            plt.subplots(2,1,figsize=(12,7))
+            plt.suptitle(f"Wavelet Transforms of Gaussian Random Noise (sigma=1000)\nSample Frequency = {fs}")
+
+            plt.subplot(2,1,1)
+            plt.title("REAL")
+            labels = [f"freq = {i:.2f}" for i in freqs]
+            plt.plot(np.real(wt[:100,:]),".",alpha=0.5,label=labels)
+            plt.plot(np.real(wt[:100,:]),"--",color="k",linewidth=0.5,alpha=0.1)
+            plt.legend()
+
+            plt.subplot(2,1,2)
+            plt.title("IMAGINARY")
+            labels = [f"freq = {i:.2f}" for i in freqs]
+            plt.plot(np.imag(wt[:100,:]),".",alpha=0.5,label=labels)
+            plt.plot(np.imag(wt[:100,:]),"--",color="k",linewidth=0.5,alpha=0.1)
+            plt.legend()
+
+            plt.show(block=True)
+
+    test_compute_wavelet_gabor(plot=True)        
+    logger.debug("Test Passed: compute_wavelet_gabor()")
+
+
+
 
 
 

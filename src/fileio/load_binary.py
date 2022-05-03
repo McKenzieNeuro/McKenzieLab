@@ -113,7 +113,6 @@ def load_binary(
     assert duration_size > 0 , f"Non-positive duration size {duration_size}"
 
         
-
     # Figure out what the data offset is in bytes
     bytes_per_sample = np.dtype(precision).itemsize
     fsize_bytes = os.path.getsize(file_path)        # file size in num of bytes
