@@ -19,10 +19,12 @@ def create_random_container(conn_str):
         # create container
         container_client = blob_service_client.create_container(container_name)
 
+# This works
 def create_container(conn_str:str,container_name:str):
     with BlobServiceClient.from_connection_string(conn_str) as blob_service_client:
         container_client = blob_service_client.create_container(container_name)
 
+# This works
 def upload_blobs_to_a_container(conn_str:str,container_name:str):
     # Create local directory to hold data
     local_path = "./blob_data"
@@ -47,15 +49,23 @@ def upload_blobs_to_a_container(conn_str:str,container_name:str):
             with open(upload_file_path,"rb") as data:
                 blob_client.upload_blob(data)
 
+def list_blobs_in_container(conn_str:str,container_name:str):
+    with BlobServiceClient.from_connection_string(conn_str) as blob_service_client:
+        with blob_service_client.get_container_client(container=container_name) as container_client:
+            print("Connected to contianer_client")
+            blob_list = container_client.list_blobs() # returns iterator
+            big_dict = [blob for blob in blob_list]
+    return big_dict
 
-# retrieve the connection string stored in environment variable
+# Retrieve the connection string stored in ENVIRONMENT VARIABLE
 connect_str  = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
 logger.info(f"connect_str={connect_str}")
 
 try:
     print(f"Azure Blob Storave v{__version__} — Python quickstart sample")
     # create_random_container(connect_str)
-    upload_blobs_to_a_container(connect_str,"newcontainer")
+    # upload_blobs_to_a_container(connect_str,"newcontainer")
+    blobs = list_blobs_in_container(connect_str,"newcontainer")
     
 except Exception as ex:
     print("Exception:")
