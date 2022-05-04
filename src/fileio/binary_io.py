@@ -32,7 +32,7 @@ def load_binary(
         offset_size : int = None,
         duration_size : int = None,
         channels : list = [],
-        precision : type = "int16"):
+        precision : type = "int16") -> np.ndarray:
     """Load data from a multiplexed binary file.
 
     Reading a subset of data can be done in two different manners: 
@@ -46,29 +46,21 @@ def load_binary(
     ----------
     file_path : str
         Path to a .dat binary file
-
     n_chan : int
         Number of data channels in the file (defaults to 1)
-
     sample_rate : int or float
         Sample rate in Hz, (aka fs, frequency, sr is the MNE convention) 
         Defaults to None, if none, must specify offset_size and duration_size
-
     offset_time : int or float or None
         Position to start reading in seconds, (aka start_time) (defaults to None)
-
     duration_time : int or float or None
         Duration to read in seconds, (defaults to Inf)
-
     offset_size : int or None
         Position to start reading in samples (per channel) (defaults to None)
-
     duration_size : int or None
         Duration to read in number of samples (per channel) (defaults to None)
-
     channels : str or list
         Indices of channels to read from (default = 'all').
-
     precision : str, optional
         Sample precision (default = 'int16').
 
@@ -149,17 +141,13 @@ def _load_binary(
     ----------
     file_path : str
         Path to binary file with multiplexed data.
-
     n_chan : int
         The number of channels. 
-        
     n_samples : int
         The number of units (samples/measurements) per channel 
-
     precision : type (or a str representation of a valid type)
         The precision of the binary data, 
         e.g. numpy.int16 or "int16" are both valid
-
     data_offset : int
         Exact index of starting time.
 
@@ -217,14 +205,11 @@ def merge_dats(
     ----------
     fpaths_in : list
         The ordered list of binary file paths (names) we are merging. 
-
     dir_out : str
         The directory we want to save the output to. 
-
     fname_out : str
         The name of the output file we are saving in dir_out
         (including the extension, e.g. '.bin' or '.dat')
-
     precision : str (optional, defaults to "int16")
         The precision of the data stored in our binary files e.g. "int16"
     """
@@ -370,7 +355,8 @@ if __name__=="__main__":
     logger.debug("load_binary() passed all tests.")
     
 
-    ### Test merge_dats
+    ### Test merge_dats() 
+    # by nature, merge_dats() contains some very dense code 
     logger.debug("Testing merge_dats()...")
     # TEST 1
     # Create some binary files
@@ -387,8 +373,8 @@ if __name__=="__main__":
     # Examine outfile
     merged = np.fromfile("./arrs1and2.dat",dtype="int16")
     expected_merged = np.arange(16,dtype="int16") 
-    print(f"Merged {merged}")
-    print(f"Expected {expected_merged}")
+    print(f"Merged dats: {merged}")
+    print(f"Expected: {expected_merged}")
     for i,j in zip(merged,expected_merged): assert i==j
     # TEST 2
     # Create some binary files
@@ -414,7 +400,3 @@ if __name__=="__main__":
 
 
     
-
-
-
-

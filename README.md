@@ -20,6 +20,10 @@ Python modules for ihka data analysis, based off of MatLab code from [McKenzieLa
 - [ ] Detailed sketch of pipeline 
 - [ ] Sort out dependencies
 
+## Expo
+
+![sample from sm_make_wavelet_bank.make_wavelet_bank]()
+
 ### Refs
 - Article on IHKA [https://www.sciencedirect.com/science/article/abs/pii/S001448862030323X](https://www.sciencedirect.com/science/article/abs/pii/S001448862030323X) 
 - Writing good pythonic python: [PEP8](https://pep8.org/#break-before-or-after-binary-operator)

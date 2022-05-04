@@ -15,7 +15,7 @@ from tqdm import tqdm           # Progressbar
 import logging                  # For debugging and following code
 import warnings                 # Bulletproof code
 import re                       # Regexp library, to bulletproof code
-import pyedflib                 # Read from edf files
+import pyedflib                 # Read from edf files | this is "terrible in MatLab", look into it, apparently it loads everything into RAM
 import numpy as np              # Array manipulation, Scientific computing
 from numpy.fft import fft, ifft # Signal processing
 from scipy.stats import zscore  # Signal processing
@@ -69,6 +69,7 @@ def _load_fileio_and_data_ops(options_path="./Options.toml"):
 # % 1/11/2007: (cgb) psi_array: output in complex 
 # % 3/06/2008: (cgb) init of psi_array to size of wt
 #   3/05/2022: SF translated awt_freqlist to 
+
 def compute_wavelet_gabor(
         signal: np.ndarray,
         fs: int or float,
@@ -83,13 +84,10 @@ def compute_wavelet_gabor(
     ----------
     signal : np.ndarray
         The input signal. Only accepts 1D signals. 
-
     fs : int or float
         The sampling frequency. 
-
     freqs : list or float
         The frequency or list of frequencies to compute. 
-
     xi : int
         The number of oscillations parameter, only needed for Gabor wavelet.
 
@@ -112,9 +110,13 @@ def compute_wavelet_gabor(
     omega = np.concatenate((np.arange(0,len_sig//2+1) , np.arange(-((len_sig+1)//2)+1,0))) * fs / len_sig
     # omega *= fs / len_sig
 
+    # TODO: If you feel like diving in and making this more rigorous, 
+    # we know that it can't be more than half the nyquist and 
+    # on the lower bound the window must be at least double the 
+    # lowest frequency (sometimes advise 5x the lowest)
     tolerance = 0.5
     mincenterfreq = 2*tolerance*np.sqrt(sigma2)*fs*xi / len_sig
-    maxcenterfreq = fs*xi/(xi+tolerance/np.sqrt(sigma2)) # shouldn't this be divided by two because of aliasing?
+    maxcenterfreq = fs*xi/(xi+tolerance/np.sqrt(sigma2)) # Shouldn't this be divided by two because of aliasing? 
     logger.debug(f"fs = {fs}")
     logger.debug(f"freqs = {freqs}")
     logger.debug(f"\n\tLowest freq = {min(freqs)}\n\tHighest freq = {max(freqs)}")
@@ -125,6 +127,7 @@ def compute_wavelet_gabor(
     maxscale = xi / mincenterfreq
     # reject frequencies that are outside the given scale
     assert ((s_arr >= minscale) & (s_arr <= maxscale)).all() , "Invalid frequencies"
+    # TODO: Turn the above assert into a warning
 
     n_freqs = len(freqs)
     # np.complex64 is numpy's coarsest complex numpy type
@@ -260,12 +263,14 @@ def make_wavelet_bank(edf_fname,options_filepath):
             if "wavelet_power" in TS_FEATURES:
                 wt_power = np.abs(wt) # deep copy
                 if ZSCORE_POWER==True:
-                    wt_power = zscore(np.abs(wt)) * SCALE_POWER
+                    wt_power = zscore(np.abs(wt))
+                # add comment intoml, SCALE_POWER shld be different if no zscore
+                wt_power *= SCALE_POWER 
                 wt_power.tofile(os.path.join(cache_dir_path, cached_bin_fname_power), format="int16")
 
             # Conditionally re-scale and save the phase
-            if "wavelet_phase" in TS_FEAT|URES:
-                wt_phase = np.arctan(np.real(wt) / np.imag(wt))
+            if "wavelet_phase" in TS_FEATURES:
+                wt_phase = np.arctan(np.real(wt) / np.imag(wt)) * SCALE_PHASE
                 wt_phase.tofile(os.path.join(cache_dir_path, cached_bin_fname_phase), format="in16")
         logger.info("Finished computing wavelet transforms for channel={channel}.")
 
@@ -292,7 +297,7 @@ def make_wavelet_bank(edf_fname,options_filepath):
                 fname_out = f"{basename}_ch_{str(channel).zfill(3)}.dat")
 
         # Delete the cached single-channel binary files
-        shutil.rmtree(cache_dir_path) # TODO: This has yet to be teted
+        shutil.rmtree(cache_dir_path) # TODO: This has yet to be tested
     return
 
 
@@ -330,7 +335,7 @@ if __name__ == "__main__":
             plt.legend()
 
             plt.show(block=True)
-    test_compute_wavelet_gabor()#plot=True)        
+    test_compute_wavelet_gabor(plot=False) # set plot=True to display plots in test 
     logger.info("TEST PASSED: compute_wavelet_gabor()")
 
     def test_make_wavelet_bank():
@@ -339,18 +344,6 @@ if __name__ == "__main__":
     test_make_wavelet_bank()
     # ucomment below once implemented
     # logger.info("TEST PASSED: make_wavelet_bank()") 
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
