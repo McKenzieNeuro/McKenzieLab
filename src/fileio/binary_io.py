@@ -10,7 +10,7 @@
 # 03/20/2014 Modified by John D. Long to use only built-in Matlab 8.1
 #            functions. Contact: jlong29@gmail.com
 
-import os                        # io
+import os                        # I/O
 import numpy as np               # Scientific computing
 import logging                   # Debug
 from tqdm import tqdm            # Progress Bar
@@ -241,7 +241,7 @@ def merge_dats(
             for idx,f in enumerate(files):
                 d_buffer[:,idx] = np.squeeze(_load_chunk(f,1,chunk_size,precision))
             # Combine the chunks and write them to file
-            f_out.write(bytearray(d_buffer.flatten().tobytes()))
+            f_out.write(bytearray(d_buffer.flatten().tobytes())) # TODO: make sure this is saving things at same precision
 
         # Add the left over chunk
         if remainder_chunksize:
