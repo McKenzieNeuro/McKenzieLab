@@ -4,6 +4,10 @@ IntraHippocampal Kainic Acid
 Python modules for ihka data analysis, based off of MatLab code from [McKenzieLab's repository](https://github.com/McKenzieNeuro/McKenzieLab/tree/main/IHKA).
 
 ## Dependencies
+- numpy
+- pyedf (check to see if this one works okay)
+- 
+- 
 
 ## TODO
 *This list is ordered from highest to lowest priority.*
@@ -14,8 +18,11 @@ Python modules for ihka data analysis, based off of MatLab code from [McKenzieLa
 - [x] Implement file I/O for reading from binary files
   - [x] Bullet proof with tests
   - [ ] Test compare output with matlab scripts
-- [ ] Figure out how to connect to Azure blob storage via the API
+- [x] Figure out how to connect to Azure blob storage via the API
 - [ ] Figure out how to put this pipeline onto the Azure cloud
+  - [x] create VM and ssh into it
+  - [ ] DEBUG: read and write to blob storage unit via python azure api fromt he VM
+  - [ ] access and manipulate data in the blob storage from the azure api dexterously (i.e. run IHKApy code over the connection)
 - [ ] Implement featurizing module
 - [ ] Implement train model module
 - [ ] Generate docs

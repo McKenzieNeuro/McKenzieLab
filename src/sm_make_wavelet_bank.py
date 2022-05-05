@@ -24,10 +24,6 @@ from scipy.stats import zscore  # Signal processing
 # include the word "path" in the variable name. For those with relative 
 # or leaf paths, we do not put "path" in the name. 
 
-# Init logger and set the logging level
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG) # DEBUG < INFO < WARNING < ERROR < CRITICAL
-
 def _load_fileio_and_data_ops(options_path="./Options.toml"):
     """Load the 'fileio' and 'data' dictionaries from options config file
 
@@ -303,6 +299,12 @@ def make_wavelet_bank(edf_fname,options_filepath):
 
 
 if __name__ == "__main__":
+    # Init logger and set the logging level
+    logger = logging.getLogger(__name__)
+    console_logger = logging.StreamHandler()
+    console_logger.setLevel(logging.DEBUG)
+    logger.addHandler(console_logger) # DEBUG < INFO < WARNING < ERROR < CRITICAL
+
     #[test]
     def test_compute_wavelet_gabor(plot=False):
         signal = np.random.normal(0,1000,np.power(2,16))
@@ -335,14 +337,17 @@ if __name__ == "__main__":
             plt.legend()
 
             plt.show(block=True)
-    test_compute_wavelet_gabor(plot=False) # set plot=True to display plots in test 
-    logger.info("TEST PASSED: compute_wavelet_gabor()")
+    test_compute_wavelet_gabor(plot=True) # set plot=True to display plots in test 
+    # logger.info("TEST PASSED: compute_wavelet_gabor()") # strange logging bug, see https://stackoverflow.com/questions/72127312/python-logger-setlevel-bug 
+    print("TEST PASSED: compute_wavelet_gabor()")
+
+
 
     def test_make_wavelet_bank():
         # TODO: implement this test
         return
     test_make_wavelet_bank()
-    # ucomment below once implemented
+    # uncomment below once implemented
     # logger.info("TEST PASSED: make_wavelet_bank()") 
 
 
