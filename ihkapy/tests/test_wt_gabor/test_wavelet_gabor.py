@@ -1,4 +1,4 @@
-from sm_make_wavelet_bank import compute_wavelet_gabor
+from ihka.sm_make_wavelet_bank import compute_wavelet_gabor
 import numpy as np
 from scipy.io import savemat,loadmat
 

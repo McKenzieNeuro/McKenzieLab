@@ -7,7 +7,7 @@ Translated and adapted to python in May 2022 by Stephen Fay dcxstephen@gmail.com
 """
 
 
-from fileio.binary_io import merge_dats # local dependency
+from ihkapy.fileio.binary_io import merge_dats # local dependency
 import toml                     # Parameters/config file Options.toml
 import os                       # I/O
 import shutil                   # I/O

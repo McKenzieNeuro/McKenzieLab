@@ -1,9 +1,12 @@
-*.m
 *.asv
+ihkapy.egg-info/
+azure_playground/
+build/
+*.DS_Store
 *.ipynb
 *.dat
 *.edf
 *.swp
-__pycache__/
+*__pycache__/
 env/
 playground/
