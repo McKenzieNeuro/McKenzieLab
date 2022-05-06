@@ -12,14 +12,15 @@ def gen_and_save_raw_signal(fname="raw_signal.mat"):
     return 
 
 def load_ml_cellmat(fname="raw_signal.mat",field="signal") -> np.ndarray:
-    # Also use this method with fname="wt_ml.m", field="wt"
+    # Also use this method with fname="wt_ml.mat", field="wt"
     matfile_dict = loadmat(fname)
     return np.asarray(matfile_dict[field]) # assume what we want is stored in "signal" field
 
-def read_wt_matlab():
+def read_wt_matlab(wt_ml_fname:str ="wt_ml.mat") -> np.ndarray:
     # Returns output of matlab's awt_freq transform
-
-    return # dummy
+    matfile_dict = loadmat("wt_ml.mat")
+    wt_ml = np.asarray(matfile_dict['wt'])
+    return wt_ml
 
 
 def compare_signals(wt_py:np.ndarray, wt_ml:np.ndarray): # -> bool:
@@ -45,20 +46,35 @@ def compare_signals(wt_py:np.ndarray, wt_ml:np.ndarray): # -> bool:
 
 
 if __name__=="__main__":
-    gen_and_save_raw_signal("raw_signal.mat")
-    print("generated and saved raw signal")
+    """Order of operations
+
+    (1) First generate a signal with gen_and_save_raw_signal("raw_signal.mat")
+    (2) Then apply the wavelet convolutions using the matlab script wt_gabor.m
+    (3) Finally, apply gabor compute_wavelet_gabor, then load the output of wt_gabor.m and compare the signals. 
+
+    Note: make sure to have use the same fs and freqs in MatLab and python.
+    """
+    # gen_and_save_raw_signal("raw_signal.mat")
+    # print("generated and saved raw signal")
 
     # # Get raw signal
     signal = np.squeeze(load_ml_cellmat(fname="raw_signal.mat",field="signal"))
-    # fs = 16
-    # freqs = [0.5,1.0,2.0,4.0]
-    # # Compute wavelt transform with python module
-    # wt_py = compute_gabor_wavelet(signal,fs,freqs)
-    # 
-    # # Get computed wavelet transform from matlab awt_freqs
-    # wt_ml = load_ml_cellmat(fname="wt_ml.m",fieldname="wt")
-
-
+    print(f"retrieved raw signal (head) = {signal[:5]}")
+    fs = 16
+    freqs = [0.5,1.0,2.0,4.0, 8.0]
+    # Compute wavelt transform with python module
+    wt_py = compute_wavelet_gabor(signal,fs,freqs)
+     
+    # Get computed wavelet transform from matlab awt_freqs
+    wt_ml = load_ml_cellmat(fname="wt_ml.mat",field="wt")
+    
+    print("The gabor wavelet transform has successfully been computed with the python and the matlab.")
+    print("Now we compare them.")
+    diff = np.abs(np.around(wt_py - wt_ml , 6))
+    print("Taking the difference between arrays and rounding to 6 decimal places")
+    print("which is about 5 significant figures; we get")
+    print(f"diff = {diff}")
+    print(f"(diff==0.0).all() = {(diff==0.0).all()}")
 
 
 

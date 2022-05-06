@@ -20,6 +20,14 @@ import numpy as np              # Array manipulation, Scientific computing
 from numpy.fft import fft, ifft # Signal processing
 from scipy.stats import zscore  # Signal processing
 
+
+# Init logger and set the logging level
+logger = logging.getLogger(__name__)
+console_logger = logging.StreamHandler()
+console_logger.setLevel(logging.DEBUG)
+logger.addHandler(console_logger) # DEBUG < INFO < WARNING < ERROR < CRITICAL
+
+
 # For variables containing strings of with absolute path, we explicitly 
 # include the word "path" in the variable name. For those with relative 
 # or leaf paths, we do not put "path" in the name. 
@@ -94,6 +102,7 @@ def compute_wavelet_gabor(
     """
     # Make sure all types are correct
     if isinstance(freqs, float) or isinstance(freqs, int): freqs = [freqs]
+    freqs = np.asarray(freqs)
     signal = np.asarray(signal)
     assert fs > 0 and (isinstance(fs, float) or isinstance(fs, int))
     # assert wavelet_type.lower() in ("gabor","lusin","sombrero")
@@ -299,12 +308,6 @@ def make_wavelet_bank(edf_fname,options_filepath):
 
 
 if __name__ == "__main__":
-    # Init logger and set the logging level
-    logger = logging.getLogger(__name__)
-    console_logger = logging.StreamHandler()
-    console_logger.setLevel(logging.DEBUG)
-    logger.addHandler(console_logger) # DEBUG < INFO < WARNING < ERROR < CRITICAL
-
     #[test]
     def test_compute_wavelet_gabor(plot=False):
         signal = np.random.normal(0,1000,np.power(2,16))
