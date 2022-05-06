@@ -10,7 +10,9 @@ wt = wt_matlab(signal,fs,freqlist,"Gabor",5);
 save("wt_ml.mat","wt")
 
 
-% wt_matlab aka awt_freqlist
+%%% wt_matlab Same as awt_freqlist from buzzcode, functionally same as
+%%% used in MckenzieLab but stripped of everything not Gabor related
+
 % SF: this function was previously in the buzcode repository in /externalPackages/ directory
 function [wt,freqlist,psi_array] = wt_matlab(x,Fs,freqlist,type,xi)
 %   awt_freqlist  analytical wavelet transform, where one can specify the list of desired frequencies 

@@ -3,6 +3,9 @@ IntraHippocampal Kainic Acid
 
 Python modules for ihka data analysis, based off of MatLab code from [McKenzieLab's repository](https://github.com/McKenzieNeuro/McKenzieLab/tree/main/IHKA).
 
+## Install
+To access the methods and their modules, clone this repo with `git clone https://github.com/dcxSt/IHKApy`, enter it's root directory `cd IHKApy`, then pip install `pip install .`
+
 ## Dependencies
 - numpy
 - pyedf (check to see if this one works okay)
@@ -40,4 +43,5 @@ Displayed below is a 100-datapoint chunk of the output of `sm_make_wavelet_bank.
 ### Refs
 - Article on IHKA [https://www.sciencedirect.com/science/article/abs/pii/S001448862030323X](https://www.sciencedirect.com/science/article/abs/pii/S001448862030323X) 
 - Writing good pythonic python: [PEP8](https://pep8.org/#break-before-or-after-binary-operator)
+- [Guide to python packaging (the docs)](https://python-packaging.readthedocs.io/en/latest/dependencies.html)
 
