@@ -8,23 +8,28 @@ To access the methods and their modules, clone this repo with `git clone https:/
 
 ## Dependencies
 - numpy
-- pyedf (check to see if this one works okay)
-- 
-- 
+- scipy
+  - scipy.io (only used in tests to read matlab files)
+  - scipy.stats (for zscore-ing)
+- pyedf (TODO:check to see if this one works okay)
+- tqmd (for progress bar)
+- re (regex library for tests and asserts, make sure verything formated well)
 
 ## TODO
 *This list is ordered from highest to lowest priority.*
 - [x] Implement Options.toml config file as user input interface
 - [x] Implement wavelet transform module, for turning raw edf into 
   - [ ] Bullet proof with tests
-  - [ ] Test compare output with matlab scripts
+  - [x] Test compare output with matlab scripts
+    - [ ] also, implement this test in the test suit (not a priority, but should be done eventually)
 - [x] Implement file I/O for reading from binary files
   - [x] Bullet proof with tests
-  - [ ] Test compare output with matlab scripts
+  - [x] Test compare output with matlab scripts
 - [x] Figure out how to connect to Azure blob storage via the API
 - [ ] Figure out how to put this pipeline onto the Azure cloud
   - [x] create VM and ssh into it
   - [ ] DEBUG: read and write to blob storage unit via python azure api fromt he VM
+  - [ ] Mout storage from VM (see [azure doc](https://docs.google.com/document/d/1lXst8D3eh3-yyND3NJNg4Wx16jm18QAJQrwL0WdpC-Q/edit?usp=sharing) for links to microsoft documentation on how to do this)
   - [ ] access and manipulate data in the blob storage from the azure api dexterously (i.e. run IHKApy code over the connection)
 - [ ] Implement featurizing module
 - [ ] Implement train model module
@@ -44,4 +49,7 @@ Displayed below is a 100-datapoint chunk of the output of `sm_make_wavelet_bank.
 - Article on IHKA [https://www.sciencedirect.com/science/article/abs/pii/S001448862030323X](https://www.sciencedirect.com/science/article/abs/pii/S001448862030323X) 
 - Writing good pythonic python: [PEP8](https://pep8.org/#break-before-or-after-binary-operator)
 - [Guide to python packaging (the docs)](https://python-packaging.readthedocs.io/en/latest/dependencies.html)
+
+
+
 

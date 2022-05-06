@@ -38,6 +38,8 @@ print("TEST PASSED: compute_wavelet_gabor()")
 
 
 
+#[test]
+"""Warning this test is not pure, it relies on data being in certain files."""
 def test_make_wavelet_bank():
     # TODO: implement this test
     return
