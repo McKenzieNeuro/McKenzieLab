@@ -17,8 +17,9 @@ from tqdm import tqdm            # Progress Bar
 from contextlib import ExitStack # Context manager for opening many files at once
 
 # Init logger and set the logging level
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG) # DEBUG < INFO < WARNING < ERROR < CRITICAL
+# logger.setLevel(logging.DEBUG) # DEBUG < INFO < WARNING < ERROR < CRITICAL
 
 # Constant, used in _load_binary (=> it's parent load_binary too) and merge_dats
 MAX_SAMPLES_PER_CHUNK = 10000 
@@ -262,9 +263,12 @@ def _assert_all_files_same_size(filepaths:list):
         logger.debug("Zero files provided")
         return None
     os.path.exists(filepaths[0])
-    size = os.path.getsize(filepaths[0])
+    size = os.path.getsize(filepaths[0]) # they should all be same size
     for fpath in filepaths[1:]:
         assert os.path.exists(fpath) # Make sure fname exists
+        logger.debug(f"size: {size}")
+        logger.debug(f"getsize fpath: {os.path.getsize(fpath)}")
+        logger.debug(f"fpath = '{fpath}'")
         assert size == os.path.getsize(fpath)
     logger.debug(f"All {len(filepaths)} files passed are of size={size} bytes")
     return size
