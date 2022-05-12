@@ -3,8 +3,8 @@ IntraHippocampal Kainic Acid
 
 Python modules for ihka data analysis, based off of MatLab code from [McKenzieLab's repository](https://github.com/McKenzieNeuro/McKenzieLab/tree/main/IHKA).
 
-## Install
-To access the methods and their modules, clone this repo with `git clone https://github.com/dcxSt/IHKApy`, enter it's root directory `cd IHKApy`, then pip install `pip install .`
+## Install & Setup 
+To access the methods and their modules, clone this repo with `git clone https://github.com/dcxSt/IHKApy`, enter it's root directory `cd IHKApy`, then pip install with `pip install .`
 
 ## Dependencies
 - numpy
@@ -38,6 +38,9 @@ To access the methods and their modules, clone this repo with `git clone https:/
 - [ ] Draw dependency graph
 - [ ] Detailed sketch of pipeline 
 - [ ] Sort out dependencies
+
+*Questions / Concerns*
+- [ ] The raw data that gets serialized is not rescaled before it is cast into int16, in the case of the mouse data this causes non-negligible quantization because the RMS is around 12 (11.861 for the first channel), most of samples are in the single and low double digits. They could probably benefit from being scaled by a similar scale factor as the power and phase convolutions. 
 
 ## Expo
 
