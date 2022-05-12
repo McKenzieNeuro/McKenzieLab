@@ -22,11 +22,8 @@ from scipy.stats import zscore  # Signal processing
 
 
 # Init logger and set the logging level
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
-console_logger = logging.StreamHandler()
-console_logger.setLevel(logging.DEBUG)
-logger.addHandler(console_logger) # DEBUG < INFO < WARNING < ERROR < CRITICAL
-
 
 # For variables containing strings of with absolute path, we explicitly 
 # include the word "path" in the variable name. For those with relative 
@@ -53,7 +50,7 @@ def _load_fileio_and_data_ops(options_path="./Options.toml"):
         manipulation 
     """
 
-    warnings.warning("Change this relative path once package is configured properly. \nWe need a more reliable way of accessing the options.toml config file")
+    warnings.warn("Change this relative path once package is configured properly. \nWe need a more reliable way of accessing the options.toml config file")
     with open(options_path,"r") as f:
         ops_string = f.read()
     ops = toml.loads(ops_string)
@@ -161,95 +158,111 @@ def _assert_all_ext_type_match_regexp(
         regexp_base: str):
     for fname in os.listdir(directory):
         try:
-            base,ext = fname.split(".")
+            base,ext = fname.split(".") # TODO:os.path.splitext() bit better
         except ValueError:
             # enforce that there can be no dots in files with 
             # the 'extension' extension
             assert fname.split(".")[-1] != extension, "ValueError, all {extension} files must have no dots in the basename!" 
         else:
             if ext==extension:
-                assert bool(re.search(regexp,base))
+                assert bool(re.search(regexp_base,base))
     logger.debug(f"Test passed: all '{ext}' files in {directory} match the regexp:\n{regexp_base}")
     return 
 
 
 
-def make_wavelet_bank(edf_fname,options_filepath):
+def make_wavelet_bank(
+        edf_fname:str,
+        fileio:dict,
+        data_ops:dict): 
     """Computes and saves a wavelet decomposition of each channel. 
 
     Uses user defined options from Options.toml (options_filepath) 
     file to compute the Gabor wavelet decomposition of the raw signals 
     in the provided edf file (edf_fname). 
+
+    - Reads edf raw signal specified by edf_fname (and fileio params)
+    - Iterates through each channel, computing wavelet convolutions
+        for frequencies in a range specified by data_ops
+    - Saves output binaries, one binary file for each hardware channel
+        but all the frequencies are saved according to the below order
+
+    Save order convention array flattening convention: 
+    - 'sn' is 'sample number n'
+    - A is for Amplitude (=Power), and P is for Phase
+    [raw_s0,freq00_A_s0,freq00_P_s0,freq01_A_s0,freq01_P_s0,...,freqk_A_s0,
+    freqK_P_s0,raw_s1,freq00_A_s1,freq00_P_s1,...,freqK_A_s1,freqK_P_s1,...
+    ...
+    raw_sn,freq00_A_sn,freq00_P_sn,freq01_A_s0,...,freqK_P_sn]
+
+    Note: it is important the above convention is respected because this is
+    how the binary_io tools read the files. 
  
     Parameters
     ----------
 
     edf_fname
-        The name of the '.edf' raw data file. We look for this in 
-        fileio.RAW_DATA_PATH from Options.toml
+        The name of the '.edf' raw data file. We look for all edf files 
+        in fileio.RAW_DATA_PATH from Options.toml
 
-    options_filepath
-        The path to our Options.toml config file. This file contains
-        user defined parameters, including fileio params, data and 
-        data-processing params, ML model hyper-params, and training 
-        params.
+    fileio : dict
+        The fileio parameters defined in the Options.toml config file.
+
+    data_ops : dict
+        Data parameters from the Options.toml config file. 
+        The Options.toml config file contains user defined parameters, 
+        including fileio params, data and data-processing params, ML
+        model hyper-params, and training params. 
     """
     assert len(edf_fname.split("."))==2, f"There can be no dots in the base file name, {edf_fname}"
     basename,ext = edf_fname.split(".") 
     assert ext == "edf", f"Incorrect file format, expected .edf, got {edf_fname}"
-    assert options_path[-5:] == ".toml", f"Incorect file format, expected .toml extension, got {options_path}"
 
-    ### UNPACK parameters and user-defined constants
-    fileio,data_ops = _load_fileio_and_data_ops(options_path)
     # Unpack File IO constants
-    RAW_DATA_PATH = fileio["RAW_DATA_PATH"]
+    RAW_DATA_PATH         = fileio["RAW_DATA_PATH"]
     WAVELET_BINARIES_PATH = fileio["WAVELET_BINARIES_PATH"]
     # Unpack Data config constants
-    FS = data_ops["FS"]
-    NUM_FREQ = data_ops["NUM_FREQ"]
-    LOW_FREQ = data_ops["LOW_FREQ"]
-    HIGH_FREQ = data_ops["HIGH_FREQ"]
-    SPACING = data_ops["SPACING"]
+    FS           = data_ops["FS"]
+    NUM_FREQ     = data_ops["NUM_FREQ"]
+    LOW_FREQ     = data_ops["LOW_FREQ"]
+    HIGH_FREQ    = data_ops["HIGH_FREQ"]
+    SPACING      = data_ops["SPACING"]
     ZSCORE_POWER = data_ops["ZSCORE_POWER"] # bool
-    SCALE_PHASE = data_ops["SCALE_PHASE"]
-    SCALE_POWER = data_ops["SCALE_POWER"]
-    TS_FEATURES = data_ops["TS_FEATURES"]
-
-    # Check edf file exists
-    edf_path = os.path.join(RAW_DATA_PATH , edf_fname)
-    assert os.path.exists(edf_path), f"Invalid edf file path. Make sure edf file exists and is inside of the {RAW_DATA_PATH} directory."
-
-    # Check wavelet binaries path directory exists
-    assert os.path.exists(WAVELET_BINARIES_PATH), f"Invalid path {WAVELET_BINARIES_PATH}\nCheck your configuration file Options.toml"
-
-    # Check if the cache folder for binaries exists
-    cache_dir_path = os.path.join(WAVELET_BINARIES_PATH, "cache")
-    if not os.path.exists(cache_dir_path): 
-        logger.info(f"No cache directory, creating one at\n{cache_dir_path}")
-        os.mkdir(cache_dir_path)
-    else:
-        # Check if cached binaries are right, if not delete all and start over
-        cached_files = [i for i in os.listdir(cache_dir_path) if i[-4:]==".dat"]
-        for i in cached_files:
-            # if any of the cached dat files don't match the base name, remove them
-            if i[:len(basename)] != basename:
-                shutil.rmtree(cache_dir_path)
-                os.mkdir(cache_dir_path)
-                break
-
+    SCALE_PHASE  = data_ops["SCALE_PHASE"]
+    SCALE_POWER  = data_ops["SCALE_POWER"]
+    N_CHAN_RAW   = data_ops["N_CHAN_RAW"]
+    TS_FEATURES  = data_ops["TS_FEATURES"]
     # Define features space (based on num, lo, high-freq)
     FREQS = np.power(10, np.linspace(np.log10(LOW_FREQ), np.log10(HIGH_FREQ), NUM_FREQ))
 
+    ### IO Checks
+    # Check edf file and wavelet binaries directory exist
+    edf_path = os.path.join(RAW_DATA_PATH , edf_fname)
+    assert os.path.exists(edf_path), f"Invalid edf file path. Make sure edf file exists and is inside of the {RAW_DATA_PATH} directory."
+    assert os.path.exists(WAVELET_BINARIES_PATH), f"Invalid path {WAVELET_BINARIES_PATH}\nCheck your configuration file Options.toml"
+    # Check if the cache folder for binaries exists, delete it
+    cache_dir_path = os.path.join(WAVELET_BINARIES_PATH, "cache")
+    if os.path.exists(cache_dir_path):
+        logger.info("Deleting cache")
+        shutil.rmtree(cache_dir_path)
+    else: logger.debug("No cache, proceeding")
+
     # Read edf file and loop through each channel one at a time
     for channel in range(N_CHAN_RAW):
+        os.mkdir(cache_dir_path) # Create the cache directory
         sig = None
         with pyedflib.EdfReader(edf_path) as f:
             assert N_CHAN_RAW == f.signals_in_file, f"N_CHAN_RAW={N_CHAN_RAW} incompatible with detected number of channels in file ={f.signals_in_file}"
-            sig = f.readSignal(i)
+            sig = f.readSignal(channel).astype("int16")
+            _rms = np.sqrt(np.power(sig,2).mean())
+            logger.debug(f"Sample of quantized sig {sig[:10]}")
+            logger.debug(f"Rood Mean Square raw quantized signal = {_rms:.3f}")
         assert sig.shape==(f.getNSamples()[0],) # make sure exists and right shape
 
         # Save raw channel data as .dat binary
-        sig.tofile(os.path.join(cache_dir_path, cached_bin_fname_power), format="int16") # TODO: This has yet to be tested
+        cached_bin_fname_raw = f"{basename}_ch_{str(channel).zfill(3)}_raw.dat"
+        logger.debug(f"cache_dir_path = '{cache_dir_path}'")
+        sig.tofile(os.path.join(cache_dir_path, cached_bin_fname_raw)) # TODO: This has yet to be tested
 
         print(f"Computing {NUM_FREQ} Gabor wavelet convolutions for channel {channel}.")
         # Loop through each frequency, convolve with Gabor wavelet
@@ -269,20 +282,24 @@ def make_wavelet_bank(edf_fname,options_filepath):
                 wt_power = np.abs(wt) # deep copy
                 if ZSCORE_POWER==True:
                     wt_power = zscore(np.abs(wt))
-                # add comment intoml, SCALE_POWER shld be different if no zscore
-                wt_power *= SCALE_POWER 
+                # add comment intoml, SCALE_POWER shld be smaller if no zscore
+                logger.debug(f"wt_power.dtype={wt_power.dtype}")
+                wt_power = (wt_power * SCALE_POWER).astype("int16")
                 wt_power.tofile(os.path.join(cache_dir_path, cached_bin_fname_power), format="int16")
 
             # Conditionally re-scale and save the phase
             if "wavelet_phase" in TS_FEATURES:
-                wt_phase = np.arctan(np.real(wt) / np.imag(wt)) * SCALE_PHASE
+                wt_phase = (np.arctan(np.real(wt) / np.imag(wt)) * SCALE_PHASE).astype("int16")
+                
                 wt_phase.tofile(os.path.join(cache_dir_path, cached_bin_fname_phase), format="in16")
         logger.info("Finished computing wavelet transforms for channel={channel}.")
 
         # Check all the dat files in the cache match with the regex—–
         # this is a test to make sure our cached folder is not corrupted
         # Filenames must not contain any dots!
-        regex = f"^{basename}_ch_{str(channel).zfill(3)}_freqidx_\d\d_(A|P)$"
+        # Regexp must match all the Amplicude (=Power) and Phase transforms
+        # as well as the raw .dat binary. 
+        regex = f"^{basename}_ch_{str(channel).zfill(3)}_(freqidx_\d\d|raw)(_A|_P|)$"
         _assert_all_ext_type_match_regexp( 
                 directory = cache_dir_path,
                 extension = "dat",
@@ -302,7 +319,35 @@ def make_wavelet_bank(edf_fname,options_filepath):
                 fname_out = f"{basename}_ch_{str(channel).zfill(3)}.dat")
 
         # Delete the cached single-channel binary files
-        shutil.rmtree(cache_dir_path) # TODO: This has yet to be tested
+        shutil.rmtree(cache_dir_path) 
     return
+
+
+def make_wavelet_bank_all(options_path="Options.toml"):
+    # Unpack parameters and user-defined constants
+    fileio,data_ops = _load_fileio_and_data_ops(options_path)
+    # Bind the consts we use to local vars for readability
+    RAW_DATA_PATH = fileio["RAW_DATA_PATH"]
+
+    edf_files = [i for i in os.listdir(RAW_DATA_PATH) if os.path.splitext(i)[1]==".edf"] 
+    print(f"Make wavelet bank all, convolving {len(edf_files)} edf files.")
+    for edf_fname in tqdm(edf_files):
+        logger.info(f"Running make_wavelet_bank on {edf_fname}")
+        make_wavelet_bank(edf_fname, fileio, data_ops)
+
+    return
+
+if __name__ == "__main__":
+    # Only when you run this file directly
+    make_wavelet_bank_all(options_path="Options.toml")
+    
+
+
+
+
+
+
+
+
 
 
