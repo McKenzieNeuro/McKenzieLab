@@ -157,15 +157,8 @@ def _assert_all_ext_type_match_regexp(
         extension: str,
         regexp_base: str):
     for fname in os.listdir(directory):
-        try:
-            base,ext = fname.split(".") # TODO:os.path.splitext() bit better
-        except ValueError:
-            # enforce that there can be no dots in files with 
-            # the 'extension' extension
-            assert fname.split(".")[-1] != extension, "ValueError, all {extension} files must have no dots in the basename!" 
-        else:
-            if ext==extension:
-                assert bool(re.search(regexp_base,base))
+        base,ext = os.path.splitext()
+        if ext == extension: assert bool(re.search(regexp_base,base))
     logger.debug(f"Test passed: all '{ext}' files in {directory} match the regexp:\n{regexp_base}")
     return 
 
