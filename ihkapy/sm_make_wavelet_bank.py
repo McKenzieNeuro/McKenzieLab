@@ -44,10 +44,9 @@ def _load_fileio_and_data_ops(options_path="./Options.toml"):
     Returns
     -------
     dict
-        A dictionary containing paths to data files.
+        A dictionary containing fileio params, i.e. paths to data files.
     dict
-        A dictionary containing data parameters needed in data
-        manipulation 
+        A dictionary containing data parameters required for data manip.
     """
 
     warnings.warn("Change this relative path once package is configured properly. \nWe need a more reliable way of accessing the options.toml config file")
@@ -163,7 +162,6 @@ def _assert_all_ext_type_match_regexp(
     return 
 
 
-
 def make_wavelet_bank(
         edf_fname:str,
         fileio:dict,
@@ -181,15 +179,17 @@ def make_wavelet_bank(
         but all the frequencies are saved according to the below order
 
     Save order convention array flattening convention: 
-    - 'sn' is 'sample number n'
+    - Read 'sn' as 'sample number n'
     - A is for Amplitude (=Power), and P is for Phase
+    - K is the index of the last frequency (= num of freqs - 1)
     [raw_s0,freq00_A_s0,freq00_P_s0,freq01_A_s0,freq01_P_s0,...,freqk_A_s0,
     freqK_P_s0,raw_s1,freq00_A_s1,freq00_P_s1,...,freqK_A_s1,freqK_P_s1,...
     ...
     raw_sn,freq00_A_sn,freq00_P_sn,freq01_A_s0,...,freqK_P_sn]
 
     Note: it is important the above convention is respected because this is
-    how the binary_io tools read the files. 
+    how the binary_io tools read the files. It's the same convention as the 
+    MatLab suit. 
  
     Parameters
     ----------
@@ -242,6 +242,8 @@ def make_wavelet_bank(
 
     # Read edf file and loop through each channel one at a time
     for channel in range(N_CHAN_RAW):
+        # TODO: simplify and sacrifice some of the checks in this untidy loop
+        #       in the name of tidyness and readability and the good lord
         os.mkdir(cache_dir_path) # Create the cache directory
         sig = None
         with pyedflib.EdfReader(edf_path) as f:
@@ -326,6 +328,7 @@ def make_wavelet_bank_all(options_path="Options.toml"):
     print(f"Make wavelet bank all, convolving {len(edf_files)} edf files.")
     for edf_fname in tqdm(edf_files):
         logger.info(f"Running make_wavelet_bank on {edf_fname}")
+        # Convolve with wavelets and write binary files
         make_wavelet_bank(edf_fname, fileio, data_ops)
 
     return
@@ -334,12 +337,6 @@ if __name__ == "__main__":
     # Only when you run this file directly
     make_wavelet_bank_all(options_path="Options.toml")
     
-
-
-
-
-
-
 
 
 

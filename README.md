@@ -19,9 +19,10 @@ To access the methods and their modules, clone this repo with `git clone https:/
 *This list is ordered from highest to lowest priority.*
 - [x] Implement Options.toml config file as user input interface
 - [x] Implement wavelet transform module, for turning raw edf into 
-  - [ ] Bullet proof with tests
+  - [x] Bullet proof with tests
   - [x] Test compare output with matlab scripts
     - [ ] also, implement this test in the test suit (not a priority, but should be done eventually)
+  - [x] Implement and test `make_all` method
 - [x] Implement file I/O for reading from binary files
   - [x] Bullet proof with tests
   - [x] Test compare output with matlab scripts
