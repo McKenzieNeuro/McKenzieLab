@@ -24,6 +24,79 @@ logger = logging.getLogger(__name__)
 # Constant, used in _load_binary (=> it's parent load_binary too) and merge_dats
 MAX_SAMPLES_PER_CHUNK = 10000 
 
+def load_binary_multiple_segments(
+        file_path : str,
+        n_chan : int = 1,
+        sample_rate : int = None,
+        offset_times : list = [], 
+        duration_time : float or None = None,
+        offset_sizes : list = [],
+        duration_size : int or None = None,
+        channels : list = [],
+        precision : type = "int16"
+        ) -> np.ndarray:
+    """Load many segments of data from multiplexed binary file.
+
+    Either provide a list of offset times and a duration time in seconds
+    XOR provide a list of offset sizes and a duration size for the window
+    in number of samples. 
+
+    Parameters
+    ----------
+    file_path : str
+        Path to a .dat binary file
+    n_chan : int
+        Number of data channels in the file (defaults to 1)
+    sample_rate : int or float
+        Sample rate in Hz, (aka fs, frequency, sr is the MNE convention)
+        Defaults to None, if none, must specify offset_size and duration_size
+    offset_times : list
+        Positions to start reading in seconds, (aka start_time), (defaults to empty)
+    duration_time : float or None = None 
+        Duration to read in seconds (per channel) (defaults to None)
+    offset_sizes : list
+        Positions to start reading in num of samples, defaults to empty.
+    duration_size : int or None
+        Duration to read in number of samples (per channel) (defaults to None)
+    channels : list 
+        Indices of channels to read from, defaults to empty and uses all chs.
+    precision : str
+        Sample precision, defaults to 'int16'.
+
+    Returns
+    -------
+    numpy.ndarray
+        A 3d array containg the segments' data.
+    """
+    # if offset and duration specified in seconds, turn this into n samples
+    if offset_times:
+        assert duration_time is not None, "Duration time must be specified"
+        assert duration_time > 0 , "Duration time must be specified"
+        assert not offset_sizes, "Cannot specify both times and sizes" 
+        assert not duration_size, "Cannot specify both times and sizes"
+        offset_sizes = [int(sample_rate * dt + 0.5) for dt in offset_times]
+        duration_size = int(sample_rate * duration_time + 0.5)
+    assert offset_sizes
+    assert duration_size > 0
+    if not channels: channels = [i for i in range(n_chan)]
+    # TODO: check whether they are integer values? Prob not necessary
+    # TODO: check channels are valid ints in valid range
+
+    n_segments = len(offset_sizes) # the number of segments aka windows
+    # Allocate space in memory
+    segments_data = np.zeros((n_segments, duration_size, len(channels)),dtype=precision) 
+    for idx,offset_size in enumerate(offset_sizes):
+        segments_data[idx,:,:] = load_binary(
+                file_path,
+                n_chan,
+                sample_rate,
+                offset_size=offset_size,
+                duration_size=duration_size,
+                channels=channels,
+                precision=precision)
+
+    return segments_data
+
 def load_binary(
         file_path : str,
         n_chan : int = 1,
@@ -60,15 +133,15 @@ def load_binary(
         Position to start reading in samples (per channel) (defaults to None)
     duration_size : int or None
         Duration to read in number of samples (per channel) (defaults to None)
-    channels : str or list
-        Indices of channels to read from (default = 'all').
-    precision : str, optional
-        Sample precision (default = 'int16').
+    channels : list or None
+        Indices of channels to read from, defaults to None, if None uses all chs. 
+    precision : str
+        Sample precision, defaults to 'int16'.
 
     Returns
     -------
     numpy.ndarray
-        An array containg the specified segment's data. 
+        A 2d array containg the specified segment's data. (1d if only one chan)
     """
     # Make sure the intput is correct
     assert n_chan == int(n_chan)
@@ -155,6 +228,7 @@ def _load_binary(
     Returns
     -------
     np.ndarray
+        the loaded segment of size (n_samples , n_chan)
     """
     # TODO: email John D. Long jlong29@gmail.com or Michaël Zugaro 
     # about this they are the authors of the matlab script upon which 
@@ -357,8 +431,30 @@ if __name__=="__main__":
     # Remove temp binary file
     os.remove("temp_test.dat")
     logger.debug("load_binary() passed all tests.")
-    
 
+    ### Test load_binary_multiple_segments
+    logger.debug("Testing load_binary_multiple_segments()...")
+
+    # Write a binary file
+    arrin = array.array("h", np.arange(500))
+    with open("temp_test.dat","wb") as file:
+        arrin.tofile(file)
+    def load_segs(fname="temp_test.dat" , **kwargs): # helper
+        with open(fname,"rb") as file:
+            arrout = load_binary_multiple_segments(fname, **kwargs)
+        return arrout
+    arrout = load_segs(n_chan=2,sample_rate=2,offset_times=[10,20,30],duration_time=5,channels=[0,1],precision="int16")
+    assert (arrout.shape == np.array([3,10,2])).all()
+    assert (arrout[0,:,:] == np.arange(40,60).reshape(10,2)).all()
+    assert (arrout[2,:,:] == np.arange(120,140).reshape(10,2)).all()
+    # same arr load, therefore same tests, but with different args
+    arrout = load_segs(n_chan=2,sample_rate=2,offset_sizes=[20,40,60],duration_size=10,precision="int16") 
+    assert (arrout.shape == np.array([3,10,2])).all()
+    assert (arrout[0,:,:] == np.arange(40,60).reshape(10,2)).all()
+    assert (arrout[2,:,:] == np.arange(120,140).reshape(10,2)).all()
+    logger.debug("load_binary_multiple_segments() all tests Passed")
+    
+    
     ### Test merge_dats() 
     # by nature, merge_dats() contains some very dense code 
     logger.debug("Testing merge_dats()...")
