@@ -226,7 +226,7 @@ def make_wavelet_bank(
     N_CHAN_RAW   = data_ops["N_CHAN_RAW"]
     TS_FEATURES  = data_ops["TS_FEATURES"]
     # Define features space (based on num, lo, high-freq)
-    FREQS = np.power(10, np.linspace(np.log10(LOW_FREQ), np.log10(HIGH_FREQ), NUM_FREQ))
+    FREQS = np.logspace(np.log10(LOW_FREQ), np.log10(HIGH_FREQ), NUM_FREQ)
 
     ### IO Checks
     # Check edf file and wavelet binaries directory exist

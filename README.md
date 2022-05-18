@@ -24,6 +24,7 @@ To access the methods and their modules, clone this repo with `git clone https:/
     - [ ] also, implement this test in the test suit (not a priority, but should be done eventually)
   - [x] Implement and test `make_all` method
 - [x] Implement file I/O for reading from binary files
+  - [x] Implement reading multiple segments at once
   - [x] Bullet proof with tests
   - [x] Test compare output with matlab scripts
 - [x] Figure out how to connect to Azure blob storage via the API
@@ -33,12 +34,16 @@ To access the methods and their modules, clone this repo with `git clone https:/
   - [ ] Mout storage from VM (see [azure doc](https://docs.google.com/document/d/1lXst8D3eh3-yyND3NJNg4Wx16jm18QAJQrwL0WdpC-Q/edit?usp=sharing) for links to microsoft documentation on how to do this)
   - [ ] access and manipulate data in the blob storage from the azure api dexterously (i.e. run IHKApy code over the connection)
 - [ ] Implement featurizing module
+  - [ ] Tim selection algorithm
 - [ ] Implement train model module
 - [ ] Generate docs
 - [ ] Make sure dependencies are well listed
 - [ ] Draw dependency graph
 - [ ] Detailed sketch of pipeline 
 - [ ] Sort out dependencies
+
+- [ ] Little todos
+  - [ ] rename data ops FREQ_NUM etc. instead of what, add "FREQ" to SPACING param too
 
 *Questions / Concerns*
 - [ ] The raw data that gets serialized is not rescaled before it is cast into int16, in the case of the mouse data this causes non-negligible quantization because the RMS is around 12 (11.861 for the first channel), most of samples are in the single and low double digits. They could probably benefit from being scaled by a similar scale factor as the power and phase convolutions. 

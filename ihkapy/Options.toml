@@ -42,17 +42,11 @@ POSTICTAL.PCT = 0.2
 # hoping to have a more explicit format, see above comment in params.dat
 n_chan_binary_file = 41 # = 20 + 20 + 1, phase, amp, raw
 
-[params.model.hyper.wavelet_freqs]
-START = -0.3010299956639812               # = log10(0.5)
-END = 2.3010299956639813                  # = log10(200)
-NUMBER = 20                               # twenty frequencies
-SCALE = "log10"                           # linspace / logspace
-
 
 [params.model.training]
 train_val_test = [ 0.6, 0.2, 0.2 ]        # must sum to 1
 n_learning_cycles = 500
-rate = 0.1
+rate = 0.1                                # learning rate
 method = "RUSBoost"
 
 

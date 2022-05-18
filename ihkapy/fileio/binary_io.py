@@ -143,7 +143,7 @@ def load_binary(
     numpy.ndarray
         A 2d array containg the specified segment's data. (1d if only one chan)
     """
-    # Make sure the intput is correct
+    # Checks to make sure the intput is correct
     assert n_chan == int(n_chan)
     assert n_chan >= 1
     logger.info(f"{n_chan} channel(s) in this binary file") 
@@ -397,14 +397,11 @@ if __name__=="__main__":
     arrin = array.array("h" , np.arange(50))
     with open("temp_test.dat","wb") as file:
         arrin.tofile(file)
-
     # Read the binary file we just created with _load_chunk
     with open("temp_test.dat","rb") as file:
         arrout = _load_chunk(file, n_chan=2, n_samples=5, precision="int16")
-
     # Assert that result must be equal to matlab version
     assert (arrout == np.array([[0,1],[2,3],[4,5],[6,7],[8,9]])).all()
-
     # Remove temp binary file
     os.remove("temp_test.dat")
     logger.debug("_load_chunk() passed all tests.")
@@ -412,7 +409,6 @@ if __name__=="__main__":
 
     ### Test load_binary
     logger.debug("Testing load_binary()...")
-
     # Write a binary file
     arrin = array.array("h" , np.arange(50))
     with open("temp_test.dat","wb") as file:
@@ -427,14 +423,13 @@ if __name__=="__main__":
     assert (arrout == np.arange(4,8).reshape(2,2)).all()
     arrout = load(n_chan=5,sample_rate=1,offset_time=5,duration_time=3)
     assert (arrout == np.arange(25,40).reshape(3,5)).all()
-
     # Remove temp binary file
     os.remove("temp_test.dat")
     logger.debug("load_binary() passed all tests.")
 
+
     ### Test load_binary_multiple_segments
     logger.debug("Testing load_binary_multiple_segments()...")
-
     # Write a binary file
     arrin = array.array("h", np.arange(500))
     with open("temp_test.dat","wb") as file:
@@ -447,7 +442,7 @@ if __name__=="__main__":
     assert (arrout.shape == np.array([3,10,2])).all()
     assert (arrout[0,:,:] == np.arange(40,60).reshape(10,2)).all()
     assert (arrout[2,:,:] == np.arange(120,140).reshape(10,2)).all()
-    # same arr load, therefore same tests, but with different args
+    # Same array load, therefore same tests, but with different args
     arrout = load_segs(n_chan=2,sample_rate=2,offset_sizes=[20,40,60],duration_size=10,precision="int16") 
     assert (arrout.shape == np.array([3,10,2])).all()
     assert (arrout[0,:,:] == np.arange(40,60).reshape(10,2)).all()
@@ -500,3 +495,7 @@ if __name__=="__main__":
 
 
     
+
+
+
+
