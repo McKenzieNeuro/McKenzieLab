@@ -3,7 +3,7 @@ import logging
 
 def parse_metadata(
         metadata_filepath
-        ):
+        ) -> (dict,dict):
     """Opens and parses the '.edf' seizure recording metadata '.txt' file.
 
     Parameters
@@ -59,3 +59,7 @@ def parse_metadata(
         table_transpose = np.asarray(table).T
         seizure_intervals = {colname:data for colname,data in zip(columns,table_transpose)}
     return frontmatter,seizure_intervals
+
+
+
+

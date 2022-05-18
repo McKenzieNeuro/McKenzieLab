@@ -37,6 +37,10 @@ PREICTAL.PCT =  [ 0.05,  0.05, 0.2, 1.0 ] # 5%,5%,20%,100%
 INTRAICTAL.PCT = 1.0                      # 100%
 POSTICTAL.DELAY = 600         # post-ictal ends 10mins after seizure end
 POSTICTAL.PCT = 0.2
+features = [
+  "root_mean_squared",
+  "zero_crossings"
+  ] # TODO: Tentative must correspond to feature function names in feature file
 
 # nCh_featureFile, the number of channels in .dat files was 41 but 
 # hoping to have a more explicit format, see above comment in params.dat
