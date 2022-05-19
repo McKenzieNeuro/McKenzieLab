@@ -168,9 +168,10 @@ def make_wavelet_bank(
         data_ops:dict): 
     """Computes and saves a wavelet decomposition of each channel. 
 
-    Uses user defined options from Options.toml (options_filepath) 
-    file to compute the Gabor wavelet decomposition of the raw signals 
-    in the provided edf file (edf_fname). 
+    Uses dictionaries loaded from user defined options from Options.toml 
+    (options_filepath) file to compute the Gabor wavelet decomposition 
+    of the raw signals in the provided edf file (edf_fname). 
+    This function doesn't return anything, but reads and writes to disk. 
 
     - Reads edf raw signal specified by edf_fname (and fileio params)
     - Iterates through each channel, computing wavelet convolutions
@@ -178,7 +179,7 @@ def make_wavelet_bank(
     - Saves output binaries, one binary file for each hardware channel
         but all the frequencies are saved according to the below order
 
-    Save order convention array flattening convention: 
+    Binaries array flattening convention: 
     - Read 'sn' as 'sample number n'
     - A is for Amplitude (=Power), and P is for Phase
     - K is the index of the last frequency (= num of freqs - 1)
@@ -251,7 +252,7 @@ def make_wavelet_bank(
             sig = f.readSignal(channel).astype("int16")
             _rms = np.sqrt(np.power(sig,2).mean())
             logger.debug(f"Sample of quantized sig {sig[:10]}")
-            logger.debug(f"Rood Mean Square raw quantized signal = {_rms:.3f}")
+            logger.debug(f"Root Mean Square raw quantized signal = {_rms:.3f}")
         assert sig.shape==(f.getNSamples()[0],) # make sure exists and right shape
 
         # Save raw channel data as .dat binary
@@ -277,7 +278,7 @@ def make_wavelet_bank(
                 wt_power = np.abs(wt) # deep copy
                 if ZSCORE_POWER==True:
                     wt_power = zscore(np.abs(wt))
-                # add comment intoml, SCALE_POWER shld be smaller if no zscore
+                # Comment in TOML: SCALE_POWER should be smaller if no zscore
                 logger.debug(f"wt_power.dtype={wt_power.dtype}")
                 wt_power = (wt_power * SCALE_POWER).astype("int16")
                 wt_power.tofile(os.path.join(cache_dir_path, cached_bin_fname_power), format="int16")
@@ -326,7 +327,7 @@ def make_wavelet_bank_all(options_path="Options.toml"):
 
     edf_files = [i for i in os.listdir(RAW_DATA_PATH) if os.path.splitext(i)[1]==".edf"] 
     print(f"Make wavelet bank all, convolving {len(edf_files)} edf files.")
-    for edf_fname in tqdm(edf_files):
+    for edf_fname in edf_files:
         logger.info(f"Running make_wavelet_bank on {edf_fname}")
         # Convolve with wavelets and write binary files
         make_wavelet_bank(edf_fname, fileio, data_ops)
