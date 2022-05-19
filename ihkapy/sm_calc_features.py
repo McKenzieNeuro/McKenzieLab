@@ -1,4 +1,4 @@
-
+import numpy as np
 
 """
 MatLab code is structures as follows:
@@ -8,12 +8,12 @@ MatLab code is structures as follows:
 
 # pure function
 def _get_x_pct_time_of_interval(
-        start_time : float      # in seconds
-        end_time : float        # in seconds
-        window_length : float   # in seconds
+        start_time : float,     # in seconds
+        end_time : float,       # in seconds
+        window_length : float,  # in seconds
         pct : float             # proportion of times to sample
-        ) -> list:
-    """Returns an array of start times"""
+        ) -> np.ndarray:
+    """Returns a randomly sampled 1d array of start times"""
     assert end_time > start_time
     assert pct >= 0.0 and pct <= 1.0
     # The number of windows that fit in the interval
@@ -24,7 +24,7 @@ def _get_x_pct_time_of_interval(
     if pct == 1.0: return all_window_start_times
     # Choose and sort a random sample according to pct
     n_select = int(np.ceil(n_windows * pct)) # num win to select
-    window_start_times = np.choice(window_start_times,n_select,replace=False)
+    window_start_times = np.random.choice(window_start_times,n_select,replace=False)
     window_start_times.sort()
     return window_start_times
 
@@ -69,12 +69,12 @@ def calc_features_seizure(
         start_times,
         ) -> np.ndarray:
     """Compute all features in all channels for one seizure."""
-    # Get list of features that we want to use from a features file
-    # each feature should be a function with standard in/out types
-    # a segment (window) is the input, the output is a float
-    windows = # TODO: 3d np array shape = (n_chan,n_windows,window_length)
-    feature_functions = # TODO: this is a list of functions
-    features = # TODO: 2d np array shape = (n_windows,n_feats_per_window)
+    # # Get list of features that we want to use from a features file
+    # # each feature should be a function with standard in/out types
+    # # a segment (window) is the input, the output is a float
+    # windows = # TODO: 3d np array shape = (n_chan,n_windows,window_length)
+    # feature_functions = # TODO: this is a list of functions
+    # features = # TODO: 2d np array shape = (n_windows,n_feats_per_window)
 
 
 
@@ -138,6 +138,10 @@ of window-start times to sample and compute features for.
 """
 
 
+if __name__=="__main__":
+    ### TEST _get_x_pct_time_of_interval()
+    arr = _get_x_pct_time_of_interval(5.0,152.6,1.0,0.05)
+    print(arr)
 
 
 
