@@ -43,6 +43,7 @@ PREICTAL.PCT =  [ 0.05,  0.05, 0.2, 1.0 ] # 5%,5%,20%,100%
 INTRAICTAL.PCT = 1.0                      # 100%
 POSTICTAL.DELAY = 600         # post-ictal ends 10mins after seizure end
 POSTICTAL.PCT = 0.2
+# BIN_NAMES must be compatible with bins defined above
 BIN_NAMES = ["pre_ictal_bin1","pre_ictal_bin2","pre_ictal_bin3",
           "pre_ictal_bin4","intra_ictal_bin","post_ictal_bin"]
 FEATURES = [

@@ -6,6 +6,7 @@
 # channel individually, so the 1darray has length n_channels
 # In shape is (len_window,n_channels)
 
+
 # example, though I think useless because zscore normalizes this stuff
 def rms(window:np.ndarray) -> np.ndarray:
     """Returns Root Mean Squared of each channel."""
