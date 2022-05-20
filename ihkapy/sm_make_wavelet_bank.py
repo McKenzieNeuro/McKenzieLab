@@ -156,7 +156,7 @@ def _assert_all_ext_type_match_regexp(
         extension: str,
         regexp_base: str):
     for fname in os.listdir(directory):
-        base,ext = os.path.splitext()
+        base,ext = os.path.splitext(fname)
         if ext == extension: assert bool(re.search(regexp_base,base))
     logger.debug(f"Test passed: all '{ext}' files in {directory} match the regexp:\n{regexp_base}")
     return 
