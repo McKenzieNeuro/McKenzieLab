@@ -95,6 +95,112 @@ def get_feats_window(
     # feature functions in features.py
 
     # 
+    return 
+
+# Helper for calc_features()
+def _get_bin_absolute_intervals(
+        seizure_start_time      : float,
+        seizure_end_time        : float,
+        preictal_bins           : list,
+        postictal_delay         : int,
+        bin_names               : list,
+        all_start_times         : list,
+        all_end_times           : list,
+        total_recoreding_time   : float
+        ):
+    """Returns dictionary of all valid bin intervals for single seizure.
+
+    Parameters
+    ----------
+    start_seiz : float or int
+        The start time of the seizure in question, in seconds. (Relative
+        to the start of the recording.)
+
+    end_seiz : float or int
+        The end time of the seizure in questionm, in seconds. (Relative
+        to the start of the recording.)
+
+    preictal_bins : list
+        The list found in Options.toml config file. It's a list of floats
+        that specify, in seconds, the pre-ictal bin timestamps.
+
+    postictal_delay : int or float
+        Specifies post-ictal period after the end of a seizure in seconds
+        (e.g. 600)
+
+    bin_names : list
+        A list of bin names (strings). Must have length of preictal_bins + 2. 
+        This is because we have one single intra-ictal and one single post-
+        ictal bin. 
+
+    all_start_times : list
+        A list of the start times of every seizure (in seconds from start 
+        of recording). Needed to check validity of intervals.
+
+    all_end_times : list 
+        A list of all end times of every seizure (in seconds from start of
+        recording). Needed to check validity of intervals. 
+
+    total_recording_time : float,
+        Total number of seconds from start to end of the sessions.
+    
+    Returns
+    -------
+    dict
+        The keys are names of time bins (e.g. pre_ictal_bin1, post_ictal, etc.)
+        If the corresponding bin for the seizure is valid, the value will be a 
+        tuple (bin_start_time,bin_end_time). If the bin is not valid, the value
+        will be None. A siezure's time bin is considered valid if all of these
+        condisions are satisfied:
+            1. The bin does not over-lap with any other seizure.
+            2. The bin starts after the beginning of the recording. 
+            3. The bin ends before the end of the recording. 
+    """
+    # Some tests and checks
+    assert len(preictal_bins) + 2 == len(bin_names), "Args have incompatible length"
+    assert len(start_times) == len(end_times), "Logic err, smthng is terribly wrong"
+
+    bin_name_intraictal = bin_names[-2]     # string
+    bin_name_postictal = bin_names[-1]      # string
+    bin_names_preictal = bin_names[:-2]     # list of strings
+    
+    # Init bin_intervals (the dict we will return)
+    # NB: The seizure interval is always valid
+    bin_intervals = {bin_name_intraictal : (start_seiz,end_seiz)} 
+
+    # The absolute time of pre-ictal intervals, we iterate through them
+    pre_bins_abs = [start_time - i for i in preictal_bins] 
+    # Important, don't forget this final implied pre-ictal slice 
+    # (the start of seizure)
+    pre_bins_abs.append(start_time) 
+    for bin_name,start_bin,end_bin in zip(bin_names_preictal,pre_bins_abs[:-1],pre_bins_abs[1:]):
+        # TODO: compare with MatLab
+        #       Notably verify if there are missing checks
+
+        # Check whether another other seizure overlaps with our bin
+        bin_intervals[bin_name_intraictal] = (start_bin,end_bin)
+        for start_seiz_2,end_seiz_2 in zip(all_start_times,all_end_times):
+            # TODO: check MatLab confirm that postictal delay term necessary
+            if start_bin < end_seiz_2 + postictal_delay 
+                and start_seiz > start_seiz_2 
+                and start_bin > 0:
+                # The pre-ictal bin interval is not valid
+                # Re-define it as None and break out of for-loop
+                bin_intervals[bin_name_intraictal] = None
+                break 
+
+    # If the post-ictal interval is valid, define it.
+    # Post-ictal is valid iff that there is no second seizure right 
+    # after the one in question. 
+    end_postictal = end_seiz + postictal_delay
+    bin_intervals[bin_name_postictal] = (end_seiz , end_postictal)
+    # Check if invalid: redefine to None
+    if end_postictal > total_recording_time: 
+        bin_intervals[bin_name_postictal] = None
+    for start_seiz_2 in all_start_times:
+        if end_postictal < start_seiz_2 and end_seiz > start_seiz_2:
+            bin_intervals[bin_name_postictal] = None
+    return bin_intervals
 
 
 def calc_features(
@@ -141,13 +247,16 @@ def calc_features(
         start_times,end_times = get_seizure_start_end_times(session_basename,fileio)
         for start_time,end_time in zip(start_times,end_times):
             # TODO: define absolute start and end intervals for each bin
-            # TODO: implement get_bin_absolute_intervals()
+            # TODO: test _get_bin_absolute_intervals()
             #       returns a dic with keys=BIN_NAMES,values=(strtbin,endbin) (in s)
-            bins_absolute_intervals = get_bin_absolute_intervals(
+            bins_absolute_intervals = _get_bin_absolute_intervals(
                     seizure_start_time=start_time,
                     seizure_end_time=end_time,
                     preictal_bins=..., # TODO
-                    posictal_delay=... # TODO
+                    posictal_delay=...,# TODO
+                    all_start_times=start_times,
+                    all_end_times = end_times
+                    total_recording_time = # TODO get this one
                     )
         
             for bin_name,interval in bins_absolute_intervals:
