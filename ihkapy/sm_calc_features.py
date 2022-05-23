@@ -151,7 +151,7 @@ def _get_bin_absolute_intervals(
         If the corresponding bin for the seizure is valid, the value will be a 
         tuple (bin_start_time,bin_end_time). If the bin is not valid, the value
         will be None. A siezure's time bin is considered valid if all of these
-        condisions are satisfied:
+        conditions are satisfied:
             1. The bin does not over-lap with any other seizure.
             2. The bin starts after the beginning of the recording. 
             3. The bin ends before the end of the recording. 
@@ -203,6 +203,16 @@ def _get_bin_absolute_intervals(
     return bin_intervals
 
 
+def _get_total_recording_time(filepath,fs,num_bin_chan=41,precision="int16"):
+    """Determines the total recording time from binary files."""
+    fsize_bytes = os.path.getsize(filepath)
+    bytes_per_sample = np.dtype(precision).itemsize
+    n_samples_per_chan = fsize_bytes / bytes_per_sample / num_bin_chan
+    assert n_samples_per_chan == int(n_samples_per_chan) , "Logic error, possibly num_bin_chan is incorrect: this the number of channels saved in the binary file."
+    total_duration_seconds = n_samples_per_chan / fs # total duration in seconds
+    return total_duration_seconds
+
+
 def calc_features(
         binary_basename_list : list = [],
         fileio : dict,
@@ -233,29 +243,32 @@ def calc_features(
     # features = # TODO: 2d np array shape = (n_windows,n_feats_per_window)
 
     # Unpack relevant parameters
-    BIN_NAMES = feature_ops["BIN_NAMES"]
+    BIN_NAMES       = feature_ops["BIN_NAMES"]
+    PREICTAL_BINS   = feature_ops["PREICTAL"]["BINS"] # in (negative) seconds
+    POSTICTAL_DELAY = feature_ops["POSTICTAL"]["DELAY"] # in seconds
+    PREICTAL_PCT    = feature_ops["PREICTAL"]["PCT"]
     # unpack other stuff
     bins = {} # TODO: define this, keys=bin_names, values=relative_intervals
               # relative interval is a tuple (rel start, rel end)
               # should be negative for pre-ictal
-              # 
 
     data = {b:[] for b in BIN_NAMES} # TODO: turn list into pandas dataframe
 
     for session_basename in binary_basename_list:
         # TODO: implement get_seizure_start_end_times()
         start_times,end_times = get_seizure_start_end_times(session_basename,fileio)
+        total_recording_time = _get_total_recording_time(basename,precision) # in seconds
         for start_time,end_time in zip(start_times,end_times):
             # TODO: define absolute start and end intervals for each bin
             # TODO: test _get_bin_absolute_intervals()
             #       returns a dic with keys=BIN_NAMES,values=(strtbin,endbin) (in s)
             bins_absolute_intervals = _get_bin_absolute_intervals(
-                    seizure_start_time=start_time,
-                    seizure_end_time=end_time,
-                    preictal_bins=..., # TODO
-                    posictal_delay=...,# TODO
-                    all_start_times=start_times,
-                    all_end_times = end_times
+                    seizure_start_time  = start_time,
+                    seizure_end_time    = end_time,
+                    preictal_bins       = PREICTAL_BINS, 
+                    posictal_delay      = POSTICTAL_DELAY,
+                    all_start_times     = start_times,
+                    all_end_times       = end_times
                     total_recording_time = # TODO get this one
                     )
         
@@ -316,7 +329,11 @@ of window-start times to sample and compute features for.
 
 if __name__=="__main__":
     ### TEST _get_x_pct_time_of_interval()
-    arr = _get_x_pct_time_of_interval(5.0,152.6,1.0,0.05)
+    arr = _get_x_pct_time_of_interval(
+            start_time    = 5.0,
+            end_time      = 152.6,
+            window_length = 1.0,
+            pct           = 0.05)
     print(arr)
 
 
