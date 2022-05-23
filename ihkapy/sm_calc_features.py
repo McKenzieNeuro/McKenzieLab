@@ -188,6 +188,9 @@ def _get_bin_absolute_intervals(
                 # Re-define it as None and break out of for-loop
                 bin_intervals[bin_name_preictal] = None
                 break 
+            elif start_bin < 0: # TODO make this code not yucky 
+                bin_intervals[bin_name_preictal] = None
+                break
 
     ### POST-ICTAL
     # If the post-ictal interval is valid, define it.
@@ -336,7 +339,10 @@ if __name__=="__main__":
             end_time      = 152.6,
             window_length = 1.0,
             pct           = 0.05)
+    print("Test _get_x_pct_time_of_interval(), array returned:")
     print(arr)
+    print()
+
 
     ### TEST _get_bin_absolute_intervals()  
     # Test 1
@@ -350,7 +356,6 @@ if __name__=="__main__":
             all_end_times        = [130,550,1100],
             total_recording_time = 2000
             )
-    print(bin_abs_intervals)
     assert bin_abs_intervals["pre1"] == (50,75)
     assert bin_abs_intervals["pre2"] == (75,90)
     assert bin_abs_intervals["pre3"] == (90,100)
@@ -368,19 +373,34 @@ if __name__=="__main__":
             all_end_times        = [60,130,170],
             total_recording_time = 2000 
             )
-    print("\n")
-    print(bin_abs_intervals)
-    assert bin_abs_intervals["pre1"] == None
+    assert bin_abs_intervals["pre1"] == None    # Overlaps with previous post-ictal
     assert bin_abs_intervals["pre2"] == (75,90)
     assert bin_abs_intervals["pre3"] == (90,100)
     assert bin_abs_intervals["intra"] == (100,130)
-    assert bin_abs_intervals["post"] == None
+    assert bin_abs_intervals["post"] == None        # Overlaps with next seizure
+
+    # Test 3
+    bin_abs_intervals = _get_bin_absolute_intervals(
+            start_seiz           = 15,
+            end_seiz             = 100,
+            preictal_bins        = [50 , 25 , 10],
+            postictal_delay      = 60,
+            bin_names            = ["pre1","pre2","pre3","intra","post"],
+            all_start_times      = [15],
+            all_end_times        = [100],
+            total_recording_time = 150 
+            )
+    assert bin_abs_intervals["pre1"] == None        # Before file start
+    assert bin_abs_intervals["pre2"] == None        # Before file start
+    assert bin_abs_intervals["pre3"] == (5,15)      # Valid
+    assert bin_abs_intervals["intra"] == (15,100)   # Valid
+    assert bin_abs_intervals["post"] == None        # Ends after end of file
+
 
     # Not every single edge-case is tested... (low priority TODO)
-    print("Tests Passed: _get_bin_absolute_intervals()")
+    print("Tests All Passed: _get_bin_absolute_intervals()")
 
 
-    
 
 
 
