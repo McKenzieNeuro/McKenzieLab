@@ -99,14 +99,14 @@ def get_feats_window(
 
 # Helper for calc_features()
 def _get_bin_absolute_intervals(
-        seizure_start_time      : float,
-        seizure_end_time        : float,
+        start_seiz              : float,
+        end_seiz                : float,
         preictal_bins           : list,
         postictal_delay         : int,
         bin_names               : list,
         all_start_times         : list,
         all_end_times           : list,
-        total_recoreding_time   : float
+        total_recording_time    : float
         ):
     """Returns dictionary of all valid bin intervals for single seizure.
 
@@ -157,8 +157,8 @@ def _get_bin_absolute_intervals(
             3. The bin ends before the end of the recording. 
     """
     # Some tests and checks
-    assert len(preictal_bins) + 2 == len(bin_names), "Args have incompatible length"
-    assert len(start_times) == len(end_times), "Logic err, smthng is terribly wrong"
+    assert len(preictal_bins) + 2 == len(bin_names), "Args have incompatible length."
+    assert len(all_start_times) == len(all_end_times), "Logic err, start and end times lists must match in length."
 
     bin_name_intraictal = bin_names[-2]     # string
     bin_name_postictal = bin_names[-1]      # string
@@ -168,27 +168,28 @@ def _get_bin_absolute_intervals(
     # NB: The seizure interval is always valid
     bin_intervals = {bin_name_intraictal : (start_seiz,end_seiz)} 
 
-    # The absolute time of pre-ictal intervals, we iterate through them
-    pre_bins_abs = [start_time - i for i in preictal_bins] 
-    # Important, don't forget this final implied pre-ictal slice 
+    ### PRE-ICTAL
+    # The absolute time of pre-ictal intervals, (we will iterate through them)
+    pre_bins_abs = [start_seiz - i for i in preictal_bins] 
+    # Important, not to forget this final implied pre-ictal slice 
     # (the start of seizure)
-    pre_bins_abs.append(start_time) 
-    for bin_name,start_bin,end_bin in zip(bin_names_preictal,pre_bins_abs[:-1],pre_bins_abs[1:]):
+    pre_bins_abs.append(start_seiz) 
+    for bin_name_preictal,start_bin,end_bin in zip(bin_names_preictal,pre_bins_abs[:-1],pre_bins_abs[1:]):
         # TODO: compare with MatLab
         #       Notably verify if there are missing checks
 
-        # Check whether another other seizure overlaps with our bin
-        bin_intervals[bin_name_intraictal] = (start_bin,end_bin)
+        bin_intervals[bin_name_preictal] = (start_bin,end_bin)
+        # Check whether another (different) seizure overlaps with our bin
+        # if so, define it as none
         for start_seiz_2,end_seiz_2 in zip(all_start_times,all_end_times):
             # TODO: check MatLab confirm that postictal delay term necessary
-            if start_bin < end_seiz_2 + postictal_delay 
-                and start_seiz > start_seiz_2 
-                and start_bin > 0:
+            if start_bin < end_seiz_2 + postictal_delay and start_seiz > start_seiz_2 and start_bin > 0:
                 # The pre-ictal bin interval is not valid
                 # Re-define it as None and break out of for-loop
-                bin_intervals[bin_name_intraictal] = None
+                bin_intervals[bin_name_preictal] = None
                 break 
 
+    ### POST-ICTAL
     # If the post-ictal interval is valid, define it.
     # Post-ictal is valid iff that there is no second seizure right 
     # after the one in question. 
@@ -198,7 +199,7 @@ def _get_bin_absolute_intervals(
     if end_postictal > total_recording_time: 
         bin_intervals[bin_name_postictal] = None
     for start_seiz_2 in all_start_times:
-        if end_postictal < start_seiz_2 and end_seiz > start_seiz_2:
+        if end_postictal > start_seiz_2 and end_seiz < start_seiz_2:
             bin_intervals[bin_name_postictal] = None
     return bin_intervals
 
@@ -214,7 +215,7 @@ def _get_total_recording_time(filepath,fs,num_bin_chan=41,precision="int16"):
 
 
 def calc_features(
-        binary_basename_list : list = [],
+        binary_basename_list : list,
         fileio : dict,
         data_ops : dict,
         feature_ops : dict,
@@ -263,16 +264,17 @@ def calc_features(
             # TODO: test _get_bin_absolute_intervals()
             #       returns a dic with keys=BIN_NAMES,values=(strtbin,endbin) (in s)
             bins_absolute_intervals = _get_bin_absolute_intervals(
-                    seizure_start_time  = start_time,
-                    seizure_end_time    = end_time,
-                    preictal_bins       = PREICTAL_BINS, 
-                    posictal_delay      = POSTICTAL_DELAY,
-                    all_start_times     = start_times,
-                    all_end_times       = end_times
-                    total_recording_time = # TODO get this one
+                    seizure_start_time   = start_time,
+                    seizure_end_time     = end_time,
+                    preictal_bins        = PREICTAL_BINS, 
+                    posictal_delay       = POSTICTAL_DELAY,
+                    all_start_times      = start_times,
+                    all_end_times        = end_times,
+                    total_recording_time = total_recording_time
                     )
         
             for bin_name,interval in bins_absolute_intervals:
+                print("dummy print statement")
                 # TODO: get the windows xPctTims thingy
                 # TODO: compute all features for this interval
                 # TODO: add a row to the data[bin_name] pandas data-frame
@@ -335,6 +337,54 @@ if __name__=="__main__":
             window_length = 1.0,
             pct           = 0.05)
     print(arr)
+
+    ### TEST _get_bin_absolute_intervals()  
+    # Test 1
+    bin_abs_intervals = _get_bin_absolute_intervals(
+            start_seiz           = 100,
+            end_seiz             = 130,
+            preictal_bins        = [50 , 25 , 10],
+            postictal_delay      = 60,
+            bin_names            = ["pre1","pre2","pre3","intra","post"],
+            all_start_times      = [100,500,1000],
+            all_end_times        = [130,550,1100],
+            total_recording_time = 2000
+            )
+    print(bin_abs_intervals)
+    assert bin_abs_intervals["pre1"] == (50,75)
+    assert bin_abs_intervals["pre2"] == (75,90)
+    assert bin_abs_intervals["pre3"] == (90,100)
+    assert bin_abs_intervals["intra"] == (100,130)
+    assert bin_abs_intervals["post"] == (130,190)
+
+    # Test 2
+    bin_abs_intervals = _get_bin_absolute_intervals(
+            start_seiz           = 100,
+            end_seiz             = 130,
+            preictal_bins        = [50 , 25 , 10],
+            postictal_delay      = 10,
+            bin_names            = ["pre1","pre2","pre3","intra","post"],
+            all_start_times      = [50,100,135],
+            all_end_times        = [60,130,170],
+            total_recording_time = 2000 
+            )
+    print("\n")
+    print(bin_abs_intervals)
+    assert bin_abs_intervals["pre1"] == None
+    assert bin_abs_intervals["pre2"] == (75,90)
+    assert bin_abs_intervals["pre3"] == (90,100)
+    assert bin_abs_intervals["intra"] == (100,130)
+    assert bin_abs_intervals["post"] == None
+
+    # Not every single edge-case is tested... (low priority TODO)
+    print("Tests Passed: _get_bin_absolute_intervals()")
+
+
+    
+
+
+
+
 
 
 

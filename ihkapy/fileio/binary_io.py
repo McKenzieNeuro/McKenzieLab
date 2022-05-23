@@ -68,7 +68,7 @@ def load_binary_multiple_segments(
     numpy.ndarray
         A 3d array containg the segments' data.
     """
-    # if offset and duration specified in seconds, turn this into n samples
+    # If required, convert time to n_samples (aka sizes) 
     if offset_times:
         assert duration_time is not None, "Duration time must be specified"
         assert duration_time > 0 , "Duration time must be specified"
