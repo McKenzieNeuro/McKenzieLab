@@ -48,40 +48,6 @@ def _get_x_pct_time_of_interval(
     return window_start_times
 
 
-# # pure function
-# def _get_random_sample_window_start_times(
-#         seizure_start_times : list,
-#         seizure_end_times : list,
-#         session_length : float,
-#         window_length : float
-#         ) -> list:
-#     """Generates random window samples from seizure metadata for single seizure.
-# 
-#     Parameters
-#     ----------
-#     seizure_start_times : list
-#         List of floats. The start and end time of each seizure, in seconds.  
-#     seizure_end_times : list
-#         List of floats. The end time of each seizure, in seconds.
-#     session_length : float
-#         Length of the whole session, in seconds. (order of 1 day ~500_000 seconds)
-#     window_length : float
-#         Length of each window, in seconds. (order of 5s)
-# 
-#     Returns
-#     -------
-#     list
-#         List of start times for windows to be sampled.
-#     """
-#     assert len(seizure_start_times) == len(seizure_end_times)
-#     for i,j in zip(seizure_start_times,seizure_end_times): assert i<j
-# 
-#     # TODO: Q: Do we need to preserve metadata about features we compute? Labels?
-#     # I think so... It's hard to know because all that is done with indices in MLab
-# 
-#     return # dummy
-
-
 def get_feats_window(
         window : np.ndarray,
         featurelist : list) -> np.ndarray:
@@ -106,19 +72,23 @@ def _get_bin_absolute_intervals(
         bin_names               : list,
         all_start_times         : list,
         all_end_times           : list,
-        total_recording_time    : float
+        total_session_time      : float
         ):
     """Returns dictionary of all valid bin intervals for single seizure.
+
+    The function is named 'absolute' because it measures the absolute 
+    number of seconds from the begining of the session (aka recording/file)
+
 
     Parameters
     ----------
     start_seiz : float or int
         The start time of the seizure in question, in seconds. (Relative
-        to the start of the recording.)
+        to the start of the session.)
 
     end_seiz : float or int
         The end time of the seizure in questionm, in seconds. (Relative
-        to the start of the recording.)
+        to the start of the session.)
 
     preictal_bins : list
         The list found in Options.toml config file. It's a list of floats
@@ -135,13 +105,13 @@ def _get_bin_absolute_intervals(
 
     all_start_times : list
         A list of the start times of every seizure (in seconds from start 
-        of recording). Needed to check validity of intervals.
+        of session). Needed to check validity of intervals.
 
     all_end_times : list 
         A list of all end times of every seizure (in seconds from start of
-        recording). Needed to check validity of intervals. 
+        session). Needed to check validity of intervals. 
 
-    total_recording_time : float,
+    total_session_time : float,
         Total number of seconds from start to end of the sessions.
     
     Returns
@@ -153,8 +123,8 @@ def _get_bin_absolute_intervals(
         will be None. A siezure's time bin is considered valid if all of these
         conditions are satisfied:
             1. The bin does not over-lap with any other seizure.
-            2. The bin starts after the beginning of the recording. 
-            3. The bin ends before the end of the recording. 
+            2. The bin starts after the beginning of the session. 
+            3. The bin ends before the end of the session. 
     """
     # Some tests and checks
     assert len(preictal_bins) + 2 == len(bin_names), "Args have incompatible length."
@@ -183,14 +153,14 @@ def _get_bin_absolute_intervals(
         # if so, define it as none
         for start_seiz_2,end_seiz_2 in zip(all_start_times,all_end_times):
             # TODO: check MatLab confirm that postictal delay term necessary
-            if start_bin < end_seiz_2 + postictal_delay and start_seiz > start_seiz_2 and start_bin > 0:
+            condition0 = start_bin < end_seiz_2 + postictal_delay 
+            condition1 = start_seiz > start_seiz_2
+            condition2 = start_bin < 0
+            if (condition0 and condition1) or condition2:
                 # The pre-ictal bin interval is not valid
                 # Re-define it as None and break out of for-loop
                 bin_intervals[bin_name_preictal] = None
                 break 
-            elif start_bin < 0: # TODO make this code not yucky 
-                bin_intervals[bin_name_preictal] = None
-                break
 
     ### POST-ICTAL
     # If the post-ictal interval is valid, define it.
@@ -199,7 +169,7 @@ def _get_bin_absolute_intervals(
     end_postictal = end_seiz + postictal_delay
     bin_intervals[bin_name_postictal] = (end_seiz , end_postictal)
     # Check if invalid: redefine to None
-    if end_postictal > total_recording_time: 
+    if end_postictal > total_session_time: 
         bin_intervals[bin_name_postictal] = None
     for start_seiz_2 in all_start_times:
         if end_postictal > start_seiz_2 and end_seiz < start_seiz_2:
@@ -207,14 +177,14 @@ def _get_bin_absolute_intervals(
     return bin_intervals
 
 
-def _get_total_recording_time(filepath,fs,num_bin_chan=41,precision="int16"):
-    """Determines the total recording time from binary files."""
+def _get_total_session_time(filepath,fs=2000,num_bin_chan=41,precision="int16"):
+    """Determines the total session time from binary files."""
     fsize_bytes = os.path.getsize(filepath)
     bytes_per_sample = np.dtype(precision).itemsize
     n_samples_per_chan = fsize_bytes / bytes_per_sample / num_bin_chan
     assert n_samples_per_chan == int(n_samples_per_chan) , "Logic error, possibly num_bin_chan is incorrect: this the number of channels saved in the binary file."
-    total_duration_seconds = n_samples_per_chan / fs # total duration in seconds
-    return total_duration_seconds
+    total_duration_in_seconds = n_samples_per_chan / fs # total duration in seconds
+    return total_duration_in_seconds
 
 
 def calc_features(
@@ -261,7 +231,7 @@ def calc_features(
     for session_basename in binary_basename_list:
         # TODO: implement get_seizure_start_end_times()
         start_times,end_times = get_seizure_start_end_times(session_basename,fileio)
-        total_recording_time = _get_total_recording_time(basename,precision) # in seconds
+        total_session_time = _get_total_session_time(basename,precision) # in seconds
         for start_time,end_time in zip(start_times,end_times):
             # TODO: define absolute start and end intervals for each bin
             # TODO: test _get_bin_absolute_intervals()
@@ -273,7 +243,7 @@ def calc_features(
                     posictal_delay       = POSTICTAL_DELAY,
                     all_start_times      = start_times,
                     all_end_times        = end_times,
-                    total_recording_time = total_recording_time
+                    total_session_time   = total_session_time
                     )
         
             for bin_name,interval in bins_absolute_intervals:
@@ -327,7 +297,7 @@ def calc_features(
 PSEUDO-CODE
 
 Based on pre-ictal and post-ictal hyper-parameters, seizure start and end times,
-and the boundaries of the recordings, randomly generate list (or dict for labels?)
+and the boundaries of the sessions, randomly generate list (or dict for labels?)
 of window-start times to sample and compute features for.
 """
 
@@ -354,7 +324,7 @@ if __name__=="__main__":
             bin_names            = ["pre1","pre2","pre3","intra","post"],
             all_start_times      = [100,500,1000],
             all_end_times        = [130,550,1100],
-            total_recording_time = 2000
+            total_session_time = 2000
             )
     assert bin_abs_intervals["pre1"] == (50,75)
     assert bin_abs_intervals["pre2"] == (75,90)
@@ -371,7 +341,7 @@ if __name__=="__main__":
             bin_names            = ["pre1","pre2","pre3","intra","post"],
             all_start_times      = [50,100,135],
             all_end_times        = [60,130,170],
-            total_recording_time = 2000 
+            total_session_time = 2000 
             )
     assert bin_abs_intervals["pre1"] == None    # Overlaps with previous post-ictal
     assert bin_abs_intervals["pre2"] == (75,90)
@@ -388,7 +358,7 @@ if __name__=="__main__":
             bin_names            = ["pre1","pre2","pre3","intra","post"],
             all_start_times      = [15],
             all_end_times        = [100],
-            total_recording_time = 150 
+            total_session_time = 150 
             )
     assert bin_abs_intervals["pre1"] == None        # Before file start
     assert bin_abs_intervals["pre2"] == None        # Before file start
