@@ -226,7 +226,10 @@ def calc_features(
               # relative interval is a tuple (rel start, rel end)
               # should be negative for pre-ictal
 
-    data = {b:[] for b in BIN_NAMES} # TODO: turn list into pandas dataframe
+    dataframe_init = {bn:[] for bn in BIN_NAMES}
+    dataframe_init["session_basename"] = []
+    # TODO: carry on working here
+    bins_data_all = {b:pd.DataFrame(dataframe) for b in BIN_NAMES} # TODO: turn list into pandas dataframe
 
     for session_basename in binary_basename_list:
         # TODO: implement get_seizure_start_end_times()
@@ -246,11 +249,13 @@ def calc_features(
                     total_session_time   = total_session_time
                     )
         
-            for bin_name,interval in bins_absolute_intervals:
+            for bin_name,interval in bins_absolute_intervals if interval is not None:
                 print("dummy print statement")
                 # TODO: get the windows xPctTims thingy
                 # TODO: compute all features for this interval
                 # TODO: add a row to the data[bin_name] pandas data-frame
+                #   row includes session_basename, the start times of the windows,
+                #   
 
     # Read data params
     # Do some checks on the data and metadata params
@@ -366,15 +371,8 @@ if __name__=="__main__":
     assert bin_abs_intervals["intra"] == (15,100)   # Valid
     assert bin_abs_intervals["post"] == None        # Ends after end of file
 
-
     # Not every single edge-case is tested... (low priority TODO)
     print("Tests All Passed: _get_bin_absolute_intervals()")
-
-
-
-
-
-
 
 
 

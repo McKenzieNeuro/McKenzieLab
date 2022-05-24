@@ -1,14 +1,15 @@
 import numpy as np
 import logging
+import pandas as pd
 
 def parse_metadata(
-        metadata_filepath
+        session_metadata_path
         ) -> (dict,dict):
     """Opens and parses the '.edf' seizure recording metadata '.txt' file.
 
     Parameters
     ----------
-    metadata_filepath
+    session_metadata_path
         The path of the file where the metadata is stored.
         e.g. "/Users/steve/Documents/code/unm/data/AC75a-5 DOB 072519_TS_2020-03-23_17_30_04.txt"
 
@@ -29,7 +30,7 @@ def parse_metadata(
     frontmatter = {}
     seizure_intervals = {}
 
-    with open("metadata.txt","r") as f:
+    with open(session_metadata_path,"r") as f:
         def fmt(line): return "".join(line.split("\n")).split("\t")
 
         # read the frontmatter into a dictionary
@@ -44,7 +45,7 @@ def parse_metadata(
         while line == [""]:
             line = fmt(f.readline())
 
-        # read seizure interval data into list
+        # Read seizure interval data into list
         columns = line # Number, Start Time, End Time, Time From Start, Channel, Annotation
         len_col = len(columns)
         line = fmt(f.readline())
@@ -56,9 +57,34 @@ def parse_metadata(
         print("Finished reading annotation file.")
 
         # transpose and put into columns dictionary
-        table_transpose = np.asarray(table).T
-        seizure_intervals = {colname:data for colname,data in zip(columns,table_transpose)}
-    return frontmatter,seizure_intervals
+        table = np.asarray(table).T
+        seizure_metadata = {colname:data for colname,data in zip(columns,table)}
+        # TODO: put seizure_metadata into pandas dataframe?
+    return frontmatter,seizure_metadata
+
+
+def get_seizure_start_end_times(session_metadata_path : str):
+    """Returns the start and end times specified by the file metadata"""
+    _,seizure_metadata = parse_metadata(session_metadata_path)
+    # Put the metadata into a pandas dataframe, and select the columns
+    df = pd.DataFrame(seizure_metadata)
+    start_times = df[df['Annotation'] == "Seizure starts"]["Time From Start"]
+    end_times = df[df['Annotation'] == "Seizure ends"]["Time From Start"]
+
+    # TODO: depending on exactly how the annotation (aka metadata)  
+    # files are specified and what formats are used, we may want to use
+    # a more elaborate regex for selecting start and end of seizures
+
+    # Verify there is no formatting error
+    assert len(start_times) == len(end_times), "Incompatible seizure start and end times"
+    for i,j in zip(start_times,end_times):
+        assert i < j, "Seizure cannot end before it starts!"
+
+    return list(start_times),list(end_times)
+
+
+
+
 
 
 

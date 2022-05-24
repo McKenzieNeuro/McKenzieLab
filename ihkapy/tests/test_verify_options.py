@@ -26,5 +26,13 @@ tvt = train["train_val_test"]
 assert sum(tvt) == 1.0
 print("model training params tests passed")
 
+# TODO: go through entire codebase and find where options are used
+# then add an assert here to make sure the thing used will exist
+# basically verify all the keys are being used correctly
+
+# It also might be a though to programatically run through codebase
+# to verify that the orthodox convention for naming dicts is respected
+# and the keys used are all orthodox too. This is probably overkill.
+
 
 

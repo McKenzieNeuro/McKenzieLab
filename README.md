@@ -33,6 +33,7 @@ To access the methods and their modules, clone this repo with `git clone https:/
   - [ ] DEBUG: read and write to blob storage unit via python azure api fromt he VM
   - [ ] Mout storage from VM (see [azure doc](https://docs.google.com/document/d/1lXst8D3eh3-yyND3NJNg4Wx16jm18QAJQrwL0WdpC-Q/edit?usp=sharing) for links to microsoft documentation on how to do this)
   - [ ] access and manipulate data in the blob storage from the azure api dexterously (i.e. run IHKApy code over the connection)
+- [ ] Change `fileio` the dictionary to `fio_dic` because it's ambiguous and can eaily get confused with the module by the same name. Change this everywhere in the codebase including the `Options.toml`. 
 - [ ] Implement featurizing module
   - [ ] Tim selection algorithm
 - [ ] Implement train model module
@@ -52,6 +53,9 @@ To access the methods and their modules, clone this repo with `git clone https:/
 Although Pynapple's abstractions are very nice, they're not exactly what we want. If we wanted to make use of the interval restrict functionality, we would have to load large chunks of data (13GB) into RAM just to sample a small fraction of it. Instead, we implement methods to read small specific windows of binary files at a time. We could load those windows into a pynapple Tsd object, but I think this will not be necessary; it would be like using a sledgehammer to insert a pin into a corkboard. The only place something like the Interval Sets object might be handy is when defining those windows which to sample, but here I think the same can be accomplished with either an array or a pandas data frame. 
 
 There is an intuitive but rigorous naming convention for binary files: each file  must match `${basename}_ch_\d\d\d.dat` where the three digits are the zero-padded index of the channel, and basename must match the `.edf` data file and the `.txt` metadata (seizure timestamps) file. 
+
+## Conventions
+- The `edf` raw data file and it's `txt` metadata file must have the same basename and both be located in the `RAW_DATA_PATH` directory. 
 
 ## Expo
 
