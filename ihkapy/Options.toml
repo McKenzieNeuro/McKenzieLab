@@ -30,8 +30,8 @@ TS_FEATURES = ["wavelet_power","wavelet_phase"] # Select what to compute
 N_CHAN_BINARY = 41                # = len(TS_FEATURES) * NUM_FREQ + 1
 # I don't like amp_idx and ph_idx... 
 # perhaps we can find a way to write them out of the software
-amp_idx = [15,16,17,18,19,20]
-ph_idx = [1,2,3,4,5,6,7,8,9,10]
+AMP_IDX = [14,15,16,17,18,19]     # Indices start at 0 in python,
+PH_IDX = [0,1,2,3,4,5,6,7,8,9]    # that's why off by one wrt to MatLab
 
 
 # previously known as params.model.hyper
