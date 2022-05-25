@@ -228,8 +228,9 @@ def calc_features(
     RAW_DATA_PATH = fileio["RAW_DATA_PATH"]
 
     # Unpack data params
-    SCALE_PHASE     = feature_ops["SCALE_PHASE"]
-    SCALE_POWER     = feature_ops["SCALE_POWER"]
+    SCALE_PHASE     = data_ops["SCALE_PHASE"]
+    SCALE_POWER     = data_ops["SCALE_POWER"]
+    FS              = data_ops["FS"]
 
     # Unpack relevant parameters, params.feature in Options.toml
     BIN_NAMES       = feature_ops["BIN_NAMES"]
@@ -262,11 +263,19 @@ def calc_features(
         """Returns mean across all Power channels. 
         Warning! Power channel indices hard-coded."""
         return np.mean(window[:,np.arange(1,40,2)],axis=0)/SCALE_POWER
-    # Features on each pair of channels n*(n-1)/2
+    # Features on each pair of channels n*(n-1)/2, n choose 2
     def cohere_two_windows(window1,window2) -> np.ndarray:
         """Returns coherence across select power channels"""
         w1,w2 = window1[amp_idx],window2[amp_idx]
         coherence(w1, w2, fs=FS, window='hann', nperseg=256, noverlap=None, nfft=None, detrend='constant', axis=0)
+
+        # Cannot give frequencies as param, must select them manually
+        nperseg = len(x) // 8 # so that eight windows fit, trunkates if necessary, which is how MatLab implements this
+        # We might want to change this to 5 because of nyquist...? But then how
+        # did MatLab cope?
+        f,cxy = coherence(x,y,fs=FS,window='hann',nperseg=nperseg,noverlap=nperseg//2)
+        # Now you can select frequencies
+
 
         return # Dummy TODO: complete this method and continue
 
@@ -284,9 +293,11 @@ def calc_features(
     ### END  , TEMPORARY HACK
 
 
-    if session_basenames_list == "all": 
+    # Define / check list of sessions
+    if session_basenames_list == "all":
         session_basenames_list = get_all_valid_session_basenames(RAW_DATA_PATH)
     elif type(session_basenames_list)==type([]):
+        assert len(session_basenames_list) > 0, "No session files provided."
         assert check_session_basenames_are_valid(session_basenames_list,RAW_DATA_PATH)
     else: raise Exception()
         
