@@ -28,6 +28,7 @@ CH_PHASE_AMP = 2                  # Select the channel for which to
                                   # compute phase-amplitude correlation
 TS_FEATURES = ["wavelet_power","wavelet_phase"] # Select what to compute
 N_CHAN_BINARY = 41                # = len(TS_FEATURES) * NUM_FREQ + 1
+PRECISION = "int16"
 # I don't like amp_idx and ph_idx... 
 # perhaps we can find a way to write them out of the software
 AMP_IDX = [14,15,16,17,18,19]     # Indices start at 0 in python,

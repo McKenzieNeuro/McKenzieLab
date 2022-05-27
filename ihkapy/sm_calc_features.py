@@ -33,7 +33,7 @@ def _get_x_pct_time_of_interval(
     Returns
     -------
     np.ndarray
-        A 1d numpy array of start times for the windows. 
+        A 1d numpy array of start times for the windows (in seconds). 
         Together with the window length, these fully define the windows
         of interest to us that we would like to sample from. 
     """
@@ -191,6 +191,27 @@ def _get_total_session_time(filepath,fs=2000,num_bin_chan=41,precision="int16"):
     return total_duration_in_seconds
 
 
+# TODO: implement this if you think it's a good idea
+def _get_all_feature_names(
+        n_chan_raw : int,
+        feats_single_chan : list,
+        feats_compare_two_chan : list
+        ):
+    """Helper, 
+
+    Parameters
+
+    Returns
+    -------
+    list
+        A list of strings, the names of all the features we are to compute
+        Each feature gets one 
+
+    """
+    return # dummy 
+
+
+
 # TODO: once completed, refactor this method
 def calc_features(
         fileio : dict,
@@ -225,12 +246,16 @@ def calc_features(
     # features = # TODO: 2d np array shape = (n_windows,n_feats_per_window)
 
     # Unpack fileio params
-    RAW_DATA_PATH = fileio["RAW_DATA_PATH"]
+    RAW_DATA_PATH         = fileio["RAW_DATA_PATH"]
+    WAVELET_BINARIES_PATH = fileio["WAVELET_BINARIES_PATH"]
 
     # Unpack data params
     SCALE_PHASE     = data_ops["SCALE_PHASE"]
     SCALE_POWER     = data_ops["SCALE_POWER"]
     FS              = data_ops["FS"]
+    N_CHAN_RAW      = data_ops["N_CHAN_RAW"]
+    N_CHAN_BINARY   = data_ops["N_CHAN_BINARY"]
+    PRECISION       = data_ops["PRECISION"]
 
     # Unpack relevant parameters, params.feature in Options.toml
     BIN_NAMES       = feature_ops["BIN_NAMES"]
@@ -243,9 +268,9 @@ def calc_features(
     PCT_DIC = {b:pct for b,pct in zip(BIN_NAMES,PCT)} # a handy pct dictionary 
     DUR_FEAT        = feature_ops["DUR_FEAT"]
     amp_idx         = feature_ops["AMP_IDX"]
-    amp_idx = np.array(amp_idx) * 2 + 1 
+    AMP_IDX = np.array(amp_idx) * 2 + 1 
     ph_idx          = feature_ops["PH_IDX"]
-    ph_idx  = np.array(ph_idx) *  2 + 2 
+    PH_IDX  = np.array(ph_idx)  * 2 + 2 
 
 
     ### BEGIN, TEMPORARY HACK
@@ -266,7 +291,7 @@ def calc_features(
     # Features on each pair of channels n*(n-1)/2, n choose 2
     def cohere_two_windows(window1,window2) -> np.ndarray:
         """Returns coherence across select power channels"""
-        w1,w2 = window1[amp_idx],window2[amp_idx]
+        w1,w2 = window1[AMP_IDX],window2[AMP_IDX]
         coherence(w1, w2, fs=FS, window='hann', nperseg=256, noverlap=None, nfft=None, detrend='constant', axis=0)
 
         # Cannot give frequencies as param, must select them manually
@@ -282,9 +307,11 @@ def calc_features(
 
     
     # This is a dictionary with key=feature_name, value=feature_function
+    feature_list = ["mean_power","coherence"]
     features_one_channel = {
             "mean_power":mean_power
             }
+    # All the features
     features_two_channel = {
             "coherence":cohere_two_windows
             }
@@ -302,18 +329,25 @@ def calc_features(
     else: raise Exception()
         
 
-    # Init Pandas DataFrame
-    df_cols = {ft:[] for ft in FEATS}
+    # Init Pandas DataFrame with right colnames
+    df_cols = {} # {ft:[] for ft in FEATS}
     df_cols["session_basename"] = []
     df_cols["bin_name"] = [] # the name of the bin, one of BIN_NAMES
+    feature_list = _get_all_feature_names()
     for ft in feature_list: df_cols[f"{ft}"] = [] # TODO, this line
-    df = pd.DataFrame(dataframe_init)
+    df = pd.DataFrame(df_cols)
 
+    # For each session
     for session_basename in session_basenames_list:
         # Retrieve seizure times from metadata
         session_metadata_path = os.path.join(RAW_DATA_PATH, session_basename+".txt")
+        # List of binary wavelet & raw channel file paths, ordered by ch-idx
+        # Session names, must match same naming convention as in 
+        # make_wavelet_bank ('fname_out')
         start_times,end_times = get_seizure_start_end_times(session_metadata_path)
-        total_session_time = _get_total_session_time(basename,precision) # in secs
+        total_session_time = _get_total_session_time(basename,precision=PRECISION) # in secs
+
+        # For each seizure in the session
         for start_time,end_time in zip(start_times,end_times):
             # _get_bin_absolute_intervals() returns a dic with 
             # keys=BIN_NAMES,values=(strtbin,endbin) (in s). 
@@ -331,6 +365,7 @@ def calc_features(
                     total_session_time   = total_session_time
                     )
         
+            # For each bin
             for bin_name in BIN_NAMES:
                 interval = bins_absolute_intervals[bin_name]
                 pct      = PCT_DIC[bin_name]
@@ -343,6 +378,25 @@ def calc_features(
                             window_length   = DUR_FEAT,
                             pct             = pct
                             )
+
+                    # Load FEAT_DUR second windows from each raw channel
+                    # binary wavelet file into windows array
+                    windows = [] 
+                    for raw_ch_idx in range(N_CHAN_RAW):
+                        sess_bin_chan_raw_path = f"{basename}_ch_{str(raw_ch_idx).zfill(3)}.dat"
+                        ws = load_binary_multiple_segments(
+                                file_path       = session_file_path,
+                                n_chan          = N_CHAN_BINARY,
+                                sample_rate     = FS,
+                                offset_times    = window_starts,
+                                duration_time   = DUR_FEAT,
+                                precision       = PRECISION
+                                )
+                        windows.append(ws)
+
+                    # Create features for each window
+
+
                     ### Pseudocode
                     # For each start time
                     # Init a list of windows
