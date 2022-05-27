@@ -33,7 +33,6 @@ To access the methods and their modules, clone this repo with `git clone https:/
   - [ ] DEBUG: read and write to blob storage unit via python azure api fromt he VM
   - [ ] Mout storage from VM (see [azure doc](https://docs.google.com/document/d/1lXst8D3eh3-yyND3NJNg4Wx16jm18QAJQrwL0WdpC-Q/edit?usp=sharing) for links to microsoft documentation on how to do this)
   - [ ] access and manipulate data in the blob storage from the azure api dexterously (i.e. run IHKApy code over the connection)
-- [ ] Change `fileio` the dictionary to `fio_dic` because it's ambiguous and can eaily get confused with the module by the same name. Change this everywhere in the codebase including the `Options.toml`. 
 - [ ] Implement featurizing module
   - [ ] Tim selection algorithm
 - [ ] Implement train model module
@@ -43,8 +42,11 @@ To access the methods and their modules, clone this repo with `git clone https:/
 - [ ] Detailed sketch of pipeline 
 - [ ] Sort out dependencies
 
-- [ ] Little todos
+- [ ] Little todos, formatting tasks
   - [ ] rename data ops FREQ_NUM etc. instead of what, add "FREQ" to SPACING param too
+- [ ] Change `fileio` the dictionary to `fio_dic` because it's ambiguous and can eaily get confused with the module by the same name. Change this everywhere in the codebase including the `Options.toml`. 
+- [ ] Make sure precision isn't hard coded anywhere, get it from ops "int16"
+- [ ] Do a consistency check of variable names
 
 *Questions / Concerns*
 - [ ] The raw data that gets serialized is not rescaled before it is cast into int16, in the case of the mouse data this causes non-negligible quantization because the RMS is around 12 (11.861 for the first channel), most of samples are in the single and low double digits. They could probably benefit from being scaled by a similar scale factor as the power and phase convolutions. 
