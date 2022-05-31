@@ -229,6 +229,7 @@ def _get_total_session_time(filepath,fs=2000,num_bin_chan=41,precision="int16"):
     total_duration_in_seconds = n_samples_per_chan / fs # total duration in seconds
     return total_duration_in_seconds
 
+
 def _get_feats_df_column_names(features_list:list,data_ops:dict,n_chan_raw:int,n_chan_binary:int):
     """Calls the featurizing method on dummy windows and uses the columnames returned."""
     N_CHAN_RAW      = data_ops["N_CHAN_RAW"]
@@ -240,7 +241,6 @@ def _get_feats_df_column_names(features_list:list,data_ops:dict,n_chan_raw:int,n
     for feat_name in dummy_features.keys():
         colnames.append(feat_name)
     return colnames
-
 
 
 # TODO: once completed, refactor this method
@@ -315,12 +315,7 @@ def calc_features(
 
     # Init Pandas DataFrame with right colnames
     colnames = _get_feats_df_column_names(FEATURES_LIST)
-    df_cols = {name:[] for name in colnames} # {ft:[] for ft in FEATS}
-    df_cols["session_basename"] = []
-    df_cols["bin_name"] = [] # the name of the bin, one of BIN_NAMES
-    feature_list = _get_all_feature_names()
-    for ft in feature_list: df_cols[f"{ft}"] = [] # TODO, this line
-    df = pd.DataFrame(df_cols)
+    df = pd.DataFrame({name:[] for name in colnames})
 
     # For each session
     for session_basename in session_basenames_list:
