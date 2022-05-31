@@ -239,6 +239,7 @@ def _get_feats_df_column_names(features_list:list,data_ops:dict,n_chan_raw:int,n
     dummy_features = get_feats(dummy_windows,features_list,data_ops)
     for feat_name in dummy_features.keys():
         colnames.append(feat_name)
+    return colnames
 
 
 
