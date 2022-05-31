@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.signal import coherence
 from itertools import combinations as combin
+import warnings # temporary
 
 
 # the feature funcitons
@@ -39,6 +40,8 @@ Convention:
     chan_freq is the binary (wavelet freq) file channel index
 """
 
+### Formatting helpers
+
 def _select_freq_chans(windows,chan_freq_idxs) -> (np.ndarray,np.ndarray):
     """Helper for all features. 
 
@@ -63,9 +66,12 @@ def _feats_as_dict_from_2d_array(
         ):
     """Helper for single-channel features.
 
-    Turns a 2d feats array with dims = (n_raw_chans , n_freq_chans)
+    Turns a 2d feats array* with dims = (n_raw_chans , n_freq_chans)
     into our standard dictionary format that can easily be added to a
     pandas dataframe.
+
+    *Each element is assumed to be a feature (float) corresponding it's 
+    index's raw channel and frequency index.
     """
     feats_dict = {}
     for ch_raw,feats_ch_raw in enumerate(feats_all):
@@ -74,7 +80,7 @@ def _feats_as_dict_from_2d_array(
     return feats_dict
 
 
-### Features on individual channels
+### Begin: Features on individual channels
 
 def mean_power(
         windows : list or np.ndarray,
@@ -120,37 +126,62 @@ def var(
     var_feats = _feats_as_dict_from_2d_array(mp_all,chan_freq_idxs)
     return var_feats
 
+### End: Features on individual channels
     
-### Features comparing two channels
 
+
+### Begin: Features comparing two channels
+
+# coherence is always only computed for a single index
 def coherence(
         windows         : list or np.ndarray,
-        chan_freq_idxs  : np.ndarray or int = None,
-        fs             : float or int # = 2000
+        fs              : float or int # = 2000
         ) -> dict:
     """Cohere each pair of signals"""
+    # NB: The chan_freq_idxs parameter selects all freqs of relevance
+    chan_freq_idxs = 0 # only select raw channel
     windows,chan_freq_idxs = _select_windows(windows,chan_freq_idxs)
+    windows = np.squeeze(windows) # 3d array -> 2d array
     raw_chans = list(range(len(windows)))    
     coherence_dict = {}
+    dummy_return = {} # for a dummy return statement
+    warnings.warn("Not yet implemented, dummy return for coherence.")
     for (chx,chy),(x,y) in zip(combin(raw_chans),combin(windows)):
         # There parameters defined here are similar to the default 
         # MatLab options
-        sample_freqs,coh_xy = coherence(x,y,fs=fs,window='hann',
-                nperseg256,noverlap=None,nfft=None,
+        sample_freqs,cxy = coherence(x,y,fs=fs,window='hann',
+                nperseg=256,noverlap=None,nfft=None,
                 detrend='constant',axis=0)
+        # 129 = 256 // 2 + 1
+        # Select a subset
+        idxs = np.array([0,2,4,8,16,32,64,-1]) # A subset of freqs
+        # By default noverlap=None defaults it to half a window's worth
         # NB: FFT and therefore scipy.signal.coherence samples 
         # frequencies linearly, not logarithmically
-
-        # TODO: continute here
         
-        # TODO: verify that scipy's coherence outputs the dims you're
-        # expecting. 
+        # TODO: Find a permenant solution for the below temporary fix:
+        # Scipy does not provide an easy way of computing the coherence
+        # at specific frequencies as mscohere does in MatLab. As a 
+        # temporary measure I'm going to select all frequencies returned
+        # by scipy.signal.coherence that fall within the range of the
+        # frequencies provided. 
+        # For a permanent solution, I suggest reimplementing mscohere 
+        # by hand (in Python) so that it can take a list of frequencies
+        # as input.
+
+        
+        # TODO: continute here
+        for sf,cohxy in zip(sample_freqs,cxy):
+            feat_name = f"coherence_freq_{round(sf,2)}_chx_{chx}_chy_{chy}"
+            # coherence_dict[feat_name] = cohxy 
+            dummy_return[feat_name] = 0.0
+
+    # return coherence_dict
+    return dummy_return
 
 
 
-
-
-
+### End: Features comparing two channels
 
 
 
