@@ -9,7 +9,21 @@ ops = toml.loads(ops_string)
 
 ### params.data options
 data = ops["params"]["data"]
+# Make sure NUM_FREQ, etc. are compatible
 assert data["N_CHAN_BINARY"] == data["NUM_FREQ"] * len(data["TS_FEATURES"]) + 1, "N_CHAN_BINARY = {data['N_CHAN_BINARY']} must be compatible with num_freq = {data['NUM_FREQ']} and ts_features = {data['TS_FEATURES']}"
+# Check that the relative Amplitude and Phase indices are compatible  
+# with NUM_FREQ
+for fidx in data["AMP_IDX"]:
+    assert fidx == int(fidx) and fidx >= 0 and fidx < data["NUM_FREQ"]
+for fidx in data["PH_IDX"]:
+    assert fidx == int(fidx) and fidx >= 0 and fidx < data["NUM_FREQ"]
+NCB = data["N_CHAN_BINARY"]
+for fidx in data["AMP_FREQ_IDX_ALL"]:
+    assert fidx not in data["PH_FREQ_IDX_ALL"] 
+    assert fidx < NCB and fidx > 0
+for fidx in data["PH_FREQ_IDX_ALL"]:
+    assert fidx not in data["AMP_FREQ_IDX_ALL"]
+    assert fidx < NCB and fidx > 0
 print("Data tests passed")
 
 ### params.feature options
