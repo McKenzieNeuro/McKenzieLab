@@ -273,6 +273,8 @@ def make_wavelet_bank(
             # Convolve signal with the the wavelet (see awt_freqlist)
             wt = compute_wavelet_gabor(signal=sig,fs=FS,freqs=[freq])
 
+            # TODO: do we need this condition? Won't we always use wavelet power?
+            #       if we don't use wavelet power it might break some of the code
             # Conditionally Zscore, re-scale, and save the power
             if "wavelet_power" in TS_FEATURES:
                 wt_power = np.abs(wt) # deep copy
@@ -334,10 +336,13 @@ def make_wavelet_bank_all(options_path="Options.toml"):
 
     return
 
+
 if __name__ == "__main__":
     # Only when you run this file directly
     make_wavelet_bank_all(options_path="Options.toml")
+
     
+
 
 
 

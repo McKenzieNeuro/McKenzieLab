@@ -34,6 +34,9 @@ PRECISION = "int16"
 #       bins from params.feature
 
 # Interesting relative AMPlitude and PHase indices
+# AMP_IDX and PH_IDX are relative indices, i.e. the actual indices
+# in the binary files are AMP_FREQ_IDXS_ALL[AMP_IDX]
+# this is a tad confusing...
 AMP_IDX = [14,15,16,17,18,19]     # Indices start at 0 in python,
 PH_IDX = [0,1,2,3,4,5,6,7,8,9]    # that's why off by one wrt to MatLab
 AMP_FREQ_IDX_ALL = [1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35,37,39]
@@ -53,10 +56,11 @@ POSTICTAL.PCT = 0.2
 # BIN_NAMES must be compatible with bins defined above
 BIN_NAMES = ["pre_ictal_bin1","pre_ictal_bin2","pre_ictal_bin3",
           "pre_ictal_bin4","intra_ictal_bin","post_ictal_bin"]
-FEATURES = [
-  "root_mean_squared",
-  "zero_crossings"
-  ] # TODO: Tentative must correspond to feature function names in feature file
+FEATURES_LIST = [
+  "mean_power",
+  "var",
+  "correlation"
+  ] # Must correspond to feature function names in feature file
 
 
 [params.model.training]

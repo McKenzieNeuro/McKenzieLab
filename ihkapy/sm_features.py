@@ -50,7 +50,7 @@ def _select_freq_chans(windows,chan_freq_idxs) -> (np.ndarray,np.ndarray):
     """
     # If None, select all frequency channels
     windows = np.asarray(windows)
-    if chan_freq_idxs is None: 
+    if chan_freq_idxs is None or chan_freq_idxs == "all": 
         chan_freq_idxs = np.arange(windows[0].shape[1])
     elif type(chan_freq_idxs) == type(1): # int
         chan_freq_idxs = np.asarray([chan_freq_idxs])
@@ -133,7 +133,7 @@ def var(
 ### Begin: Features comparing two channels
 
 # coherence is always only computed for a single index
-def coherence(
+def coherence_all_pairs(
         windows         : list or np.ndarray,
         fs              : float or int # = 2000
         ) -> dict:
@@ -144,17 +144,16 @@ def coherence(
     windows = np.squeeze(windows) # 3d array -> 2d array
     raw_chans = list(range(len(windows)))    
     coherence_dict = {}
-    dummy_return = {} # for a dummy return statement
-    warnings.warn("Not yet implemented, dummy return for coherence.")
     for (chx,chy),(x,y) in zip(combin(raw_chans),combin(windows)):
         # There parameters defined here are similar to the default 
         # MatLab options
         sample_freqs,cxy = coherence(x,y,fs=fs,window='hann',
                 nperseg=256,noverlap=None,nfft=None,
                 detrend='constant',axis=0)
-        # 129 = 256 // 2 + 1
-        # Select a subset
-        idxs = np.array([0,2,4,8,16,32,64,-1]) # A subset of freqs
+        # Select a subset of the 129 freqs: 129 = 256 // 2 + 1
+        idxs = np.array([0,2,4,8,16,32,64,-1]) # A logarithmic subset of freqs
+        sample_freqs, cxy = sample_freqs[idxs] , cxy[idxs]
+        
         # By default noverlap=None defaults it to half a window's worth
         # NB: FFT and therefore scipy.signal.coherence samples 
         # frequencies linearly, not logarithmically
@@ -169,15 +168,12 @@ def coherence(
         # by hand (in Python) so that it can take a list of frequencies
         # as input.
 
-        
-        # TODO: continute here
+        # Serialize the freqs
         for sf,cohxy in zip(sample_freqs,cxy):
             feat_name = f"coherence_freq_{round(sf,2)}_chx_{chx}_chy_{chy}"
-            # coherence_dict[feat_name] = cohxy 
-            dummy_return[feat_name] = 0.0
+            coherence_dict[feat_name] = cohxy 
 
-    # return coherence_dict
-    return dummy_return
+    return coherence_dict
 
 
 

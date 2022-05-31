@@ -2,6 +2,8 @@ import numpy as np
 from ihkapy.fileio.utils import get_all_valid_session_basenames,check_session_basenames_are_valid
 from ihkapy.fileio.metadata_io import get_seizure_start_end_times
 from scipy.signal import coherence
+import sm_features
+import warnings
 
 
 """
@@ -52,20 +54,57 @@ def _get_x_pct_time_of_interval(
     return window_start_times
 
 
-def get_feats_window(
-        window : np.ndarray,
-        featurelist : list) -> np.ndarray:
-    """Computes all features specified in featurelist."""
-    # featurelist is a list of functions. 
-    # Open features.py, (it's a script that contains all our feature functions)
+def get_feats(
+        windows : np.ndarray or list,
+        featurelist : list,
+        data_ops : dict
+        ) -> dict:
+    """Computes all features specified in featurelist.
 
-    # If featurelist == "all", select all the features defined in features.py
+    Computes each feature specified in featurelist on all of the
+    windows, then assembles output into a features_dict—a dictionary
+    of all features computed, this corresponds to a single row to be 
+    appended to our features dataframe.
 
-    # Check that all our features in featurelist correspond to names of 
-    # feature functions in features.py
+    To write a new feature, write the method in sm_features.py, then
+    add it to execut conditionally in this function (get_feats), finally
+    add it to the FEATURES_LIST in Options.toml
 
-    # 
-    return 
+    Parameters
+    ----------
+    windows : np.ndarray or list
+        Is a list of windows ordered by the raw_chan index. Each window 
+        corresponds to a dur_feat segment of data.
+    featurelist : list
+        A list of strings.
+    data_ops : dict
+        Dictionary containing metadata, as defined in Options.toml.
+
+    Returns
+    -------
+    dict
+        A dictionary of all the features we computed.
+    """
+    IMPLEMENTED_FEATS = ["mean_power","var","coherence"]
+    for i in features_list:
+        if i not in IMPLEMENTED_FEATS:
+            warnings.warn(f"{i} has not yet been implemented")
+    all_feats = {}
+    if "mean_power" in features_list:
+        AMP_FREQ_IDX_ALL = data_ops[AMP_FREQ_IDX_ALL]
+        mp_feats = sm_features.mean_power(windows,AMP_FREQ_IDX_ALL)  
+        all_feats.update(mp_feats) # add it to greater dictionary
+    if "var" in features_list:
+        var_feats = sm_features.var(windows,"all")
+        all_feats.update(var_feats)
+    if "coherence" in features_list:
+        FS = data_ops["FS"]
+        coherence_feats = sm_features.coherence_all_pairs(
+                windows,
+                fs = FS
+                )
+        all_feats.update(coherence_feats)
+    return all_feats
 
 # Helper for calc_features()
 def _get_bin_absolute_intervals(
@@ -190,25 +229,16 @@ def _get_total_session_time(filepath,fs=2000,num_bin_chan=41,precision="int16"):
     total_duration_in_seconds = n_samples_per_chan / fs # total duration in seconds
     return total_duration_in_seconds
 
-
-# TODO: implement this if you think it's a good idea
-def _get_all_feature_names(
-        n_chan_raw : int,
-        feats_single_chan : list,
-        feats_compare_two_chan : list
-        ):
-    """Helper, 
-
-    Parameters
-
-    Returns
-    -------
-    list
-        A list of strings, the names of all the features we are to compute
-        Each feature gets one 
-
-    """
-    return # dummy 
+def _get_feats_df_column_names(features_list:list,data_ops:dict,n_chan_raw:int,n_chan_binary:int):
+    """Calls the featurizing method on dummy windows and uses the columnames returned."""
+    N_CHAN_RAW      = data_ops["N_CHAN_RAW"]
+    N_CHAN_BINARY   = data_ops["N_CHAN_BINARY"]
+    colnames = ["session_basename","time_bin"] # first two colnames by default
+    # Rem: session_basename identifies the recording, time_bin is the class label
+    dummy_windows = np.zeros(N_CHAN_RAW,10000,N_CHAN_BINARY) # 10000 samples is a 5s window as 2000Hz
+    dummy_features = get_feats(dummy_windows,features_list,data_ops)
+    for feat_name in dummy_features.keys():
+        colnames.append(feat_name)
 
 
 
@@ -271,54 +301,7 @@ def calc_features(
     AMP_IDX = np.array(amp_idx) * 2 + 1 
     ph_idx          = feature_ops["PH_IDX"]
     PH_IDX  = np.array(ph_idx)  * 2 + 2 
-
-
-    ### BEGIN, TEMPORARY HACK
-    # TODO: implement this properly so that it uses Options.toml instead
-    # of hard coding so that user doesn't have to edit code. 
-    # The ideal situation is to have a codebase robust enough that, most
-    # of the time, the researcher doesn't have to worry about the code,
-    # and when they do, they only have to write a new feature function in
-    # the features module, and then add it's name to a list in the Options.toml
-    # config file, and thats all—the code should work. 
-
-    # Define all the feature functions
-    # Features on each channel
-    def mean_power(window) -> np.ndarray:
-        """Returns mean across all Power channels. 
-        Warning! Power channel indices hard-coded."""
-        return np.mean(window[:,np.arange(1,40,2)],axis=0)/SCALE_POWER
-    # Features on each pair of channels n*(n-1)/2, n choose 2
-    def cohere_two_windows(window1,window2) -> np.ndarray:
-        """Returns coherence across select power channels"""
-        w1,w2 = window1[AMP_IDX],window2[AMP_IDX]
-        coherence(w1, w2, fs=FS, window='hann', nperseg=256, noverlap=None, nfft=None, detrend='constant', axis=0)
-
-        # Cannot give frequencies as param, must select them manually
-        nperseg = len(x) // 8 # so that eight windows fit, trunkates if necessary, which is how MatLab implements this
-        # We might want to change this to 5 because of nyquist...? But then how
-        # did MatLab cope?
-        f,cxy = coherence(x,y,fs=FS,window='hann',nperseg=nperseg,noverlap=nperseg//2)
-        # Now you can select frequencies
-
-
-        return # Dummy TODO: complete this method and continue
-
-
-    
-    # This is a dictionary with key=feature_name, value=feature_function
-    feature_list = ["mean_power","coherence"]
-    features_one_channel = {
-            "mean_power":mean_power
-            }
-    # All the features
-    features_two_channel = {
-            "coherence":cohere_two_windows
-            }
-    
-
-    ### END  , TEMPORARY HACK
-
+    FEATURES_LIST   = feature_ops["FEATURES_LIST"]
 
     # Define / check list of sessions
     if session_basenames_list == "all":
@@ -330,7 +313,8 @@ def calc_features(
         
 
     # Init Pandas DataFrame with right colnames
-    df_cols = {} # {ft:[] for ft in FEATS}
+    colnames = _get_feats_df_column_names(FEATURES_LIST)
+    df_cols = {name:[] for name in colnames} # {ft:[] for ft in FEATS}
     df_cols["session_basename"] = []
     df_cols["bin_name"] = [] # the name of the bin, one of BIN_NAMES
     feature_list = _get_all_feature_names()
