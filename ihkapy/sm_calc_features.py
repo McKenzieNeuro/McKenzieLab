@@ -49,7 +49,7 @@ def _get_x_pct_time_of_interval(
 
 
 def get_feats(
-        segment_windows : np.ndarray or list,
+        segment : np.ndarray or list,
         featurelist : list,
         data_ops : dict
         ) -> dict:
@@ -66,7 +66,7 @@ def get_feats(
 
     Parameters
     ----------
-    segment_windows : np.ndarray or list
+    segment : np.ndarray or list
         Is a list of windows ordered by the raw_chan index. Each window 
         corresponds to a dur_feat segment of data. 
         Shape = (n_raw_chan , n_samples , n_wavelet_chan)
@@ -83,19 +83,19 @@ def get_feats(
     IMPLEMENTED_FEATS = ["mean_power","var","coherence"]
     for i in features_list:
         if i not in IMPLEMENTED_FEATS:
-            warnings.warn(f"{i} has not yet been implemented")
+            warnings.warn(f"{i} has not yet been implemented.")
     all_feats = {}
     if "mean_power" in features_list:
         AMP_FREQ_IDX_ALL = data_ops[AMP_FREQ_IDX_ALL]
-        mp_feats = sm_features.mean_power(segment_windows,AMP_FREQ_IDX_ALL)  
+        mp_feats = sm_features.mean_power(segment,AMP_FREQ_IDX_ALL)  
         all_feats.update(mp_feats) # add it to greater dictionary
     if "var" in features_list:
-        var_feats = sm_features.var(segment_windows,"all")
+        var_feats = sm_features.var(segment,"all")
         all_feats.update(var_feats)
     if "coherence" in features_list:
         FS = data_ops["FS"]
         coherence_feats = sm_features.coherence_all_pairs(
-                segment_windows,
+                segment,
                 fs = FS
                 )
         all_feats.update(coherence_feats)
@@ -236,7 +236,7 @@ def _get_feats_df_column_names(
     N_CHAN_BINARY   = data_ops["N_CHAN_BINARY"]
     colnames = ["session_basename","time_bin"] # first two colnames by default
     # Rem: session_basename identifies the recording, time_bin is the class label
-    dummy_windows = np.zeros(N_CHAN_RAW,10000,N_CHAN_BINARY) # 10000 samples is a 5s window as 2000Hz
+    dummy_windows = np.zeros(N_CHAN_RAW,10000,N_CHAN_BINARY) # 10000 samples is a 5s window at 2000Hz
     dummy_features = get_feats(dummy_windows,features_list,data_ops)
     for feat_name in dummy_features.keys():
         colnames.append(feat_name)
@@ -245,11 +245,11 @@ def _get_feats_df_column_names(
 
 # TODO: test and refactor this method
 def calc_features(
-        fileio : dict,
+        fio_ops : dict,
         data_ops : dict,
         feature_ops : dict,
         session_basenames_list : list or str = "all",
-        ) -> np.ndarray:
+        ) -> pd.DataFrame:
     """Compute all features in all channels for multiple sessions.
 
     Several noteworthy assumptions are made: It is assumed that the
@@ -276,9 +276,9 @@ def calc_features(
     # feature_functions = # TODO: this is a list of functions
     # features = # TODO: 2d np array shape = (n_windows,n_feats_per_window)
 
-    # Unpack fileio params
-    RAW_DATA_PATH         = fileio["RAW_DATA_PATH"]
-    WAVELET_BINARIES_PATH = fileio["WAVELET_BINARIES_PATH"]
+    # Unpack fio_ops params
+    RAW_DATA_PATH         = fio_ops["RAW_DATA_PATH"]
+    WAVELET_BINARIES_PATH = fio_ops["WAVELET_BINARIES_PATH"]
 
     # Unpack data params
     SCALE_PHASE     = data_ops["SCALE_PHASE"]
@@ -299,6 +299,7 @@ def calc_features(
     PCT_DIC = {b:pct for b,pct in zip(BIN_NAMES,PCT)} # a handy pct dictionary 
     DUR_FEAT        = feature_ops["DUR_FEAT"]
     N_SAMPLES       = get_n_samples_from_dur_fs(DUR_FEAT,FS) # n samples per feature
+    # TODO: clean up amp and phase indexing conventions
     amp_idx         = feature_ops["AMP_IDX"]
     AMP_IDX = np.array(amp_idx) * 2 + 1 
     ph_idx          = feature_ops["PH_IDX"]
@@ -346,24 +347,25 @@ def calc_features(
                     total_session_time   = total_session_time
                     )
         
-            # For each bin
+            # For each time bin (=interval label) corresponding to this session
             for bin_name in BIN_NAMES:
                 interval = bins_absolute_intervals[bin_name] # interval in seconds
                 pct      = PCT_DIC[bin_name] # % intervals to grab, float in (0,1)
-                if interval is not None:
-                    start_time,end_time = interval
-                    window_starts = _get_x_pct_time_of_interval(
+                # If the interval is valid, get the segment start-times
+                if interval:
+                    start_time,end_time = interval # unpack interval tuple
+                    # Get set of timestamps corresponding to start of segments
+                    segment_starts = _get_x_pct_time_of_interval(
                             start_time      = start_time,
                             end_time        = end_time,
                             window_length   = DUR_FEAT,
                             pct             = pct
                             )
 
-                    # Load FEAT_DUR second windows from each raw channel
-                    # binary wavelet file into windows array
-                    bin_windows = np.zeros((
+                    # This will hold the segments for this bin
+                    bin_segments = np.zeros((
                         N_CHAN_RAW,
-                        len(window_starts),
+                        len(segment_starts),
                         N_SAMPLES, 
                         N_CHAN_BINARY
                         ))
@@ -375,18 +377,18 @@ def calc_features(
                                 file_path       = session_file_path,
                                 n_chan          = N_CHAN_BINARY,
                                 sample_rate     = FS,
-                                offset_times    = window_starts,
+                                offset_times    = segment_starts,
                                 duration_time   = DUR_FEAT,
                                 precision       = PRECISION
                                 )
-                        assert ws.shape == (len(window_starts),DUR_FEAT,N_CHAN_BINARY)
-                        bin_windows[raw_ch_idx,:,:,:] = ws
+                        assert ws.shape == (len(segment_starts),N_SAMPLES,N_CHAN_BINARY)
+                        bin_segments[raw_ch_idx,:,:,:] = ws
 
                     # Get features window
-                    for segment_windows in bin_windows.transpose((0,1,2,3)):
+                    for segment in bin_segments.transpose((1,0,2,3)):
                         # This a single segment, all channels, raw and wavelet/binary
-                        assert segment_windows.shape == (N_CHAN_RAW,N_SAMPLES,N_CHAN_BINARY) 
-                        feats = get_feats(segment_windows,FEATURES,data_ops)
+                        assert segment.shape == (N_CHAN_RAW,N_SAMPLES,N_CHAN_BINARY) 
+                        feats = get_feats(segment,FEATURES,data_ops)
                         # Add the session name and time bin to the row dictionary
                         feats.update({
                             "session_basename"  : session_basename,
@@ -395,50 +397,6 @@ def calc_features(
                         # Add the row to our pandas dataframe
                         feats_df.loc[len(df.index)] = feats
     return feats_df
-
-
-
-# # in pure functions.
-# def _calc_features(
-#         fname_channels,
-#         window_start_times,
-#         fs : float = 2000,
-#         # bunch of options
-#         ) -> np.ndarray:
-#     """
-#     fname_chan_bin_paths : list
-#         Ordered list of paths to the filenames of the binary .dat files
-#         for each channel. NB: each channel has it's own binary.
-#     window_start_times : list
-#         List of start times of all windows we will sample.
-#         Same as the 'tim' cell array in MatLab
-#     fs : float
-#         Sample frequency in Hz. Defaults to 2000Hz
-#     
-#     
-# 
-#     Returns
-#     -------
-#     np.ndarray
-#         2d array shape (n_windows,n_features)
-#     """
-#     # Check that all the files specified exist
-#     for path in fname_chan_bin_paths: assert os.path.exists(path), "File Not Found"
-#     # TODO: For now we implement as it is implement as is in MatLab
-#     #       but it may be an idea to change the channel input from a list
-#     #       to a dictionary, so that we can encode more information about
-#     #       the channel if need be. May be useful for training. 
-# 
-#     return 
-
-
-"""
-PSEUDO-CODE
-
-Based on pre-ictal and post-ictal hyper-parameters, seizure start and end times,
-and the boundaries of the sessions, randomly generate list (or dict for labels?)
-of window-start times to sample and compute features for.
-"""
 
 
 if __name__=="__main__":
@@ -506,8 +464,17 @@ if __name__=="__main__":
     assert bin_abs_intervals["pre3"] == (5,15)      # Valid
     assert bin_abs_intervals["intra"] == (15,100)   # Valid
     assert bin_abs_intervals["post"] == None        # Ends after end of file
-
     # Not every single edge-case is tested... (low priority TODO)
+
+"""
+_get_x_pct_time_of_interval
+get_feats
+_get_bin_absolute_intervals
+_get_total_session_time
+_get_feats_df_column_names
+calc_features
+"""
+
     print("Tests All Passed: _get_bin_absolute_intervals()")
 
 

@@ -1,6 +1,6 @@
 # Previously ops variable in MatLab scripts
 
-[fileio]
+[fio]
 # RAW_DATA_PATH = "/Users/steve/Documents/code/unm/data"
 # RAW_DATA_PATH = "/Users/steve/Documents/code/unm/data/small_data/raw" 
 RAW_DATA_PATH = "/Users/steve/Documents/code/unm/data/h24_data/raw"

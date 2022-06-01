@@ -44,7 +44,7 @@ To access the methods and their modules, clone this repo with `git clone https:/
 
 - [ ] Little todos, formatting tasks
   - [ ] rename data ops FREQ_NUM etc. instead of what, add "FREQ" to SPACING param too
-- [ ] Change `fileio` the dictionary to `fio_dic` because it's ambiguous and can eaily get confused with the module by the same name. Change this everywhere in the codebase including the `Options.toml`. 
+- [ ] Change `fileio` the dictionary to `fio_ops` because it's ambiguous and can eaily get confused with the module by the same name. Change this everywhere in the codebase including the `Options.toml`. 
 - [ ] Make sure precision isn't hard coded anywhere, get it from ops "int16"
 - [ ] Do a consistency check of variable names
 

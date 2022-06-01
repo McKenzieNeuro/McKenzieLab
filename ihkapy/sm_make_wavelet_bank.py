@@ -29,12 +29,12 @@ logger = logging.getLogger(__name__)
 # include the word "path" in the variable name. For those with relative 
 # or leaf paths, we do not put "path" in the name. 
 
-def _load_fileio_and_data_ops(options_path="./Options.toml"):
-    """Load the 'fileio' and 'data' dictionaries from options config file
+def load_fio_ops_and_data_ops(options_path="./Options.toml"):
+    """Load the 'fio_ops' and 'data_ops' dictionaries from options config file
 
     Helper for make_wavelet_bank() 
     Parses the .toml config file at `options_path` into a dictionary. 
-    Returns the sub-dictionaries at the files "fileio" and "params.data"
+    Returns the sub-dictionaries at the files "fio" and "params.data"
 
     Parameters
     ----------
@@ -44,7 +44,7 @@ def _load_fileio_and_data_ops(options_path="./Options.toml"):
     Returns
     -------
     dict
-        A dictionary containing fileio params, i.e. paths to data files.
+        A dictionary containing fio params, i.e. paths to data files.
     dict
         A dictionary containing data parameters required for data manip.
     """
@@ -53,9 +53,9 @@ def _load_fileio_and_data_ops(options_path="./Options.toml"):
     with open(options_path,"r") as f:
         ops_string = f.read()
     ops = toml.loads(ops_string)
-    fileio = ops["fileio"]
+    fio_ops = ops["fio"]
     data_ops = ops["params"]["data"]
-    return fileio,data_ops
+    return fio_ops,data_ops
 
 # TODO: implement for Lusin and Sombrero wavelets too
 # Note, Lusin wasn't implemented in Matlab, and pipeline only used Gabor
@@ -164,7 +164,7 @@ def _assert_all_ext_type_match_regexp(
 
 def make_wavelet_bank(
         edf_fname:str,
-        fileio:dict,
+        fio_ops:dict,
         data_ops:dict): 
     """Computes and saves a wavelet decomposition of each channel. 
 
@@ -173,7 +173,7 @@ def make_wavelet_bank(
     of the raw signals in the provided edf file (edf_fname). 
     This function doesn't return anything, but reads and writes to disk. 
 
-    - Reads edf raw signal specified by edf_fname (and fileio params)
+    - Reads edf raw signal specified by edf_fname (and fio_ops params)
     - Iterates through each channel, computing wavelet convolutions
         for frequencies in a range specified by data_ops
     - Saves output binaries, one binary file for each hardware channel
@@ -197,15 +197,15 @@ def make_wavelet_bank(
 
     edf_fname
         The name of the '.edf' raw data file. We look for all edf files 
-        in fileio.RAW_DATA_PATH from Options.toml
+        in fio_ops.RAW_DATA_PATH from Options.toml
 
-    fileio : dict
-        The fileio parameters defined in the Options.toml config file.
+    fio_ops : dict
+        The fio parameters defined in the Options.toml config file.
 
     data_ops : dict
         Data parameters from the Options.toml config file. 
         The Options.toml config file contains user defined parameters, 
-        including fileio params, data and data-processing params, ML
+        including fio params, data and data-processing params, ML
         model hyper-params, and training params. 
     """
     assert len(edf_fname.split("."))==2, f"There can be no dots in the base file name, {edf_fname}"
@@ -213,8 +213,8 @@ def make_wavelet_bank(
     assert ext == "edf", f"Incorrect file format, expected .edf, got {edf_fname}"
 
     # Unpack File IO constants
-    RAW_DATA_PATH         = fileio["RAW_DATA_PATH"]
-    WAVELET_BINARIES_PATH = fileio["WAVELET_BINARIES_PATH"]
+    RAW_DATA_PATH         = fio_ops["RAW_DATA_PATH"]
+    WAVELET_BINARIES_PATH = fio_ops["WAVELET_BINARIES_PATH"]
     # Unpack Data config constants
     FS           = data_ops["FS"]
     NUM_FREQ     = data_ops["NUM_FREQ"]
@@ -323,16 +323,16 @@ def make_wavelet_bank(
 
 def make_wavelet_bank_all(options_path="Options.toml"):
     # Unpack parameters and user-defined constants
-    fileio,data_ops = _load_fileio_and_data_ops(options_path)
+    fio_ops,data_ops = load_fio_ops_and_data_ops(options_path)
     # Bind the consts we use to local vars for readability
-    RAW_DATA_PATH = fileio["RAW_DATA_PATH"]
+    RAW_DATA_PATH = fio_ops["RAW_DATA_PATH"]
 
     edf_files = [i for i in os.listdir(RAW_DATA_PATH) if os.path.splitext(i)[1]==".edf"] 
     print(f"Make wavelet bank all, convolving {len(edf_files)} edf files.")
     for edf_fname in edf_files:
         logger.info(f"Running make_wavelet_bank on {edf_fname}")
         # Convolve with wavelets and write binary files
-        make_wavelet_bank(edf_fname, fileio, data_ops)
+        make_wavelet_bank(edf_fname, fio_ops, data_ops)
 
     return
 
