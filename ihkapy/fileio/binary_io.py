@@ -26,14 +26,14 @@ MAX_SAMPLES_PER_CHUNK = 10000
 
 def load_binary_multiple_segments(
         file_path : str,
-        n_chan : int = 1,
-        sample_rate : int = None,
-        offset_times : list = [], 
-        duration_time : float or None = None,
-        offset_sizes : list = [],
-        duration_size : int or None = None,
-        channels : list = [],
-        precision : type = "int16"
+        n_chan          : int = 1,
+        sample_rate     : int = None,
+        offset_times    : list = [], 
+        duration_time   : float or None = None,
+        offset_sizes    : list = [],
+        duration_size   : int or None = None,
+        channels        : list = [],
+        precision       : type = "int16"
         ) -> np.ndarray:
     """Load many segments of data from multiplexed binary file.
 
@@ -67,6 +67,7 @@ def load_binary_multiple_segments(
     -------
     numpy.ndarray
         A 3d array containg the segments' data.
+        Shape = (n_segments , n_samples , n_binary_channels)
     """
     # If required, convert time to n_samples (aka sizes) 
     if offset_times:
@@ -94,7 +95,6 @@ def load_binary_multiple_segments(
                 duration_size=duration_size,
                 channels=channels,
                 precision=precision)
-
     return segments_data
 
 def load_binary(

@@ -6,12 +6,6 @@ import sm_features
 import warnings
 
 
-"""
-MatLab code is structures as follows:
-    sm_PredictIHKA_getAllFeatures.m 
-
-"""
-
 # pure function
 def _get_x_pct_time_of_interval(
         start_time : float,     # in seconds
@@ -55,7 +49,7 @@ def _get_x_pct_time_of_interval(
 
 
 def get_feats(
-        windows : np.ndarray or list,
+        segment_windows : np.ndarray or list,
         featurelist : list,
         data_ops : dict
         ) -> dict:
@@ -72,7 +66,7 @@ def get_feats(
 
     Parameters
     ----------
-    windows : np.ndarray or list
+    segment_windows : np.ndarray or list
         Is a list of windows ordered by the raw_chan index. Each window 
         corresponds to a dur_feat segment of data. 
         Shape = (n_raw_chan , n_samples , n_wavelet_chan)
@@ -93,15 +87,15 @@ def get_feats(
     all_feats = {}
     if "mean_power" in features_list:
         AMP_FREQ_IDX_ALL = data_ops[AMP_FREQ_IDX_ALL]
-        mp_feats = sm_features.mean_power(windows,AMP_FREQ_IDX_ALL)  
+        mp_feats = sm_features.mean_power(segment_windows,AMP_FREQ_IDX_ALL)  
         all_feats.update(mp_feats) # add it to greater dictionary
     if "var" in features_list:
-        var_feats = sm_features.var(windows,"all")
+        var_feats = sm_features.var(segment_windows,"all")
         all_feats.update(var_feats)
     if "coherence" in features_list:
         FS = data_ops["FS"]
         coherence_feats = sm_features.coherence_all_pairs(
-                windows,
+                segment_windows,
                 fs = FS
                 )
         all_feats.update(coherence_feats)
@@ -231,7 +225,12 @@ def _get_total_session_time(filepath,fs=2000,num_bin_chan=41,precision="int16"):
     return total_duration_in_seconds
 
 
-def _get_feats_df_column_names(features_list:list,data_ops:dict,n_chan_raw:int,n_chan_binary:int):
+def _get_feats_df_column_names(
+        features_list   : list,
+        data_ops        : dict,
+        n_chan_raw      : int,
+        n_chan_binary   : int
+        ):
     """Calls the featurizing method on dummy windows and uses the columnames returned."""
     N_CHAN_RAW      = data_ops["N_CHAN_RAW"]
     N_CHAN_BINARY   = data_ops["N_CHAN_BINARY"]
@@ -244,7 +243,7 @@ def _get_feats_df_column_names(features_list:list,data_ops:dict,n_chan_raw:int,n
     return colnames
 
 
-# TODO: once completed, refactor this method
+# TODO: test and refactor this method
 def calc_features(
         fileio : dict,
         data_ops : dict,
@@ -300,6 +299,10 @@ def calc_features(
     PCT_DIC = {b:pct for b,pct in zip(BIN_NAMES,PCT)} # a handy pct dictionary 
     DUR_FEAT        = feature_ops["DUR_FEAT"]
     N_SAMPLES       = int(DUR_FEAT * FS + 0.5) # see binary_io, number of samples per feature
+    # N_SAMPLES must be implemented identically as in binary_io, which
+    # goes against the "don't repeat yourself" principle, but I think it's 
+    # necessary so that we can pre-define the array-lengths that are to be
+    # loaded by load_binary: -> we need not bother with lists, only ndarrays
     amp_idx         = feature_ops["AMP_IDX"]
     AMP_IDX = np.array(amp_idx) * 2 + 1 
     ph_idx          = feature_ops["PH_IDX"]
@@ -317,7 +320,7 @@ def calc_features(
 
     # Init Pandas DataFrame with right colnames
     colnames = _get_feats_df_column_names(FEATURES)
-    df = pd.DataFrame({name:[] for name in colnames})
+    feats_df = pd.DataFrame({name:[] for name in colnames})
 
     # For each session
     for session_basename in session_basenames_list:
@@ -349,11 +352,10 @@ def calc_features(
         
             # For each bin
             for bin_name in BIN_NAMES:
-                interval = bins_absolute_intervals[bin_name]
-                pct      = PCT_DIC[bin_name]
+                interval = bins_absolute_intervals[bin_name] # interval in seconds
+                pct      = PCT_DIC[bin_name] # % intervals to grab, float in (0,1)
                 if interval is not None:
                     start_time,end_time = interval
-                    print("dummy print statement")
                     window_starts = _get_x_pct_time_of_interval(
                             start_time      = start_time,
                             end_time        = end_time,
@@ -370,8 +372,9 @@ def calc_features(
                         N_CHAN_BINARY
                         ))
                     for raw_ch_idx in range(N_CHAN_RAW):
-                        # Is it dangerous to use such a file-naming convention?
+                        # Is it dangerous to use such a strict file-naming convention?
                         sess_bin_chan_raw_path = f"{basename}_ch_{str(raw_ch_idx).zfill(3)}.dat"
+                        # Load all segments from specific time bin and raw chan
                         ws = load_binary_multiple_segments(
                                 file_path       = session_file_path,
                                 n_chan          = N_CHAN_BINARY,
@@ -385,27 +388,17 @@ def calc_features(
 
                     # Get features window
                     for segment_windows in bin_windows.transpose((0,1,2,3)):
-                        assert segment_windows.shape == (N_CHAN_RAW,N_SAMPLES,N_CHAN_BINARY) # This a single segment, all channels
-                        feats = get_feats(windows,FEATURES,data_ops)
-                        # TODO: add this as a row to the features dataframe
-
-
-                    ### Pseudocode
-                    # For each start time
-                    # Init a list of windows
-                    # Load each channel into a window, add each window to the list
-                    # Compute all features
-                    # Add a row to our features data-frame
-
-                    # TODO: compute all features for each pct window in interval
-                    # TODO: add a row to the data[bin_name] pandas data-frame
-                    #   row includes session_basename, the start times of the windows
-                    #   see the jupyter notebook for inspiration on how to add row
-
-    # Read data params
-    # Do some checks on the data and metadata params
-    # call _calc_features
-    return # the output of _calc_features
+                        # This a single segment, all channels, raw and wavelet/binary
+                        assert segment_windows.shape == (N_CHAN_RAW,N_SAMPLES,N_CHAN_BINARY) 
+                        feats = get_feats(segment_windows,FEATURES,data_ops)
+                        # Add the session name and time bin to the row dictionary
+                        feats.update({
+                            "session_basename"  : session_basename,
+                            "time_bin"          : bin_name
+                            })
+                        # Add the row to our pandas dataframe
+                        feats_df.loc[len(df.index)] = feats
+    return feats_df
 
 
 
