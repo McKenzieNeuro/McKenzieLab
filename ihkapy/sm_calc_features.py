@@ -68,13 +68,14 @@ def get_feats(
 
     To write a new feature, write the method in sm_features.py, then
     add it to execut conditionally in this function (get_feats), finally
-    add it to the FEATURES_LIST in Options.toml
+    add it to the FEATURES in Options.toml
 
     Parameters
     ----------
     windows : np.ndarray or list
         Is a list of windows ordered by the raw_chan index. Each window 
-        corresponds to a dur_feat segment of data.
+        corresponds to a dur_feat segment of data. 
+        Shape = (n_raw_chan , n_samples , n_wavelet_chan)
     featurelist : list
         A list of strings.
     data_ops : dict
@@ -295,14 +296,15 @@ def calc_features(
     PREICTAL_PCT    = feature_ops["PREICTAL"]["PCT"]
     INTRAICTAL_PCT  = feature_ops["INTRAICTAL"]["PCT"]
     POSTICTAL_PCT   = feature_ops["POSTICTAL"]["PCT"]
-    PCT = PREICTAL_PCT + [INTRAICTAL_PCT] + [POSTICTAL_PCT] # Concatenation
+    PCT     = PREICTAL_PCT + [INTRAICTAL_PCT] + [POSTICTAL_PCT] # Concatenation
     PCT_DIC = {b:pct for b,pct in zip(BIN_NAMES,PCT)} # a handy pct dictionary 
     DUR_FEAT        = feature_ops["DUR_FEAT"]
+    N_SAMPLES       = int(DUR_FEAT * FS + 0.5) # see binary_io, number of samples per feature
     amp_idx         = feature_ops["AMP_IDX"]
     AMP_IDX = np.array(amp_idx) * 2 + 1 
     ph_idx          = feature_ops["PH_IDX"]
     PH_IDX  = np.array(ph_idx)  * 2 + 2 
-    FEATURES_LIST   = feature_ops["FEATURES_LIST"]
+    FEATURES   = feature_ops["FEATURES"]
 
     # Define / check list of sessions
     if session_basenames_list == "all":
@@ -314,7 +316,7 @@ def calc_features(
         
 
     # Init Pandas DataFrame with right colnames
-    colnames = _get_feats_df_column_names(FEATURES_LIST)
+    colnames = _get_feats_df_column_names(FEATURES)
     df = pd.DataFrame({name:[] for name in colnames})
 
     # For each session
@@ -361,8 +363,14 @@ def calc_features(
 
                     # Load FEAT_DUR second windows from each raw channel
                     # binary wavelet file into windows array
-                    windows = [] 
+                    bin_windows = np.zeros((
+                        N_CHAN_RAW,
+                        len(window_starts),
+                        N_SAMPLES, 
+                        N_CHAN_BINARY
+                        ))
                     for raw_ch_idx in range(N_CHAN_RAW):
+                        # Is it dangerous to use such a file-naming convention?
                         sess_bin_chan_raw_path = f"{basename}_ch_{str(raw_ch_idx).zfill(3)}.dat"
                         ws = load_binary_multiple_segments(
                                 file_path       = session_file_path,
@@ -372,9 +380,14 @@ def calc_features(
                                 duration_time   = DUR_FEAT,
                                 precision       = PRECISION
                                 )
-                        windows.append(ws)
+                        assert ws.shape == (len(window_starts),DUR_FEAT,N_CHAN_BINARY)
+                        bin_windows[raw_ch_idx,:,:,:] = ws
 
-                    # Create features for each window
+                    # Get features window
+                    for segment_windows in bin_windows.transpose((0,1,2,3)):
+                        assert segment_windows.shape == (N_CHAN_RAW,N_SAMPLES,N_CHAN_BINARY) # This a single segment, all channels
+                        feats = get_feats(windows,FEATURES,data_ops)
+                        # TODO: add this as a row to the features dataframe
 
 
                     ### Pseudocode
@@ -440,6 +453,8 @@ of window-start times to sample and compute features for.
 
 
 if __name__=="__main__":
+    ### UNIT TESTS ###
+
     ### TEST _get_x_pct_time_of_interval()
     arr = _get_x_pct_time_of_interval(
             start_time    = 5.0,
@@ -452,7 +467,7 @@ if __name__=="__main__":
 
 
     ### TEST _get_bin_absolute_intervals()  
-    # Test 1
+    # Test _get_bin_absolute_intervals() 1 
     bin_abs_intervals = _get_bin_absolute_intervals(
             start_seiz           = 100,
             end_seiz             = 130,
@@ -469,7 +484,7 @@ if __name__=="__main__":
     assert bin_abs_intervals["intra"] == (100,130)
     assert bin_abs_intervals["post"] == (130,190)
 
-    # Test 2
+    # Test _get_bin_absolute_intervals() 2 
     bin_abs_intervals = _get_bin_absolute_intervals(
             start_seiz           = 100,
             end_seiz             = 130,
@@ -486,7 +501,7 @@ if __name__=="__main__":
     assert bin_abs_intervals["intra"] == (100,130)
     assert bin_abs_intervals["post"] == None        # Overlaps with next seizure
 
-    # Test 3
+    # Test _get_bin_absolute_intervals() 3
     bin_abs_intervals = _get_bin_absolute_intervals(
             start_seiz           = 15,
             end_seiz             = 100,
@@ -505,9 +520,6 @@ if __name__=="__main__":
 
     # Not every single edge-case is tested... (low priority TODO)
     print("Tests All Passed: _get_bin_absolute_intervals()")
-
-
-
 
 
 
