@@ -1,5 +1,5 @@
 import numpy as np
-from ihkapy.fileio.utils import get_all_valid_session_basenames,check_session_basenames_are_valid
+from ihkapy.fileio.utils import get_all_valid_session_basenames,check_session_basenames_are_valid,get_n_samples_from_dur_fs
 from ihkapy.fileio.metadata_io import get_seizure_start_end_times
 from scipy.signal import coherence
 import sm_features
@@ -298,11 +298,7 @@ def calc_features(
     PCT     = PREICTAL_PCT + [INTRAICTAL_PCT] + [POSTICTAL_PCT] # Concatenation
     PCT_DIC = {b:pct for b,pct in zip(BIN_NAMES,PCT)} # a handy pct dictionary 
     DUR_FEAT        = feature_ops["DUR_FEAT"]
-    N_SAMPLES       = int(DUR_FEAT * FS + 0.5) # see binary_io, number of samples per feature
-    # N_SAMPLES must be implemented identically as in binary_io, which
-    # goes against the "don't repeat yourself" principle, but I think it's 
-    # necessary so that we can pre-define the array-lengths that are to be
-    # loaded by load_binary: -> we need not bother with lists, only ndarrays
+    N_SAMPLES       = get_n_samples_from_dur_fs(DUR_FEAT,FS) # n samples per feature
     amp_idx         = feature_ops["AMP_IDX"]
     AMP_IDX = np.array(amp_idx) * 2 + 1 
     ph_idx          = feature_ops["PH_IDX"]

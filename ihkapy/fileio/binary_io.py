@@ -24,6 +24,10 @@ logger = logging.getLogger(__name__)
 # Constant, used in _load_binary (=> it's parent load_binary too) and merge_dats
 MAX_SAMPLES_PER_CHUNK = 10000 
 
+# Helper, used in other modules too (don't repeat yourself principle) 
+def get_n_samples_from_dur_fs(dur,fs):
+    return int(dur * fs + 0.5) 
+
 def load_binary_multiple_segments(
         file_path : str,
         n_chan          : int = 1,
@@ -75,8 +79,8 @@ def load_binary_multiple_segments(
         assert duration_time > 0 , "Duration time must be specified"
         assert not offset_sizes, "Cannot specify both times and sizes" 
         assert not duration_size, "Cannot specify both times and sizes"
-        offset_sizes = [int(sample_rate * dt + 0.5) for dt in offset_times]
-        duration_size = int(sample_rate * duration_time + 0.5)
+        offset_sizes = [get_n_samples_from_dur_fs(dt,sample_rate) for dt in offset_times]
+        duration_size = get_n_samples_from_dur_fs(duration_time,sample_rate)
     assert offset_sizes
     assert duration_size > 0
     if not channels: channels = [i for i in range(n_chan)]
@@ -172,9 +176,9 @@ def load_binary(
         offset_size = 0
         duration_size = np.inf
         if offset_time: 
-            offset_size = int(offset_time * sample_rate + 0.5)
+            offset_size = get_n_samples_from_dur_fs(offset_time,sample_rate)
         if duration_time: 
-            duration_size = int(duration_time * sample_rate + 0.5)
+            duration_size = get_n_samples_from_dur_fs(duration_time,sample_rate)
     else:
         raise Exception("Invalid Argument Combination!\nYou cannot specify both size-like and a time-like arguments for the duration and offset.")
     assert offset_size >= 0 and int(offset_size) == offset_size , f"Bad offset {offset_size}"
