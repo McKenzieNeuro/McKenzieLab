@@ -1,9 +1,12 @@
 import numpy as np
-from ihkapy.fileio.utils import get_all_valid_session_basenames,check_session_basenames_are_valid,get_n_samples_from_dur_fs
+import os
+from ihkapy.fileio.utils import get_all_valid_session_basenames,check_session_basenames_are_valid
+from ihkapy.fileio.binary_io import get_n_samples_from_dur_fs
 from ihkapy.fileio.metadata_io import get_seizure_start_end_times
 from scipy.signal import coherence
 import sm_features
 import warnings
+import pandas as pd
 
 
 # pure function
@@ -215,12 +218,17 @@ def _get_bin_absolute_intervals(
     return bin_intervals
 
 
-def _get_total_session_time(filepath,fs=2000,num_bin_chan=41,precision="int16"):
+def _get_total_session_time(
+        binary_filepath,
+        fs=2000,
+        n_chan_binary=41,
+        precision="int16"
+        ) -> float:
     """Determines the total session time from binary files."""
-    fsize_bytes = os.path.getsize(filepath)
+    fsize_bytes = os.path.getsize(binary_filepath)
     bytes_per_sample = np.dtype(precision).itemsize
-    n_samples_per_chan = fsize_bytes / bytes_per_sample / num_bin_chan
-    assert n_samples_per_chan == int(n_samples_per_chan) , "Logic error, possibly num_bin_chan is incorrect: this the number of channels saved in the binary file."
+    n_samples_per_chan = fsize_bytes / bytes_per_sample / n_chan_binary
+    assert n_samples_per_chan == int(n_samples_per_chan) , "Logic error, possibly n_chan_binary is incorrect: this the number of channels saved in the binary file."
     total_duration_in_seconds = n_samples_per_chan / fs # total duration in seconds
     return total_duration_in_seconds
 
@@ -400,6 +408,7 @@ def calc_features(
 
 
 if __name__=="__main__":
+    import array
     ### UNIT TESTS ###
 
     ### TEST _get_x_pct_time_of_interval()
@@ -466,14 +475,33 @@ if __name__=="__main__":
     assert bin_abs_intervals["post"] == None        # Ends after end of file
     # Not every single edge-case is tested... (low priority TODO)
 
-"""
-_get_x_pct_time_of_interval
-get_feats
-_get_bin_absolute_intervals
-_get_total_session_time
-_get_feats_df_column_names
-calc_features
-"""
+    ### TEST _get_total_session_time()
+    # Generate array, serialize it, then measure it's length
+    arr = array.array("h", np.arange(256)) # highly divisible by two test array
+    with open("temp_test.dat","wb") as file:
+        arr.tofile(file)
+    fs,n_chan_binary = 2,4
+    total_duration_in_seconds = _get_total_session_time(
+            binary_filepath = "./temp_test.dat",
+            fs = fs,
+            n_chan_binary = n_chan_binary,
+            precision = "int16"
+            )
+    os.remove("temp_test.dat") # delete the test file
+    try: 
+        assert total_duration_in_seconds == len(arr) // fs // n_chan_binary
+        print("Passed Test _get_total_session_time()")
+    except: 
+        print("Failed Test _get_total_session_time()")
+
+    # TODO
+    """
+    unit tests to implement:
+
+    _get_feats_df_column_names
+    get_feats
+    calc_features
+    """
 
     print("Tests All Passed: _get_bin_absolute_intervals()")
 
