@@ -43,7 +43,9 @@ Convention:
 ### Formatting helpers
 
 def _select_freq_chans(windows,chan_freq_idxs) -> (np.ndarray,np.ndarray):
-    """Helper for all features. 
+    """Formatting helper for all features. 
+
+    Assumes windows array-like w/ shape (n_chan_raw,n_samples,n_chan_freq)
 
     Selects frequency (wavelet binary) channels of interest and formats 
     chan_freq_idxs as a 1d numpy ndarray.
@@ -51,7 +53,7 @@ def _select_freq_chans(windows,chan_freq_idxs) -> (np.ndarray,np.ndarray):
     # If None, select all frequency channels
     windows = np.asarray(windows)
     if chan_freq_idxs is None or chan_freq_idxs == "all": 
-        chan_freq_idxs = np.arange(windows[0].shape[1])
+        chan_freq_idxs = np.arange(windows.shape[2])
     elif type(chan_freq_idxs) == type(1): # int
         chan_freq_idxs = np.asarray([chan_freq_idxs])
         windows = windows[:,:,chan_freq_idxs] 
@@ -121,9 +123,9 @@ def var(
         chan_freq_idxs  : np.ndarray or int = None
         ) -> dict:
     """Get the variance of the signal"""
-    windows,chan_freq_idxs = _select_windows(windows,chan_freq_idxs)
-    var_all = np.var(windows,axis=1)
-    var_feats = _feats_as_dict_from_2d_array(mp_all,chan_freq_idxs)
+    windows,chan_freq_idxs = _select_freq_chans(windows,chan_freq_idxs)
+    var_all = np.var(windows,axis=1) # all channels
+    var_feats = _feats_as_dict_from_2d_array(var_all,chan_freq_idxs)
     return var_feats
 
 ### End: Features on individual channels
@@ -140,11 +142,11 @@ def coherence_all_pairs(
     """Cohere each pair of signals"""
     # NB: The chan_freq_idxs parameter selects all freqs of relevance
     chan_freq_idxs = 0 # only select raw channel
-    windows,chan_freq_idxs = _select_windows(windows,chan_freq_idxs)
+    windows,chan_freq_idxs = _select_freq_chans(windows,chan_freq_idxs)
     windows = np.squeeze(windows) # 3d array -> 2d array
     raw_chans = list(range(len(windows)))    
     coherence_dict = {}
-    for (chx,chy),(x,y) in zip(combin(raw_chans),combin(windows)):
+    for (chx,chy),(x,y) in zip(combin(raw_chans,2),combin(windows,2)):
         # There parameters defined here are similar to the default 
         # MatLab options
         sample_freqs,cxy = coherence(x,y,fs=fs,window='hann',
@@ -180,7 +182,39 @@ def coherence_all_pairs(
 ### End: Features comparing two channels
 
 
+if __name__ == "__main__":
+    # Unit tests
+    print("Runnin unit tests")
+    ### HELPERS
 
+    # TEST _select_freq_chans() 
+    windows = [np.random.normal(0,1,(10000,41)) for i in range(4)]
+    chan_freq_idxs = [0,1,2,3,4,10,12]
+    windows,chan_freq_idxs = _select_freq_chans(windows,chan_freq_idxs)
+    try:
+        assert windows.shape == (4,10000,7)
+        print("Passed Test #1 _select_freq_chans()")
+    except:
+        print("Failed Test #1 _select_freq_chans()")
+    windows = [np.random.normal(0,1,(10000,41)) for i in range(4)]
+    chan_freq_idxs = "all"
+    windows,chan_freq_idxs = _select_freq_chans(windows,chan_freq_idxs)
+    try:
+        assert windows.shape == (4,10000,41)
+        assert (chan_freq_idxs == np.arange(41)).all()
+        print("Passed Test #2 _select_freq_chans()")
+    except:
+        print("Failed Test #2 _select_freq_chans()")
+
+    # TEST _feats_as_dict_from_2d_array()
+    
+
+    ### FEATURES
+    # TEST mean_power()
+
+    # TEST var()
+
+    # TEST coherence_all_pairs() 
 
 
 
