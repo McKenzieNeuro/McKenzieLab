@@ -1,4 +1,5 @@
 *.asv
+*.pkl
 ihkapy.egg-info/
 azure_playground/
 build/
