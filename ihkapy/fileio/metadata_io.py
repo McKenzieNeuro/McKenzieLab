@@ -63,13 +63,15 @@ def parse_metadata(
     return frontmatter,seizure_metadata
 
 
-def get_seizure_start_end_times(session_metadata_path : str):
-    """Returns the start and end times specified by the file metadata"""
+def get_seizure_start_end_times(session_metadata_path : str) -> (list, list):
+    """Returns the start and end times (in seconds, float) specified by the file metadata"""
     _,seizure_metadata = parse_metadata(session_metadata_path)
     # Put the metadata into a pandas dataframe, and select the columns
     df = pd.DataFrame(seizure_metadata)
     start_times = df[df['Annotation'] == "Seizure starts"]["Time From Start"]
     end_times = df[df['Annotation'] == "Seizure ends"]["Time From Start"]
+    start_times = [float(i) for i in start_times]
+    end_times = [float(i) for i in end_times]
 
     # TODO: depending on exactly how the annotation (aka metadata)  
     # files are specified and what formats are used, we may want to use
@@ -80,7 +82,7 @@ def get_seizure_start_end_times(session_metadata_path : str):
     for i,j in zip(start_times,end_times):
         assert i < j, "Seizure cannot end before it starts!"
 
-    return list(start_times),list(end_times)
+    return start_times,end_times
 
 
 

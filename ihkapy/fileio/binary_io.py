@@ -16,8 +16,9 @@ import logging                   # Debug
 from tqdm import tqdm            # Progress Bar
 from contextlib import ExitStack # Context manager for opening many files at once
 
-# Init logger and set the logging level
-logging.basicConfig(level=logging.DEBUG)
+# # Init logger and set the logging level
+# logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 # logger.setLevel(logging.DEBUG) # DEBUG < INFO < WARNING < ERROR < CRITICAL
 
@@ -54,11 +55,11 @@ def load_binary_multiple_segments(
     sample_rate : int or float
         Sample rate in Hz, (aka fs, frequency, sr is the MNE convention)
         Defaults to None, if none, must specify offset_size and duration_size
-    offset_times : list
+    offset_times : list or np.ndarray
         Positions to start reading in seconds, (aka start_time), (defaults to empty)
     duration_time : float or None = None 
         Duration to read in seconds (per channel) (defaults to None)
-    offset_sizes : list
+    offset_sizes : list or np.ndarray
         Positions to start reading in num of samples, defaults to empty.
     duration_size : int or None
         Duration to read in number of samples (per channel) (defaults to None)
@@ -74,14 +75,14 @@ def load_binary_multiple_segments(
         Shape = (n_segments , n_samples , n_binary_channels)
     """
     # If required, convert time to n_samples (aka sizes) 
-    if offset_times:
+    if list(offset_times): # falsy
         assert duration_time is not None, "Duration time must be specified"
         assert duration_time > 0 , "Duration time must be specified"
         assert not offset_sizes, "Cannot specify both times and sizes" 
         assert not duration_size, "Cannot specify both times and sizes"
         offset_sizes = [get_n_samples_from_dur_fs(dt,sample_rate) for dt in offset_times]
         duration_size = get_n_samples_from_dur_fs(duration_time,sample_rate)
-    assert offset_sizes
+    assert list(offset_sizes)
     assert duration_size > 0
     if not channels: channels = [i for i in range(n_chan)]
     # TODO: check whether they are integer values? Prob not necessary
@@ -150,7 +151,7 @@ def load_binary(
     # Checks to make sure the intput is correct
     assert n_chan == int(n_chan)
     assert n_chan >= 1
-    logger.info(f"{n_chan} channel(s) in this binary file") 
+    logger.debug(f"{n_chan} channel(s) in this binary file") 
     assert os.path.exists(file_path) , f"{file_path} appears not to exist."
     if sample_rate is not None: assert sample_rate > 0 , f"Sample rate must be positive {sample_rate}"
     if channels: 
@@ -256,15 +257,15 @@ def _load_binary(
             n_chunks = n_samples // n_samples_per_chunk 
             if not n_chunks: m=0 # extreme rare case, required define m for assertion
             for j in range(n_chunks):
-                d =  _load_chunk(file,n_chan,n_samples,precision)
+                d =  _load_chunk(file,n_chan,n_samples_per_chunk,precision)
                 m,_ = d.shape
                 data[j*m:(j+1)*m , :] = d
             # If data size not multiple of chunk size, read remainder
             remainder = n_samples - n_chunks * n_samples_per_chunk
             if remainder:
-                d = _load_chunk(file,n_chan,remainder//n_chan,precision)
-                m_rem,_ = d.shape[0]
-                assert m_remi # sanity check: logically m_rem cannot be zero
+                d = _load_chunk(file,n_chan,remainder,precision)
+                m_rem,_ = d.shape
+                assert m_rem # sanity check: logically m_rem cannot be zero
                 assert n_chunks*m == data.shape[0] - m_rem # sanity check
                 data[-m_rem: , :] = d
     return data
@@ -497,6 +498,7 @@ if __name__=="__main__":
     os.remove("./arrs1and2.dat")
 
 
+    # TODO: Write test for _load_binary()
 
     
 

@@ -36,6 +36,7 @@ To access the methods and their modules, clone this repo with `git clone https:/
 - [x] features module 
 - [ ] Implement featurizing module
   - [x] Tim selection algorithm
+- [ ] Test fileio robustly
 - [ ] Implement train model module
 - [ ] Generate docs
 - [ ] Make sure dependencies are well listed
