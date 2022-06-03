@@ -63,6 +63,7 @@ def _select_freq_chans(windows,chan_freq_idxs) -> (np.ndarray,np.ndarray):
     return windows,chan_freq_idxs
 
 def _feats_as_dict_from_2d_array(
+        feat_name : str,
         feats_all : np.ndarray,
         chan_freq_idxs : np.ndarray
         ):
@@ -78,7 +79,7 @@ def _feats_as_dict_from_2d_array(
     feats_dict = {}
     for ch_raw,feats_ch_raw in enumerate(feats_all):
         for chb,feat in zip(chan_freq_idxs,feats_ch_raw):
-            feats_dict[f"mean_power_chraw_{ch_raw}_chfreq_{chb}"] = feat
+            feats_dict[f"{feat_name}_chraw_{str(ch_raw).zfill(3)}_chfreq_{str(chb).zfill(3)}"] = feat
     return feats_dict
 
 
@@ -114,7 +115,7 @@ def mean_power(
     # Compute the features along samples axis
     mp_all = np.mean(windows,axis=1)
     # Save and return, formatted as dict
-    mp_feats = _feats_as_dict_from_2d_array(mp_all,chan_freq_idxs)
+    mp_feats = _feats_as_dict_from_2d_array("mean_power",mp_all,chan_freq_idxs)
     return mp_feats
 
 
@@ -125,7 +126,7 @@ def var(
     """Get the variance of the signal"""
     windows,chan_freq_idxs = _select_freq_chans(windows,chan_freq_idxs)
     var_all = np.var(windows,axis=1) # all channels
-    var_feats = _feats_as_dict_from_2d_array(var_all,chan_freq_idxs)
+    var_feats = _feats_as_dict_from_2d_array("var",var_all,chan_freq_idxs)
     return var_feats
 
 ### End: Features on individual channels
@@ -172,7 +173,7 @@ def coherence_all_pairs(
 
         # Serialize the freqs
         for sf,cohxy in zip(sample_freqs,cxy):
-            feat_name = f"coherence_freq_{round(sf,2)}_chx_{chx}_chy_{chy}"
+            feat_name = f"coherence_freq_{round(sf,2)}_chx_{str(chx).zfill(3)}_chy_{str(chy).zfill(3)}"
             coherence_dict[feat_name] = cohxy 
 
     return coherence_dict
@@ -207,12 +208,35 @@ if __name__ == "__main__":
         print("Failed Test #2 _select_freq_chans()")
 
     # TEST _feats_as_dict_from_2d_array()
-    
+    n_chan_raw, n_chan_freq = 4,3
+    feats_array = np.random.normal(0,1,(4,3))
+    feats_dict = _feats_as_dict_from_2d_array(
+        "dummy",
+        feats_all = feats_array,
+        chan_freq_idxs = np.array([1,5,9])
+        )
+    print("\nTest _feats_as_dict_from_2d_array() by human inspection.")
+    print("Does this output look good?:")
+    for i,j in feats_dict.items():
+        print(f"{i} : {j}")
+    print()
 
     ### FEATURES
+    n_ch_raw = 4
+    n_ch_freq = 3
+    n_samples = 10000
+    windows_1 = [np.ones((n_samples,n_ch_freq)) for i in range(n_ch_raw)]
+    windows_0 = [np.zeros((n_samples,n_ch_freq)) for i in range(n_ch_raw)]
+    windows_r = [np.random.normal(0,1,(n_samples,n_ch_freq)) for i in range(n_ch_raw)]
     # TEST mean_power()
+    print("\nTest mean_power() by human inspection.")
+    print("Does this output look good?")
+    mp_dict = mean_power(windows_1,"all") 
+    for i,j in mp_dict.items():
+        print(f"{i} : {j}")
 
     # TEST var()
+    
 
     # TEST coherence_all_pairs() 
 

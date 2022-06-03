@@ -33,8 +33,9 @@ To access the methods and their modules, clone this repo with `git clone https:/
   - [ ] DEBUG: read and write to blob storage unit via python azure api fromt he VM
   - [ ] Mout storage from VM (see [azure doc](https://docs.google.com/document/d/1lXst8D3eh3-yyND3NJNg4Wx16jm18QAJQrwL0WdpC-Q/edit?usp=sharing) for links to microsoft documentation on how to do this)
   - [ ] access and manipulate data in the blob storage from the azure api dexterously (i.e. run IHKApy code over the connection)
+- [x] features module 
 - [ ] Implement featurizing module
-  - [ ] Tim selection algorithm
+  - [x] Tim selection algorithm
 - [ ] Implement train model module
 - [ ] Generate docs
 - [ ] Make sure dependencies are well listed
