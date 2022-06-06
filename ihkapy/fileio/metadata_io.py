@@ -59,12 +59,11 @@ def parse_metadata(
         # transpose and put into columns dictionary
         table = np.asarray(table).T
         seizure_metadata = {colname:data for colname,data in zip(columns,table)}
-        # TODO: put seizure_metadata into pandas dataframe?
     return frontmatter,seizure_metadata
 
 
 def get_seizure_start_end_times(session_metadata_path : str) -> (list, list):
-    """Returns the start and end times (in seconds, float) specified by the file metadata"""
+    """Returns the start and end times (in s) specified by the file metadata"""
     _,seizure_metadata = parse_metadata(session_metadata_path)
     # Put the metadata into a pandas dataframe, and select the columns
     df = pd.DataFrame(seizure_metadata)
@@ -78,7 +77,7 @@ def get_seizure_start_end_times(session_metadata_path : str) -> (list, list):
     # a more elaborate regex for selecting start and end of seizures
 
     # Verify there is no formatting error
-    assert len(start_times) == len(end_times), "Incompatible seizure start and end times"
+    assert len(start_times) == len(end_times), "Incompatible seizure start/end times"
     for i,j in zip(start_times,end_times):
         assert i < j, "Seizure cannot end before it starts!"
 

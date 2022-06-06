@@ -34,6 +34,13 @@ Return the dictionary of raw-chan pairwise coherence
 Naming Convention:
     ch_raw refers to the raw electrode channel index
     ch_freq refers to the binary (wavelet freq) file channel index
+
+
+To add a new feature:
+    - Write a function that takes a segment and returns a dictionary of features
+    - Add a conditional statement in get_feats() that calls that function
+        and adds it to the returned dictionary.
+    - Append the name of that feature to the FEATURES list in Options.toml
 """
 
 ### Formatting helpers
@@ -153,7 +160,7 @@ def coherence_all_pairs(
                 detrend='constant',axis=0)
         # Select a subset of the 129 freqs: 129 = 256 // 2 + 1
         idxs = np.array([0,2,4,8,16,32,64,-1]) # A logarithmic subset of freqs
-        sample_freqs, cxy = sample_freqs[idxs] , cxy[idxs]
+        sample_freqs,cxy = sample_freqs[idxs] , cxy[idxs]
         
         # By default noverlap=None defaults it to half the segment length
         # NB: FFT and therefore scipy.signal.coherence samples 
@@ -163,9 +170,8 @@ def coherence_all_pairs(
         # or is this good enough?
         # Scipy does not provide an easy way of computing the coherence
         # at specific frequencies as mscohere does in MatLab. As a 
-        # temporary measure I'm going to select all frequencies returned
-        # by scipy.signal.coherence that fall within the range of the
-        # frequencies provided. 
+        # temporary measure I'm returning a logarithmic subset of the 
+        # freqs computed by scipy.signal.coherence().
         # We could potentially reimplement mscohere by hand (in Python) 
         # so that it can take a list of frequencies as input.
 
@@ -202,8 +208,10 @@ def get_feats(
     segment : np.ndarray or list
         Is a list of segment samples ordered by the raw_chan index.
         Shape = (n_raw_chan , n_samples , n_wavelet_chan)
+
     features_list : list
-        A list of strings.
+        A list of strings: the names of the features you'd like to compute.
+
     data_ops : dict
         Dictionary containing metadata, as defined in Options.toml.
 
@@ -213,9 +221,9 @@ def get_feats(
         A dictionary of all the features we computed.
     """
     IMPLEMENTED_FEATS = ["mean_power","var","coherence"]
-    for i in features_list:
-        if i not in IMPLEMENTED_FEATS:
-            warnings.warn(f"{i} has not yet been implemented.")
+    for feat in features_list:
+        if feat not in IMPLEMENTED_FEATS:
+            warnings.warn(f"{feat} has not yet been implemented.")
     all_feats = {}
     if "mean_power" in features_list:
         AMP_FREQ_IDX_ALL = data_ops["AMP_FREQ_IDX_ALL"]

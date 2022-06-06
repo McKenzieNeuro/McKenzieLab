@@ -30,7 +30,7 @@ def get_n_samples_from_dur_fs(dur,fs):
     return int(dur * fs + 0.5) 
 
 def load_binary_multiple_segments(
-        file_path : str,
+        file_path       : str,
         n_chan          : int = 1,
         sample_rate     : int = None,
         offset_times    : list = [], 
@@ -235,11 +235,6 @@ def _load_binary(
     np.ndarray
         the loaded segment of size (n_samples , n_chan)
     """
-    # TODO: email John D. Long jlong29@gmail.com or Michaël Zugaro 
-    # about this they are the authors of the matlab script upon which 
-    # this script is based I don't understand memory allocation stuff 
-    # well enough to understand why this max_samples_per_chunk monkey 
-    # business is required
     total_n_samples = n_samples * n_chan 
     with open(file_path , "rb") as file:
         # Rem.  data_offset: uint = 
@@ -251,7 +246,6 @@ def _load_binary(
         else:
             # Preallocate memory
             data = np.zeros((n_samples , n_chan) , dtype=precision)
-
             # Read all chunks
             n_samples_per_chunk = MAX_SAMPLES_PER_CHUNK // n_chan * n_chan
             n_chunks = n_samples // n_samples_per_chunk 

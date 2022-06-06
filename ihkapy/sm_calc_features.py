@@ -3,9 +3,9 @@ import os
 from ihkapy.fileio.utils import get_all_valid_session_basenames,check_session_basenames_are_valid
 from ihkapy.fileio.binary_io import get_n_samples_from_dur_fs,load_binary_multiple_segments
 from ihkapy.fileio.metadata_io import get_seizure_start_end_times
-from ihkapy.fileio.options_io import load_ops_as_dict
+from ihkapy.fileio.options_io import load_ops_as_dict # For loading Options.toml
 from scipy.signal import coherence
-from ihkapy import sm_features
+from ihkapy import sm_features # for featurizing
 import warnings
 import pandas as pd
 from tqdm import tqdm
@@ -502,15 +502,7 @@ if __name__=="__main__":
     # saveas = "feat_df.pkl"
     # print(f"Pickling features {saveas}")
     # feat_df.to_pickle(saveas)
-    # print("Passed test calc_features()")
-
-
-    # TODO
-    """
-    unit tests to implement:
-
-    calc_features
-    """
+    print("Passed test calc_features()")
 
     print("\nTests All Passed: _get_bin_absolute_intervals()")
 
