@@ -15,7 +15,7 @@ from tqdm import tqdm
 def _get_x_pct_time_of_interval(
         start_time : float,     # in seconds
         end_time : float,       # in seconds
-        window_length : float,  # in seconds
+        segment_length : float,# in seconds
         pct : float             # proportion of times to sample
         ) -> np.ndarray:
     """Get a randomly sampled 1d array of start times
@@ -26,87 +26,32 @@ def _get_x_pct_time_of_interval(
         The beginning timestamp, in seconds, of the interval we sample from.
     end_time : float
         The end timestamp, in seconds, of the interval we sample from.
-    window_length : float
-        The time, in seconds of our sample windows.
+    segment_length : float
+        The time, in seconds of our samples.
     pct : float
-        The proportion of windows to select, must be between 0 and 1. 
+        The proportion of segments to select, must be between 0 and 1. 
 
     Returns
     -------
     np.ndarray
-        A 1d numpy array of start times for the windows (in seconds). 
-        Together with the window length, these fully define the windows
+        A 1d numpy array of start times for the segments (in seconds). 
+        Together with the segment length, these fully define the segments
         of interest to us that we would like to sample from. 
     """
     assert end_time > start_time
     assert pct >= 0.0 and pct <= 1.0
-    # The number of windows that fit in the interval
-    n_windows = int((end_time - start_time) // window_length) 
-    # List of all start times of max number of non-overlapping windows
+    # The number of segments that fit in the interval
+    n_segments = int((end_time - start_time) // segment_length) 
+    # List of all start times of max number of non-overlapping segments
     # that fit in the interval.
-    window_start_times = np.linspace(start_time,end_time-window_length,n_windows)
-    if pct == 1.0: return window_start_times
+    segment_start_times = np.linspace(start_time,end_time-segment_length,n_segments)
+    if pct == 1.0: return segment_start_times
     # Choose and sort a random sample according to pct
-    n_select = int(np.ceil(n_windows * pct)) # num win to select
-    window_start_times = np.random.choice(window_start_times,n_select,replace=False)
-    window_start_times.sort()
-    return window_start_times
+    n_select = int(np.ceil(n_segments * pct)) # num win to select
+    segment_start_times = np.random.choice(segment_start_times,n_select,replace=False)
+    segment_start_times.sort()
+    return segment_start_times
 
-
-# def get_feats(
-#         segment : np.ndarray or list,
-#         features_list : list,
-#         data_ops : dict
-#         ) -> dict:
-#     """Computes all features specified in featurelist.
-# 
-#     Computes each feature specified in featurelist on all of the
-#     windows, then assembles output into a features_dict—a dictionary
-#     of all features computed, this corresponds to a single row to be 
-#     appended to our features dataframe.
-# 
-#     To write a new feature, write the method in sm_features.py, then
-#     add it to execut conditionally in this function (get_feats), finally
-#     add it to the FEATURES in Options.toml
-# 
-#     Parameters
-#     ----------
-#     segment : np.ndarray or list
-#         Is a list of windows ordered by the raw_chan index. Each window 
-#         corresponds to a dur_feat segment of data. 
-#         Shape = (n_raw_chan , n_samples , n_wavelet_chan)
-#     features_list : list
-#         A list of strings.
-#     data_ops : dict
-#         Dictionary containing metadata, as defined in Options.toml.
-# 
-#     Returns
-#     -------
-#     dict
-#         A dictionary of all the features we computed.
-#     """
-#     IMPLEMENTED_FEATS = ["mean_power","var","coherence"]
-#     for i in features_list:
-#         if i not in IMPLEMENTED_FEATS:
-#             warnings.warn(f"{i} has not yet been implemented.")
-#     all_feats = {}
-#     if "mean_power" in features_list:
-#         AMP_FREQ_IDX_ALL = data_ops["AMP_FREQ_IDX_ALL"]
-#         mp_feats = sm_features.mean_power(segment,AMP_FREQ_IDX_ALL)  
-#         all_feats.update(mp_feats) # add it to greater dictionary
-#     if "var" in features_list:
-#         var_feats = sm_features.var(segment,"all")
-#         all_feats.update(var_feats)
-#     if "coherence" in features_list:
-#         FS = data_ops["FS"]
-#         coherence_feats = sm_features.coherence_all_pairs(
-#                 segment,
-#                 fs = FS
-#                 )
-#         all_feats.update(coherence_feats)
-#     # print()
-#     # for i,j in all_feats.items(): print(f"{i}:{j}") # debug
-#     return all_feats
 
 # Helper for calc_features()
 def _get_bin_absolute_intervals(
@@ -244,13 +189,13 @@ def _get_feats_df_column_names(
         features_list   : list,
         data_ops        : dict,
         ):
-    """Calls the featurizing method on dummy windows and uses the columnames returned."""
+    """Calls the featurizing method on dummy segments and uses the columnames returned."""
     N_CHAN_RAW      = data_ops["N_CHAN_RAW"]
     N_CHAN_BINARY   = data_ops["N_CHAN_BINARY"]
     # Rem: session_basename identifies the recording, time_bin is the class label
-    # Dummy windows random noise not cnst or div by zero error in coherence (psd=0)
-    dummy_windows = np.random.normal(0,1,(N_CHAN_RAW,10000,N_CHAN_BINARY)) # 10000 samples is a 5s window at 2000Hz
-    dummy_features = sm_features.get_feats(dummy_windows,features_list,data_ops)
+    # Dummy segments random noise not cnst or div by zero error in coherence (psd=0)
+    dummy_segments = np.random.normal(0,1,(N_CHAN_RAW,10000,N_CHAN_BINARY)) # 10000 samples is a 5s segment at 2000Hz
+    dummy_features = sm_features.get_feats(dummy_segments,features_list,data_ops)
     colnames = ["session_basename","time_bin"] # first two colnames by default
     colnames += [k for k in dummy_features.keys()] # concatenate
     return colnames
@@ -292,7 +237,7 @@ def calc_features(
         serialized copy of the Options.toml file. 
     """
     # feature_functions = # TODO: this is a list of functions
-    # features = # TODO: 2d np array shape = (n_windows,n_feats_per_window)
+    # features = # TODO: 2d np array shape = (n_segments,n_feats_per_segment)
 
     # Unpack fio_ops params
     RAW_DATA_PATH         = fio_ops["RAW_DATA_PATH"]
@@ -371,7 +316,7 @@ def calc_features(
                 segment_starts = _get_x_pct_time_of_interval(
                         start_time      = start_time,
                         end_time        = end_time,
-                        window_length   = DUR_FEAT,
+                        segment_length   = DUR_FEAT,
                         pct             = pct
                         )
                 # This will hold the segments for this bin
@@ -398,7 +343,7 @@ def calc_features(
                     assert ws.shape == (len(segment_starts),N_SAMPLES,N_CHAN_BINARY)
                     bin_segments[raw_ch_idx,:,:,:] = ws
 
-                # Get features window
+                # Get features for segment 
                 for segment in bin_segments.transpose((1,0,2,3)):
                     # This a single segment, all channels, raw and wavelet/binary
                     assert segment.shape == (N_CHAN_RAW,N_SAMPLES,N_CHAN_BINARY) 
@@ -438,7 +383,7 @@ if __name__=="__main__":
     arr = _get_x_pct_time_of_interval(
             start_time    = 5.0,
             end_time      = 152.6,
-            window_length = 1.0,
+            segment_length = 1.0,
             pct           = 0.05)
     print("Test _get_x_pct_time_of_interval(), array returned:")
     print(arr)

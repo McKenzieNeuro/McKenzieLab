@@ -43,7 +43,7 @@ def load_binary_multiple_segments(
     """Load many segments of data from multiplexed binary file.
 
     Either provide a list of offset times and a duration time in seconds
-    XOR provide a list of offset sizes and a duration size for the window
+    XOR provide a list of offset sizes and a duration size for the segment
     in number of samples. 
 
     Parameters
@@ -88,7 +88,7 @@ def load_binary_multiple_segments(
     # TODO: check whether they are integer values? Prob not necessary
     # TODO: check channels are valid ints in valid range
 
-    n_segments = len(offset_sizes) # the number of segments aka windows
+    n_segments = len(offset_sizes) # the number of segments 
     # Allocate space in memory
     segments_data = np.zeros((n_segments, duration_size, len(channels)),dtype=precision) 
     for idx,offset_size in enumerate(offset_sizes):

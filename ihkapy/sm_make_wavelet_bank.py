@@ -75,17 +75,14 @@ def compute_wavelet_gabor(
     assert fs > 0 and (isinstance(fs, float) or isinstance(fs, int))
     assert signal.ndim == 1, "Must be single dim signal" 
     # TODO: implement multi-dim and remove above assertion
-    # Note, not crucial because we don't (yet) use that in pipeline
+    # (not crucial because we don't (yet) use that in pipeline)
 
     (len_sig,) = signal.shape
     sigma2 = 1
     omega = np.concatenate((np.arange(0,len_sig//2+1) , np.arange(-((len_sig+1)//2)+1,0))) * fs / len_sig
     # omega *= fs / len_sig
 
-    # TODO: If you feel like diving in and making this more rigorous, 
-    # we know that it can't be more than half the nyquist and 
-    # on the lower bound the window must be at least double the 
-    # lowest frequency (sometimes advise 5x the lowest)
+    # Warning: this code was dogmatically translated from MatLab repo 
     tolerance = 0.5
     mincenterfreq = 2*tolerance*np.sqrt(sigma2)*fs*xi / len_sig
     maxcenterfreq = fs*xi/(xi+tolerance/np.sqrt(sigma2)) # Shouldn't this be divided by two because of aliasing? 

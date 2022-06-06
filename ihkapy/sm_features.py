@@ -4,63 +4,59 @@ from itertools import combinations as combin
 import warnings # temporary
 
 
-# the feature funcitons
-# this is a utility script that contains all the functions the compute features
-# each function in this file takes a 2d numpy np.ndarray as input
-# and returns a float as output: the float, or a 1darray of features
-# In the case of returning a 1d array, those features are computed for each 
-# channel individually, so the 1darray has length n_channels
-# In shape is (len_window,n_channels)
-
-
 """
-Each feature is a function that takes an ordered list of N_RAW_CHAN 
-windows: the index of the window is the index of the raw electrode 
-channel. The feature function returns a dictionary with key-value pairs
+Each feature is a function that takes an array-like 3d segment 
+The segemnt has shape (n_raw_chan,n_samples,n_freq_chan)
+The feature functions return a dictionary of features
     key   : str   = name of sub-feature
     value : float = value of the feature evaluated
 The keys of this returned dictionary are to be used a column names for
 the data-frame in which we save our features.
 
 Example 1. Mean Power raw. 
-Takes four, 5-second windows of data
-For each window (all windows are same point in time but correspond to 
-different electrodes recordings)
-    Compute the mean power of only the raw channel (i.e. not wavelets),
-    Save this do dictionary under key=f"mean_power_ch{n_raw_chan}"
+Takes a segment of data which has (for example) 4 raw channels and 41 
+freq channels with 10_000 samples.
+For each raw channel
+    Compute the mean power 
+    Save this to dictionary under key=f"mean_power_ch{n_raw_chan}"
+Return the dictionary of mean powers
 
-Example 2. Correlation feature.
+Example 2. Coherence feature.
+Takes a segment of data with four raw channels and 41 freq channels
+Discard all the freq channels that are convolutions, only keep raw recording
+For each pair of raw channels
+    Compute the coherence
+    Save selected frequencies to dictionary 
+Return the dictionary of raw-chan pairwise coherence
 
 
-"""
 
-"""
-Convention:
-    ch_raw is the raw channel index
-    chan_freq is the binary (wavelet freq) file channel index
+Naming Convention:
+    ch_raw refers to the raw electrode channel index
+    ch_freq refers to the binary (wavelet freq) file channel index
 """
 
 ### Formatting helpers
 
-def _select_freq_chans(windows,chan_freq_idxs) -> (np.ndarray,np.ndarray):
+def _select_freq_chans(segment,chan_freq_idxs) -> (np.ndarray,np.ndarray):
     """Formatting helper for all features. 
 
-    Assumes windows array-like w/ shape (n_chan_raw,n_samples,n_chan_freq)
+    Assumes segment array-like w/ shape (n_chan_raw,n_samples,n_chan_freq)
 
     Selects frequency (wavelet binary) channels of interest and formats 
     chan_freq_idxs as a 1d numpy ndarray.
     """
     # If None, select all frequency channels
-    windows = np.asarray(windows)
+    segment = np.asarray(segment)
     if chan_freq_idxs is None or chan_freq_idxs == "all": 
-        chan_freq_idxs = np.arange(windows.shape[2])
+        chan_freq_idxs = np.arange(segment.shape[2])
     elif type(chan_freq_idxs) == type(1): # int
         chan_freq_idxs = np.asarray([chan_freq_idxs])
-        windows = windows[:,:,chan_freq_idxs] 
+        segment = segment[:,:,chan_freq_idxs] 
     else:
         chan_freq_idxs = np.asarray(chan_freq_idxs)
-        windows = windows[:,:,chan_freq_idxs] 
-    return windows,chan_freq_idxs
+        segment = segment[:,:,chan_freq_idxs] 
+    return segment,chan_freq_idxs
 
 def _feats_as_dict_from_2d_array(
         feat_name : str,
@@ -86,15 +82,15 @@ def _feats_as_dict_from_2d_array(
 ### Begin: Features on individual channels
 
 def mean_power(
-        windows : list or np.ndarray,
+        segment : list or np.ndarray,
         chan_freq_idxs : np.ndarray or int = None
         ) -> dict:
     """Get mean power across each channel.
 
     Parameters
     ----------
-    windows : array-like
-        A list of windows. Dims = (n_raw , n_samples , n_freq_chan)
+    segment : array-like
+        A list of segment samples. Dims = (n_raw , n_samples , n_freq_chan)
 
     chan_freq_idxs : ndarray or int = None
         The 1d list of binary file indices we are interested in, e.g.
@@ -111,21 +107,21 @@ def mean_power(
         are floats.
     """
     # Select binary (aka wavelet/freq) file channels
-    windows,chan_freq_idxs = _select_freq_chans(windows,chan_freq_idxs)
+    segment,chan_freq_idxs = _select_freq_chans(segment,chan_freq_idxs)
     # Compute the features along samples axis
-    mp_all = np.mean(windows,axis=1)
+    mp_all = np.mean(segment,axis=1)
     # Save and return, formatted as dict
     mp_feats = _feats_as_dict_from_2d_array("mean_power",mp_all,chan_freq_idxs)
     return mp_feats
 
 
 def var(
-        windows         : list or np.ndarray,
+        segment         : list or np.ndarray,
         chan_freq_idxs  : np.ndarray or int = None
         ) -> dict:
     """Get the variance of the signal"""
-    windows,chan_freq_idxs = _select_freq_chans(windows,chan_freq_idxs)
-    var_all = np.var(windows,axis=1) # all channels
+    segment,chan_freq_idxs = _select_freq_chans(segment,chan_freq_idxs)
+    var_all = np.var(segment,axis=1) # all channels
     var_feats = _feats_as_dict_from_2d_array("var",var_all,chan_freq_idxs)
     return var_feats
 
@@ -137,7 +133,7 @@ def var(
 
 # coherence is always only computed for a single index
 def coherence_all_pairs(
-        windows         : list or np.ndarray,
+        segment         : list or np.ndarray,
         fs              : float or int # = 2000
         ) -> dict:
     """Cohere each pair of signals"""
@@ -145,11 +141,11 @@ def coherence_all_pairs(
     # TODO: chan_freq_idxs is hard coded... change this to whatever is 
     # specified in toml gets fed to this function 
     chan_freq_idxs = 0 # only select raw channel
-    windows,chan_freq_idxs = _select_freq_chans(windows,chan_freq_idxs)
-    windows = np.squeeze(windows) # 3d array -> 2d array
-    raw_chans = list(range(len(windows)))    
+    segment,chan_freq_idxs = _select_freq_chans(segment,chan_freq_idxs)
+    segment = np.squeeze(segment) # 3d array -> 2d array
+    raw_chans = list(range(len(segment)))    
     coherence_dict = {}
-    for (chx,chy),(x,y) in zip(combin(raw_chans,2),combin(windows,2)):
+    for (chx,chy),(x,y) in zip(combin(raw_chans,2),combin(segment,2)):
         # There parameters defined here are similar to the default 
         # MatLab options
         sample_freqs,cxy = coherence(x,y,fs=fs,window='hann',
@@ -159,7 +155,7 @@ def coherence_all_pairs(
         idxs = np.array([0,2,4,8,16,32,64,-1]) # A logarithmic subset of freqs
         sample_freqs, cxy = sample_freqs[idxs] , cxy[idxs]
         
-        # By default noverlap=None defaults it to half a window's worth
+        # By default noverlap=None defaults it to half the segment length
         # NB: FFT and therefore scipy.signal.coherence samples 
         # frequencies linearly, not logarithmically
         
@@ -193,7 +189,7 @@ def get_feats(
     """Computes all features specified in featurelist.
 
     Computes each feature specified in featurelist on all of the
-    windows, then assembles output into a features_dict—a dictionary
+    segment, then assembles output into a features_dict—a dictionary
     of all features computed, this corresponds to a single row to be 
     appended to our features dataframe.
 
@@ -204,8 +200,7 @@ def get_feats(
     Parameters
     ----------
     segment : np.ndarray or list
-        Is a list of windows ordered by the raw_chan index. Each window 
-        corresponds to a dur_feat segment of data. 
+        Is a list of segment samples ordered by the raw_chan index.
         Shape = (n_raw_chan , n_samples , n_wavelet_chan)
     features_list : list
         A list of strings.
@@ -248,19 +243,19 @@ if __name__ == "__main__":
     ### HELPERS
 
     # TEST _select_freq_chans() 
-    windows = [np.random.normal(0,1,(10000,41)) for i in range(4)]
+    segment = [np.random.normal(0,1,(10000,41)) for i in range(4)]
     chan_freq_idxs = [0,1,2,3,4,10,12]
-    windows,chan_freq_idxs = _select_freq_chans(windows,chan_freq_idxs)
+    segment,chan_freq_idxs = _select_freq_chans(segment,chan_freq_idxs)
     try:
-        assert windows.shape == (4,10000,7)
+        assert segment.shape == (4,10000,7)
         print("Passed Test #1 _select_freq_chans()")
     except:
         print("Failed Test #1 _select_freq_chans()")
-    windows = [np.random.normal(0,1,(10000,41)) for i in range(4)]
+    segment = [np.random.normal(0,1,(10000,41)) for i in range(4)]
     chan_freq_idxs = "all"
-    windows,chan_freq_idxs = _select_freq_chans(windows,chan_freq_idxs)
+    segment,chan_freq_idxs = _select_freq_chans(segment,chan_freq_idxs)
     try:
-        assert windows.shape == (4,10000,41)
+        assert segment.shape == (4,10000,41)
         assert (chan_freq_idxs == np.arange(41)).all()
         print("Passed Test #2 _select_freq_chans()")
     except:
@@ -284,13 +279,13 @@ if __name__ == "__main__":
     n_ch_raw = 4
     n_ch_freq = 3
     n_samples = 10000
-    windows_1 = [np.ones((n_samples,n_ch_freq)) for i in range(n_ch_raw)]
-    windows_0 = [np.zeros((n_samples,n_ch_freq)) for i in range(n_ch_raw)]
-    windows_r = [np.random.normal(0,1,(n_samples,n_ch_freq)) for i in range(n_ch_raw)]
+    segment_1 = [np.ones((n_samples,n_ch_freq)) for i in range(n_ch_raw)]
+    segment_0 = [np.zeros((n_samples,n_ch_freq)) for i in range(n_ch_raw)]
+    segment_r = [np.random.normal(0,1,(n_samples,n_ch_freq)) for i in range(n_ch_raw)]
     # TEST mean_power()
     print("\nTest mean_power() by human inspection.")
     print("Does this output look good?")
-    mp_dict = mean_power(windows_1,"all") 
+    mp_dict = mean_power(segment_1,"all") 
     for i,j in mp_dict.items():
         print(f"{i} : {j}")
 

@@ -59,7 +59,7 @@ BIN_NAMES = ["pre_ictal_bin1","pre_ictal_bin2","pre_ictal_bin3",
 FEATURES = [
   "mean_power",
   "var",
-  "correlation"
+  "coherence"
   ] # Must correspond to feature function names in feature file
 
 
