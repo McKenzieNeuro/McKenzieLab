@@ -133,7 +133,6 @@ def var(
     return var_feats
 
 ### End: Features on individual channels
-    
 
 
 ### Begin: Features comparing two channels
@@ -227,7 +226,7 @@ def get_feats(
     all_feats = {}
     if "mean_power" in features_list:
         AMP_FREQ_IDX_ALL = data_ops["AMP_FREQ_IDX_ALL"]
-        mp_feats = mean_power(segment,AMP_FREQ_IDX_ALL)  
+        mp_feats = mean_power(segment,AMP_FREQ_IDX_ALL) 
         all_feats.update(mp_feats) # add it to greater dictionary
     if "var" in features_list:
         var_feats = var(segment,"all")

@@ -111,6 +111,7 @@ def compute_wavelet_gabor(
 
     return np.squeeze(wt) # turns 2d into 1d IFF single freq 
 
+
 # Helper for make_wavelet_bank
 def _contains_all(directory:str,*args) -> bool:
     """Determines whether the directory contains all of the file strings provided"""
@@ -143,11 +144,14 @@ def make_wavelet_bank(
     of the raw signals in the provided edf file (edf_fname). 
     This function doesn't return anything, but reads and writes to disk. 
 
+    The signals are scaled before saving to hard disk, this is to mitigate
+    quantization effects, since we are saving our data as int16. 
+
     - Reads edf raw signal specified by edf_fname (and fio_ops params)
     - Iterates through each channel, computing wavelet convolutions
         for frequencies in a range specified by data_ops
-    - Saves output binaries, one binary file for each hardware channel
-        but all the frequencies are saved according to the below order
+    - Saves output binaries, one binary file for each hardware channel,
+        all the frequencies are saved according to the below order
 
     Binaries array flattening convention: 
     - Read 'sn' as 'sample number n'
@@ -192,6 +196,7 @@ def make_wavelet_bank(
     HIGH_FREQ    = data_ops["HIGH_FREQ"]
     SPACING      = data_ops["SPACING"]
     ZSCORE_POWER = data_ops["ZSCORE_POWER"] # bool
+    SCALE_RAW    = data_ops["SCALE_RAW"]
     SCALE_PHASE  = data_ops["SCALE_PHASE"]
     SCALE_POWER  = data_ops["SCALE_POWER"]
     N_CHAN_RAW   = data_ops["N_CHAN_RAW"]
@@ -219,16 +224,16 @@ def make_wavelet_bank(
         sig = None
         with pyedflib.EdfReader(edf_path) as f:
             assert N_CHAN_RAW == f.signals_in_file, f"N_CHAN_RAW={N_CHAN_RAW} incompatible with detected number of channels in file ={f.signals_in_file}"
-            sig = f.readSignal(channel).astype("int16")
-            _rms = np.sqrt(np.power(sig,2).mean())
-            logger.debug(f"Sample of quantized sig {sig[:10]}")
-            logger.debug(f"Root Mean Square raw quantized signal = {_rms:.3f}")
+            sig = f.readSignal(channel) # .astype("int16") # this would quantize signal badly
+            _rms = np.sqrt(np.power(sig,2).mean()) # for debugging only
+            logger.debug(f"Sample of quantized sig {sig.astype('int16')[:10]}")
+            logger.debug(f"Root Mean Square raw signal = {_rms:.3f}")
         assert sig.shape==(f.getNSamples()[0],) # make sure exists and right shape
 
         # Save raw channel data as .dat binary
         cached_bin_fname_raw = f"{basename}_ch_{str(channel).zfill(3)}_raw.dat"
         logger.debug(f"cache_dir_path = '{cache_dir_path}'")
-        sig.tofile(os.path.join(cache_dir_path, cached_bin_fname_raw)) 
+        (sig * SCALE_RAW).astype("int16").tofile(os.path.join(cache_dir_path, cached_bin_fname_raw)) 
 
         print(f"Computing {NUM_FREQ} Gabor wavelet convolutions for channel {channel}.")
         # Loop through each frequency, convolve with Gabor wavelet
