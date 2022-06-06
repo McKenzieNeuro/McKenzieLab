@@ -3,8 +3,9 @@ import os
 from ihkapy.fileio.utils import get_all_valid_session_basenames,check_session_basenames_are_valid
 from ihkapy.fileio.binary_io import get_n_samples_from_dur_fs,load_binary_multiple_segments
 from ihkapy.fileio.metadata_io import get_seizure_start_end_times
+from ihkapy.fileio.options_io import load_ops_as_dict
 from scipy.signal import coherence
-import sm_features
+from ihkapy import sm_features
 import warnings
 import pandas as pd
 from tqdm import tqdm
@@ -52,60 +53,60 @@ def _get_x_pct_time_of_interval(
     return window_start_times
 
 
-def get_feats(
-        segment : np.ndarray or list,
-        features_list : list,
-        data_ops : dict
-        ) -> dict:
-    """Computes all features specified in featurelist.
-
-    Computes each feature specified in featurelist on all of the
-    windows, then assembles output into a features_dict—a dictionary
-    of all features computed, this corresponds to a single row to be 
-    appended to our features dataframe.
-
-    To write a new feature, write the method in sm_features.py, then
-    add it to execut conditionally in this function (get_feats), finally
-    add it to the FEATURES in Options.toml
-
-    Parameters
-    ----------
-    segment : np.ndarray or list
-        Is a list of windows ordered by the raw_chan index. Each window 
-        corresponds to a dur_feat segment of data. 
-        Shape = (n_raw_chan , n_samples , n_wavelet_chan)
-    features_list : list
-        A list of strings.
-    data_ops : dict
-        Dictionary containing metadata, as defined in Options.toml.
-
-    Returns
-    -------
-    dict
-        A dictionary of all the features we computed.
-    """
-    IMPLEMENTED_FEATS = ["mean_power","var","coherence"]
-    for i in features_list:
-        if i not in IMPLEMENTED_FEATS:
-            warnings.warn(f"{i} has not yet been implemented.")
-    all_feats = {}
-    if "mean_power" in features_list:
-        AMP_FREQ_IDX_ALL = data_ops["AMP_FREQ_IDX_ALL"]
-        mp_feats = sm_features.mean_power(segment,AMP_FREQ_IDX_ALL)  
-        all_feats.update(mp_feats) # add it to greater dictionary
-    if "var" in features_list:
-        var_feats = sm_features.var(segment,"all")
-        all_feats.update(var_feats)
-    if "coherence" in features_list:
-        FS = data_ops["FS"]
-        coherence_feats = sm_features.coherence_all_pairs(
-                segment,
-                fs = FS
-                )
-        all_feats.update(coherence_feats)
-    # print()
-    # for i,j in all_feats.items(): print(f"{i}:{j}") # debug
-    return all_feats
+# def get_feats(
+#         segment : np.ndarray or list,
+#         features_list : list,
+#         data_ops : dict
+#         ) -> dict:
+#     """Computes all features specified in featurelist.
+# 
+#     Computes each feature specified in featurelist on all of the
+#     windows, then assembles output into a features_dict—a dictionary
+#     of all features computed, this corresponds to a single row to be 
+#     appended to our features dataframe.
+# 
+#     To write a new feature, write the method in sm_features.py, then
+#     add it to execut conditionally in this function (get_feats), finally
+#     add it to the FEATURES in Options.toml
+# 
+#     Parameters
+#     ----------
+#     segment : np.ndarray or list
+#         Is a list of windows ordered by the raw_chan index. Each window 
+#         corresponds to a dur_feat segment of data. 
+#         Shape = (n_raw_chan , n_samples , n_wavelet_chan)
+#     features_list : list
+#         A list of strings.
+#     data_ops : dict
+#         Dictionary containing metadata, as defined in Options.toml.
+# 
+#     Returns
+#     -------
+#     dict
+#         A dictionary of all the features we computed.
+#     """
+#     IMPLEMENTED_FEATS = ["mean_power","var","coherence"]
+#     for i in features_list:
+#         if i not in IMPLEMENTED_FEATS:
+#             warnings.warn(f"{i} has not yet been implemented.")
+#     all_feats = {}
+#     if "mean_power" in features_list:
+#         AMP_FREQ_IDX_ALL = data_ops["AMP_FREQ_IDX_ALL"]
+#         mp_feats = sm_features.mean_power(segment,AMP_FREQ_IDX_ALL)  
+#         all_feats.update(mp_feats) # add it to greater dictionary
+#     if "var" in features_list:
+#         var_feats = sm_features.var(segment,"all")
+#         all_feats.update(var_feats)
+#     if "coherence" in features_list:
+#         FS = data_ops["FS"]
+#         coherence_feats = sm_features.coherence_all_pairs(
+#                 segment,
+#                 fs = FS
+#                 )
+#         all_feats.update(coherence_feats)
+#     # print()
+#     # for i,j in all_feats.items(): print(f"{i}:{j}") # debug
+#     return all_feats
 
 # Helper for calc_features()
 def _get_bin_absolute_intervals(
@@ -249,7 +250,7 @@ def _get_feats_df_column_names(
     # Rem: session_basename identifies the recording, time_bin is the class label
     # Dummy windows random noise not cnst or div by zero error in coherence (psd=0)
     dummy_windows = np.random.normal(0,1,(N_CHAN_RAW,10000,N_CHAN_BINARY)) # 10000 samples is a 5s window at 2000Hz
-    dummy_features = get_feats(dummy_windows,features_list,data_ops)
+    dummy_features = sm_features.get_feats(dummy_windows,features_list,data_ops)
     colnames = ["session_basename","time_bin"] # first two colnames by default
     colnames += [k for k in dummy_features.keys()] # concatenate
     return colnames
@@ -258,12 +259,14 @@ def _get_match_basename_in_dir_paths(directory,basename):
     """Returns list of all full paths of files starting with b in basenames, in directory."""
     return [os.path.join(directory,i) for i in os.listdir(directory) if i[:len(basename)]==basename]
 
-# TODO: test and refactor this method
+
+# Calculates all the features for one session and returns them in a 
+# pandas dataframe
 def calc_features(
         fio_ops : dict,
         data_ops : dict,
         feature_ops : dict,
-        session_basenames_list : list or str = "all",
+        session_basename : str,
         ) -> pd.DataFrame:
     """Compute all features in all channels for multiple sessions.
 
@@ -319,108 +322,112 @@ def calc_features(
     PCT_DIC = {b:pct for b,pct in zip(BIN_NAMES,PCT)} # a handy pct dictionary 
     DUR_FEAT        = feature_ops["DUR_FEAT"]
     N_SAMPLES       = get_n_samples_from_dur_fs(DUR_FEAT,FS) # n samples per feature
-    FEATURES   = feature_ops["FEATURES"]
-
-    # Define / check list of sessions
-    if session_basenames_list == "all":
-        session_basenames_list = get_all_valid_session_basenames(RAW_DATA_PATH)
-    elif type(session_basenames_list)==type([]):
-        assert len(session_basenames_list) > 0, "No session files provided."
-        print(f"\nsession basenames {session_basenames_list}") # debug, temp
-        print(f"raw data path {RAW_DATA_PATH}\n") # debug, temp
-        assert check_session_basenames_are_valid(session_basenames_list,RAW_DATA_PATH)
-    else: raise Exception()
-        
+    FEATURES        = feature_ops["FEATURES"]
 
     # Init Pandas DataFrame with right colnames
     colnames = _get_feats_df_column_names(FEATURES,data_ops)
     feats_df = pd.DataFrame({name:[] for name in colnames})
 
-    # For each session
-    for session_basename in session_basenames_list:
-        # Retrieve seizure times from metadata
-        session_metadata_path = os.path.join(RAW_DATA_PATH, session_basename+".txt")
-        start_times,end_times = get_seizure_start_end_times(session_metadata_path)
-        # All of the session binaries
-        session_binary_paths = _get_match_basename_in_dir_paths(WAVELET_BINARIES_PATH,session_basename)
-        # Get total session time, assumes all binary's exact same length
-        total_session_time = _get_total_session_time_from_binary(
-                session_binary_paths, 
-                fs=FS,
-                n_chan_binary=N_CHAN_BINARY,
-                precision=PRECISION) # in secs
+    # Retrieve seizure times from metadata
+    session_metadata_path = os.path.join(RAW_DATA_PATH, session_basename+".txt")
+    start_times,end_times = get_seizure_start_end_times(session_metadata_path)
+    # All of the session binaries
+    session_binary_paths = _get_match_basename_in_dir_paths(WAVELET_BINARIES_PATH,session_basename)
+    # Get total session time, assumes all binary's exact same length
+    total_session_time = _get_total_session_time_from_binary(
+            session_binary_paths, 
+            fs=FS,
+            n_chan_binary=N_CHAN_BINARY,
+            precision=PRECISION) # in secs
 
-        # For each seizure in the session
-        print(f"Computing features for session {session_basename}")
-        for start_time,end_time in tqdm(list(zip(start_times,end_times))):
-            # _get_bin_absolute_intervals() returns a dic with 
-            # keys=BIN_NAMES,values=(strtbin,endbin) (in s). 
-            # If the intervals of a bin are not valid, either because 
-            # they start before or end after a file or because they 
-            # overlap with another seizure: the value at bin_name 
-            # is None.
-            bins_absolute_intervals = _get_bin_absolute_intervals(
-                    start_seiz          = start_time,
-                    end_seiz            = end_time,
-                    preictal_bins       = PREICTAL_BINS, 
-                    postictal_delay     = POSTICTAL_DELAY,
-                    bin_names           = BIN_NAMES,
-                    all_start_times     = start_times,
-                    all_end_times       = end_times,
-                    total_session_time  = total_session_time
-                    )
+    # For each seizure in the session
+    print(f"Computing features for session {session_basename}")
+    for start_time,end_time in tqdm(list(zip(start_times,end_times))):
+        # _get_bin_absolute_intervals() returns a dic with 
+        # keys=BIN_NAMES,values=(strtbin,endbin) (in s). 
+        # If the intervals of a bin are not valid, either because 
+        # they start before or end after a file or because they 
+        # overlap with another seizure: the value at bin_name 
+        # is None.
+        bins_absolute_intervals = _get_bin_absolute_intervals(
+                start_seiz          = start_time,
+                end_seiz            = end_time,
+                preictal_bins       = PREICTAL_BINS, 
+                postictal_delay     = POSTICTAL_DELAY,
+                bin_names           = BIN_NAMES,
+                all_start_times     = start_times,
+                all_end_times       = end_times,
+                total_session_time  = total_session_time
+                )
 
-            # For each time bin (=interval label) corresponding to this session
-            for bin_name in BIN_NAMES:
-                interval = bins_absolute_intervals[bin_name] # interval in seconds
-                pct      = PCT_DIC[bin_name] # % intervals to grab, float in (0,1)
-                # If the interval is valid, get the segment start-times
-                if interval:
-                    start_time,end_time = interval # unpack interval tuple
-                    # Get set of timestamps corresponding to start of segments
-                    segment_starts = _get_x_pct_time_of_interval(
-                            start_time      = start_time,
-                            end_time        = end_time,
-                            window_length   = DUR_FEAT,
-                            pct             = pct
+        # For each time bin (=interval label) corresponding to this session
+        for bin_name in BIN_NAMES:
+            interval = bins_absolute_intervals[bin_name] # interval in seconds
+            pct      = PCT_DIC[bin_name] # % of intervals to grab, float in (0,1]
+            # If the interval is valid, get the segment start-times
+            if interval:
+                start_time,end_time = interval # unpack interval tuple
+                # Get set of timestamps corresponding to start of segments
+                segment_starts = _get_x_pct_time_of_interval(
+                        start_time      = start_time,
+                        end_time        = end_time,
+                        window_length   = DUR_FEAT,
+                        pct             = pct
+                        )
+                # This will hold the segments for this bin
+                bin_segments = np.zeros((
+                    N_CHAN_RAW,
+                    len(segment_starts),
+                    N_SAMPLES, 
+                    N_CHAN_BINARY
+                    ))
+                for raw_ch_idx in range(N_CHAN_RAW):
+                    # Is it dangerous to use such a strict file-naming convention?
+                    # Yes, TODO: refactor all nameings of things that derive 
+                    # from basenames to utility method
+                    session_binary_chan_raw_path = os.path.join(WAVELET_BINARIES_PATH,f"{session_basename}_ch_{str(raw_ch_idx).zfill(3)}.dat")
+                    # Load all segments from specific time bin and raw chan
+                    ws = load_binary_multiple_segments(
+                            file_path       = session_binary_chan_raw_path,
+                            n_chan          = N_CHAN_BINARY,
+                            sample_rate     = FS,
+                            offset_times    = segment_starts,
+                            duration_time   = DUR_FEAT,
+                            precision       = PRECISION
                             )
-                    # This will hold the segments for this bin
-                    bin_segments = np.zeros((
-                        N_CHAN_RAW,
-                        len(segment_starts),
-                        N_SAMPLES, 
-                        N_CHAN_BINARY
-                        ))
-                    for raw_ch_idx in range(N_CHAN_RAW):
-                        # Is it dangerous to use such a strict file-naming convention?
-                        # Yes, TODO: refactor all nameings of things that derive 
-                        # from basenames to utility method
-                        session_binary_chan_raw_path = os.path.join(WAVELET_BINARIES_PATH,f"{session_basename}_ch_{str(raw_ch_idx).zfill(3)}.dat")
-                        # Load all segments from specific time bin and raw chan
-                        ws = load_binary_multiple_segments(
-                                file_path       = session_binary_chan_raw_path,
-                                n_chan          = N_CHAN_BINARY,
-                                sample_rate     = FS,
-                                offset_times    = segment_starts,
-                                duration_time   = DUR_FEAT,
-                                precision       = PRECISION
-                                )
-                        assert ws.shape == (len(segment_starts),N_SAMPLES,N_CHAN_BINARY)
-                        bin_segments[raw_ch_idx,:,:,:] = ws
+                    assert ws.shape == (len(segment_starts),N_SAMPLES,N_CHAN_BINARY)
+                    bin_segments[raw_ch_idx,:,:,:] = ws
 
-                    # Get features window
-                    for segment in bin_segments.transpose((1,0,2,3)):
-                        # This a single segment, all channels, raw and wavelet/binary
-                        assert segment.shape == (N_CHAN_RAW,N_SAMPLES,N_CHAN_BINARY) 
-                        feats = get_feats(segment,FEATURES,data_ops)
-                        # Add the session name and time bin to the row dictionary
-                        feats.update({
-                            "session_basename"  : session_basename,
-                            "time_bin"          : bin_name
-                            })
-                        # Add the row to our pandas dataframe
-                        feats_df.loc[len(feats_df.index)] = feats
+                # Get features window
+                for segment in bin_segments.transpose((1,0,2,3)):
+                    # This a single segment, all channels, raw and wavelet/binary
+                    assert segment.shape == (N_CHAN_RAW,N_SAMPLES,N_CHAN_BINARY) 
+                    feats = sm_features.get_feats(segment,FEATURES,data_ops)
+                    # Add the session name and time bin to the row dictionary
+                    feats.update({
+                        "session_basename"  : session_basename,
+                        "time_bin"          : bin_name
+                        })
+                    # Add the row to our pandas dataframe
+                    feats_df.loc[len(feats_df.index)] = feats
     return feats_df
+
+def calc_features_all(options_path="Options.toml"):
+    # Unpack parameters and user-defined constants
+    ops = load_ops_as_dict(options_path=options_path)
+    data_ops = ops["params"]["data"]
+    fio_ops = ops["fio"]
+    feature_ops = ops["params"]["feature"]
+    RAW_DATA_PATH = fio_ops["RAW_DATA_PATH"]
+    FEATURES_PATH = fio_ops["FEATURES_PATH"]
+    valid_basenames = get_all_valid_session_basenames(RAW_DATA_PATH)
+    print(f"Computing features for {len(valid_basenames)} sessions...")
+    for basename in valid_basenames:
+        # Get the features
+        df = calc_features(fio_ops,data_ops,feature_ops,session_basename=basename)
+        # Save the features
+        df.to_csv(os.path.join(FEATURES_PATH,f"{basename}.csv"))
+    return         
 
 
 if __name__=="__main__":
@@ -510,7 +517,7 @@ if __name__=="__main__":
     except: 
         print("Failed Test _get_total_session_time()")
 
-    ### TEST _get_feats_df_column_names(), and get_feats() implicitly
+    ### TEST _get_feats_df_column_names(), and sm_features.get_feats() implicitly
     features = ["mean_power","coherence"]
     data_ops = {"FS":2000,"NUM_FREQ":20,"LOW_FREQ":0.5,"HIGH_FREQ":200,
             "SPACING":"LOGARITHMIC","ZSCORE_POWER":True,"SCALE_PHASE":1000,
@@ -528,8 +535,8 @@ if __name__=="__main__":
     ### TEST calc_features
     fio_ops = {"RAW_DATA_PATH":"/Users/steve/Documents/code/unm/data/h24_data/raw",
             "WAVELET_BINARIES_PATH":"/Users/steve/Documents/code/unm/data/h24_data/binaries"}
-    # data_ops, use same dict as in above get_feats() test, but update
-    # it to include all amplitude and phase indices
+    # data_ops, use same dict as in above sm_features.get_feats() test, 
+    # but update it to include all amplitude and phase indices
     data_ops["N_CHAN_BINARY"] = 41
     data_ops["AMP_IDX"] = [14,15,16,17,18,19]
     data_ops["PH_IDX"] = [0,1,2,3,4,5,6,7,8,9]
@@ -542,13 +549,15 @@ if __name__=="__main__":
             "BIN_NAMES":["pre_ictal_bin1","pre_ictal_bin2","pre_ictal_bin3",
                 "pre_ictal_bin4","intra_ictal_bin","post_ictal_bin"],
             "FEATURES":["mean_power","var","coherence"]}
-    session_basename_list = ["AC75a-5 DOB 072519_TS_2020-03-23_17_30_04"]
-    feat_df = calc_features(fio_ops,data_ops,feature_ops,session_basename_list)
+    session_basename = "AC75a-5 DOB 072519_TS_2020-03-23_17_30_04"
+    feat_df = calc_features(fio_ops,data_ops,feature_ops,session_basename)
     # serialize feat dataframe to look at it in jupyter notebook
-    saveas = "feat_df.pkl"
-    print(f"Pickling features {saveas}")
-    feat_df.to_pickle(saveas)
-    print("Passed test calc_features()")
+    print("Writing to CSV")
+    feat_df.to_csv("feat_df.csv")
+    # saveas = "feat_df.pkl"
+    # print(f"Pickling features {saveas}")
+    # feat_df.to_pickle(saveas)
+    # print("Passed test calc_features()")
 
 
     # TODO

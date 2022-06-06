@@ -8,7 +8,7 @@ Translated and adapted to python in May 2022 by Stephen Fay dcxstephen@gmail.com
 
 
 from ihkapy.fileio.binary_io import merge_dats # local dependency
-import toml                     # Parameters/config file Options.toml
+from ihkapy.fileio.options_io import load_fio_ops_and_data_ops
 import os                       # I/O
 import shutil                   # I/O
 from tqdm import tqdm           # Progressbar
@@ -28,34 +28,6 @@ logger = logging.getLogger(__name__)
 # For variables containing strings of with absolute path, we explicitly 
 # include the word "path" in the variable name. For those with relative 
 # or leaf paths, we do not put "path" in the name. 
-
-def load_fio_ops_and_data_ops(options_path="./Options.toml"):
-    """Load the 'fio_ops' and 'data_ops' dictionaries from options config file
-
-    Helper for make_wavelet_bank() 
-    Parses the .toml config file at `options_path` into a dictionary. 
-    Returns the sub-dictionaries at the files "fio" and "params.data"
-
-    Parameters
-    ----------
-    options_path : str
-        Path to the config file
-
-    Returns
-    -------
-    dict
-        A dictionary containing fio params, i.e. paths to data files.
-    dict
-        A dictionary containing data parameters required for data manip.
-    """
-
-    warnings.warn("Change this relative path once package is configured properly. \nWe need a more reliable way of accessing the options.toml config file")
-    with open(options_path,"r") as f:
-        ops_string = f.read()
-    ops = toml.loads(ops_string)
-    fio_ops = ops["fio"]
-    data_ops = ops["params"]["data"]
-    return fio_ops,data_ops
 
 # TODO: implement for Lusin and Sombrero wavelets too
 # Note, Lusin wasn't implemented in Matlab, and pipeline only used Gabor
@@ -101,7 +73,6 @@ def compute_wavelet_gabor(
     freqs = np.asarray(freqs)
     signal = np.asarray(signal)
     assert fs > 0 and (isinstance(fs, float) or isinstance(fs, int))
-    # assert wavelet_type.lower() in ("gabor","lusin","sombrero")
     assert signal.ndim == 1, "Must be single dim signal" 
     # TODO: implement multi-dim and remove above assertion
     # Note, not crucial because we don't (yet) use that in pipeline
@@ -118,6 +89,8 @@ def compute_wavelet_gabor(
     tolerance = 0.5
     mincenterfreq = 2*tolerance*np.sqrt(sigma2)*fs*xi / len_sig
     maxcenterfreq = fs*xi/(xi+tolerance/np.sqrt(sigma2)) # Shouldn't this be divided by two because of aliasing? 
+    nyquist = fs / 2
+    maxcenterfreq = min(maxcenterfreq,nyquist)
     logger.debug(f"fs = {fs}")
     logger.debug(f"freqs = {freqs}")
     logger.debug(f"\n\tLowest freq = {min(freqs)}\n\tHighest freq = {max(freqs)}")
@@ -127,8 +100,8 @@ def compute_wavelet_gabor(
     minscale = xi / maxcenterfreq
     maxscale = xi / mincenterfreq
     # reject frequencies that are outside the given scale
-    assert ((s_arr >= minscale) & (s_arr <= maxscale)).all() , "Invalid frequencies"
-    # TODO: Turn the above assert into a warning
+    if ((s_arr >= minscale) | (s_arr <= maxscale)).any():
+        warnings.warn("Frequencies are not between minscale and maxscale.")
 
     n_freqs = len(freqs)
     # np.complex64 is numpy's coarsest complex numpy type
@@ -141,7 +114,7 @@ def compute_wavelet_gabor(
 
     return np.squeeze(wt) # turns 2d into 1d IFF single freq 
 
-# Helper
+# Helper for make_wavelet_bank
 def _contains_all(directory:str,*args) -> bool:
     """Determines whether the directory contains all of the file strings provided"""
     all_files = os.listdir(directory)
@@ -258,7 +231,7 @@ def make_wavelet_bank(
         # Save raw channel data as .dat binary
         cached_bin_fname_raw = f"{basename}_ch_{str(channel).zfill(3)}_raw.dat"
         logger.debug(f"cache_dir_path = '{cache_dir_path}'")
-        sig.tofile(os.path.join(cache_dir_path, cached_bin_fname_raw)) # TODO: This has yet to be tested
+        sig.tofile(os.path.join(cache_dir_path, cached_bin_fname_raw)) 
 
         print(f"Computing {NUM_FREQ} Gabor wavelet convolutions for channel {channel}.")
         # Loop through each frequency, convolve with Gabor wavelet
@@ -270,7 +243,7 @@ def make_wavelet_bank(
             if _contains_all(cache_dir_path,cached_bin_fname_power,cached_bin_fname_phase):
                 continue 
             
-            # Convolve signal with the the wavelet (see awt_freqlist)
+            # Convolve signal with the the wavelet, similar to awt_freqs
             wt = compute_wavelet_gabor(signal=sig,fs=FS,freqs=[freq])
 
             # TODO: do we need this condition? Won't we always use wavelet power?

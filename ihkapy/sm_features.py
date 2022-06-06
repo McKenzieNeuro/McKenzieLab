@@ -93,7 +93,7 @@ def mean_power(
 
     Parameters
     ----------
-    windows : list
+    windows : array-like
         A list of windows. Dims = (n_raw , n_samples , n_freq_chan)
 
     chan_freq_idxs : ndarray or int = None
@@ -142,6 +142,8 @@ def coherence_all_pairs(
         ) -> dict:
     """Cohere each pair of signals"""
     # NB: The chan_freq_idxs parameter selects all freqs of relevance
+    # TODO: chan_freq_idxs is hard coded... change this to whatever is 
+    # specified in toml gets fed to this function 
     chan_freq_idxs = 0 # only select raw channel
     windows,chan_freq_idxs = _select_freq_chans(windows,chan_freq_idxs)
     windows = np.squeeze(windows) # 3d array -> 2d array
@@ -161,15 +163,15 @@ def coherence_all_pairs(
         # NB: FFT and therefore scipy.signal.coherence samples 
         # frequencies linearly, not logarithmically
         
-        # TODO: Find a permenant solution for the below temporary fix:
+        # TODO: Do we want to implement something closer to the MatLab 
+        # or is this good enough?
         # Scipy does not provide an easy way of computing the coherence
         # at specific frequencies as mscohere does in MatLab. As a 
         # temporary measure I'm going to select all frequencies returned
         # by scipy.signal.coherence that fall within the range of the
         # frequencies provided. 
-        # For a permanent solution, I suggest reimplementing mscohere 
-        # by hand (in Python) so that it can take a list of frequencies
-        # as input.
+        # We could potentially reimplement mscohere by hand (in Python) 
+        # so that it can take a list of frequencies as input.
 
         # Serialize the freqs
         for sf,cohxy in zip(sample_freqs,cxy):
@@ -179,8 +181,65 @@ def coherence_all_pairs(
     return coherence_dict
 
 
-
 ### End: Features comparing two channels
+
+
+# Compute all the features on a segments
+def get_feats(
+        segment : np.ndarray or list,
+        features_list : list,
+        data_ops : dict
+        ) -> dict:
+    """Computes all features specified in featurelist.
+
+    Computes each feature specified in featurelist on all of the
+    windows, then assembles output into a features_dict—a dictionary
+    of all features computed, this corresponds to a single row to be 
+    appended to our features dataframe.
+
+    To write a new feature, write the method in sm_features.py, then
+    add it to execut conditionally in this function (get_feats), finally
+    add it to the FEATURES in Options.toml
+
+    Parameters
+    ----------
+    segment : np.ndarray or list
+        Is a list of windows ordered by the raw_chan index. Each window 
+        corresponds to a dur_feat segment of data. 
+        Shape = (n_raw_chan , n_samples , n_wavelet_chan)
+    features_list : list
+        A list of strings.
+    data_ops : dict
+        Dictionary containing metadata, as defined in Options.toml.
+
+    Returns
+    -------
+    dict
+        A dictionary of all the features we computed.
+    """
+    IMPLEMENTED_FEATS = ["mean_power","var","coherence"]
+    for i in features_list:
+        if i not in IMPLEMENTED_FEATS:
+            warnings.warn(f"{i} has not yet been implemented.")
+    all_feats = {}
+    if "mean_power" in features_list:
+        AMP_FREQ_IDX_ALL = data_ops["AMP_FREQ_IDX_ALL"]
+        mp_feats = mean_power(segment,AMP_FREQ_IDX_ALL)  
+        all_feats.update(mp_feats) # add it to greater dictionary
+    if "var" in features_list:
+        var_feats = var(segment,"all")
+        all_feats.update(var_feats)
+    if "coherence" in features_list:
+        FS = data_ops["FS"]
+        coherence_feats = coherence_all_pairs(
+                segment,
+                fs = FS
+                )
+        all_feats.update(coherence_feats)
+    # print()
+    # for i,j in all_feats.items(): print(f"{i}:{j}") # debug
+    return all_feats
+
 
 
 if __name__ == "__main__":
