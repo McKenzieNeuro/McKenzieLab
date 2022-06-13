@@ -189,7 +189,7 @@ def _get_feats_df_column_names(
         features_list   : list,
         data_ops        : dict,
         ):
-    """Calls the featurizing method on dummy segments and uses the columnames returned."""
+    """Calls the featurizing method on dummy segments, forwards columnames returned."""
     N_CHAN_RAW      = data_ops["N_CHAN_RAW"]
     N_CHAN_BINARY   = data_ops["N_CHAN_BINARY"]
     # Rem: session_basename identifies the recording, time_bin is the class label
@@ -319,7 +319,7 @@ def calc_features(
                         segment_length   = DUR_FEAT,
                         pct             = pct
                         )
-                # This will hold the segments for this bin
+                # This holds the segments in this time-bin
                 bin_segments = np.zeros((
                     N_CHAN_RAW,
                     len(segment_starts),
@@ -341,6 +341,9 @@ def calc_features(
                             precision       = PRECISION
                             )
                     assert ws.shape == (len(segment_starts),N_SAMPLES,N_CHAN_BINARY)
+                    # TODO:modify options naming convention and  implement _scale_segments helper
+                    #   which scales the segments in ws by the factors provided
+                    _scale_segments(ws,{IDX_RAW:RAW_SCALE,IDX_POWER:SCALE_POWER,IDX_PHASE:SCALE_PHASE})
                     bin_segments[raw_ch_idx,:,:,:] = ws
 
                 # Get features for segment 
@@ -495,13 +498,13 @@ if __name__=="__main__":
                 "pre_ictal_bin4","intra_ictal_bin","post_ictal_bin"],
             "FEATURES":["mean_power","var","coherence"]}
     session_basename = "AC75a-5 DOB 072519_TS_2020-03-23_17_30_04"
-    feat_df = calc_features(fio_ops,data_ops,feature_ops,session_basename)
+    feats_df = calc_features(fio_ops,data_ops,feature_ops,session_basename)
     # serialize feat dataframe to look at it in jupyter notebook
     print("Writing to CSV")
-    feat_df.to_csv("feat_df.csv")
-    # saveas = "feat_df.pkl"
+    feats_df.to_csv("feats_df.csv")
+    # saveas = "feats_df.pkl"
     # print(f"Pickling features {saveas}")
-    # feat_df.to_pickle(saveas)
+    # feats_df.to_pickle(saveas)
     print("Passed test calc_features()")
 
     print("\nTests All Passed: _get_bin_absolute_intervals()")
