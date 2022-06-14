@@ -3,6 +3,8 @@ IntraHippocampal Kainic Acid
 
 Python modules for ihka data analysis, based off of MatLab code from [McKenzieLab's repository](https://github.com/McKenzieNeuro/McKenzieLab/tree/main/IHKA).
 
+We have opted for a procedural programming approach to this code because this project grew of a [MatLab project](https://github.com/McKenzieNeuro/McKenzieLab/tree/main/IHKA) and this will ensure that the codebases have a similar feel, which will help to curb the learning curve for anyone comming to the code form a matlab background, it is to ease the adoption of Python by a community that is used to MatLab.
+
 ## Install & Setup 
 To access the methods and their modules, clone this repo with `git clone https://github.com/dcxSt/IHKApy`, enter it's root directory `cd IHKApy`, then pip install with `pip install .`
 
@@ -14,6 +16,21 @@ To access the methods and their modules, clone this repo with `git clone https:/
 - pyedf (TODO:check to see if this one works okay)
 - tqmd (for progress bar)
 - re (regex library for tests and asserts, make sure verything formated well)
+
+## Processing the RAW data
+The submodule `sm_make_wavelet_bank` is comprised of a pure function (`compute_wavelet_gabor`) to compute the wavelet transform of our signals. 
+
+![wavelet_transforms_demo.png](img/wavelet_transforms_demo.png)
+
+## Features 
+The following is a visualisation of an example feature set, computed for a 24h mouse IHKA recording firth 4 electrodes. Three sets of features are computed: 
+(1) The mean power of each frequency channel, these are the leftmost columns that look like noise. 
+(2) The variance, these are the four central column patterns, we can easily spot the the seizures here. 
+(3) The coherence between each pair of channels at logarithmically sampled frequencies. Note the six right-most column-patterns (4 choose 2 = 6)
+
+![clipped_normalized_features.png](img/clipped_normalized_features.png)
+
+This the output of `calc_feats` in the `sm_calc_feats` submodule.
 
 ## TODO
 *This list is ordered from highest to lowest priority.*
@@ -79,7 +96,6 @@ Displayed below is a 100-datapoint chunk of the output of `sm_make_wavelet_bank.
 - Article on IHKA [https://www.sciencedirect.com/science/article/abs/pii/S001448862030323X](https://www.sciencedirect.com/science/article/abs/pii/S001448862030323X) 
 - Writing good pythonic python: [PEP8](https://pep8.org/#break-before-or-after-binary-operator)
 - [Guide to python packaging (the docs)](https://python-packaging.readthedocs.io/en/latest/dependencies.html)
-
-
-
+- Classification / training links
+  - [imbalanced ensemble training python tutorial](https://imbalanced-ensemble.readthedocs.io/en/latest/auto_examples/basic/plot_basic_example.html) 
 
