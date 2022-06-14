@@ -32,6 +32,10 @@ The following is a visualisation of an example feature set, computed for a 24h m
 
 This the output of `calc_feats` in the `sm_calc_feats` submodule.
 
+Below: t-SNE clustering of the same feature-set. As you can see, it's hard to distinguish between pre-ictal classes. The pre-ictal classes correspond to 3h-1h, 1h-10min, 10min-10s, 10s-0s respectively, before a seizure. 
+
+![t-SNE_feature_set_24h_IHKA.png ](img/t-SNE_feature_set_24h_IHKA.png)
+
 ## TODO
 *This list is ordered from highest to lowest priority.*
 - [x] Implement Options.toml config file as user input interface
