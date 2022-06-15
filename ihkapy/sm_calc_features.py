@@ -1,5 +1,6 @@
 import numpy as np
 import os
+from ihkapy.fileio import utils
 from ihkapy.fileio.utils import get_all_valid_session_basenames,check_session_basenames_are_valid
 from ihkapy.fileio.binary_io import get_n_samples_from_dur_fs,load_binary_multiple_segments
 from ihkapy.fileio.metadata_io import get_seizure_start_end_times
@@ -11,7 +12,7 @@ import pandas as pd
 from tqdm import tqdm
 
 
-# pure function
+# pure function (not in the strict sense, but doesn't r/w)
 def _get_x_pct_time_of_interval(
         start_time : float,     # in seconds
         end_time : float,       # in seconds
@@ -54,6 +55,7 @@ def _get_x_pct_time_of_interval(
 
 
 # Helper for calc_features()
+# pure
 def _get_bin_absolute_intervals(
         start_seiz              : float,
         end_seiz                : float,
@@ -285,6 +287,9 @@ def calc_features(
             n_chan_binary=N_CHAN_BINARY,
             precision=PRECISION) # in secs
 
+    # TODO: The following three nested for loops are potentially hard to
+    # swallow, consider refactoring them. Q: is this necessary?
+
     # For each seizure in the session
     print(f"Computing features for session {session_basename}")
     for start_time,end_time in tqdm(list(zip(start_times,end_times))):
@@ -330,7 +335,11 @@ def calc_features(
                     # Is it dangerous to use such a strict file-naming convention?
                     # Yes, TODO: refactor all nameings of things that derive 
                     # from basenames to utility method
-                    session_binary_chan_raw_path = os.path.join(WAVELET_BINARIES_PATH,f"{session_basename}_ch_{str(raw_ch_idx).zfill(3)}.dat")
+                    session_binary_chan_raw_path = utils.fmt_binary_chan_raw_path(
+                            WAVELET_BINARIES_PATH,
+                            session_basename,
+                            raw_ch_idx
+                            )
                     # Load all segments from specific time bin and raw chan
                     ws = load_binary_multiple_segments(
                             file_path       = session_binary_chan_raw_path,
@@ -341,9 +350,6 @@ def calc_features(
                             precision       = PRECISION
                             )
                     assert ws.shape == (len(segment_starts),N_SAMPLES,N_CHAN_BINARY)
-                    # TODO:modify options naming convention and  implement _scale_segments helper
-                    #   which scales the segments in ws by the factors provided
-                    _scale_segments(ws,{IDX_RAW:RAW_SCALE,IDX_POWER:SCALE_POWER,IDX_PHASE:SCALE_PHASE})
                     bin_segments[raw_ch_idx,:,:,:] = ws
 
                 # Get features for segment 
@@ -371,10 +377,13 @@ def calc_features_all(options_path="Options.toml"):
     valid_basenames = get_all_valid_session_basenames(RAW_DATA_PATH)
     print(f"Computing features for {len(valid_basenames)} sessions...")
     for basename in valid_basenames:
-        # Get the features
+        # Get the features of one session
         df = calc_features(fio_ops,data_ops,feature_ops,session_basename=basename)
-        # Save the features
-        df.to_csv(os.path.join(FEATURES_PATH,f"{basename}.csv"))
+        # Save the them
+        csv_out_path = utils.fmt_features_df_csv_path(FEATURES_PATH,basename)
+        df.to_csv(csv_out_path)
+        # TODO: delete following line, above two lines replaced it
+        # df.to_csv(os.path.join(FEATURES_PATH,f"{basename}.csv"))
     return         
 
 
@@ -494,13 +503,13 @@ if __name__=="__main__":
             "PREICTAL":{"BINS":[10800,3600,600,10],"PCT":[0.05,0.05,0.2,1.0]},
             "INTRAICTAL":{"PCT":1.0},
             "POSTICTAL":{"DELAY":600,"PCT":0.2},
-            "BIN_NAMES":["pre_ictal_bin1","pre_ictal_bin2","pre_ictal_bin3",
-                "pre_ictal_bin4","intra_ictal_bin","post_ictal_bin"],
+            "BIN_NAMES":["pre1","pre2","pre3",
+                "pre4","intra","post"],
             "FEATURES":["mean_power","var","coherence"]}
     session_basename = "AC75a-5 DOB 072519_TS_2020-03-23_17_30_04"
     feats_df = calc_features(fio_ops,data_ops,feature_ops,session_basename)
     # serialize feat dataframe to look at it in jupyter notebook
-    print("Writing to CSV")
+    print("Writing to CSV 'feats_df.csv'")
     feats_df.to_csv("feats_df.csv")
     # saveas = "feats_df.pkl"
     # print(f"Pickling features {saveas}")

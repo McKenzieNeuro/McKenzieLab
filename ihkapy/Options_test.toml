@@ -1,10 +1,10 @@
 # Previously ops variable in MatLab scripts
 
 [fio]
-RAW_DATA_PATH = "/Users/steve/Documents/code/unm/data/h24_data/raw"
-WAVELET_BINARIES_PATH = "/Users/steve/Documents/code/unm/data/h24_data/binaries"
-FEATURES_PATH = "/Users/steve/Documents/code/unm/data/h24_data/features"
-CLASSIFIER_OUTPUT_PATH = "/Users/steve/Documents/code/unm/data/h24_data/models"
+RAW_DATA_PATH = "/Users/steve/Documents/code/unm/data/small_data/raw" 
+WAVELET_BINARIES_PATH = "/Users/steve/Documents/code/unm/data/small_data/binaries" 
+FEATURES_PATH = "/Users/steve/Documents/code/unm/data/small_data/features" 
+CLASSIFIER_OUTPUT_PATH = "/Users/steve/Documents/code/unm/data/small_data/models" 
 
 [params.data]
 FS = 2000                         # Sample frequency in Hz
@@ -60,7 +60,7 @@ FEATURES = [
 
 
 [params.model.training]
-train_val_test = [ 0.4, 0.3, 0.3 ]        # must sum to 1
+train_val_test = [ 0.6, 0.2, 0.2 ]        # must sum to 1
 n_learning_cycles = 500
 rate = 0.1                                # learning rate
 method = "RUSBoost"

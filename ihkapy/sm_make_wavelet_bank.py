@@ -6,8 +6,12 @@ and awt_freqlist.m and Maureen Clerc, Christian Benar, october 2007
 Translated and adapted to python in May 2022 by Stephen Fay dcxstephen@gmail.com
 """
 
+# TODO: standardize name 'channel' to 'raw_ch_idx'
+# TODO: standardize naming convention 'amp' and 'power' are used as synonyms
+#       I think 'amp' is better because it looks less like 'phase', easy distinguish
 
 from ihkapy.fileio.binary_io import merge_dats # local dependency
+from ihkapy.fileio import utils
 from ihkapy.fileio.options_io import load_fio_ops_and_data_ops
 import os                       # I/O
 import shutil                   # I/O
@@ -233,17 +237,25 @@ def make_wavelet_bank(
         # Save raw channel data as .dat binary
         cached_bin_fname_raw = f"{basename}_ch_{str(channel).zfill(3)}_raw.dat"
         logger.debug(f"cache_dir_path = '{cache_dir_path}'")
-        (sig * SCALE_RAW).astype("int16").tofile(os.path.join(cache_dir_path, cached_bin_fname_raw)) 
+        cached_binary_raw_path = utils.fmt_binary_cache_wav_path(
+                cache_dir_path, 
+                basename, 
+                channel, 
+                "RAW")
+        (sig * SCALE_RAW).astype("int16").tofile(cached_binary_raw_path) 
+        # TODO: delete below comment
+        # (sig * SCALE_RAW).astype("int16").tofile(os.path.join(cache_dir_path, cached_bin_fname_raw)) 
 
         print(f"Computing {NUM_FREQ} Gabor wavelet convolutions for channel {channel}.")
         # Loop through each frequency, convolve with Gabor wavelet
         for f_idx,freq in tqdm(enumerate(FREQS)):
             # Define cache filepath for this channel & freq
-            cached_bin_fname_power = f"{basename}_ch_{str(channel).zfill(3)}_freqidx_{str(f_idx).zfill(2)}_A.dat" # A for amplitude
-            cached_bin_fname_phase = f"{basename}_ch_{str(channel).zfill(3)}_freqidx_{str(f_idx).zfill(2)}_P.dat" # P for phase
-            # Check if this frequency has already been computed & cached
-            if _contains_all(cache_dir_path,cached_bin_fname_power,cached_bin_fname_phase):
-                continue 
+            cached_binary_amp_path,cached_binary_phase_path = utils.fmt_binary_cache_wav_path(
+                    cache_dir_path,
+                    basename,
+                    channel,
+                    "AMP-PHASE",
+                    f_idx)
             
             # Convolve signal with the the wavelet, similar to awt_freqs
             wt = compute_wavelet_gabor(signal=sig,fs=FS,freqs=[freq])
@@ -255,16 +267,15 @@ def make_wavelet_bank(
                 wt_power = np.abs(wt) # deep copy
                 if ZSCORE_POWER==True:
                     wt_power = zscore(np.abs(wt))
-                # Comment in TOML: SCALE_POWER should be smaller if no zscore
+                # Comment in Options.toml: SCALE_POWER should be smaller if no zscore
                 logger.debug(f"wt_power.dtype={wt_power.dtype}")
                 wt_power = (wt_power * SCALE_POWER).astype("int16")
-                wt_power.tofile(os.path.join(cache_dir_path, cached_bin_fname_power), format="int16")
+                wt_power.tofile(cached_binary_amp_path)
 
             # Conditionally re-scale and save the phase
             if "wavelet_phase" in TS_FEATURES:
                 wt_phase = (np.arctan(np.real(wt) / np.imag(wt)) * SCALE_PHASE).astype("int16")
-                
-                wt_phase.tofile(os.path.join(cache_dir_path, cached_bin_fname_phase), format="in16")
+                wt_phase.tofile(cached_binary_phase_path) # , format="int16")
         logger.info("Finished computing wavelet transforms for channel={channel}.")
 
         # Check all the dat files in the cache match with the regex—–
@@ -272,7 +283,7 @@ def make_wavelet_bank(
         # Filenames must not contain any dots!
         # Regexp must match all the Amplicude (=Power) and Phase transforms
         # as well as the raw .dat binary. 
-        regex = f"^{basename}_ch_{str(channel).zfill(3)}_(freqidx_\d\d|raw)(_A|_P|)$"
+        regex = f"^{basename}_ch_{str(channel).zfill(3)}_(freqidx_\d\d|0RAW)(_A|_P|)$"
         _assert_all_ext_type_match_regexp( 
                 directory = cache_dir_path,
                 extension = "dat",
@@ -284,7 +295,9 @@ def make_wavelet_bank(
         # All of the files in the cache have the same channel number (checked above)
         sorted_cache_binaries = [i for i in os.listdir(cache_dir_path) if i[-4:]==".dat"]
         sorted_cache_binaries.sort() # The are already be sorted, this line
-                                     # is mainly a crutch for the reader
+                                     # is mainly to aid the reader
+        # Sanity check assert
+        assert "RAW" in sorted_cache_binaries[0], "Error in sorting the binaries, first file must be the raw channel"
         scb_paths = [os.path.join(cache_dir_path,i) for i in sorted_cache_binaries]
         merge_dats(
                 fpaths_in = scb_paths,
@@ -312,9 +325,11 @@ def make_wavelet_bank_all(options_path="Options.toml"):
     return
 
 
+# Next block runs only when you run this file directly, not on import
 if __name__ == "__main__":
-    # Only when you run this file directly
-    make_wavelet_bank_all(options_path="Options.toml")
+    # make_wavelet_bank_all(options_path="Options.toml")
+    make_wavelet_bank_all(options_path="Options_test.toml")
+    
 
     
 
