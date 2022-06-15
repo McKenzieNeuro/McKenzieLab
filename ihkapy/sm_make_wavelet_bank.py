@@ -116,15 +116,6 @@ def compute_wavelet_gabor(
     return np.squeeze(wt) # turns 2d into 1d IFF single freq 
 
 
-# Helper for make_wavelet_bank
-def _contains_all(directory:str,*args) -> bool:
-    """Determines whether the directory contains all of the file strings provided"""
-    all_files = os.listdir(directory)
-    for filestr in args:
-        if filestr not in all_files: return False
-    return True
-
-
 # Helper, test to make sure our cache folder is not corrupted
 def _assert_all_ext_type_match_regexp( 
         directory: str,
