@@ -42,7 +42,7 @@ Below: t-SNE clustering of the same feature-set. As you can see, it's hard to di
 - [x] Implement wavelet transform module, for turning raw edf into 
   - [x] Bullet proof with tests
   - [x] Test compare output with matlab scripts
-    - [ ] also, implement this test in the test suit (not a priority, but should be done eventually)
+    - [ ] also, implement this test in the test suite? (not a priority, but should be done eventually)
   - [x] Implement and test `make_all` method
 - [x] Implement file I/O for reading from binary files
   - [x] Implement reading multiple segments at once
@@ -80,6 +80,13 @@ Although Pynapple's abstractions are very nice, they're not exactly what we want
 
 There is an intuitive but rigorous naming convention for binary files: each file  must match `${basename}_ch_\d\d\d.dat` where the three digits are the zero-padded index of the channel, and basename must match the `.edf` data file and the `.txt` metadata (seizure timestamps) file. 
 
+## Docs
+
+Documentation is available [here]().
+
+To generate the docs locally install pdoc: `pip install pdoc`, then go into the project root directory and either
+- run `pdoc ihkapy --host localhost`, to host and view the docs locally
+- or create a docs directory `mkdir path/to/docs/dir` and generate the docs with `pdoc -o path/to/docs/dir ihkapy`
 
 ## Technical notes and comments
 Currently we sample wavelet frequencies from a log space spanning 0.5 Hz to 200 Hz; our data's sampling frequency is 2000 Hz. 

@@ -96,10 +96,10 @@ def mean_power(
 
     Parameters
     ----------
-    segment : array-like
+    `segment : array-like`
         A list of segment samples. Dims = (n_raw , n_samples , n_freq_chan)
 
-    chan_freq_idxs : ndarray or int = None
+    `chan_freq_idxs : ndarray or int = None`
         The 1d list of binary file indices we are interested in, e.g.
         if we're interested in all wavelet channels (aka binary file 
         channels) pass None. If we're interested in the first two we 
@@ -108,7 +108,7 @@ def mean_power(
 
     Returns
     -------
-    dict
+    `dict`
         A dictionary where the key,value pairs are `name of feature`
         and `computed feature float`. All keys are strings, all values
         are floats.
@@ -198,25 +198,26 @@ def get_feats(
     of all features computed, this corresponds to a single row to be 
     appended to our features dataframe.
 
-    To write a new feature, write the method in sm_features.py, then
-    add it to execut conditionally in this function (get_feats), finally
-    add it to the FEATURES in Options.toml
+    To write a new feature, write the method in this module 
+    (`sm_features.py`) then add it to execut conditionally in this 
+    function (`get_feats`), finally add a string representation to the 
+    FEATURES in your `Options.toml` config file.
 
     Parameters
     ----------
-    segment : np.ndarray or list
+    `segment : np.ndarray or list`
         Is a list of segment samples ordered by the raw_chan index.
         Shape = (n_raw_chan , n_samples , n_wavelet_chan)
 
-    features_list : list
+    `features_list : list`
         A list of strings: the names of the features you'd like to compute.
 
-    data_ops : dict
+    `data_ops : dict`
         Dictionary containing metadata, as defined in Options.toml.
 
     Returns
     -------
-    dict
+    `dict`
         A dictionary of all the features we computed.
     """
     IMPLEMENTED_FEATS = ["mean_power","var","coherence"]
@@ -300,14 +301,6 @@ if __name__ == "__main__":
     
 
     # TEST coherence_all_pairs() 
-
-
-
-
-
-
-
-
 
 
 

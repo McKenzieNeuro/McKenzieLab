@@ -7,19 +7,23 @@ def parse_metadata(
         ) -> (dict,dict):
     """Opens and parses the '.edf' seizure recording metadata '.txt' file.
 
+    The metadata text files are formatted with tabs so it's hard to know 
+    if the delimiters are properly syntaxed with a human eye. This is 
+    something to bare in mind. 
+
     Parameters
     ----------
-    session_metadata_path
+    `session_metadata_path : str`
         The path of the file where the metadata is stored.
         e.g. "/Users/steve/Documents/code/unm/data/AC75a-5 DOB 072519_TS_2020-03-23_17_30_04.txt"
 
     Returns
     -------
-    dict 
+    `dict `
         Frontmatter information. The key-value pairs contain information 
         such as the experimentor, the subject's (or animal's) id. 
 
-    dict 
+    `dict `
         Seizure intervals. The keys are column headers, the values are
         numpy arrays. Column headers are typically 
         ['Number','Start Time','End Time','Time From Start','Channel','Annotation']
@@ -63,7 +67,16 @@ def parse_metadata(
 
 
 def get_seizure_start_end_times(session_metadata_path : str) -> (list, list):
-    """Returns the start and end times (in s) specified by the file metadata"""
+    """Returns the start and end times (in s) specified by the file metadata
+
+    This function calls `parse_metadata` on it's input parameter
+    `session_metadata_path` to get the seizure metadata (i.e. the second
+    param returned by `parse_metadata`). Then the start and end times 
+    of the seizures are determined based on the annotation fields.
+
+    This function assumes that the start times will always be labelled 
+    "Seizure starts" and the end times "Seizure ends". It is case sensitive.
+    """
     _,seizure_metadata = parse_metadata(session_metadata_path)
     # Put the metadata into a pandas dataframe, and select the columns
     df = pd.DataFrame(seizure_metadata)

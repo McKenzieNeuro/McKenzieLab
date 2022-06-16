@@ -23,18 +23,21 @@ def _get_x_pct_time_of_interval(
 
     Parameters
     ----------
-    start_time : float
+    `start_time : float`
         The beginning timestamp, in seconds, of the interval we sample from.
-    end_time : float
+
+    `end_time : float`
         The end timestamp, in seconds, of the interval we sample from.
-    segment_length : float
+
+    `segment_length : float`
         The time, in seconds of our samples.
-    pct : float
+
+    `pct : float`
         The proportion of segments to select, must be between 0 and 1. 
 
     Returns
     -------
-    np.ndarray
+    `np.ndarray`
         A 1d numpy array of start times for the segments (in seconds). 
         Together with the segment length, these fully define the segments
         of interest to us that we would like to sample from. 
@@ -74,41 +77,41 @@ def _get_bin_absolute_intervals(
 
     Parameters
     ----------
-    start_seiz : float or int
+    `start_seiz : float or int`
         The start time of the seizure in question, in seconds. (Relative
         to the start of the session.)
 
-    end_seiz : float or int
+    `end_seiz : float or int`
         The end time of the seizure in questionm, in seconds. (Relative
         to the start of the session.)
 
-    preictal_bins : list
+    `preictal_bins : list`
         The list found in Options.toml config file. It's a list of floats
         that specify, in seconds, the pre-ictal bin timestamps.
 
-    postictal_delay : int or float
+    `postictal_delay : int or float`
         Specifies post-ictal period after the end of a seizure in seconds
         (e.g. 600)
 
-    bin_names : list
+    `bin_names : list`
         A list of bin names (strings). Must have length of preictal_bins + 2. 
         This is because we have one single intra-ictal and one single post-
         ictal bin. 
 
-    all_start_times : list
+    `all_start_times : list`
         A list of the start times of every seizure (in seconds from start 
         of session). Needed to check validity of intervals.
 
-    all_end_times : list 
+    `all_end_times : list `
         A list of all end times of every seizure (in seconds from start of
         session). Needed to check validity of intervals. 
 
-    total_session_time : float,
+    `total_session_time : float`
         Total number of seconds from start to end of the sessions.
     
     Returns
     -------
-    dict
+    `dict`
         The keys are names of time bins (e.g. pre_ictal_bin1, post_ictal, etc.)
         If the corresponding bin for the seizure is valid, the value will be a 
         tuple (bin_start_time,bin_end_time). If the bin is not valid, the value
@@ -223,18 +226,18 @@ def calc_features(
     
     Parameters
     ----------
-    session_basenames_list : list or str
+    `session_basenames_list : list or str`
         If the list is empty, it will default to all valid edf files in the 
         directory. 
 
     Returns
     -------
-    dict
+    `dict`
         The keys are the bin names to which the features belong, and the
         values are pandas dataframes with columns { sessions_basename , 
         start_time , feat_01_name , feat_02_name , ... }
         
-    dict
+    `dict`
         Options that where used to generate the data. This could be a 
         serialized copy of the Options.toml file. 
     """
@@ -367,6 +370,7 @@ def calc_features(
     return feats_df
 
 def calc_features_all(options_path="Options.toml"):
+    """Computes features csv for each binary file in the raw binary data directory."""
     # Unpack parameters and user-defined constants
     ops = load_ops_as_dict(options_path=options_path)
     data_ops = ops["params"]["data"]

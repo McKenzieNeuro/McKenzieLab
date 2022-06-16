@@ -58,18 +58,21 @@ def compute_wavelet_gabor(
 
     Parameters
     ----------
-    signal : np.ndarray
+    `signal : np.ndarray`
         The input signal. Only accepts 1D signals. 
-    fs : int or float
+
+    `fs : int or float`
         The sampling frequency. 
-    freqs : list or float
+
+    `freqs : list or float`
         The frequency or list of frequencies to compute. 
-    xi : int
+
+    `xi : int`
         The number of oscillations parameter, only needed for Gabor wavelet.
 
     Returns
     -------
-    np.ndarray
+    `np.ndarray`
         A numpy array of dim (len(freqs),len(signal))
     """
     # Make sure all types are correct
@@ -164,14 +167,14 @@ def make_wavelet_bank(
     Parameters
     ----------
 
-    edf_fname
+    `edf_fname`
         The name of the '.edf' raw data file. We look for all edf files 
         in fio_ops.RAW_DATA_PATH from Options.toml
 
-    fio_ops : dict
+    `fio_ops : dict`
         The fio parameters defined in the Options.toml config file.
 
-    data_ops : dict
+    `data_ops : dict`
         Data parameters from the Options.toml config file. 
         The Options.toml config file contains user defined parameters, 
         including fio params, data and data-processing params, ML

@@ -12,14 +12,15 @@ def load_fio_ops_and_data_ops(options_path="./Options.toml"):
 
     Parameters
     ----------
-    options_path : str
+    `options_path : str`
         Path to the config file
 
     Returns
     -------
-    dict
+    `dict`
         A dictionary containing fio params, i.e. paths to data files.
-    dict
+
+    `dict`
         A dictionary containing data parameters required for data manip.
     """
 
@@ -37,7 +38,7 @@ def load_ops_as_dict(options_path="./Options.toml"):
 
     Parameters
     ----------
-    options_path : str
+    `options_path : str`
         Path to the config file
     """
     with open(options_path,"r") as f:

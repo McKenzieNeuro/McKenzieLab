@@ -27,6 +27,7 @@ MAX_SAMPLES_PER_CHUNK = 10000
 
 # Helper, used in other modules too (don't repeat yourself principle) 
 def get_n_samples_from_dur_fs(dur,fs):
+    """Utility, get the number of samples in a time window."""
     return int(dur * fs + 0.5) 
 
 def load_binary_multiple_segments(
@@ -48,31 +49,40 @@ def load_binary_multiple_segments(
 
     Parameters
     ----------
-    file_path : str
+    `file_path : str`
         Path to a .dat binary file
-    n_chan : int
+
+    `n_chan : int`
         Number of data channels in the file (defaults to 1)
-    sample_rate : int or float
+
+    `sample_rate : int or float`
         Sample rate in Hz, (aka fs, frequency, sr is the MNE convention)
         Defaults to None, if none, must specify offset_size and duration_size
-    offset_times : list or np.ndarray
+
+    `offset_times : list or np.ndarray`
         Positions to start reading in seconds, (aka start_time), (defaults to empty)
-    duration_time : float or None = None 
+
+    `duration_time : float or None = None `
         Duration to read in seconds (per channel) (defaults to None)
-    offset_sizes : list or np.ndarray
+
+    `offset_sizes : list or np.ndarray`
         Positions to start reading in num of samples, defaults to empty.
-    duration_size : int or None
+
+    `duration_size : int or None`
         Duration to read in number of samples (per channel) (defaults to None)
-    channels : list 
+
+    `channels : list `
         Indices of channels to read from, defaults to empty and uses all chs.
-    precision : str
+
+    `precision : str`
         Sample precision, defaults to 'int16'.
+
 
     Returns
     -------
-    numpy.ndarray
-        A 3d array containg the segments' data.
-        Shape = (n_segments , n_samples , n_binary_channels)
+    `numpy.ndarray`
+        A 3d array containg the segments' data, with shape 
+        (n_segments , n_samples , n_binary_channels)
     """
     # If required, convert time to n_samples (aka sizes) 
     if list(offset_times): # falsy
@@ -118,34 +128,42 @@ def load_binary(
     either by specifying start time ("offset_time") and duration ("duration_time") 
     (more intuitive), or by indicating the position ("offset_size") and size of 
     the subset in terms of number of samples per channel ("duration_size") 
-    (more accurate). The script will complain if both 'time' and 'size'
-    arguments are provided. 
+    (more accurate). The function will raise an error if both 'time' and 'size'
+    arguments are provided, this is to avoid ambiguity. 
 
     Parameters
     ----------
-    file_path : str
+    `file_path : str`
         Path to a .dat binary file
-    n_chan : int
+
+    `n_chan : int`
         Number of data channels in the file (defaults to 1)
-    sample_rate : int or float
+
+    `sample_rate : int or float`
         Sample rate in Hz, (aka fs, frequency, sr is the MNE convention) 
         Defaults to None, if none, must specify offset_size and duration_size
-    offset_time : int or float or None
+
+    `offset_time : int or float or None`
         Position to start reading in seconds, (aka start_time) (defaults to None)
-    duration_time : int or float or None
+
+    `duration_time : int or float or None`
         Duration to read in seconds, (defaults to Inf)
-    offset_size : int or None
+
+    `offset_size : int or None`
         Position to start reading in samples (per channel) (defaults to None)
-    duration_size : int or None
+
+    `duration_size : int or None`
         Duration to read in number of samples (per channel) (defaults to None)
-    channels : list or None
+
+    `channels : list or None`
         Indices of channels to read from, defaults to None, if None uses all chs. 
-    precision : str
+
+    `precision : str`
         Sample precision, defaults to 'int16'.
 
     Returns
     -------
-    numpy.ndarray
+    `numpy.ndarray`
         A 2d array containg the specified segment's data. (1d if only one chan)
     """
     # Checks to make sure the intput is correct
@@ -218,21 +236,25 @@ def _load_binary(
 
     Parameters
     ----------
-    file_path : str
+    `file_path : str`
         Path to binary file with multiplexed data.
-    n_chan : int
+
+    `n_chan : int`
         The number of channels. 
-    n_samples : int
+
+    `n_samples : int`
         The number of units (samples/measurements) per channel 
-    precision : type (or a str representation of a valid type)
-        The precision of the binary data, 
+
+    `precision : type` 
+        The precision of the binary data: type or str rep of type.
         e.g. numpy.int16 or "int16" are both valid
-    data_offset : int
+
+    `data_offset : int`
         Exact index of starting time.
 
     Returns
     -------
-    np.ndarray
+    `np.ndarray`
         the loaded segment of size (n_samples , n_chan)
     """
     total_n_samples = n_samples * n_chan 
@@ -279,11 +301,14 @@ def merge_dats(
     ----------
     fpaths_in : list
         The ordered list of binary file paths (names) we are merging. 
+
     dir_out : str
         The directory we want to save the output to. 
+
     fname_out : str
         The name of the output file we are saving in dir_out
         (including the extension, e.g. '.bin' or '.dat')
+
     precision : str (optional, defaults to "int16")
         The precision of the data stored in our binary files e.g. "int16"
     """
