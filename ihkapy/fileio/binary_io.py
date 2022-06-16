@@ -383,20 +383,23 @@ def _load_chunk(
 
     Parameters
     ----------
-    file : an io file buffered reader object
+    `file : an io file buffered reader object`
         The binary file that you are reading. The python built-in type
         that you get from open(file_path , "rb")
-    n_chan : int
+
+    `n_chan : int`
         The number of channels. 
-    n_samples : int
+
+    `n_samples : int`
         The number of units (measurements) in the sample 
-    precision : type (or a str representation of a valid type)
+
+    `precision : type (or a str representation of a valid type)`
         The precision of the binary data, 
         e.g. numpy.int16 or "int16" are both valid
     
     Returns
     -------
-    numpy.ndarray
+    `numpy.ndarray`
         2D array of shape (n_chan , n_samples)
         If the binary file contains an ascending sequence [0,1,2,3,...]
         then calling _load_chunk with n_chan = 2 and n_samples = 3 will
