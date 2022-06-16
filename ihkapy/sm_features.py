@@ -243,6 +243,27 @@ def get_feats(
     # for i,j in all_feats.items(): print(f"{i}:{j}") # debug
     return all_feats
 
+# Entropy, read more: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7515030/ 
+
+def _a_mjr(sig,m,j,r):
+    N = len(sig)
+    assert N >= j+m
+    a1 = sig[j:j+m]
+    acc = 0
+    for i in range(j+1):
+        d = dist(a1 , sig[i:i+m])
+        if d < r: acc+=1
+    return acc
+
+def _a_mr(sig,m,r):
+    N = len(sig)
+    acc = sum([a_mjr(sig,m,j,r) for j in range(1,N-m+1)])
+    return acc
+
+def samp_en(sig,m,r):
+    """Not yet implemented as features..."""
+    return a_mr(sig,m+1,r) / a_mr(sig,m,r)
+
 
 
 if __name__ == "__main__":
