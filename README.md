@@ -3,7 +3,7 @@ IntraHippocampal Kainic Acid
 
 Python modules for ihka data analysis, based off of MatLab code from [McKenzieLab's repository](https://github.com/McKenzieNeuro/McKenzieLab/tree/main/IHKA).
 
-We have opted for a procedural programming approach to this code because this project grew of a [MatLab project](https://github.com/McKenzieNeuro/McKenzieLab/tree/main/IHKA) and this will ensure that the codebases have a similar feel, which will help to curb the learning curve for anyone comming to the code form a matlab background, it is to ease the adoption of Python by a community that is used to MatLab.
+We have opted for a procedural programming approach rather than OOP because this project grew of a [MatLab project](https://github.com/McKenzieNeuro/McKenzieLab/tree/main/IHKA) and this will ensure that the codebases have a similar feel, which will help to curb the learning curve for anyone comming to the code form a matlab background, it is to ease the adoption of Python by a community that is used to MatLab.
 
 ## Install & Setup 
 To access the methods and their modules, clone this repo with `git clone https://github.com/dcxSt/IHKApy`, enter it's root directory `cd IHKApy`, then pip install with `pip install .`
@@ -13,7 +13,10 @@ To access the methods and their modules, clone this repo with `git clone https:/
 - scipy
   - scipy.io (only used in tests to read matlab files)
   - scipy.stats (for zscore-ing)
-- pyedf (TODO:check to see if this one works okay)
+- pyedflib 
+- contextlib
+- pandas
+- toml
 - tqmd (for progress bar)
 - re (regex library for tests and asserts, make sure verything formated well)
 
@@ -35,6 +38,20 @@ This the output of `calc_feats` in the `sm_calc_feats` submodule.
 Below: t-SNE clustering of the same feature-set. As you can see, it's hard to distinguish between pre-ictal classes. The pre-ictal classes correspond to 3h-1h, 1h-10min, 10min-10s, 10s-0s respectively, before a seizure. 
 
 ![t-SNE_feature_set_24h_IHKA.png ](img/t-SNE_feature_set_24h_IHKA.png)
+
+## Code
+
+Overview of the pipeline.
+
+![pipeline flowchart](flow_charts/pipeline_horizontal.png)
+  
+Module dependency graph.
+
+![modules dependencies](flow_charts/module_dependencies.png)
+
+Function dependency graph.
+
+![function dependencies](flow_charts/function_dependencies.png)
 
 ## TODO
 *This list is ordered from highest to lowest priority.*
@@ -59,11 +76,12 @@ Below: t-SNE clustering of the same feature-set. As you can see, it's hard to di
   - [x] Tim selection algorithm
 - [ ] Test fileio robustly
 - [ ] Implement train model module
-- [ ] Generate docs
-- [ ] Make sure dependencies are well listed
-- [ ] Draw dependency graph
-- [ ] Detailed sketch of pipeline 
-- [ ] Sort out dependencies
+- [x] Generate docs
+  - [x] ship docs
+- [x] Check dependencies
+- [x] Draw dependency graph
+- [x] Detailed sketch of pipeline 
+
 
 - [ ] Little todos, formatting tasks
   - [ ] rename data ops FREQ_NUM etc. instead of what, add "FREQ" to SPACING param too
