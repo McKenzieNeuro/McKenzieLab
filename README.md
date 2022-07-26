@@ -81,6 +81,7 @@ Function dependency graph.
 - [ ] Remove training parameters from Options.toml
 - [ ] Organized & streamline testing pipeline
 - [ ] Add instructions in this README for how to add features, which files should be changed etc.
+- [ ] Jupyter notebook examples of training, perhaps in seperate repository?
 
 
 - [ ] Little todos, formatting tasks
