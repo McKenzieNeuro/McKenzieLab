@@ -66,21 +66,17 @@ Function dependency graph.
   - [x] Bullet proof with tests
   - [x] Test compare output with matlab scripts
 - [x] Figure out how to connect to Azure blob storage via the API
-- [ ] Figure out how to put this pipeline onto the Azure cloud
-  - [x] create VM and ssh into it
-  - [ ] DEBUG: read and write to blob storage unit via python azure api fromt he VM
-  - [ ] Mout storage from VM (see [azure doc](https://docs.google.com/document/d/1lXst8D3eh3-yyND3NJNg4Wx16jm18QAJQrwL0WdpC-Q/edit?usp=sharing) for links to microsoft documentation on how to do this)
-  - [ ] access and manipulate data in the blob storage from the azure api dexterously (i.e. run IHKApy code over the connection)
 - [x] features module 
-- [ ] Implement featurizing module
+- [x] Implement featurizing module
   - [x] Tim selection algorithm
-- [ ] Test fileio robustly
-- [ ] Implement train model module
+- [ ] Robust test suit for fileio 
+- [ ] Implement train model, (see jupyter notebook)
 - [x] Generate docs
   - [x] ship docs
 - [x] Check dependencies
 - [x] Draw dependency graph
 - [x] Detailed sketch of pipeline 
+- [ ] Remove training parameters from Options.toml
 
 
 - [ ] Little todos, formatting tasks
