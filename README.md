@@ -31,6 +31,8 @@ The following is a visualisation of an example feature set, computed for a 24h m
 (2) The variance, these are the four central column patterns, we can easily spot the the seizures here. 
 (3) The coherence between each pair of channels at logarithmically sampled frequencies. Note the six right-most column-patterns (4 choose 2 = 6)
 
+To add a feature, add the feature function in `sm_features.py`, then call that function in the body of `calc_features()` which can be found in `sm_calc_features.py`. 
+
 ![clipped_normalized_features.png](img/clipped_normalized_features.png)
 
 This the output of `calc_feats` in the `sm_calc_feats` submodule.
@@ -57,7 +59,7 @@ Function dependency graph.
 *This list is ordered from highest to lowest priority.*
 - [x] Implement Options.toml config file as user input interface
 - [x] Implement wavelet transform module, for turning raw edf into 
-  - [x] Bullet proof with tests
+  - [x] Implement tests
   - [x] Test compare output with matlab scripts
     - [ ] also, implement this test in the test suite? (not a priority, but should be done eventually)
   - [x] Implement and test `make_all` method
@@ -78,6 +80,7 @@ Function dependency graph.
 - [x] Detailed sketch of pipeline 
 - [ ] Remove training parameters from Options.toml
 - [ ] Organized & streamline testing pipeline
+- [ ] Add instructions in this README for how to add features, which files should be changed etc.
 
 
 - [ ] Little todos, formatting tasks
