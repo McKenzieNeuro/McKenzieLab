@@ -3,7 +3,7 @@ IntraHippocampal Kainic Acid
 
 Python modules for ihka data analysis, based off of MatLab code from [McKenzieLab's repository](https://github.com/McKenzieNeuro/McKenzieLab/tree/main/IHKA).
 
-We have opted for a procedural programming approach rather than OOP because this project grew of a [MatLab project](https://github.com/McKenzieNeuro/McKenzieLab/tree/main/IHKA) and this will ensure that the codebases have a similar feel, which will help to curb the learning curve for anyone comming to the code form a matlab background, it is to ease the adoption of Python by a community that is used to MatLab.
+We have opted for a procedural programming approach rather than OOP because this project grew of a [MatLab project](https://github.com/McKenzieNeuro/McKenzieLab/tree/main/IHKA). This will ensure that the codebases have a similar feel which will help to curb the learning curve for those comming to the code form a matlab background.
 
 ## Install & Setup 
 To access the methods and their modules, clone this repo with `git clone https://github.com/dcxSt/IHKApy`, enter it's root directory `cd IHKApy`, then pip install with `pip install .`
@@ -73,15 +73,16 @@ Function dependency graph.
 - [ ] Implement train model, (see jupyter notebook)
 - [x] Generate docs
   - [x] ship docs
-- [x] Check dependencies
+- [ ] Create a pip .env file for the dependencies, and verify with virtual environment 
 - [x] Draw dependency graph
 - [x] Detailed sketch of pipeline 
 - [ ] Remove training parameters from Options.toml
+- [ ] Organized & streamline testing pipeline
 
 
 - [ ] Little todos, formatting tasks
   - [ ] rename data ops FREQ_NUM etc. instead of what, add "FREQ" to SPACING param too
-- [ ] Change `fileio` the dictionary to `fio_ops` because it's ambiguous and can eaily get confused with the module by the same name. Change this everywhere in the codebase including the `Options.toml`. 
+- [ ] Change `fileio` the dictionary to `fio_ops` because it's ambiguous and can eaily get confused with the module by the same name. Change this everywhere in the codebase including the `Options.toml`. *[I think this is mostly done... check this]*
 - [ ] Think about features df size, so far, a single dataframe with three features on 2 raw channels and 41 freq channels (includes coherence which makes one feature for each pair of electrodes, 6) is 1.7M as a pkl. Think about either compressing it or serializing it more intelligently. 1.7M is okay but if we have a human with ~50 raw channels (so n\*(n-1)/2 is about 12000), we'll have much much more data. If we have more features we'll have *even more*, so we can expect that number to be 100 to 10000 times bigger for a full feature set on human data (i.e. data with more electrodes. Not good.) That will make them on the order of 0.1GB to 10GB. We probably need to think of a way to do this more efficiently... perhaps we need a module that serializes and unserializes pandas dataframes as int16 binaries so that we don't have to put all that data into memory. 
 - [ ] Make sure precision isn't hard coded anywhere, get it from ops "int16"
 - [ ] Do a consistency check of variable names
