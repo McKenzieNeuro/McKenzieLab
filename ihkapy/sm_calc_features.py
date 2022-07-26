@@ -1,7 +1,7 @@
 import numpy as np
 import os
 from ihkapy.fileio import utils
-from ihkapy.fileio.utils import get_all_valid_session_basenames,check_session_basenames_are_valid
+from ihkapy.fileio.utils import get_all_valid_session_basenames,check_session_basenames_are_valid # TODO: check_sessions_basenamse_are_valid is not used, is this dead code? is it used anywhere?
 from ihkapy.fileio.binary_io import get_n_samples_from_dur_fs,load_binary_multiple_segments
 from ihkapy.fileio.metadata_io import get_seizure_start_end_times
 from ihkapy.fileio.options_io import load_ops_as_dict # For loading Options.toml
