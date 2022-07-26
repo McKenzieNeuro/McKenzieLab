@@ -11,15 +11,15 @@ def get_all_valid_session_basenames(dir_path):
             valid_basenames.append(basename)
     return valid_basenames
 
-# TODO: is this function dead code?
-def check_session_basenames_are_valid(basenames,dir_path):
-    """Raises error if edf and txt files not found in dir_path"""
-    if not basenames: print("Warning: no basenames supplied, True by default")
-    for basename in basenames:
-        if basename+".txt" not in os.listdir(dir_path) \
-                or basename+".edf" not in os.listdir(dir_path):
-            return False
-    return True
+# # Dead code, or potentially useful?
+# def check_session_basenames_are_valid(basenames,dir_path):
+#     """Raises error if edf and txt files not found in dir_path"""
+#     if not basenames: print("Warning: no basenames supplied, True by default")
+#     for basename in basenames:
+#         if basename+".txt" not in os.listdir(dir_path) \
+#                 or basename+".edf" not in os.listdir(dir_path):
+#             return False
+#     return True
 
 ### FORMAT PATHS
 # All the properly formatted naming conventions
