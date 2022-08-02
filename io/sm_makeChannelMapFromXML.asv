@@ -1,0 +1,44 @@
+function [x,y] = sm_makeChannelMapFromXML(device,IntanVersion)
+
+%pick xml
+switch device
+    
+    case 'uLED'
+        
+        if strcmp(IntanVersion,'merged')
+            fname = 'R:\McKenzieLab\Analysis\McKenzieLab\xmls\uLED_32ch_merged39.xml';
+        else
+            
+        end
+        
+        
+    case 'otherDevice'
+        
+        
+           
+        if strcmp(IntanVersion,'merged')
+            
+        else
+            
+        end
+        
+        
+    otherwise 
+        error('unknown device')
+        
+end
+
+%load xml
+xml = LoadXml(fname);
+ch = {xml.AnatGrps.Channels}';
+ch_ix = cell2mat(ch')+1;
+nCh = xml.nChannels;
+x = nan(nCh,1);
+% get X coords
+for i = 1:length(ch)
+x(ch{i}+1) = (i-1)*250;
+end
+
+
+
+end

@@ -42,7 +42,7 @@ ops.reScalePhase = 1000;  %
 ops.reScalePower = 1000;  % 32767/maxPower < 1,000
 
 
-% frequency bands for coherence
+% frequency bands for coherence. must match sm_getPowerPerChannel
 ops.freqs = logspace(log10(.5),log10(200),20);
 
 % frequency selection for phase/amplitude (must match index in getPowerPerChannel)
