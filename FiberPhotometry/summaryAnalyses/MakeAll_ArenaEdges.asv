@@ -1,0 +1,26 @@
+fils = getAllExtFiles('R:\DANEHippocampalResponse','mat',1);
+fils = fils(cellfun(@any,regexp(fils,'sessiondata')));
+
+[dirs,b] = fileparts(fils);
+%%
+for i = 1:length(dirs)
+    
+    switch session.data.task
+        
+        case ' Food Reward'
+            % single context get bounds from 
+            
+            
+    
+    try
+        disp(['working on ' dirs{i}])
+        sm_getArenaEdges(dirs{i})
+    catch
+        disp('bad dir')
+        
+    end
+    i
+end
+
+
+

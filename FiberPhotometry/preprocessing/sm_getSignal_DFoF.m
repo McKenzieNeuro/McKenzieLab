@@ -111,14 +111,12 @@ else
                 a = polyfit(ts_data(skiptime:endTime1),data.streams.(streams{i}).data(skiptime:endTime1),1);
                 signal_bleach_corr = polyval(a,ts_data);
             case 'quadratic'
-                
                 a = polyfit(ts_data(skiptime:endTime1),data.streams.(streams{i}).data(skiptime:endTime1),2);
                 signal_bleach_corr = polyval(a,ts_data);
             case 'cubic'
                 a = polyfit(ts_data(skiptime:endTime1),data.streams.(streams{i}).data(skiptime:endTime1),3);
                 signal_bleach_corr = polyval(a,ts_data);
             case 'exp1'
-                
                 a = fit(ts_data(skiptime:endTime1)',data.streams.(streams{i}).data(skiptime:endTime1)','exp1');
                 signal_bleach_corr = a(ts_data);
                 signal_bleach_corr = signal_bleach_corr';
