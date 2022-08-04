@@ -1,22 +1,22 @@
 # Previously ops variable in MatLab scripts
 
 [fio]
-RAW_DATA_PATH = "/Users/steve/Documents/code/unm/data/h24_data/raw"
-WAVELET_BINARIES_PATH = "/Users/steve/Documents/code/unm/data/h24_data/binaries"
+RAW_DATA_PATH = "G:/data/isip/data/tuh_eeg_seizure/v1.5.4/edf/dev/01_tcp_ar/012/00001278/s002_2003_11_17"
+WAVELET_BINARIES_PATH = "binaries"
 FEATURES_PATH = "/Users/steve/Documents/code/unm/data/h24_data/features"
 CLASSIFIER_OUTPUT_PATH = "/Users/steve/Documents/code/unm/data/h24_data/models"
 
 [params.data]
-FS = 2000                         # Sample frequency in Hz
+FS = 400                          # Sample frequency in Hz
 NUM_FREQ = 20                     # number of frequencies to sample
 LOW_FREQ = 0.5                    # lowest freq to sample
 HIGH_FREQ = 200                   # highest freq to sample
 SPACING = "LOGARITHMIC"           # can only be "LOGARITHMIC" or "LINEAR"
 ZSCORE_POWER = true               # bool, if true zscore the power
-SCALE_RAW = 1000                  # scale factor exploit int16 range
+SCALE_RAW = 15                    # scale factor exploit int16 range
 SCALE_PHASE = 1000                # scale factor exploit int16 range
 SCALE_POWER = 1000                # scale factor exploit int16 range
-N_CHAN_RAW = 4                    # Number of raw channels in .edf files
+N_CHAN_RAW = 32                   # Number of raw channels in .edf files
 CH_PHASE_AMP = 2                  # Select the channel for which to 
                                   # compute phase-amplitude correlation
 TS_FEATURES = ["wavelet_power","wavelet_phase"] # Select what to compute

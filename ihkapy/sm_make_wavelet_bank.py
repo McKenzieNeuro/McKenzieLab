@@ -45,6 +45,7 @@ logger = logging.getLogger(__name__)
 # % 1/11/2007: (cgb) psi_array: output in complex 
 # % 3/06/2008: (cgb) init of psi_array to size of wt
 #   3/05/2022: SF translated awt_freqlist to 
+#   8/04/2022: (NEJA) Phase calculation uses arctan2 for a range of +/- pi
 
 def compute_wavelet_gabor(
         signal: np.ndarray,
@@ -268,9 +269,9 @@ def make_wavelet_bank(
 
             # Conditionally re-scale and save the phase
             if "wavelet_phase" in TS_FEATURES:
-                wt_phase = (np.arctan(np.real(wt) / np.imag(wt)) * SCALE_PHASE).astype("int16")
+                wt_phase = (np.arctan2(np.real(wt), np.imag(wt)) * SCALE_PHASE).astype("int16")  # NEJA arctan2
                 wt_phase.tofile(cached_binary_phase_path) # , format="int16")
-        logger.info("Finished computing wavelet transforms for channel={channel}.")
+        logger.info(f"Finished computing wavelet transforms for channel={channel}.")
 
         # Check all the dat files in the cache match with the regex—–
         # this is a test to make sure our cached folder is not corrupted
@@ -321,13 +322,5 @@ def make_wavelet_bank_all(options_path="Options.toml"):
 
 # Next block runs only when you run this file directly, not on import
 if __name__ == "__main__":
-    # make_wavelet_bank_all(options_path="Options.toml")
-    make_wavelet_bank_all(options_path="Options_test.toml")
-    
-
-    
-
-
-
-
-
+    make_wavelet_bank_all(options_path="Options.toml")
+#     make_wavelet_bank_all(options_path="Options_test.toml")
