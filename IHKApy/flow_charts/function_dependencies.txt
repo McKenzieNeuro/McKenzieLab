@@ -1,0 +1,65 @@
+```mermaid
+flowchart LR
+  subgraph binary_io
+    get_n_samples_from_dur_fs -->
+    load_binary --> 
+    load_binary_multiple_segments
+    get_n_samples_from_dur_fs --> load_binary_multiple_segments
+    merge_dats
+  end
+  
+  subgraph metadata_io
+    parse_metadata -->
+    get_seizure_start_end_times
+  end
+  
+  subgraph options_io
+    load_ops_as_dict -->
+    load_fio_ops_and_data_ops
+  end
+  
+  subgraph utils
+    get_all_valid_session_basenames
+    check_session_basenames_are_valid
+    fmt_binary_chan_raw_path
+    fmt_binary_cache_wav_path
+    fmt_features_df_csv_path
+  end
+  
+  subgraph sm_features
+    _select_freq_chans --> feature_1 --> get_feats
+    _feats_as_dict_from_2d_array --> feature_1
+    _select_freq_chans --> feature_2 --> get_feats
+    _feats_as_dict_from_2d_array --> feature_2
+    _select_freq_chans --> feature_3 --> get_feats
+    _feats_as_dict_from_2d_array --> feature_3
+    _select_freq_chans --> feature_4 --> get_feats
+    _feats_as_dict_from_2d_array --> feature_4
+  end
+  
+  subgraph sm_calc_features
+    calc_features -->
+    calc_features_all
+  end
+  
+  get_all_valid_session_basenames --> calc_features_all
+  fmt_binary_chan_raw_path --> calc_features
+  fmt_features_df_csv_path --> calc_features_all
+  
+  get_n_samples_from_dur_fs --> calc_features
+  load_binary_multiple_segments --> calc_features
+  get_seizure_start_end_times --> calc_features
+  load_ops_as_dict --> calc_features_all
+  get_feats --> calc_features
+  
+  
+  subgraph sm_make_wavelet_bank
+    compute_wavelet_gabor -->
+    make_wavelet_bank --> 
+    make_wavelet_bank_all
+  end
+  
+  merge_dats --> make_wavelet_bank
+  fmt_binary_cache_wav_path --> make_wavelet_bank
+  load_fio_ops_and_data_ops --> make_wavelet_bank_all
+```

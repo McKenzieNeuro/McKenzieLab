@@ -1,0 +1,19 @@
+```mermaid
+flowchart TB
+  subgraph fileio 
+    binaryio([binary_io.py])
+    metadataio([metadata_io.py])
+    optionsio([options_io.py])
+    utils([utils.py])
+  end
+  
+  feats([sm_features.py]) --> calc_feats([sm_calc_features.py])
+  utils --> calc_feats
+  binaryio --> calc_feats
+  metadataio --> calc_feats
+  optionsio --> calc_feats
+  
+  binaryio --> mk_wav([sm_make_wavelet_bank.py])
+  utils --> mk_wav
+  optionsio --> mk_wav
+```
