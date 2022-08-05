@@ -1,0 +1,17 @@
+```mermaid
+graph TB
+  raw[(raw.edf)] 
+  --> |ops.toml|make_wavelet_bank_all
+  --> bins[(wavelet_transforms.dat)]
+  --> |ops.toml|calc_features_all
+  meta[(metadata.txt)] 
+  --> |ops.toml|calc_features_all
+  --> feats[(features.csv)]
+  --> train(train_model.ipynb)
+  
+  style raw fill:#f9f,stroke:#333,stroke-width:4px
+  style meta fill:#f9f,stroke:#333,stroke-width:4px
+  style bins fill:#c9f,stroke:#333,stroke-width:4px
+  style feats fill:#fca,stroke:#333,stroke-width:4px
+  style train stroke:#9c9,stroke-width:3px;
+```
