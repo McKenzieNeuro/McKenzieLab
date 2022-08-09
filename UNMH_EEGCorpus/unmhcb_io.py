@@ -12,6 +12,9 @@ Notes
                  but maintain time consistancy between runs. (e.g., a 6hr
                  run that starts at 10PM on Aug. 23rd will now show as running
                  from 10PM Jan. 1st to 4AM Jan. 2nd)
+22/08/09 (NEJA): Added rounding/truncation when converting NKT to EDF, and
+                 modded the ClinicalNotes session intervals to be midnight of
+                 the day *after* what's stated in the clinical notes.
 """
 import os
 import re
@@ -75,14 +78,9 @@ def get_PNT_metadata(file: Path or str, fields=PNT_FIELDS) -> [str]:
     ----------
     file : Path or str
         Path to PNT file.
-    fields : {str:(int, int)}, optional
-        One or more key/value pairs. Key is the name of the field
-        (as defined here), and the value is a tuple corresponding to the
-        number of bytes into the PNT file the data is and the length of
-        the field. The default is PNT_FIELDS.
-
-        Valid keys for fields are 'Time', 'MRN', 'Name', 'DOB', 'RefName',
-                                  'Physician', and 'Operator'
+    fields : [str], optional
+        One or more keys. Valid keys are 'Time', 'MRN', 'Name', 'DOB',
+        'RefName', 'Physician', and 'Operator'. The default is all of them.
 
     Returns
     -------
@@ -101,7 +99,7 @@ def get_MRN_from_PNT(file: Path):
     return get_PNT_metadata(file, fields=['MRN'])[0]
 
 
-def copyNKT(sourceDir, destDir, recName):
+def copyNKT(sourceDir, destDir, recName, overwrite=False):
     """Copy all NKT data for a run from the EEG DB."""
     if not isinstance(sourceDir, Path):
         sourceDir = Path(sourceDir)
@@ -117,13 +115,22 @@ def copyNKT(sourceDir, destDir, recName):
                 try:
                     item.copytree(destDir / item.basename(),
                                   copy_function=Path.copy)
-                except FileExistsError as e:  # NEJA is an error the right choice?
-                    raise e("Cannot recreate subdirectories!")
+                except FileExistsError:
+                    if overwrite:
+                        raise FileExistsError(f"Dir {item} already exists!"
+                                              "If you want to overwrite this "
+                                              "data, specify overwrite")
+                    else:
+                        # NEJA this doesn't check the contents of the path!
+                        continue
         else:
-            item.copy(destDir)
+            if overwrite or not (destDir / item.basename()).exists():
+                item.copy(destDir)
+            else:
+                continue
 
 
-def convert_NKT2EDF(nkData, sessionStart=None, birthYear=1947):
+def convert_NKT2EDF(nkData, sessionStart=None, birthYear=1947, truncate=True):
     """
     Save a Nihon Koden-formatted file as EDF.
 
@@ -143,6 +150,10 @@ def convert_NKT2EDF(nkData, sessionStart=None, birthYear=1947):
         Offset session start time (helpful in anonymizing). Defaults to None.
     birthYear : int (optional)
         Patient's year of birth. Defaults to 1947. (Because 47.)
+    truncate : bool (optional)
+        EDF+ fields are limited to 8 chars for most fields. Truncating the
+        fields a priori will keep pyedflib from throwing a billion warnings.
+        Thus, it defaults to True.
 
     Returns
     -------
@@ -164,6 +175,12 @@ def convert_NKT2EDF(nkData, sessionStart=None, birthYear=1947):
         f.setPhysicalDimension(ch_num, ch_data['unit'])
         f.setSamplefrequency(ch_num, nkData.info['sfreq'])
         if ch_data['min'] < ch_data['max']:
+            if truncate:
+                # Round first for slightly better precision
+                ch_data['min'] = round(ch_data['min'], 6)
+                ch_data['min'] = float(str(ch_data['min'])[:8])
+                ch_data['max'] = round(ch_data['max'], 6)
+                ch_data['max'] = float(str(ch_data['max'])[:8])
             f.setPhysicalMinimum(ch_num, ch_data['min'])
             f.setPhysicalMaximum(ch_num, ch_data['max'])
     del info
@@ -183,7 +200,7 @@ def convert_NKT2EDF(nkData, sessionStart=None, birthYear=1947):
     return mne.io.read_raw_edf('temp.edf', infer_types=True)
 
 
-class Clinical_Notes(fitz.Document):
+class ClinicalNotes(fitz.Document):
     """Subclass of fitz.Document that implements anonymizing."""
 
     sensitiveNames = ''
@@ -226,7 +243,7 @@ class Clinical_Notes(fitz.Document):
             instances += re.findall(pattern, text, re.IGNORECASE)
 
         # Find all sensitive names pulled from the PNT files
-        for name in Clinical_Notes.sensitiveNames:
+        for name in ClinicalNotes.sensitiveNames:
             instances += re.findall(name, text, re.IGNORECASE)
 
         # Find instances following the Action list segment
@@ -274,13 +291,15 @@ class Clinical_Notes(fitz.Document):
         if search:
             date_re = REGEXES[-1]
             self.sessionDates = re.findall(date_re, search.group())
-            assert len(self.sessionDates) == 2
-            for i, sesDate in enumerate(self.sessionDates):
-                try:
-                    dt = datetime.strptime(sesDate, '%m/%d/%Y')
-                    self.sessionDates[i] = 1000000
-                    self.sessionDates[i] *= int(dt.strftime('%Y%m%d'))
-                except ValueError:  # Year was not 4 digits in PDF
-                    dt = datetime.strptime(sesDate, '%m/%d/%y')
-                    self.sessionDates[i] = 20000000000000
-                    self.sessionDates[i] += int(dt.strftime('%y%m%d'))
+            if len(self.sessionDates) == 2:
+                for i, sesDate in enumerate(self.sessionDates):
+                    try:
+                        dt = datetime.strptime(sesDate, '%m/%d/%Y')
+                        self.sessionDates[i] = 1000000
+                        self.sessionDates[i] *= int(dt.strftime('%Y%m%d'))
+                    except ValueError:  # Year was not 4 digits in PDF
+                        dt = datetime.strptime(sesDate, '%m/%d/%y')
+                        self.sessionDates[i] = 20000000000000
+                        self.sessionDates[i] += int(dt.strftime('%y%m%d'))
+                # End date is midnight of the next day
+                self.sessionDates[1] += 1000000

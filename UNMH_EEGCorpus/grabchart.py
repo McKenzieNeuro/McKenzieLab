@@ -52,12 +52,16 @@ if psVersion[1] <= 1 and psVersion[2] < 28:
 MIN_RECORD_DATE = '08/01/2007'
 F_MIN_RECORD_DATE = 1185951600.0  # Float representation of 8/1/2007
 PDF_PATH = "\\".join(["\\\\Client", Path.getcwd(), "clinical_notes"])
-RELATIVE_PATH = Path('clinical_notes')
+NOTES_PATH = Path('clinical_notes')
 WINDOW_TITLES = {'main': 'PowerChart Organizer for',
                  'relationship': 'Assign a Relationship',
                  'print': 'Print',
                  'save': 'Save Print Output As',
                  'error': 'Confirm Save As'}
+UNSAVED_MRNS = Path('unsaved_mrns.txt')
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 def findPatient(mrn):
@@ -70,7 +74,7 @@ def findPatient(mrn):
     pyautogui.typewrite(mrn)
     pyautogui.moveRel(65, 0)
     nav.click()
-    time.sleep(1)
+    time.sleep(2)
     nav.moveToWin("Patient Search")
     if nav.win:
         pyautogui.moveRel(0, 50)
@@ -93,21 +97,21 @@ def loadClinicalNotes(mrn):
     nav.click(leadDelay=2)   # NEJA may need to be much longer
     #  Establish new directory for patient
     try:
-        os.mkdir(f"{RELATIVE_PATH}\\{mrn}")
+        os.mkdir(f"{NOTES_PATH}\\{mrn}")
     except FileExistsError:
         warnings.warn(
             f"Patient {mrn}'s data appears to have been saved already.")
 
-    logging.info('Adjust search dates')
+    logger.info('Adjust search dates')
     pyautogui.moveRel(100, -25)
-    nav.click(button='right', leadDelay=2)
+    nav.click(button='right', leadDelay=3)
     pyautogui.moveRel(5, 5)
     nav.click(leadDelay=2)
     pyautogui.moveTo(nav.win.center)
-    pyautogui.moveRel(100, -20)
+    pyautogui.moveRel(100, -25)
     nav.click(doubleClick=True)
     latest_date = MIN_RECORD_DATE
-    patientPath = f'{RELATIVE_PATH}/{mrn}/'
+    patientPath = f'{NOTES_PATH}/{mrn}/'
     files = os.listdir(patientPath)
     if len(files) > 0:  # Patient's data has been seen before
         floatTime = os.path.getmtime(patientPath + files[-1])
@@ -128,7 +132,7 @@ def selectNeurodiagnostics(mrn):
     while fieldLocation is None and counter < 5:  # Check a max of 5 fields
         # Check another image if the first check fails
         time.sleep(1.5)
-        logging.info("Trying another screenshot for navigation")
+        logger.info("Trying another screenshot for navigation")
         fieldLocation = nav.moveToImg('img/radio_buttons.png')
         if fieldLocation:
             break
@@ -158,7 +162,7 @@ def selectNeurodiagnostics(mrn):
 def printToPDF(mrn):
     """Choose print to PDF."""
     idx = 0
-    notePath = f'{RELATIVE_PATH}{mrn}/'
+    notePath = f'{NOTES_PATH}{mrn}/'
     if os.path.exists(notePath):  # Patient's data has been seen before
         files = os.listdir(notePath)
         idx = len(files)
@@ -175,13 +179,13 @@ def printToPDF(mrn):
                 fieldLocation = nav.moveToImg("img/print_to_pdf0.png",
                                               confidence=0.7)
                 if fieldLocation is None:
-                    logging.info(
+                    logger.info(
                         "Initial image movement failed, trying another.")
                     fieldLocation = nav.moveToImg("img/print_to_pdf2.png",
                                                   confidence=0.7)
 
                 if fieldLocation is None:
-                    logging.info(
+                    logger.info(
                         "Secondary image movement failed. Trying another")
                     fieldLocation = nav.moveToImg("img/print_to_pdf3.png",
                                                   confidence=0.7)
@@ -208,7 +212,7 @@ def printToPDF(mrn):
         # Save documents
         if validDialog:
             filename = f"{PDF_PATH}\\{mrn}\\{mrn}_{idx}"
-            logging.info(f"Writing {filename}.pdf")
+            logger.info(f"Writing {filename}.pdf")
             pyautogui.typewrite(filename)
             pyautogui.moveTo(nav.win.bottomright)
             pyautogui.moveRel(-50, -50)
@@ -227,17 +231,47 @@ nav = Navigator()
 
 
 def grabchart(mrns: list):
-    """Perform the primary processing."""
+    """
+    Gather clinical notes from PowerChart.
+
+    Parameters
+    ----------
+    mrns : list
+        The full list of patients' MRNs that will be searched.
+
+    Raises
+    ------
+    RuntimeError
+        PowerChart must be running in order for this to run.
+
+    Returns
+    -------
+    True if it successfully downloads the patients' clinical notes (or at
+    least it *thinks* it was successful)
+
+    """
+    logger.warn("Starting grabchart. This is going to take a while. "
+                "If the automation blows up, move your mouse to a screen "
+                "corner to evoke a failsafe halt.")
     global nav
     try:
-        os.mkdir(f"{RELATIVE_PATH}")
+        os.mkdir(f"{NOTES_PATH}")
     except FileExistsError:
-        # This isn't a bad thing
-        logging.info("Path to notes exists.")
+        logger.info("Path to notes exists.")
 
+    # Allow for picking up where things were left
+    if UNSAVED_MRNS.exists():
+        logger.warn("Grabchart appears to have been run before, but didn't "
+                    "complete. Unsuccessful MRN queries will be executed. "
+                    "If you think everything is fine, make sure to delete "
+                    f"{UNSAVED_MRNS.abspath()} before running.")
+        with open(UNSAVED_MRNS, 'r') as f:
+            mrns = f.readlines()
+        mrns = [int(mrn.strip()) for mrn in mrns]
+        
     for i, mrn in enumerate(mrns):
-        logging.info(f"Recording notes for patient {mrn} "
-                     f"({i+1} of {len(mrns)})")
+        logger.info(f"Recording notes for patient {mrn} "
+                    f"({i+1} of {len(mrns)})")
         try:
             nav.moveToWin(WINDOW_TITLES['main'])
         except NameError:
@@ -258,14 +292,15 @@ def grabchart(mrns: list):
         nav.moveToWin(WINDOW_TITLES['main'])
         loadClinicalNotes(mrn)
         if not selectNeurodiagnostics(mrn):
-            with open('unsaved_mrns.txt', 'a+', encoding='utf-8') as f:
+            with open(UNSAVED_MRNS, 'a+', encoding='utf-8') as f:
                 f.write(f"{mrn}\n")
             continue
         numSaved = printToPDF(mrn)
-        logging.info(f"Successfully saved {numSaved} notes for patient {mrn}")
-        
-    logging.info("Process Complete")
+        logger.info(f"Successfully saved {numSaved} notes for patient {mrn}")
 
+    logger.info("Grabchart has completed")
+
+    return True
 
 """
 Issues:
