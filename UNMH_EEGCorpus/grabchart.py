@@ -268,7 +268,7 @@ def grabchart(mrns: list):
         with open(UNSAVED_MRNS, 'r') as f:
             mrns = f.readlines()
         mrns = [int(mrn.strip()) for mrn in mrns]
-        
+
     for i, mrn in enumerate(mrns):
         logger.info(f"Recording notes for patient {mrn} "
                     f"({i+1} of {len(mrns)})")
@@ -301,6 +301,7 @@ def grabchart(mrns: list):
     logger.info("Grabchart has completed")
 
     return True
+
 
 """
 Issues:
