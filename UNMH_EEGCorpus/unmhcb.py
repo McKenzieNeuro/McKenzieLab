@@ -34,6 +34,10 @@ Notes
 22/08/03 (NEJA): Substantial tweaks now that more than one patient's data
                  are being processed. Corpus's addPatient now handles the
                  transfer of the NK data.
+22/09/02 (NEJA): If an MRN file is added that has corresponding anonymous 
+                 IDs, which are used to populate the patient data, the corpus
+                 DataFrame will keep their corresponding values (and use
+                 them for adding new patients.)
 """
 from path import Path
 import pandas as pd
@@ -82,7 +86,7 @@ class CorpusBuilder:
         logger.info(f"Scanning {fullPath} for patients' Nihon Koden files")
         curDir = Path(fullPath)
         # NEJA NOTE: Maybe put something to avoid re-scanning directories...?
-        for file in curDir.walk('*.PNT'):  # Just consider PNT files
+        for idx, file in enumerate(curDir.walk('*.PNT')):  # Just PNT files
             if os.stat(file).st_size == 0:
                 continue  # Skip blank files
             mrn = get_MRN_from_PNT(file)
@@ -97,7 +101,7 @@ class CorpusBuilder:
                                       f"{file} & {saved_file})!!")
                         break
                 if not repeat:
-                    metadata = get_PNT_metadata(file) + [file]
+                    metadata = get_PNT_metadata(file) + [idx, file]
                     session = {i: j for i, j in zip(self.df.columns, metadata)}
                     self.df = self.df.append(session, ignore_index=True)
 
@@ -124,7 +128,7 @@ class CorpusBuilder:
         note_names = notes_path.abspath().glob('*.pdf')
         recording_data = self.df.loc[self.df.MRN == mrn]
         patient = Patient(mrn, recording_data, note_names)
-        patient.anonID = len(self.patients) + 1  # BIDS indices start at 1
+        patient.anonID = self.df[df.MRN == mrn].ID + 1  # BIDS start at 1
         patient.correlate()
         activeStage = STAGING_DIR / str(mrn)
         if not activeStage.exists():
@@ -201,6 +205,11 @@ class CorpusBuilder:
         with open(mrnPath, 'r') as f:
             self.mrns = [mrn.strip() for mrn in f]
         assert len(self.mrns) > 0
+        self.ids = []  # Random 8-digit IDs
+        #  I would _love_ to write this a tad cleaner
+        if not self.mrns[0].isnumeric():  # Check for random new ID as 2nd col
+            self.ids = [int(i.split(',')[1]) for i in self.mrns]
+            self.mrns = [int(i.split(',')[0]) for i in self.mrns]
 
         # Build up DataFrame of original recorded runs
         try:
@@ -208,7 +217,7 @@ class CorpusBuilder:
         except FileNotFoundError:
             warnings.warn("No previous data appear to have been recorded. "
                           "Defaulting to a blank DataFrame.")
-            colns = list(PNT_FIELDS) + ['Path', 'LocalPath', 'Notes']
+            colns = list(PNT_FIELDS) + ['ID', 'Path', 'LocalPath', 'Notes']
             self.df = pd.DataFrame(columns=colns)
         self.patients = []
 
@@ -285,19 +294,18 @@ class Patient:
 
 
 if __name__ == '__main__':
-    corpus = CorpusBuilder()
-    # NEJA TEMP grabchart(corpus.mrns)  # Pull reports from PowerChart
-    # NEJA TEMP corpus.sysScan(SHARED_EEG_DRIVE)  # Scan for PNT files
+    corpus = CorpusBuilder(mrnPath='MRN1.txt')
+    grabchart(corpus.mrns)  # Pull reports from PowerChart
+    corpus.sysScan(SHARED_EEG_DRIVE)  # Scan for PNT files
 
     # Potentially reduce the MRNs to those that were found during the scan?
-    corpus.mrns = corpus.df.MRN.unique().tolist()
+    # NEJA DEBUG corpus.mrns = corpus.df.MRN.unique().tolist()
     corpus.df.to_csv(CSV_FILENAME, index=False)
 
     # Keep sensitive names from PNT files for all patients
     ClinicalNotes.sensitiveNames = corpus.generateRE()
     for mrn in corpus.mrns:
-        if mrn != 5397382:
-            corpus.addPatient(mrn)
+        corpus.addPatient(mrn)
 
     corpus.writeBIDS()
 
