@@ -1,0 +1,16 @@
+/.project
+/.pydevproject
+*.o
+*.exe
+/temp
+/x64
+/klustakwik.opensdf
+/klustakwik.sdf
+/klustakwik.v12.suo
+/klustakwik.vcxproj.user
+/ipch/
+/klustakwik.suo
+/.cproject
+/.settings
+/.idea
+/Debug/
