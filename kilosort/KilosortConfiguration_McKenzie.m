@@ -33,7 +33,7 @@ ops.nNeighPC            = min([16 ops.Nchan]); % visualization only (Phy): numbe
 ops.nNeigh              = min([16 ops.Nchan]); % visualization only (Phy): number of neighboring templates to retain projections of (16)
 
 % options for channel whitening
-ops.whitening           = 'full_median'; % type of whitening (default 'full', for 'noSpikes' set options for spike detection below)
+ops.whitening           = 'full'; % type of whitening (default 'full', for 'noSpikes' set options for spike detection below)
 ops.nSkipCov            = 1; % compute whitening matrix from every N-th batch (1)
 ops.whiteningRange      = min([64 ops.Nchan]); % how many channels to whiten together (Inf for whole probe whitening, should be fine if Nchan<=32)
 

@@ -43,7 +43,7 @@ for i = 1:size(artefact,1)
    
     dat = int16(dat(:));
  
-    status = fseek(fidI,start,'bof');
+    status = fseek(fidO,start,'bof');
     fwrite(fidO,dat,'int16');
 end
 

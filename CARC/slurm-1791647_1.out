@@ -1,0 +1,60 @@
+
+##################################################################
+#####             Welcome to the SpyKING CIRCUS              #####
+#####                        (1.1.0)                         #####
+#####             Written by P.Yger and O.Marre              #####
+##################################################################
+
+
+File          : /users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16.dat
+Steps         : filtering, whitening, clustering, fitting, merging
+Number of CPU : 1/32
+Parallel HDF5 : False
+Shared memory : True
+Hostfile      : /tmp/L_y3TmJb2W
+
+##################################################################
+
+
+-------------------------  Informations  -------------------------
+| Number of recorded channels : 39
+| Number of analyzed channels : 31
+| File format                 : RAW_BINARY
+| Data type                   : int16
+| Sampling rate               : 30000 Hz
+| Duration of the recording   : 132 min 41 s 568 ms
+| Width of the templates      : 3 ms
+| Spatial radius considered   : 150 um
+| Threshold crossing          : negative
+------------------------------------------------------------------
+-------------------------  Informations  -------------------------
+| Using only 1 out of 32 local CPUs available (-c to change)
+------------------------------------------------------------------
+You have not been allocated GPUs. To request GPUs, use the -G option in your submission script.
+Job 1791647 running on hopper031
+[31m----------------------------  Error  -----------------------------
+[31m| Code was interrupted while filtering
+[31m| Data are likely to be corrupted, please recopy raw data
+[31m| And set the flag filter_done in the [noedits] section to False
+[31m------------------------------------------------------------------[37m
+[37mAnalyzing data to get whitening matrices and thresholds...
+[37mFound 30s to compute the whitening matrix...
+[37mBecause of whitening, need to recompute the thresholds...
+[37mSearching spikes to construct the PCA basis...
+  0%|                                            |[00:00<?, ?it/s]
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 3794649 RUNNING AT hopper031
+=   EXIT CODE: 9
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+srun: error: hopper031: task 0: Out Of Memory
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=1791647.1. Some of your processes may have been killed by the cgroup out-of-memory handler.
+YOUR APPLICATION TERMINATED WITH THE EXIT STRING: Killed (signal 9)
+This typically refers to a problem with your application.
+Please see the FAQ page for debugging suggestions
+----------------------------  Error  -----------------------------
+| Step "whitening" failed for reason Command '['mpiexec', '-f', '/tmp/L_y3TmJb2W', '-np', '1', 'spyking-circus-subtask', 'whitening', '/users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16.dat', '1', '0', 'False', 'False']' returned non-zero exit status 9.!
+------------------------------------------------------------------
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=1791647.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.
