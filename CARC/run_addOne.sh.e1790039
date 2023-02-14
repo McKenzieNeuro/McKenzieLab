@@ -1,0 +1,18 @@
+{Error using fscanf
+Invalid file identifier. Use fopen to generate a valid file identifier.
+
+Error in addOne (line 5)
+v = fscanf(fileID , '%d');
+} 
+{Error using fscanf
+Invalid file identifier. Use fopen to generate a valid file identifier.
+
+Error in addOne (line 5)
+v = fscanf(fileID , '%d');
+} 
+{Error using fscanf
+Invalid file identifier. Use fopen to generate a valid file identifier.
+
+Error in addOne (line 5)
+v = fscanf(fileID , '%d');
+} 

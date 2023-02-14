@@ -1,0 +1,65 @@
+2023-02-01 12:26:06,458 DEBUG    [circus.shared.parser] Creating a Circus Parser for datafile /users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16.dat
+2023-02-01 12:26:06,461 DEBUG    [circus.shared.probes] Reading the probe file /users/mckenzie/data/spikeSorting/STDP8_221028_111913/zach.prb
+2023-02-01 12:26:06,462 DEBUG    [circus.shared.parser] Cluster not detected, so using global /tmp folder
+2023-02-01 12:26:06,463 DEBUG    [circus.shared.parser] Hanning filtering is activated
+2023-02-01 12:26:06,463 DEBUG    [circus.shared.parser] The copy file has not yet been created! Returns normal file
+2023-02-01 12:26:06,463 DEBUG    [circus.shared.parser] Trying to read file /users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16.dat as raw_binary
+2023-02-01 12:26:06,463 DEBUG    [circus.files.datafile] data_dtype is read from the params with a value of int16
+2023-02-01 12:26:06,463 DEBUG    [circus.files.datafile] sampling_rate is read from the params with a value of 30000.0
+2023-02-01 12:26:06,463 DEBUG    [circus.files.datafile] nb_channels is read from the params with a value of 39
+2023-02-01 12:26:06,463 DEBUG    [circus.files.datafile] dtype_offset is not set and has the default value of auto
+2023-02-01 12:26:06,463 DEBUG    [circus.files.datafile] data_offset is not set and has the default value of 0
+2023-02-01 12:26:06,463 DEBUG    [circus.files.datafile] gain is not set and has the default value of 1.0
+2023-02-01 12:26:06,464 DEBUG    [circus.files.datafile] data type offset for int16 is automatically set to 0
+2023-02-01 12:26:06,464 DEBUG    [circus.shared.parser] Changing all values in the param depending on the rate
+2023-02-01 12:26:06,465 DEBUG    [circus.shared.parser] The copy file has not yet been created! Returns normal file
+2023-02-01 12:26:06,465 DEBUG    [circus.shared.parser] Trying to read file /users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16.dat as raw_binary
+2023-02-01 12:26:06,465 DEBUG    [circus.files.datafile] data_dtype is read from the params with a value of int16
+2023-02-01 12:26:06,465 DEBUG    [circus.files.datafile] sampling_rate is read from the params with a value of 30000.0
+2023-02-01 12:26:06,465 DEBUG    [circus.files.datafile] nb_channels is read from the params with a value of 39
+2023-02-01 12:26:06,465 DEBUG    [circus.files.datafile] dtype_offset is not set and has the default value of auto
+2023-02-01 12:26:06,465 DEBUG    [circus.files.datafile] data_offset is not set and has the default value of 0
+2023-02-01 12:26:06,465 DEBUG    [circus.files.datafile] gain is not set and has the default value of 1.0
+2023-02-01 12:26:06,466 DEBUG    [circus.files.datafile] data type offset for int16 is automatically set to 0
+2023-02-01 12:26:06,466 INFO     [circus.shared.files] Number of recorded channels : 39
+2023-02-01 12:26:06,466 INFO     [circus.shared.files] Number of analyzed channels : 31
+2023-02-01 12:26:06,466 INFO     [circus.shared.files] File format                 : RAW_BINARY
+2023-02-01 12:26:06,466 INFO     [circus.shared.files] Data type                   : int16
+2023-02-01 12:26:06,466 INFO     [circus.shared.files] Sampling rate               : 30000 Hz
+2023-02-01 12:26:06,466 INFO     [circus.shared.files] Duration of the recording   : 132 min 41 s 568 ms
+2023-02-01 12:26:06,466 INFO     [circus.shared.files] Width of the templates      : 3 ms
+2023-02-01 12:26:06,466 INFO     [circus.shared.files] Spatial radius considered   : 150 um
+2023-02-01 12:26:06,466 INFO     [circus.shared.files] Threshold crossing          : negative
+2023-02-01 12:26:06,468 DEBUG    [circus.shared.mpi] MPI detected: ('MPICH', (3, 2, 1))
+2023-02-01 12:26:09,481 DEBUG    [circus.filtering] Initializing the filtering step...
+2023-02-01 12:26:09,481 DEBUG    [circus.filtering] Overwrite is set to False, so creating a new datafile...
+2023-02-01 12:26:09,481 DEBUG    [circus.filtering] Reading the input file...
+2023-02-01 12:26:09,481 DEBUG    [circus.shared.parser] The copy file has not yet been created! Returns normal file
+2023-02-01 12:26:09,481 DEBUG    [circus.shared.parser] Trying to read file /users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16.dat as raw_binary
+2023-02-01 12:26:09,481 DEBUG    [circus.files.datafile] data_dtype is read from the params with a value of int16
+2023-02-01 12:26:09,481 DEBUG    [circus.files.datafile] sampling_rate is read from the params with a value of 30000.0
+2023-02-01 12:26:09,481 DEBUG    [circus.files.datafile] nb_channels is read from the params with a value of 39
+2023-02-01 12:26:09,481 DEBUG    [circus.files.datafile] dtype_offset is not set and has the default value of auto
+2023-02-01 12:26:09,481 DEBUG    [circus.files.datafile] data_offset is not set and has the default value of 0
+2023-02-01 12:26:09,481 DEBUG    [circus.files.datafile] gain is not set and has the default value of 1.0
+2023-02-01 12:26:09,490 DEBUG    [circus.files.datafile] data type offset for int16 is automatically set to 0
+2023-02-01 12:26:09,490 DEBUG    [circus.shared.parser] Changing all values in the param depending on the rate
+2023-02-01 12:26:09,491 DEBUG    [circus.filtering] Reading the output file and allocating ressources...
+2023-02-01 12:26:09,859 DEBUG    [circus.shared.parser] Reading first the real data file to get the parameters
+2023-02-01 12:26:09,859 DEBUG    [circus.shared.parser] Trying to read file /users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16.dat as raw_binary
+2023-02-01 12:26:09,859 DEBUG    [circus.files.datafile] data_dtype is read from the params with a value of float32
+2023-02-01 12:26:09,859 DEBUG    [circus.files.datafile] sampling_rate is read from the params with a value of 30000.0
+2023-02-01 12:26:09,859 DEBUG    [circus.files.datafile] nb_channels is read from the params with a value of 39
+2023-02-01 12:26:09,860 DEBUG    [circus.files.datafile] dtype_offset is read from the params with a value of 0
+2023-02-01 12:26:09,860 DEBUG    [circus.files.datafile] data_offset is read from the params with a value of 0
+2023-02-01 12:26:09,860 DEBUG    [circus.files.datafile] gain is read from the params with a value of 1.0
+2023-02-01 12:26:09,860 DEBUG    [circus.shared.parser] Reading first the real data file to get the parameters
+2023-02-01 12:26:09,860 DEBUG    [circus.shared.parser] Forcing the exported data file to be of type raw_binary
+2023-02-01 12:26:09,860 DEBUG    [circus.shared.parser] Trying to read file /users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16/amplifier_analogin_auxiliary_int16_all_sc.dat as raw_binary
+2023-02-01 12:26:09,860 DEBUG    [circus.files.datafile] data_dtype is read from the params with a value of float32
+2023-02-01 12:26:09,860 DEBUG    [circus.files.datafile] sampling_rate is read from the params with a value of 30000.0
+2023-02-01 12:26:09,860 DEBUG    [circus.files.datafile] nb_channels is read from the params with a value of 39
+2023-02-01 12:26:09,860 DEBUG    [circus.files.datafile] dtype_offset is read from the params with a value of 0
+2023-02-01 12:26:09,860 DEBUG    [circus.files.datafile] data_offset is read from the params with a value of 0
+2023-02-01 12:26:09,860 DEBUG    [circus.files.datafile] gain is read from the params with a value of 1.0
+2023-02-01 12:26:09,860 DEBUG    [circus.filtering] Allocating space for filtered files...

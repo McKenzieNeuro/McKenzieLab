@@ -1,0 +1,199 @@
+
+##################################################################
+#####             Welcome to the SpyKING CIRCUS              #####
+#####                        (1.1.0)                         #####
+#####             Written by P.Yger and O.Marre              #####
+##################################################################
+
+
+File          : /users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16.dat
+Steps         : filtering, whitening, clustering, fitting, merging
+Number of CPU : 8/32
+Parallel HDF5 : False
+Shared memory : True
+Hostfile      : /tmp/pBUUFioeGe
+
+##################################################################
+
+
+-------------------------  Informations  -------------------------
+| Number of recorded channels : 39
+| Number of analyzed channels : 31
+| File format                 : RAW_BINARY
+| Data type                   : int16
+| Sampling rate               : 30000 Hz
+| Duration of the recording   : 132 min 41 s 568 ms
+| Width of the templates      : 3 ms
+| Spatial radius considered   : 150 um
+| Threshold crossing          : negative
+------------------------------------------------------------------
+-------------------------  Informations  -------------------------
+| Using only 8 out of 32 local CPUs available (-c to change)
+------------------------------------------------------------------
+You have not been allocated GPUs. To request GPUs, use the -G option in your submission script.
+Job 1791651 running on hopper[031-034]
+[37mFiltering with a Butterworth filter (order 3) in [500, 14250] Hz
+[37mMedian over all channels is subtracted to each channels
+  0%|                                            |[00:00<?, ?it/s] 33%|████████████                        |[00:09<00:18,  9.26s/it] 67%|████████████████████████            |[00:19<00:09,  9.60s/it]100%|████████████████████████████████████|[00:29<00:00,  9.80s/it]100%|████████████████████████████████████|[00:29<00:00,  9.72s/it]
+[37mAnalyzing data to get whitening matrices and thresholds...
+[37mFound 30s to compute the whitening matrix...
+[37mBecause of whitening, need to recompute the thresholds...
+[37mSearching spikes to construct the PCA basis...
+  0%|                                            |[00:00<?, ?it/s] 50%|██████████████████                  |[00:16<00:16, 16.70s/it]100%|████████████████████████████████████|[00:27<00:00, 13.47s/it]100%|████████████████████████████████████|[00:27<00:00, 13.96s/it]
+[37mFound 80608 waveforms over 248000 requested
+[33m-------------------------  Informations  -------------------------
+[33m| A basis with 5 dimensions has been built
+[33m------------------------------------------------------------------[37m
+[37mSearching isolated random spikes to sample amplitudes...
+  0%|                                            |[00:00<?, ?it/s] 50%|██████████████████                  |[00:07<00:07,  7.44s/it]100%|████████████████████████████████████|[00:11<00:00,  5.45s/it]100%|████████████████████████████████████|[00:11<00:00,  5.75s/it]
+[37mFound 20303 spikes over 24800 requested
+[37mEstimating amplitudes distributions...
+[37mSmart Search of good isolated spikes for the clustering (1/3)...
+  0%|                                            |[00:00<?, ?it/s] 50%|██████████████████                  |[00:08<00:08,  8.51s/it]100%|████████████████████████████████████|[00:12<00:00,  5.72s/it]100%|████████████████████████████████████|[00:12<00:00,  6.14s/it]
+[37mFound 20191 isolated spikes over 24800 requested (3183 rejected)
+[37mComputing density estimations...
+[37mSearching random spikes to refine the clustering (2/3)...
+  0%|                                            |[00:00<?, ?it/s] 50%|██████████████████                  |[00:07<00:07,  7.12s/it]100%|████████████████████████████████████|[00:14<00:00,  7.14s/it]100%|████████████████████████████████████|[00:14<00:00,  7.15s/it]
+[37mFound 14757 spikes over 24800 requested
+[37mRefining density estimations...
+[37mSearching random spikes to refine the clustering (3/3)...
+  0%|                                            |[00:00<?, ?it/s] 50%|██████████████████                  |[00:06<00:06,  6.60s/it]100%|████████████████████████████████████|[00:14<00:00,  7.17s/it]100%|████████████████████████████████████|[00:14<00:00,  7.08s/it]
+[37mFound 10960 spikes over 24800 requested
+[37mRefining density estimations...
+[37mRunning density-based clustering...
+  0%|                                            |[00:00<?, ?it/s] 25%|█████████                           |[00:00<00:00,  7.29it/s] 75%|███████████████████████████         |[00:00<00:00,  7.27it/s]100%|████████████████████████████████████|[00:00<00:00,  6.32it/s]100%|████████████████████████████████████|[00:00<00:00,  6.56it/s]
+[33m-------------------------  Informations  -------------------------
+[33m| Number of clusters found : 50
+[33m| Number of local merges   : 9 (method nd-bhatta, param 2)
+[33m------------------------------------------------------------------[37m
+[37mEstimating the templates with the median-raw procedure ...
+  0%|                                            |[00:00<?, ?it/s] 25%|█████████                           |[00:00<00:01,  1.56it/s] 50%|██████████████████                  |[00:00<00:00,  2.96it/s] 75%|███████████████████████████         |[00:00<00:00,  4.21it/s]100%|████████████████████████████████████|[00:01<00:00,  5.21it/s]100%|████████████████████████████████████|[00:01<00:00,  3.97it/s]
+[37mRemoving 1 strongly shifted or noisy/mixture templates...
+[37mMerging similar templates...
+  0%|                                            |[00:00<?, ?it/s] 25%|█████████                           |[00:00<00:00,  7.59it/s] 75%|███████████████████████████         |[00:00<00:00, 10.14it/s]100%|████████████████████████████████████|[00:00<00:00,  9.89it/s]
+Traceback (most recent call last):
+  File "/users/mckenzie/.conda/envs/circus/bin/spyking-circus-subtask", line 33, in <module>
+    sys.exit(load_entry_point('spyking-circus==1.1.0', 'console_scripts', 'spyking-circus-subtask')())
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/scripts/subtask.py", line 54, in main
+    circus.launch(task, filename, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/__init__.py", line 23, in launch
+    module.main(params, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/clustering.py", line 1797, in main
+    merged1 = algo.merging_cc(params, nb_cpu=nb_cpu, nb_gpu=nb_gpu, use_gpu=use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/shared/algorithms.py", line 826, in merging_cc
+    use_gpu=use_gpu, nb_cpu=nb_cpu, nb_gpu=nb_gpu, decimation=decimation
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/shared/files.py", line 2496, in get_overlaps
+    return h5py.File(filename, 'r')
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/h5py/_hl/files.py", line 408, in __init__
+    swmr=swmr)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/h5py/_hl/files.py", line 173, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 88, in h5py.h5f.open
+OSError: Unable to open file (unable to open file: name = '/users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16/amplifier_analogin_auxiliary_int16crs.overlap-merging.hdf5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+Traceback (most recent call last):
+  File "/users/mckenzie/.conda/envs/circus/bin/spyking-circus-subtask", line 33, in <module>
+    sys.exit(load_entry_point('spyking-circus==1.1.0', 'console_scripts', 'spyking-circus-subtask')())
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/scripts/subtask.py", line 54, in main
+    circus.launch(task, filename, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/__init__.py", line 23, in launch
+    module.main(params, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/clustering.py", line 1797, in main
+    merged1 = algo.merging_cc(params, nb_cpu=nb_cpu, nb_gpu=nb_gpu, use_gpu=use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/shared/algorithms.py", line 826, in merging_cc
+    use_gpu=use_gpu, nb_cpu=nb_cpu, nb_gpu=nb_gpu, decimation=decimation
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/shared/files.py", line 2496, in get_overlaps
+    return h5py.File(filename, 'r')
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/h5py/_hl/files.py", line 408, in __init__
+    swmr=swmr)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/h5py/_hl/files.py", line 173, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 88, in h5py.h5f.open
+OSError: Unable to open file (unable to open file: name = '/users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16/amplifier_analogin_auxiliary_int16crs.overlap-merging.hdf5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+Traceback (most recent call last):
+  File "/users/mckenzie/.conda/envs/circus/bin/spyking-circus-subtask", line 33, in <module>
+    sys.exit(load_entry_point('spyking-circus==1.1.0', 'console_scripts', 'spyking-circus-subtask')())
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/scripts/subtask.py", line 54, in main
+    circus.launch(task, filename, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/__init__.py", line 23, in launch
+    module.main(params, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/clustering.py", line 1797, in main
+    merged1 = algo.merging_cc(params, nb_cpu=nb_cpu, nb_gpu=nb_gpu, use_gpu=use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/shared/algorithms.py", line 826, in merging_cc
+    use_gpu=use_gpu, nb_cpu=nb_cpu, nb_gpu=nb_gpu, decimation=decimation
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/shared/files.py", line 2496, in get_overlaps
+    return h5py.File(filename, 'r')
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/h5py/_hl/files.py", line 408, in __init__
+    swmr=swmr)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/h5py/_hl/files.py", line 173, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 88, in h5py.h5f.open
+OSError: Unable to open file (unable to open file: name = '/users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16/amplifier_analogin_auxiliary_int16crs.overlap-merging.hdf5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+Traceback (most recent call last):
+  File "/users/mckenzie/.conda/envs/circus/bin/spyking-circus-subtask", line 33, in <module>
+    sys.exit(load_entry_point('spyking-circus==1.1.0', 'console_scripts', 'spyking-circus-subtask')())
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/scripts/subtask.py", line 54, in main
+    circus.launch(task, filename, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/__init__.py", line 23, in launch
+    module.main(params, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/clustering.py", line 1797, in main
+    merged1 = algo.merging_cc(params, nb_cpu=nb_cpu, nb_gpu=nb_gpu, use_gpu=use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/shared/algorithms.py", line 826, in merging_cc
+    use_gpu=use_gpu, nb_cpu=nb_cpu, nb_gpu=nb_gpu, decimation=decimation
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/shared/files.py", line 2496, in get_overlaps
+    return h5py.File(filename, 'r')
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/h5py/_hl/files.py", line 408, in __init__
+    swmr=swmr)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/h5py/_hl/files.py", line 173, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 88, in h5py.h5f.open
+OSError: Unable to open file (unable to open file: name = '/users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16/amplifier_analogin_auxiliary_int16crs.overlap-merging.hdf5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+Traceback (most recent call last):
+  File "/users/mckenzie/.conda/envs/circus/bin/spyking-circus-subtask", line 33, in <module>
+    sys.exit(load_entry_point('spyking-circus==1.1.0', 'console_scripts', 'spyking-circus-subtask')())
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/scripts/subtask.py", line 54, in main
+    circus.launch(task, filename, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/__init__.py", line 23, in launch
+    module.main(params, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/clustering.py", line 1797, in main
+    merged1 = algo.merging_cc(params, nb_cpu=nb_cpu, nb_gpu=nb_gpu, use_gpu=use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/shared/algorithms.py", line 826, in merging_cc
+    use_gpu=use_gpu, nb_cpu=nb_cpu, nb_gpu=nb_gpu, decimation=decimation
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/shared/files.py", line 2496, in get_overlaps
+    return h5py.File(filename, 'r')
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/h5py/_hl/files.py", line 408, in __init__
+    swmr=swmr)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/h5py/_hl/files.py", line 173, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 88, in h5py.h5f.open
+OSError: Unable to open file (unable to open file: name = '/users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16/amplifier_analogin_auxiliary_int16crs.overlap-merging.hdf5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+Traceback (most recent call last):
+  File "/users/mckenzie/.conda/envs/circus/bin/spyking-circus-subtask", line 33, in <module>
+    sys.exit(load_entry_point('spyking-circus==1.1.0', 'console_scripts', 'spyking-circus-subtask')())
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/scripts/subtask.py", line 54, in main
+    circus.launch(task, filename, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/__init__.py", line 23, in launch
+    module.main(params, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/clustering.py", line 1797, in main
+    merged1 = algo.merging_cc(params, nb_cpu=nb_cpu, nb_gpu=nb_gpu, use_gpu=use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/shared/algorithms.py", line 826, in merging_cc
+    use_gpu=use_gpu, nb_cpu=nb_cpu, nb_gpu=nb_gpu, decimation=decimation
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/shared/files.py", line 2496, in get_overlaps
+    return h5py.File(filename, 'r')
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/h5py/_hl/files.py", line 408, in __init__
+    swmr=swmr)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/h5py/_hl/files.py", line 173, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 88, in h5py.h5f.open
+OSError: Unable to open file (unable to open file: name = '/users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16/amplifier_analogin_auxiliary_int16crs.overlap-merging.hdf5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)

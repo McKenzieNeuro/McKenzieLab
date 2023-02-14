@@ -1,0 +1,53 @@
+
+##################################################################
+#####             Welcome to the SpyKING CIRCUS              #####
+#####                        (1.1.0)                         #####
+#####             Written by P.Yger and O.Marre              #####
+##################################################################
+
+
+File          : /users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16.dat
+Steps         : filtering, whitening, clustering, fitting, merging
+Number of CPU : 16/32
+Parallel HDF5 : False
+Shared memory : True
+Hostfile      : /tmp/aUkZ6M0bfP
+
+##################################################################
+
+
+-------------------------  Informations  -------------------------
+| Number of recorded channels : 39
+| Number of analyzed channels : 31
+| File format                 : RAW_BINARY
+| Data type                   : int16
+| Sampling rate               : 30000 Hz
+| Duration of the recording   : 132 min 41 s 568 ms
+| Width of the templates      : 3 ms
+| Spatial radius considered   : 150 um
+| Threshold crossing          : negative
+------------------------------------------------------------------
+-------------------------  Informations  -------------------------
+| Using only 16 out of 32 local CPUs available (-c to change)
+------------------------------------------------------------------
+You have not been allocated GPUs. To request GPUs, use the -G option in your submission script.
+Job 1791646 running on hopper031
+[37mFiltering with a Butterworth filter (order 3) in [500, 14250] Hz
+[37mMedian over all channels is subtracted to each channels
+  0%|                                            |[00:00<?, ?it/s]
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 3794423 RUNNING AT hopper031
+=   EXIT CODE: 9
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=1791646.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+srun: error: hopper031: task 0: Out Of Memory
+YOUR APPLICATION TERMINATED WITH THE EXIT STRING: Killed (signal 9)
+This typically refers to a problem with your application.
+Please see the FAQ page for debugging suggestions
+----------------------------  Error  -----------------------------
+| Step "filtering" failed for reason Command '['mpiexec', '-f', '/tmp/aUkZ6M0bfP', '-np', '16', 'spyking-circus-subtask', 'filtering', '/users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16.dat', '16', '0', 'False', 'False']' returned non-zero exit status 9.!
+------------------------------------------------------------------
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=1791646.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

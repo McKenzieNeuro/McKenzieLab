@@ -1,0 +1,142 @@
+
+##################################################################
+#####             Welcome to the SpyKING CIRCUS              #####
+#####                        (1.1.0)                         #####
+#####             Written by P.Yger and O.Marre              #####
+##################################################################
+
+
+File          : /users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16.dat
+Steps         : filtering, whitening, clustering, fitting, merging
+Number of CPU : 8/32
+Parallel HDF5 : False
+Shared memory : True
+Hostfile      : /tmp/_Q6R0WFsuk
+
+##################################################################
+
+
+-------------------------  Informations  -------------------------
+| Number of recorded channels : 39
+| Number of analyzed channels : 31
+| File format                 : RAW_BINARY
+| Data type                   : int16
+| Sampling rate               : 30000 Hz
+| Duration of the recording   : 132 min 41 s 568 ms
+| Width of the templates      : 3 ms
+| Spatial radius considered   : 150 um
+| Threshold crossing          : negative
+------------------------------------------------------------------
+-------------------------  Informations  -------------------------
+| Using only 8 out of 32 local CPUs available (-c to change)
+------------------------------------------------------------------
+You have not been allocated GPUs. To request GPUs, use the -G option in your submission script.
+Job 1791664 running on hopper[031-034]
+Traceback (most recent call last):
+  File "/users/mckenzie/.conda/envs/circus/bin/spyking-circus-subtask", line 33, in <module>
+    sys.exit(load_entry_point('spyking-circus==1.1.0', 'console_scripts', 'spyking-circus-subtask')())
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/scripts/subtask.py", line 54, in main
+    circus.launch(task, filename, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/__init__.py", line 23, in launch
+    module.main(params, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/filtering.py", line 510, in main
+    data_file_out.allocate(shape=data_file_in.shape)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/files/raw_binary.py", line 42, in allocate
+    self._read_from_header()
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/files/raw_binary.py", line 28, in _read_from_header
+    self._open()
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/files/raw_binary.py", line 72, in _open
+    self.data = numpy.memmap(self.file_name, offset=self.data_offset, dtype=self.data_dtype, mode=mode)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/numpy/core/memmap.py", line 225, in __new__
+    f_ctx = open(os_fspath(filename), ('r' if mode == 'c' else mode)+'b')
+FileNotFoundError: [Errno 2] No such file or directory: '/users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16/amplifier_analogin_auxiliary_int16_all_sc.dat'
+Traceback (most recent call last):
+  File "/users/mckenzie/.conda/envs/circus/bin/spyking-circus-subtask", line 33, in <module>
+    sys.exit(load_entry_point('spyking-circus==1.1.0', 'console_scripts', 'spyking-circus-subtask')())
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/scripts/subtask.py", line 54, in main
+    circus.launch(task, filename, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/__init__.py", line 23, in launch
+    module.main(params, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/filtering.py", line 510, in main
+    data_file_out.allocate(shape=data_file_in.shape)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/files/raw_binary.py", line 42, in allocate
+    self._read_from_header()
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/files/raw_binary.py", line 28, in _read_from_header
+    self._open()
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/files/raw_binary.py", line 72, in _open
+    self.data = numpy.memmap(self.file_name, offset=self.data_offset, dtype=self.data_dtype, mode=mode)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/numpy/core/memmap.py", line 225, in __new__
+    f_ctx = open(os_fspath(filename), ('r' if mode == 'c' else mode)+'b')
+FileNotFoundError: [Errno 2] No such file or directory: '/users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16/amplifier_analogin_auxiliary_int16_all_sc.dat'
+Traceback (most recent call last):
+  File "/users/mckenzie/.conda/envs/circus/bin/spyking-circus-subtask", line 33, in <module>
+    sys.exit(load_entry_point('spyking-circus==1.1.0', 'console_scripts', 'spyking-circus-subtask')())
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/scripts/subtask.py", line 54, in main
+    circus.launch(task, filename, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/__init__.py", line 23, in launch
+    module.main(params, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/filtering.py", line 510, in main
+    data_file_out.allocate(shape=data_file_in.shape)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/files/raw_binary.py", line 42, in allocate
+    self._read_from_header()
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/files/raw_binary.py", line 28, in _read_from_header
+    self._open()
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/files/raw_binary.py", line 72, in _open
+    self.data = numpy.memmap(self.file_name, offset=self.data_offset, dtype=self.data_dtype, mode=mode)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/numpy/core/memmap.py", line 225, in __new__
+    f_ctx = open(os_fspath(filename), ('r' if mode == 'c' else mode)+'b')
+FileNotFoundError: [Errno 2] No such file or directory: '/users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16/amplifier_analogin_auxiliary_int16_all_sc.dat'
+Traceback (most recent call last):
+  File "/users/mckenzie/.conda/envs/circus/bin/spyking-circus-subtask", line 33, in <module>
+    sys.exit(load_entry_point('spyking-circus==1.1.0', 'console_scripts', 'spyking-circus-subtask')())
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/scripts/subtask.py", line 54, in main
+    circus.launch(task, filename, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/__init__.py", line 23, in launch
+    module.main(params, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/filtering.py", line 510, in main
+    data_file_out.allocate(shape=data_file_in.shape)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/files/raw_binary.py", line 42, in allocate
+    self._read_from_header()
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/files/raw_binary.py", line 28, in _read_from_header
+    self._open()
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/files/raw_binary.py", line 72, in _open
+    self.data = numpy.memmap(self.file_name, offset=self.data_offset, dtype=self.data_dtype, mode=mode)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/numpy/core/memmap.py", line 225, in __new__
+    f_ctx = open(os_fspath(filename), ('r' if mode == 'c' else mode)+'b')
+FileNotFoundError: [Errno 2] No such file or directory: '/users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16/amplifier_analogin_auxiliary_int16_all_sc.dat'
+Traceback (most recent call last):
+  File "/users/mckenzie/.conda/envs/circus/bin/spyking-circus-subtask", line 33, in <module>
+    sys.exit(load_entry_point('spyking-circus==1.1.0', 'console_scripts', 'spyking-circus-subtask')())
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/scripts/subtask.py", line 54, in main
+    circus.launch(task, filename, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/__init__.py", line 23, in launch
+    module.main(params, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/filtering.py", line 510, in main
+    data_file_out.allocate(shape=data_file_in.shape)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/files/raw_binary.py", line 42, in allocate
+    self._read_from_header()
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/files/raw_binary.py", line 28, in _read_from_header
+    self._open()
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/files/raw_binary.py", line 72, in _open
+    self.data = numpy.memmap(self.file_name, offset=self.data_offset, dtype=self.data_dtype, mode=mode)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/numpy/core/memmap.py", line 225, in __new__
+    f_ctx = open(os_fspath(filename), ('r' if mode == 'c' else mode)+'b')
+FileNotFoundError: [Errno 2] No such file or directory: '/users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16/amplifier_analogin_auxiliary_int16_all_sc.dat'
+Traceback (most recent call last):
+  File "/users/mckenzie/.conda/envs/circus/bin/spyking-circus-subtask", line 33, in <module>
+    sys.exit(load_entry_point('spyking-circus==1.1.0', 'console_scripts', 'spyking-circus-subtask')())
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/scripts/subtask.py", line 54, in main
+    circus.launch(task, filename, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/__init__.py", line 23, in launch
+    module.main(params, nb_cpu, nb_gpu, use_gpu)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/filtering.py", line 510, in main
+    data_file_out.allocate(shape=data_file_in.shape)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/files/raw_binary.py", line 42, in allocate
+    self._read_from_header()
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/files/raw_binary.py", line 28, in _read_from_header
+    self._open()
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/files/raw_binary.py", line 72, in _open
+    self.data = numpy.memmap(self.file_name, offset=self.data_offset, dtype=self.data_dtype, mode=mode)
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/numpy/core/memmap.py", line 225, in __new__
+    f_ctx = open(os_fspath(filename), ('r' if mode == 'c' else mode)+'b')
+FileNotFoundError: [Errno 2] No such file or directory: '/users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16/amplifier_analogin_auxiliary_int16_all_sc.dat'
