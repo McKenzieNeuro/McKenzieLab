@@ -1,0 +1,2 @@
+Seq	Host	Starttime	JobRuntime	Send	Receive	Exitval	Signal	Command
+1	:	1675722164.643	   424.006	0	5109	0	0	spyking-circus /users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16.dat -H /tmp/O2DNhHbAXL -c 8

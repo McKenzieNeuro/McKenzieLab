@@ -76,10 +76,10 @@ for ii=1:nbChunks
     h=waitbar(ii/(nbChunks+1));
     dat = fread(fidI,nbChan*chunk,'int16');
     dat = reshape(dat,nbChan,[]);
-    dat = [zeros(size(dat,1),1) diff(dat,[],2)];
-    dat =  median(dat);
-    
-    %dat = dat- median(dat);
+ %   dat = [zeros(size(dat,1),1) diff(dat,[],2)];
+ %   dat =  median(dat);
+    dat = dat(1:32,:);
+    dat = dat- median(dat);
     
     fwrite(fidO,dat(:),'int16');
 end
@@ -89,9 +89,10 @@ if ~isempty(remainder)
     dat = fread(fidI,nbChan*remainder,'int16');
     dat = reshape(dat,nbChan,[]);
 %
-    dat =  median(dat);
-       dat = [zeros(size(dat,1),1) diff(dat,[],2)];
- % dat = dat- median(dat);
+ %   dat =  median(dat);
+  %     dat = [zeros(size(dat,1),1) diff(dat,[],2)];
+  dat = dat(1:32,:);
+    dat = dat- median(dat);
     fwrite(fidO,dat(:),'int16');
 end
 close(h);

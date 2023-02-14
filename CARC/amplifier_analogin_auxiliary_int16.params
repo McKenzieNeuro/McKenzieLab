@@ -1,0 +1,115 @@
+
+[data]
+file_format = raw_binary
+stream_mode = None
+mapping = /users/mckenzie/data/spikeSorting/zach.prb
+suffix = crs
+overwrite = True
+parallel_hdf5 = True
+output_dir = 
+sampling_rate = 30000
+data_dtype = int16
+nb_channels = 39
+
+
+[detection]
+radius = auto
+N_t = 3
+spike_thresh = 10
+peaks = negative
+dead_channels = 
+weird_thresh = 30
+
+  
+[filtering]
+cut_off = 500, auto
+filter = True
+remove_median = True
+common_ground = 
+
+[triggers]
+trig_file = 
+trig_windows = 
+trig_unit = ms
+clean_artefact = False
+dead_file = 
+dead_unit = ms
+ignore_times = False
+make_plots = None
+
+[whitening]
+spatial = True
+max_elts = 10000
+nb_elts = 0.8
+output_dim = 5
+
+[clustering]
+extraction = median-raw
+sub_dim = 10
+max_elts = 1000
+nb_elts = 0.8
+nb_repeats = 3
+smart_search = True
+merging_method = nd-bhatta
+merging_param = default
+sensitivity = .8
+cc_merge = 0.99
+dispersion = (2, 5)
+fine_amplitude = True
+make_plots = png
+max_clusters   = 10   
+templates_normalization = False
+
+[fitting]
+amp_limits = (0.3, 30)
+amp_auto = True
+collect_all = False
+ratio_thresh = 0.9
+
+[merging]
+erase_all = True
+cc_overlap = 0.99
+cc_bin = 2
+default_lag = 5
+auto_mode = 0.99 # The lower this is, the more mreging will be aggressive
+remove_noise = True
+noise_limit = 0.5
+sparsity_limit = 0.75
+time_rpv = 4
+rpv_threshold = 0.02
+merge_drifts = False
+drift_limit = 1 # Distance for drifts. The higher, the more non-overlapping the activities should be
+
+[converting]
+erase_all = True
+export_pcs = all
+export_all = False
+sparse_export = False
+prelabelling = False
+rpv_threshold = 0.05
+
+[validating]
+nearest_elec = auto
+max_iter = 200
+learning_rate = 1.0e-3
+roc_sampling = 10
+test_size = 0.3
+radius_factor = 0.5
+juxta_thresh = 6
+juxta_valley = False
+juxta_spikes = 
+filter = True
+make_plots = png
+
+[extracting]
+safety_time = 1
+max_elts = 10000
+output_dim = 5
+cc_merge = 0.99
+noise_thr = 0.8
+
+[noedits]
+filter_done    = False              #!! AUTOMATICALLY EDITED: DO NOT MODIFY !!
+artefacts_done = False
+median_done    = False              #!! AUTOMATICALLY EDITED: DO NOT MODIFY !!
+ground_done = False

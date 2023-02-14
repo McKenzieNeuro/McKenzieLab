@@ -1,0 +1,20 @@
+fils = getAllExtFiles('Y:\DANEHippocampalResponse','mat',1);
+
+ kp = cellfun(@any,regexp(fils,'Novel Env'));
+ 
+ fils = fils(kp);
+ 
+ [dirs] = cellfun(@fileparts,fils,'uni',0);
+ 
+ dirs = unique(dirs);
+ 
+ 
+ %%
+ 
+ for i = 1:length(dirs)
+     
+     if exist('sessiondata.mat') & exist('contextTransition1.mat')
+         
+     end
+ end
+ 

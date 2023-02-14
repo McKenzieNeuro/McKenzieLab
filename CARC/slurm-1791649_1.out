@@ -1,0 +1,40 @@
+
+##################################################################
+#####             Welcome to the SpyKING CIRCUS              #####
+#####                        (1.1.0)                         #####
+#####             Written by P.Yger and O.Marre              #####
+##################################################################
+
+
+File          : /users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16.dat
+Steps         : filtering, whitening, clustering, fitting, merging
+Number of CPU : 1/32
+Parallel HDF5 : False
+Shared memory : True
+Hostfile      : /tmp/KtlaCzvDmI
+
+##################################################################
+
+
+-------------------------  Informations  -------------------------
+| Number of recorded channels : 39
+| Number of analyzed channels : 31
+| File format                 : RAW_BINARY
+| Data type                   : int16
+| Sampling rate               : 30000 Hz
+| Duration of the recording   : 132 min 41 s 568 ms
+| Width of the templates      : 3 ms
+| Spatial radius considered   : 150 um
+| Threshold crossing          : negative
+------------------------------------------------------------------
+-------------------------  Informations  -------------------------
+| Using only 1 out of 32 local CPUs available (-c to change)
+------------------------------------------------------------------
+You have not been allocated GPUs. To request GPUs, use the -G option in your submission script.
+Job 1791649 running on hopper[031-034]
+[31m----------------------------  Error  -----------------------------
+[31m| Code was interrupted while filtering
+[31m| Data are likely to be corrupted, please recopy raw data
+[31m| And set the flag filter_done in the [noedits] section to False
+[31m------------------------------------------------------------------[37m
+[37mAnalyzing data to get whitening matrices and thresholds...

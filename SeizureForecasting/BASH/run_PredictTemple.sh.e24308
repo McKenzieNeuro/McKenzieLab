@@ -1,0 +1,1 @@
+sbatch: Account not specified in script or ~/.default_slurm_account, using latest project

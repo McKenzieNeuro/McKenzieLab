@@ -1,0 +1,70 @@
+
+##################################################################
+#####             Welcome to the SpyKING CIRCUS              #####
+#####                        (1.1.0)                         #####
+#####             Written by P.Yger and O.Marre              #####
+##################################################################
+
+
+File          : /users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16.dat
+Steps         : filtering, whitening, clustering, fitting, merging
+Number of CPU : 8/32
+Parallel HDF5 : False
+Shared memory : True
+Hostfile      : /tmp/NEHWSWOGA0
+
+##################################################################
+
+
+-------------------------  Informations  -------------------------
+| Number of recorded channels : 39
+| Number of analyzed channels : 31
+| File format                 : RAW_BINARY
+| Data type                   : int16
+| Sampling rate               : 30000 Hz
+| Duration of the recording   : 132 min 41 s 568 ms
+| Width of the templates      : 3 ms
+| Spatial radius considered   : 150 um
+| Threshold crossing          : negative
+------------------------------------------------------------------
+-------------------------  Informations  -------------------------
+| Using only 8 out of 32 local CPUs available (-c to change)
+------------------------------------------------------------------
+You have not been allocated GPUs. To request GPUs, use the -G option in your submission script.
+Job 1791665 running on hopper[031-034]
+[37mFiltering with a Butterworth filter (order 3) in [500, 14250] Hz
+[37mMedian over all channels is subtracted to each channels
+  0%|                                            |[00:00<?, ?it/s]  3%|█                                   |[00:08<04:41,  8.53s/it]  6%|██                                  |[00:17<04:32,  8.53s/it]  9%|███▏                                |[00:25<04:26,  8.59s/it] 12%|████▏                               |[00:34<04:17,  8.59s/it] 15%|█████▎                              |[00:42<04:01,  8.33s/it] 18%|██████▎                             |[00:50<03:50,  8.23s/it] 21%|███████▍                            |[00:58<03:41,  8.19s/it] 24%|████████▍                           |[01:06<03:32,  8.16s/it] 26%|█████████▌                          |[01:14<03:24,  8.16s/it] 29%|██████████▌                         |[01:22<03:14,  8.08s/it] 32%|███████████▋                        |[01:30<03:03,  7.98s/it] 35%|████████████▋                       |[01:38<02:55,  7.99s/it] 38%|█████████████▊                      |[01:46<02:47,  8.00s/it] 41%|██████████████▊                     |[01:53<02:37,  7.90s/it] 44%|███████████████▉                    |[02:01<02:30,  7.94s/it] 47%|████████████████▉                   |[02:10<02:27,  8.17s/it] 50%|██████████████████                  |[02:18<02:17,  8.11s/it] 53%|███████████████████                 |[02:27<02:11,  8.23s/it] 56%|████████████████████                |[02:35<02:03,  8.26s/it] 59%|█████████████████████▏              |[02:43<01:53,  8.12s/it] 62%|██████████████████████▏             |[02:51<01:45,  8.14s/it] 65%|███████████████████████▎            |[02:59<01:36,  8.06s/it] 68%|████████████████████████▎           |[03:07<01:29,  8.10s/it] 71%|█████████████████████████▍          |[03:15<01:21,  8.17s/it] 74%|██████████████████████████▍         |[03:24<01:14,  8.25s/it] 76%|███████████████████████████▌        |[03:32<01:05,  8.22s/it] 79%|████████████████████████████▌       |[03:40<00:58,  8.29s/it] 82%|█████████████████████████████▋      |[03:49<00:50,  8.39s/it] 85%|██████████████████████████████▋     |[03:57<00:41,  8.29s/it] 88%|███████████████████████████████▊    |[04:06<00:33,  8.38s/it] 91%|████████████████████████████████▊   |[04:15<00:25,  8.60s/it] 94%|█████████████████████████████████▉  |[04:24<00:17,  8.68s/it] 97%|██████████████████████████████████▉ |[04:33<00:09,  9.00s/it]100%|████████████████████████████████████|[04:42<00:00,  8.86s/it]100%|████████████████████████████████████|[04:42<00:00,  8.31s/it]
+[37mAnalyzing data to get whitening matrices and thresholds...
+[37mFound 30s to compute the whitening matrix...
+[37mBecause of whitening, need to recompute the thresholds...
+[37mSearching spikes to construct the PCA basis...
+  0%|                                            |[00:00<?, ?it/s]
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 3232503 RUNNING AT hopper033
+=   EXIT CODE: 9
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+[proxy:0:1@hopper032] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:887): assert (!closed) failed
+[proxy:0:3@hopper034] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:887): assert (!closed) failed
+srun: error: hopper033: task 2: Out Of Memory
+[proxy:0:0@hopper031] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:887): assert (!closed) failed
+slurmstepd: error: Detected 2 oom-kill event(s) in StepId=1791665.1. Some of your processes may have been killed by the cgroup out-of-memory handler.
+[proxy:0:1@hopper032] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:3@hopper034] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:1@hopper032] main (pm/pmiserv/pmip.c:202): demux engine error waiting for event
+[proxy:0:3@hopper034] main (pm/pmiserv/pmip.c:202): demux engine error waiting for event
+[proxy:0:0@hopper031] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:0@hopper031] main (pm/pmiserv/pmip.c:202): demux engine error waiting for event
+slurmstepd: error: Detected 8 oom-kill event(s) in StepId=1791665.1. Some of your processes may have been killed by the cgroup out-of-memory handler.
+srun: error: hopper034: task 3: Exited with exit code 7
+srun: error: hopper032: task 1: Exited with exit code 7
+YOUR APPLICATION TERMINATED WITH THE EXIT STRING: Killed (signal 9)
+This typically refers to a problem with your application.
+Please see the FAQ page for debugging suggestions
+----------------------------  Error  -----------------------------
+| Step "whitening" failed for reason Command '['mpiexec', '-f', '/tmp/NEHWSWOGA0', '-np', '8', 'spyking-circus-subtask', 'whitening', '/users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16.dat', '8', '0', 'False', 'False']' returned non-zero exit status 9.!
+------------------------------------------------------------------
+slurmstepd: error: Detected 8 oom-kill event(s) in StepId=1791665.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

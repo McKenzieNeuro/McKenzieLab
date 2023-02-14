@@ -8,24 +8,12 @@ fils = fils(kp);
 dirs = unique(dirs);
 %%
 tot = 0;
-for i = 1:length(dirs)
+i=3;
    cd(dirs{i})
    
    
-    if ~exist('arena_edges.mat')
+ 
     
-        
-    
-     error('work here')
-     
-        
-        
-    end
-   i
-end
-   tot 
-
-   
 %%
 
 

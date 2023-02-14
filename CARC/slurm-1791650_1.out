@@ -1,0 +1,37 @@
+
+##################################################################
+#####             Welcome to the SpyKING CIRCUS              #####
+#####                        (1.1.0)                         #####
+#####             Written by P.Yger and O.Marre              #####
+##################################################################
+
+
+File          : /users/mckenzie/data/spikeSorting/STDP8_221028_111913/amplifier_analogin_auxiliary_int16.dat
+Steps         : filtering, whitening, clustering, fitting, merging
+Number of CPU : 1/32
+Parallel HDF5 : False
+Shared memory : True
+Hostfile      : /tmp/sQ507Ug6O6
+
+##################################################################
+
+
+-------------------------  Informations  -------------------------
+| Number of recorded channels : 39
+| Number of analyzed channels : 31
+| File format                 : RAW_BINARY
+| Data type                   : int16
+| Sampling rate               : 30000 Hz
+| Duration of the recording   : 132 min 41 s 568 ms
+| Width of the templates      : 3 ms
+| Spatial radius considered   : 150 um
+| Threshold crossing          : negative
+------------------------------------------------------------------
+-------------------------  Informations  -------------------------
+| Using only 1 out of 32 local CPUs available (-c to change)
+------------------------------------------------------------------
+You have not been allocated GPUs. To request GPUs, use the -G option in your submission script.
+Job 1791650 running on hopper[031-034]
+[37mFiltering with a Butterworth filter (order 3) in [500, 14250] Hz
+[37mMedian over all channels is subtracted to each channels
+  0%|                                            |[00:00<?, ?it/s]  4%|█▌                                  |[00:05<01:56,  5.30s/it]  9%|███▏                                |[00:09<01:41,  4.85s/it] 13%|████▋                               |[00:14<01:39,  4.98s/it] 17%|██████▎                             |[00:20<01:36,  5.09s/it] 22%|███████▊                            |[00:25<01:32,  5.11s/it] 26%|█████████▍                          |[00:30<01:27,  5.16s/it]

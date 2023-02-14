@@ -79,14 +79,14 @@ end
 save('double_reward_linearTrack.mat','-v7.3')
 %%
 
-kp_DA = cellfun(@any,regexp(directory,'DA2'));
-kp_NE = cellfun(@any,regexp(directory,'NE2'));% & cellfun(@any,regexp(directory,'NE2m3'));  
+kp_DA = cellfun(@any,regexp(directory,'DA2h4'));
+kp_NE = cellfun(@any,regexp(directory,'NE2h8'));% & cellfun(@any,regexp(directory,'NE2m3'));  
 
 
 plotIt = false;
+col = {'k','r'};
 
-
-for i = 2
+for i = 1
     
     if  i ==1
         kp = kp_DA;
@@ -102,9 +102,9 @@ for i = 2
     doubles1 = cell2mat(doubles1');
     other_side1 = cell2mat(other_side1');
     h = figure;
-    ax  = tight_subplot(3,1);
-    for j = 1:3
-        axes(ax(j))
+   % ax  = tight_subplot(3,1);
+    for j = 1:2
+      
         switch j
             case 1
                 data = singles1;
@@ -118,7 +118,7 @@ for i = 2
         %  data  =[left1;right1];
           data = nanzscore(data,[],2);
         
-        plotMeanSEM(ts_PETH,data,'k')
+        plotMeanSEM(ts_PETH,data,col{j})
         
    % ylim([-1 2])    
     end

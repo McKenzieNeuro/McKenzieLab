@@ -171,7 +171,7 @@ Nth_to_compare = 2;
 
 kp_DA = cellfun(@any,regexp(dirs,'DA2')) | cellfun(@any,regexp(dirs,'DACSD1'));
 kp_NE = cellfun(@any,regexp(dirs,'NE2'));
-for ii = 1:2
+for ii = 2
     
     if ii==1
         kp = kp_NE;
@@ -182,7 +182,7 @@ for ii = 1:2
     second =  cellfun(@(a) a(Nth_to_compare), u_obj(kp,:));
     u_obj1_DA = nanmean(first);
     u_obj2_DA = nanmean(second);
-    
+ 
     
     s_obj1_DA = SEM(cellfun(@(a) a(1), u_obj(kp,:)));
     s_obj2_DA = SEM(cellfun(@(a) a(Nth_to_compare), u_obj(kp,:)));
@@ -210,15 +210,21 @@ for ii = 1:2
     ylabel('DA 2nd encounter')
     end
     set(gca,'fontsize',20)
-    if ii==2
-        saveas(h,'R:\McKenzieLab\DANEHippocampalResponse\Figures\DA_SOR_1_vs_2.eps','epsc')
-    saveas(h,'R:\McKenzieLab\DANEHippocampalResponse\Figures\DA_SOR_1_vs_2.png','png')
-    saveas(h,'R:\McKenzieLab\DANEHippocampalResponse\Figures\DA_SOR_1_vs_2.fig','fig')
-else
-    saveas(h,'R:\McKenzieLab\DANEHippocampalResponse\Figures\NE_SOR_1_vs_2.eps','epsc')
-    saveas(h,'R:\McKenzieLab\DANEHippocampalResponse\Figures\NE_SOR_1_vs_2.png','png')
-    saveas(h,'R:\McKenzieLab\DANEHippocampalResponse\Figures\NE_SOR_1_vs_2.fig','fig')
-end
+    h.Renderer = 'painters';
+%     if ii==2
+%         
+% 
+% 
+% 
+% 
+%         saveas(h,'R:\DANEHippocampalResponse\Figures\DA_SOR_1_vs_2.eps','epsc')
+%     saveas(h,'R:\DANEHippocampalResponse\Figures\DA_SOR_1_vs_2.png','png')
+%     saveas(h,'R:\DANEHippocampalResponse\Figures\DA_SOR_1_vs_2.fig','fig')
+% else
+%     saveas(h,'R:\DANEHippocampalResponse\Figures\NE_SOR_1_vs_2.eps','epsc')
+%     saveas(h,'R:\DANEHippocampalResponse\Figures\NE_SOR_1_vs_2.png','png')
+%     saveas(h,'R:\DANEHippocampalResponse\Figures\NE_SOR_1_vs_2.fig','fig')
+% end
 end
 %%
 N_obj  = size(u_obj,2);

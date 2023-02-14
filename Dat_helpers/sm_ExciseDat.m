@@ -1,4 +1,4 @@
-function ExciseDat(fnameIn,fnameOut,varargin)
+function sm_ExciseDat(fnameIn,fnameOut,varargin)
 
 % USAGE
 %     CopyDat(fnameIn,fnameOut,'optionNames',optionalues)

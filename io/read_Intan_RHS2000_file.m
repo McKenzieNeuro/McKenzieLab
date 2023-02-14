@@ -556,7 +556,6 @@ newHeader.spike_trigger_struct        = spike_trigger_struct;
 newHeader.spike_triggers              = spike_triggers;
 newHeader.magic_number                = magic_number;
 newHeader.nSamples                    = num_data_blocks_ALL*num_samples_per_data_block;
-
 if data_present && loadData
     newHeader.time = t;
     for iChannel = 1:length(amplifier_channels)

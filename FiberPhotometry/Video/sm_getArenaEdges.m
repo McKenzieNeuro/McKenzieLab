@@ -7,7 +7,11 @@ function sm_getArenaEdges(dirN)
 % javaaddpath('poi_library/dom4j-1.6.1.jar');
 % javaaddpath('poi_library/stax-api-1.0.1.jar');
 
-cd(dirN)
+% cd('R:\McKenzieLab\DANEHippocampalResponse\DA2h2\Novel Environment\DA2h2-210817-141645')
+
+% cd('R:\McKenzieLab\DANEHippocampalResponse\NE2h8\LinearTrack\NE2h8-220720-123755')
+
+cd('R:\McKenzieLab\DANEHippocampalResponse\NE2h2 (Named NE2m3)\Novel Environment\NE2h2\NE2h2-220310-101531')
 prompt = {'Enter Context IDs (comma separated)'};
 dlg_title = 'Context ID';
 num_lines = 1;
@@ -65,7 +69,7 @@ if ~isempty(IDs)
         
         scr =get(0,'MonitorPositions');
         set(c,'position', [20   scr(4)/2+500  215   70*length(C)],'name','No ID','NumberTitle','off')
-        for i = 1:length(C)
+        for i = 1:length(C);
             IDb = uicontrol('Parent',c,'Style','pushbutton','String',C{i},...
                 'Units','normalized','Position',[0 1-i/length(C) 1 1/(length(C)+1) ],'Units','normalized',...
                 'Tag','ID','Callback',@setID);
