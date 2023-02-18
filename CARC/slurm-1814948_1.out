@@ -1,0 +1,56 @@
+
+##################################################################
+#####             Welcome to the SpyKING CIRCUS              #####
+#####                        (1.1.0)                         #####
+#####             Written by P.Yger and O.Marre              #####
+##################################################################
+
+
+File          : /carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC.dat
+Steps         : converting
+Number of CPU : 8/32
+Parallel HDF5 : False
+Shared memory : True
+Hostfile      : /tmp/y5E5b6wHR7
+
+##################################################################
+
+
+-------------------------  Informations  -------------------------
+| Number of recorded channels : 32
+| Number of analyzed channels : 32
+| File format                 : RAW_BINARY
+| Data type                   : int16
+| Sampling rate               : 30000 Hz
+| Duration of the recording   : 11 min 0 s 0 ms
+| Width of the templates      : 2 ms
+| Spatial radius considered   : 200 um
+| Threshold crossing          : negative
+------------------------------------------------------------------
+-------------------------  Informations  -------------------------
+| Using only 8 out of 32 local CPUs available (-c to change)
+------------------------------------------------------------------
+You have not been allocated GPUs. To request GPUs, use the -G option in your submission script.
+Job 1814948 running on hopper031
+[31m----------------------------  Error  -----------------------------
+[31m| The file /carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC_all_sc.dat can not be found!
+[31m------------------------------------------------------------------[37m
+----------------------------  Error  -----------------------------
+| Step "converting" failed for reason Command '['mpiexec', '-f', '/tmp/y5E5b6wHR7', '-np', '8', 'spyking-circus-subtask', 'converting', '/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC.dat', '8', '0', 'False', 'None']' returned non-zero exit status 1.!
+------------------------------------------------------------------
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+usage: spyking-circus [-h] [-i] [-m METHOD] [-c CPU] [-H HOSTFILE] [-b] [-p]
+                      [-r] [-s SECOND] [-e EXTENSION] [-o OUTPUT]
+                      [-t {fitting,clustering,synchrony}]
+                      datafile
+spyking-circus: error: unrecognized arguments: /tmp/y5E5b6wHR7
+DeprecationWarning: 'source deactivate' is deprecated. Use 'conda deactivate'.

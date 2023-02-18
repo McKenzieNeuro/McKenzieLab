@@ -1,0 +1,5 @@
+usage: spyking-circus [-h] [-i] [-m METHOD] [-c CPU] [-H HOSTFILE] [-b] [-p]
+                      [-r] [-s SECOND] [-e EXTENSION] [-o OUTPUT]
+                      [-t {fitting,clustering,synchrony}]
+                      datafile
+spyking-circus: error: unrecognized arguments: /tmp/9BuqpcKHOy

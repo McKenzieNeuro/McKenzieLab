@@ -1,0 +1,20 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+dirN =
+
+    '/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC.dat'
+
+
+fils =
+
+  0x0 empty cell array
+

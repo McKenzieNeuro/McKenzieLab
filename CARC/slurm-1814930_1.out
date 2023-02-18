@@ -1,0 +1,6 @@
+DeprecationWarning: 'source deactivate' is deprecated. Use 'conda deactivate'.
+/carc/scratch/projects/mckenzie2016183/code/BASH/run_circus.sh: line 17: syntax error near unexpected token `('
+/carc/scratch/projects/mckenzie2016183/code/BASH/run_circus.sh: line 17: `matlab -singleCompThread -nodisplay  -nodesktop  -nojvm -r testMe('$1','$CARC_NODEFILE','$SLURM_CPUS_PER_TASK'); exit;"'
+DeprecationWarning: 'source deactivate' is deprecated. Use 'conda deactivate'.
+/carc/scratch/projects/mckenzie2016183/code/BASH/run_circus.sh: line 17: syntax error near unexpected token `('
+/carc/scratch/projects/mckenzie2016183/code/BASH/run_circus.sh: line 17: `matlab -singleCompThread -nodisplay  -nodesktop  -nojvm -r testMe('$1','$CARC_NODEFILE','$SLURM_CPUS_PER_TASK'); exit;"'
