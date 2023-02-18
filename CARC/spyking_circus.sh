@@ -9,11 +9,11 @@
 #SBATCH --cpus-per-task=8
 
 
-datadir="/users/mckenzie/data/spikeSorting"
+datadir="/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo"
 
 
 module load parallel
 module load miniconda3
 module load matlab/R2022a
 
-find $datadir -name "*int16.dat" | parallel --jobs $SLURM_NTASKS --joblog $SLURM_JOB_NAME.joblog --resume spyking-circus {} -H $CARC_NODEFILE -c $SLURM_CPUS_PER_TASK 
+find $datadir -name "*.dat" | parallel --jobs $SLURM_NTASKS --joblog $SLURM_JOB_NAME.joblog --resume /carc/scratch/projects/mckenzie2016183/code/BASH/run_circus.sh {}

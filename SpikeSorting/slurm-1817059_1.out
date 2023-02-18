@@ -1,0 +1,1899 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+fils =
+
+  13x1 cell array
+
+    {'/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/amplitudes.npy'       }
+    {'/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/channel_map.npy'      }
+    {'/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/channel_positions.npy'}
+    {'/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/channel_shanks.npy'   }
+    {'/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/pc_feature_ind.npy'   }
+    {'/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/pc_features.npy'      }
+    {'/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/similar_templates.npy'}
+    {'/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/spike_templates.npy'  }
+    {'/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/spike_times.npy'      }
+    {'/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/template_ind.npy'     }
+    {'/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/templates.npy'        }
+    {'/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/whitening_mat.npy'    }
+    {'/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/whitening_mat_inv.npy'}
+
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 2117 data points of dimension 13.
+That took 0.040911 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1815 data points of dimension 5.
+That took 0.004687 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1970 data points of dimension 13.
+That took 0.058021 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 940 data points of dimension 5.
+That took 0.003172 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 6316 data points of dimension 13.
+That took 0.087978 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 585 data points of dimension 13.
+That took 0.017856 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1810 data points of dimension 13.
+That took 0.026630 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 6911 data points of dimension 10.
+That took 0.026380 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 13641 data points of dimension 10.
+That took 0.048344 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 4027 data points of dimension 13.
+That took 0.106524 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 4149 data points of dimension 13.
+That took 0.057550 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 377 data points of dimension 13.
+That took 0.017601 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 8048 data points of dimension 13.
+That took 0.065055 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 2073 data points of dimension 12.
+That took 0.015437 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 2959 data points of dimension 5.
+That took 0.007124 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 4501 data points of dimension 13.
+That took 0.036887 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 3652 data points of dimension 13.
+That took 0.100866 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 6280 data points of dimension 5.
+That took 0.014792 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 572 data points of dimension 13.
+That took 0.029468 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 659 data points of dimension 13.
+That took 0.030050 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 227 data points of dimension 13.
+That took 0.011439 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 99 data points of dimension 13.
+That took 0.007638 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 4319 data points of dimension 10.
+That took 0.021307 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 911 data points of dimension 5.
+That took 0.002950 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 682 data points of dimension 13.
+That took 0.022216 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 6070 data points of dimension 13.
+That took 0.043754 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 6020 data points of dimension 13.
+That took 0.049199 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 2122 data points of dimension 13.
+That took 0.054781 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 10840 data points of dimension 5.
+That took 0.025128 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1158 data points of dimension 13.
+That took 0.035700 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1566 data points of dimension 13.
+That took 0.046031 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 197 data points of dimension 13.
+That took 0.009270 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 171 data points of dimension 13.
+That took 0.014990 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 3150 data points of dimension 5.
+That took 0.010036 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 868 data points of dimension 13.
+That took 0.031958 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1775 data points of dimension 10.
+That took 0.011170 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 5995 data points of dimension 13.
+That took 0.074417 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 2343 data points of dimension 13.
+That took 0.052314 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 9314 data points of dimension 13.
+That took 0.095435 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 14137 data points of dimension 13.
+That took 0.111469 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1165 data points of dimension 5.
+That took 0.003414 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1297 data points of dimension 5.
+That took 0.004155 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1474 data points of dimension 10.
+That took 0.007750 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 5084 data points of dimension 5.
+That took 0.010643 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 5888 data points of dimension 13.
+That took 0.108532 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 2319 data points of dimension 13.
+That took 0.064597 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 2345 data points of dimension 13.
+That took 0.029666 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 19706 data points of dimension 10.
+That took 0.062111 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 4916 data points of dimension 13.
+That took 0.044165 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 295 data points of dimension 13.
+That took 0.016260 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1143 data points of dimension 5.
+That took 0.003788 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 7542 data points of dimension 13.
+That took 0.163255 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 3428 data points of dimension 13.
+That took 0.040759 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1648 data points of dimension 13.
+That took 0.018966 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 815 data points of dimension 13.
+That took 0.029412 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 229 data points of dimension 13.
+That took 0.016288 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 6592 data points of dimension 13.
+That took 0.054384 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 12393 data points of dimension 13.
+That took 0.073296 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 933 data points of dimension 13.
+That took 0.044164 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 11502 data points of dimension 12.
+That took 0.055453 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 2588 data points of dimension 13.
+That took 0.044005 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1851 data points of dimension 13.
+That took 0.050210 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 3909 data points of dimension 13.
+That took 0.063200 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 14179 data points of dimension 12.
+That took 0.071284 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 5317 data points of dimension 13.
+That took 0.074612 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 845 data points of dimension 5.
+That took 0.002064 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 4626 data points of dimension 13.
+That took 0.123092 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 3234 data points of dimension 13.
+That took 0.045773 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 3206 data points of dimension 13.
+That took 0.048216 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 10206 data points of dimension 5.
+That took 0.019979 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 7318 data points of dimension 5.
+That took 0.018395 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1862 data points of dimension 13.
+That took 0.056670 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1580 data points of dimension 13.
+That took 0.045863 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 980 data points of dimension 13.
+That took 0.042142 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 2747 data points of dimension 13.
+That took 0.043044 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 2931 data points of dimension 13.
+That took 0.057800 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1784 data points of dimension 5.
+That took 0.005947 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1914 data points of dimension 5.
+That took 0.008810 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 7558 data points of dimension 13.
+That took 0.162972 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 2329 data points of dimension 5.
+That took 0.007857 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 7055 data points of dimension 10.
+That took 0.025860 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 631 data points of dimension 13.
+That took 0.025916 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 717 data points of dimension 5.
+That took 0.002526 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 2955 data points of dimension 13.
+That took 0.079587 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC/m15_190315_152315_cell1_EC.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111100001
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 3187 data points of dimension 10.
+That took 0.013060 seconds.

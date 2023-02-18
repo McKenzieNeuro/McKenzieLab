@@ -1,0 +1,49 @@
+
+##################################################################
+#####             Welcome to the SpyKING CIRCUS              #####
+#####                        (1.1.0)                         #####
+#####             Written by P.Yger and O.Marre              #####
+##################################################################
+
+
+File          : /carc/scratch/projects/mckenzie2016183/data/spikeSorting/spikeDemo/m15_190315_152315_cell1_EC.dat
+Steps         : converting
+Number of CPU : 8/32
+Parallel HDF5 : False
+Shared memory : True
+Hostfile      : /tmp/S0ED6HSZlX
+
+##################################################################
+
+
+-------------------------  Informations  -------------------------
+| Number of recorded channels : 32
+| Number of analyzed channels : 32
+| File format                 : RAW_BINARY
+| Data type                   : int16
+| Sampling rate               : 30000 Hz
+| Duration of the recording   : 11 min 0 s 0 ms
+| Width of the templates      : 2 ms
+| Spatial radius considered   : 200 um
+| Threshold crossing          : negative
+------------------------------------------------------------------
+-------------------------  Informations  -------------------------
+| Using only 8 out of 32 local CPUs available (-c to change)
+------------------------------------------------------------------
+You have not been allocated GPUs. To request GPUs, use the -G option in your submission script.
+Job 1817027 running on hopper031
+[33m-------------------------  Informations  -------------------------
+[33m| Exporting data for the phy GUI with 8 CPUs...
+[33m------------------------------------------------------------------[37m
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+  0%|                                            |[00:00<?, ?it/s]  9%|███▎                                |[00:14<02:26, 14.61s/it] 18%|██████▌                             |[01:28<07:23, 49.30s/it] 27%|█████████▊                          |[01:48<04:46, 35.87s/it] 36%|█████████████                       |[01:53<02:46, 23.76s/it] 45%|████████████████▎                   |[01:54<01:33, 15.53s/it] 55%|███████████████████▋                |[02:04<01:08, 13.74s/it] 64%|██████████████████████▉             |[02:31<01:12, 18.11s/it] 73%|██████████████████████████▏         |[02:59<01:04, 21.34s/it] 82%|█████████████████████████████▍      |[03:21<00:43, 21.51s/it] 91%|████████████████████████████████▋   |[03:27<00:16, 16.79s/it]100%|████████████████████████████████████|[03:52<00:00, 19.20s/it]100%|████████████████████████████████████|[03:52<00:00, 21.15s/it]
+DeprecationWarning: 'source deactivate' is deprecated. Use 'conda deactivate'.
