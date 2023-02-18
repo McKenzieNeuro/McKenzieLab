@@ -4,9 +4,8 @@ function sm_reClusterKlustakwik(dirN)
 
 
 
-% edit here for your path
-program = 'R:\Analysis\McKenzieLab\SpikeSorting\phy1-plugins-master\klustakwik ';
-
+% path for program must be in your environment path
+program = 'klustakwik';
 
 % free params
 recluserThres = .01;
@@ -35,7 +34,7 @@ if ~isempty(fils) && length(fils)==1
     
     tsfil = [a filesep 'spike_times.npy'];
     ts = readNPY(tsfil);
-    ts = ts/30000;
+    ts = double(ts)/30000;
     uclu = unique(clu);
     maxClu = max(clu);
     for j = uclu'
@@ -69,7 +68,7 @@ if ~isempty(fils) && length(fils)==1
             
             
             %recluster
-            cmd = [program  fullfile(a,'tmp') ' 1'];
+            cmd = [program  ' ' fullfile(a,'tmp') ' 1'];
             cmd = [cmd ' -UseDistributional 0 -MaxPossibleClusters 20 -MinClusters 20'];
             
             status = system(cmd);
@@ -107,6 +106,10 @@ minRate = 0.1;
 
 
 [a,b] = fileparts(clufil);
+
+if isempty(a)
+    a = pwd;
+end
 fid = fopen([a filesep 'cluster_group.tsv'],'wt');
 fprintf(fid, 'cluster_id	group\n');
 clu = readNPY(clufil);

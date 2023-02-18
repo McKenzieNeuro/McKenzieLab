@@ -1,12 +1,25 @@
 function sm_reClusterKlustakwikCarc(dirN)
+% this function takes output from spyking circus or kilosort and with units
+% with more than thres ISI violations runs klustakwik
 
+
+
+% edit here for your path
+%program = 'C:\Users\alsommer\Documents\MATLAB\McKenzieLab\SpikeSorting\phy2Plugins\klustakwik ';
+program = '/carc/scratch/projects/mckenzie2016183/code/software/KlustaKwik-1.5/KlustaKwik';
+
+% free params
+recluserThres = .01;
+reclusterISI = .002;
+
+
+dirN = fileparts(dirN);
 % find subdirectory
-
-fils= getAllExtFiles(dirN,'npy',1);
-
+fils= getAllExtFiles(dirN,'npy',1)
 
 kp = contains(fils,'pc_features');
 fils = fils(kp);
+
 
 if ~isempty(fils) && length(fils)==1
     [a,b] = fileparts(fils{1});
@@ -22,7 +35,7 @@ if ~isempty(fils) && length(fils)==1
     
     tsfil = [a filesep 'spike_times.npy'];
     ts = readNPY(tsfil);
-    ts = double(ts)/30000;
+    ts = ts/30000;
     uclu = unique(clu);
     maxClu = max(clu);
     for j = uclu'
@@ -30,7 +43,7 @@ if ~isempty(fils) && length(fils)==1
         tst =  double(ts(clu==j));
         
         
-        if mean(diff(tst)<.002)>.01
+        if mean(diff(tst)<reclusterISI)>recluserThres
             
             % recluster
             kp = any(squeeze(fet(clu==j,1,:))',2);
@@ -38,6 +51,7 @@ if ~isempty(fils) && length(fils)==1
             fett = fet(clu==j,:,kp);
             fett = reshape(fett,size(fett,1),size(fett,2)*size(fett,3));
             
+            %rescale for int64
             factor = 2^60;
             factor = int64(factor/max(abs(fett(:))));
             fet2 = int64(fett) * factor;
@@ -49,34 +63,34 @@ if ~isempty(fils) && length(fils)==1
             
             
             
-            
+            %write temp feature (fet) file
             SaveFetIn(fetname,fet2);
             
             
             
-            program = '/carc/scratch/projects/mckenzie2016183/code/software/KlustaKwik-1.5/KlustaKwik ';
-            
-            cmd = [program  fullfile(a,'tmp') ' 1'];
+            %recluster
+            cmd = [program  ' ' fullfile(a,'tmp') ' 1'];
             cmd = [cmd ' -UseDistributional 0 -MaxPossibleClusters 20 -MinClusters 20'];
             
             status = system(cmd);
             
+            %relabel
             clut = load(cluname);
             clut = clut(2:end); % toss the first sample to match res/spk files
             clut = int32(maxClu)+int32(clut);
             
             clu(clu==j) = clut;
             writeNPY((clu), clufil)
-            maxClu = max(clut)
+            maxClu = max(clut);
         end
         
         
     end
     
     
-    
+    % exclude noisy units
     assign_noise(clufil,ts)
-  %  getAllZeroLag(clufil,ts)
+    %  getAllZeroLag(clufil,ts)
 end
 
 
@@ -86,25 +100,34 @@ end
 
 function assign_noise(clufil,ts)
 %%
+
+noiseThres = .005;
+noiseISI = 0.001;
+minRate = 0.1;
+
+
 [a,b] = fileparts(clufil);
+
+if isempty(a)
+    a = pwd;
+end
 fid = fopen([a filesep 'cluster_group.tsv'],'wt');
 fprintf(fid, 'cluster_id	group\n');
 clu = readNPY(clufil);
 
 
 uclu = unique(clu);
-
+noise = false(length(uclu),1);
 maxT = double(max(ts));
 ix = 1;
 for i = uclu'
     tst = ts(clu==i);
     
-    if length(tst)/maxT<.1 |  mean(diff(tst)<.001)>.01
+    if length(tst)/maxT<minRate ||  mean(diff(tst)<noiseISI)>noiseThres
         
         fprintf(fid, [num2str(i) '	noise\n']);
         
     end
-    
     
 end
 fclose(fid);
@@ -130,7 +153,7 @@ for i = 1:length(uclu)
     if ~(length(tsti)/maxT<.1 |  mean(diff(tsti)<.001)>.005)
         for j = i+1:length(uclu)
             tstj = ts(clu==uclu(j));
-            if ~(length(tstj)/maxT<.1 |  mean(diff(tstj)<.001)>.005)
+            if ~(length(tstj)/maxT<.1 |  mean(diff(tstj)<.001)>noiseThres)
                 tmp = CrossCorr(tsti,tstj,.001,3);
                 CC(i,j) = tmp(2)/length(tsti);
             end
