@@ -1,19 +1,40 @@
-function sm_reClusterKlustakwik(dirN)
-% this function takes output from spyking circus or kilosort and with units
-% with more than thres ISI violations runs klustakwik
+function sm_reClusterKlustakwik(datfil,varargin)
+%this function takes output from spyking circus or kilosort and with units
+%with more than thres ISI violations runs klustakwik
+%
+% input
+% datafil = pull path of the data file. the samedirectory name that must have:
+% basename.dat, basename.xml and
+% subdirectory with output of phy
 
 
 
-% path for program must be in your environment path
+
+warning off
+p = inputParser;
+
+
+addParameter(p,'recluserThres',.01,@isnumeric) %method to correct for decaying signal
+addParameter(p,'reclusterISI',.002,@isnumeric) % how much time (s) to skip before calculating mean/std/decay
+
+
+parse(p,varargin{:})
+
+
+recluserThres = p.Results.recluserThres;
+reclusterISI = p.Results.reclusterISI;
+
+
+%path for program must be in your environment path
 program = 'klustakwik';
 
-% free params
-recluserThres = .01;
-reclusterISI = .002;
 
+xml = LoadXml([datfil(1:end-3) 'xml']);
+fs = xml.SampleRate;
 
+[dirN] = fileparts(datfil);
 
-% find subdirectory
+%find subdirectory
 fils= getAllExtFiles(dirN,'npy',1);
 
 kp = contains(fils,'pc_features');
@@ -34,9 +55,11 @@ if ~isempty(fils) && length(fils)==1
     
     tsfil = [a filesep 'spike_times.npy'];
     ts = readNPY(tsfil);
-    ts = double(ts)/30000;
+    ts = double(ts)/fs;
     uclu = unique(clu);
     maxClu = max(clu);
+    
+    
     for j = uclu'
         
         tst =  double(ts(clu==j));
@@ -44,7 +67,7 @@ if ~isempty(fils) && length(fils)==1
         
         if mean(diff(tst)<reclusterISI)>recluserThres
             
-            % recluster
+            %recluster
             kp = any(squeeze(fet(clu==j,1,:))',2);
             
             fett = fet(clu==j,:,kp);
@@ -62,7 +85,7 @@ if ~isempty(fils) && length(fils)==1
             
             
             
-            %write temp feature (fet) file
+            % write temp feature (fet) file
             SaveFetIn(fetname,fet2);
             
             
@@ -73,7 +96,7 @@ if ~isempty(fils) && length(fils)==1
             
             status = system(cmd);
             
-            %relabel
+            % relabel
             clut = load(cluname);
             clut = clut(2:end); % toss the first sample to match res/spk files
             clut = int32(maxClu)+int32(clut);
@@ -88,76 +111,15 @@ if ~isempty(fils) && length(fils)==1
     
     
     % exclude noisy units
-    assign_noise(clufil,ts)
-    %  getAllZeroLag(clufil,ts)
-end
-
-
-
-
-end
-
-function assign_noise(clufil,ts)
-%%
-
-noiseThres = .005;
-noiseISI = 0.001;
-minRate = 0.1;
-
-
-[a,b] = fileparts(clufil);
-
-if isempty(a)
-    a = pwd;
-end
-fid = fopen([a filesep 'cluster_group.tsv'],'wt');
-fprintf(fid, 'cluster_id	group\n');
-clu = readNPY(clufil);
-
-
-uclu = unique(clu);
-noise = false(length(uclu),1);
-maxT = double(max(ts));
-ix = 1;
-for i = uclu'
-    tst = ts(clu==i);
-    
-    if length(tst)/maxT<minRate ||  mean(diff(tst)<noiseISI)>noiseThres
-        
-        fprintf(fid, [num2str(i) '	noise\n']);
-        
-    end
+    [good,wf,shank] = sm_assign_noise(datfil);
+    sm_MergeCluster(datfil,'good',good,'shank',shank,'wf',wf);
+    %
     
 end
-fclose(fid);
-%%
+
+
+
+
 end
 
-
-
-function getAllZeroLag(clufil,ts)
-
-[a,b] = fileparts(clufil);
-
-clu = readNPY(clufil);
-
-
-uclu = unique(clu);
-
-ix = 1;
-
-CC = nan(length(uclu),length(uclu));
-for i = 1:length(uclu)
-    tsti = ts(clu==uclu(i));
-    if ~(length(tsti)/maxT<.1 |  mean(diff(tsti)<.001)>.005)
-        for j = i+1:length(uclu)
-            tstj = ts(clu==uclu(j));
-            if ~(length(tstj)/maxT<.1 |  mean(diff(tstj)<.001)>noiseThres)
-                tmp = CrossCorr(tsti,tstj,.001,3);
-                CC(i,j) = tmp(2)/length(tsti);
-            end
-        end
-    end
-end
-end
 
