@@ -1,5 +1,5 @@
 
-function [good,wf] = sm_assign_noise(datfil,varargin)
+function [good,wf,shank] = sm_assign_noise(datfil,varargin)
 
 %%
 
@@ -17,6 +17,8 @@ addParameter(p,'clufil',[],@isstr)
 addParameter(p,'minRate',.1,@isnumeric)
 addParameter(p,'noiseISI',.002,@isnumeric)
 addParameter(p,'noiseThres',.005,@isnumeric)
+addParameter(p,'wfCorrThres',.5,@isnumeric)
+
 
 
 parse(p,varargin{:})
@@ -27,7 +29,7 @@ clufil = p.Results.clufil;
 minRate = p.Results.minRate;
 noiseISI = p.Results.noiseISI;
 noiseThres = p.Results.noiseThres;
-
+wfCorrThres = p.Results.wfCorrThres;
 
 if isempty(clufil)
     
@@ -47,7 +49,7 @@ if isempty(clufil)
     end
 end
 
-
+%%
 [a,b] = fileparts(clufil);
 
 if isempty(a)
@@ -62,8 +64,6 @@ ts = double(ts)/fs;
 
 
 
-fid = fopen([a filesep 'cluster_group.tsv'],'wt');
-fprintf(fid, 'cluster_id	group\n');
 clu = readNPY(clufil);
 
 
@@ -76,32 +76,34 @@ end
 
 
 %%
+
+fid = fopen([a filesep 'cluster_group.tsv'],'wt');
+fprintf(fid, 'cluster_id	group\n');
 uclu = unique(clu);
 nclu = length(uclu);
 maxT = double(max(ts));
-ix = 1;
+
 good = true(nclu,1);
 
-%%
-binSize = .0005;
+ix = 1;
+binSize = .00033;
 conv_w = .5/binSize;  % 2ms window
 alpha = .05;
 % assign as noise due to ISI violations
 for i = uclu'
     tst = ts(clu==i);
-     cch = CrossCorr(tst,tst,binSize,1001);
+     cch = CrossCorr(tst,tst,binSize,101);
      
         
-    pred = mean(cch(1:100));
-     cch = cch(502:505);
+    pred = mean(cch(1:10));
+     cch = cch(52:56);
      
      
     %if length(tst)/maxT<minRate ||  mean(diff(tst)<noiseISI)>noiseThres
 
- pvals = 1 - poisscdf( cch - 1, pred  ) - poisspdf( cch, pred  ) * 0.5; 
 
 
-    if any(hiBound(4999:5001)<cch((4999:5001)))
+    if any(cch>pred) || (length(tst)/maxT) < minRate
         fprintf(fid, [num2str(i) '	noise\n']);
         good(ix) = false;
         isiVal(ix) =  mean(diff(tst)<noiseISI);
@@ -111,15 +113,18 @@ for i = uclu'
 end
 
 
+
 %%
-[wfF, shank] = sm_getWaveform(datfil,clu,ts,good)
+[wf, shank,channelCorr] = sm_getWaveform(datfil,clu,ts,good);
 
 
 % assign as noise due to waveform abnormalities
 ix = 1;
 for i = uclu'
     
-    if good(ix)
+    if good(ix) && (channelCorr(ix) > wfCorrThres)
+         fprintf(fid, [num2str(i) '	noise\n']);
+          good(ix) = false;
     end
     ix = ix+1;
 end

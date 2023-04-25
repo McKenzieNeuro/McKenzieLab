@@ -47,7 +47,7 @@ function [spikes] = sm_LoadPhy(varargin)
 %% Parse options
 p = inputParser;
 addParameter(p,'basepath',pwd,@isstr);
-addParameter(p,'kilosort_path',ls('Kilosort*'),@isstr); % probably this line only works in windows
+addParameter(p,'kilosort_path',[]); % probably this line only works in windows
 %addParameter(p,'kilosort_path',pwd,@isstr);
 addParameter(p,'getWaveforms',true,@islogical)
 addParameter(p,'saveMat',true,@islogical);

@@ -1,0 +1,5050 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 864364 data points of dimension 25.
+That took 5.649175 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 76451 data points of dimension 70.
+That took 1.445919 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 43515 data points of dimension 10.
+That took 0.123670 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 64659 data points of dimension 5.
+That took 0.094611 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 76596 data points of dimension 35.
+That took 0.744070 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 62887 data points of dimension 80.
+That took 1.392526 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 119904 data points of dimension 30.
+That took 0.960114 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 120972 data points of dimension 85.
+That took 2.937301 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 53296 data points of dimension 55.
+That took 0.849326 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 76055 data points of dimension 55.
+That took 1.108876 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 20017 data points of dimension 60.
+That took 0.349147 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 116507 data points of dimension 130.
+That took 4.220730 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 22622 data points of dimension 60.
+That took 0.354091 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 31179 data points of dimension 20.
+That took 0.180742 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 312843 data points of dimension 20.
+That took 1.621437 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 22580 data points of dimension 10.
+That took 0.068857 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 109403 data points of dimension 25.
+That took 0.760055 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 33035 data points of dimension 95.
+That took 0.837959 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 10006 data points of dimension 75.
+That took 0.208199 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 116230 data points of dimension 40.
+That took 1.239049 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 104897 data points of dimension 65.
+That took 1.880158 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 26561 data points of dimension 65.
+That took 0.461690 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 20886 data points of dimension 30.
+That took 0.168728 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 43726 data points of dimension 35.
+That took 0.433635 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 80474 data points of dimension 25.
+That took 0.553826 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 223636 data points of dimension 20.
+That took 1.159093 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 142365 data points of dimension 25.
+That took 0.944925 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 4302 data points of dimension 10.
+That took 0.014446 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 71093 data points of dimension 35.
+That took 0.690432 seconds.
+>> {The logical indices contain a true value outside of the array bounds.
+
+Error in sm_assign_noise (line 44)
+    fils = fils(kp);
+
+Error in sm_reClusterKlustakwikCarc (line 92)
+[good,wf,shank] = sm_assign_noise(datfil);
+} 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 71126 data points of dimension 25.
+That took 0.457066 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 927284 data points of dimension 40.
+That took 9.515764 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 191273 data points of dimension 30.
+That took 1.483724 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 327537 data points of dimension 25.
+That took 2.035749 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 520020 data points of dimension 45.
+That took 5.966965 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 296749 data points of dimension 20.
+That took 1.578734 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 99194 data points of dimension 20.
+That took 0.497548 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 134057 data points of dimension 25.
+That took 0.900338 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 159109 data points of dimension 20.
+That took 0.812112 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 210390 data points of dimension 20.
+That took 1.131787 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 122071 data points of dimension 35.
+That took 1.093878 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 4271 data points of dimension 115.
+That took 0.129683 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 21612 data points of dimension 35.
+That took 0.196018 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 798 data points of dimension 160.
+That took 0.041024 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 152212 data points of dimension 40.
+That took 1.523620 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 74436 data points of dimension 20.
+That took 0.391117 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 372170 data points of dimension 20.
+That took 1.896730 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 211673 data points of dimension 40.
+That took 2.119873 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 297282 data points of dimension 10.
+That took 0.740677 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 106770 data points of dimension 40.
+That took 1.094733 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 91917 data points of dimension 35.
+That took 0.826272 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 271561 data points of dimension 30.
+That took 2.029232 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 260740 data points of dimension 25.
+That took 1.619795 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 41946 data points of dimension 30.
+That took 0.331433 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 76035 data points of dimension 20.
+That took 0.390534 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 127111 data points of dimension 15.
+That took 0.480782 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 139005 data points of dimension 30.
+That took 1.067878 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 142512 data points of dimension 30.
+That took 1.073361 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 41917 data points of dimension 35.
+That took 0.369408 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 101118 data points of dimension 25.
+That took 0.643053 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 122652 data points of dimension 25.
+That took 0.769089 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 80884 data points of dimension 25.
+That took 0.518690 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 99178 data points of dimension 40.
+That took 0.972949 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 417682 data points of dimension 35.
+That took 3.728023 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 96732 data points of dimension 20.
+That took 0.498625 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 3255 data points of dimension 120.
+That took 0.105001 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 23745 data points of dimension 15.
+That took 0.092047 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 45 data points of dimension 160.
+That took 0.002891 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 67618 data points of dimension 40.
+That took 0.655457 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 252455 data points of dimension 20.
+That took 1.244320 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 160020 data points of dimension 25.
+That took 1.013114 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 66786 data points of dimension 30.
+That took 0.522770 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210714/STDP4_210714/STDP4_210714crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 133766 data points of dimension 25.
+That took 0.863259 seconds.
+>> {The logical indices contain a true value outside of the array bounds.
+
+Error in sm_assign_noise (line 44)
+    fils = fils(kp);
+
+Error in sm_reClusterKlustakwikCarc (line 92)
+[good,wf,shank] = sm_assign_noise(datfil);
+} 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 864364 data points of dimension 25.
+That took 5.491823 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 76451 data points of dimension 70.
+That took 1.457242 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 43515 data points of dimension 10.
+That took 0.155266 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 64659 data points of dimension 5.
+That took 0.097978 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 76596 data points of dimension 35.
+That took 0.728033 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 62887 data points of dimension 80.
+That took 1.398857 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 119904 data points of dimension 30.
+That took 0.986951 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 120972 data points of dimension 85.
+That took 2.806375 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 53296 data points of dimension 55.
+That took 0.822297 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 76055 data points of dimension 55.
+That took 1.128527 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 20017 data points of dimension 60.
+That took 0.338406 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 116507 data points of dimension 130.
+That took 4.168835 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 22622 data points of dimension 60.
+That took 0.382168 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 31179 data points of dimension 20.
+That took 0.172042 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 312843 data points of dimension 20.
+That took 1.656132 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 22580 data points of dimension 10.
+That took 0.066887 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 109403 data points of dimension 25.
+That took 0.732981 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 33035 data points of dimension 95.
+That took 0.869113 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 10006 data points of dimension 75.
+That took 0.216557 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 116230 data points of dimension 40.
+That took 1.257705 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 104897 data points of dimension 65.
+That took 1.893922 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 26561 data points of dimension 65.
+That took 0.447527 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 20886 data points of dimension 30.
+That took 0.172101 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 43726 data points of dimension 35.
+That took 0.426507 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 80474 data points of dimension 25.
+That took 0.550605 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 223636 data points of dimension 20.
+That took 1.163343 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 142365 data points of dimension 25.
+That took 0.955862 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 4302 data points of dimension 10.
+That took 0.018929 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726/STDP4_210726crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 71093 data points of dimension 35.
+That took 0.671386 seconds.
+>> {The logical indices contain a true value outside of the array bounds.
+
+Error in sm_assign_noise (line 44)
+    fils = fils(kp);
+
+Error in sm_reClusterKlustakwikCarc (line 92)
+[good,wf,shank] = sm_assign_noise(datfil);
+} 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1045596 data points of dimension 25.
+That took 6.666796 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Error reading feature file/carc/scratch/projects/mckenzie2016183/code/software/KlustaKwik-1.5/KlustaKwik /carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp 1 -UseDistributional 0 -MaxPossibleClusters 20 -MinClusters 20 -UseFeatures 1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111: Aborted
+>> {Unable to perform assignment because the left and right sides have a different
+number of elements.
+
+Error in sm_reClusterKlustakwikCarc (line 82)
+            clu(clu==j) = clut;
+} 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 59346 data points of dimension 20.
+That took 0.299991 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 180085 data points of dimension 45.
+That took 1.949974 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 583230 data points of dimension 45.
+That took 6.681750 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 480307 data points of dimension 20.
+That took 2.402001 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 82897 data points of dimension 20.
+That took 0.427253 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 80586 data points of dimension 15.
+That took 0.299545 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 125022 data points of dimension 15.
+That took 0.429467 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 79204 data points of dimension 20.
+That took 0.380160 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 131134 data points of dimension 20.
+That took 0.650959 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 169425 data points of dimension 30.
+That took 1.295525 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1868 data points of dimension 160.
+That took 0.090928 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 727 data points of dimension 160.
+That took 0.032918 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 44746 data points of dimension 20.
+That took 0.232947 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1739 data points of dimension 160.
+That took 0.079550 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 241444 data points of dimension 30.
+That took 1.788575 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 86931 data points of dimension 35.
+That took 0.758860 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 38092 data points of dimension 25.
+That took 0.232886 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 125205 data points of dimension 30.
+That took 0.921735 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 82747 data points of dimension 20.
+That took 0.407602 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 45311 data points of dimension 35.
+That took 0.383384 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1134 data points of dimension 160.
+That took 0.050006 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 408 data points of dimension 160.
+That took 0.020658 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 569211 data points of dimension 20.
+That took 2.807462 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 197618 data points of dimension 15.
+That took 0.728057 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 123646 data points of dimension 25.
+That took 0.743278 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 67124 data points of dimension 25.
+That took 0.418370 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 62513 data points of dimension 35.
+That took 0.567721 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 7216 data points of dimension 35.
+That took 0.067264 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 91341 data points of dimension 15.
+That took 0.324363 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 132763 data points of dimension 30.
+That took 0.965974 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 55034 data points of dimension 20.
+That took 0.291009 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 55516 data points of dimension 25.
+That took 0.349852 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 26708 data points of dimension 20.
+That took 0.135300 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 34418 data points of dimension 20.
+That took 0.171910 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1271 data points of dimension 160.
+That took 0.059451 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 94025 data points of dimension 15.
+That took 0.340983 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 171164 data points of dimension 20.
+That took 0.888677 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 952 data points of dimension 160.
+That took 0.045423 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1359 data points of dimension 160.
+That took 0.069391 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 818 data points of dimension 160.
+That took 0.040687 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 11103 data points of dimension 70.
+That took 0.203219 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 25534 data points of dimension 30.
+That took 0.197480 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 485 data points of dimension 160.
+That took 0.023301 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 60267 data points of dimension 25.
+That took 0.378501 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 395 data points of dimension 160.
+That took 0.022055 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 551 data points of dimension 160.
+That took 0.028576 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 110129 data points of dimension 25.
+That took 0.705208 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 201848 data points of dimension 30.
+That took 1.550224 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 16510 data points of dimension 45.
+That took 0.190059 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 127115 data points of dimension 35.
+That took 1.055312 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 89101 data points of dimension 20.
+That took 0.468416 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 464 data points of dimension 160.
+That took 0.030238 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1151 data points of dimension 160.
+That took 0.058140 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 27692 data points of dimension 20.
+That took 0.154919 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 118596 data points of dimension 15.
+That took 0.452575 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1166 data points of dimension 160.
+That took 0.051556 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 46149 data points of dimension 35.
+That took 0.402123 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 53460 data points of dimension 20.
+That took 0.258506 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 77665 data points of dimension 20.
+That took 0.370179 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 50997 data points of dimension 40.
+That took 0.511775 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 66299 data points of dimension 40.
+That took 0.639940 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 168347 data points of dimension 25.
+That took 1.039738 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210708/STDP4_210708/STDP4_210708crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 544 data points of dimension 160.
+That took 0.028733 seconds.
+>> {The logical indices contain a true value outside of the array bounds.
+
+Error in sm_assign_noise (line 44)
+    fils = fils(kp);
+
+Error in sm_reClusterKlustakwikCarc (line 92)
+[good,wf,shank] = sm_assign_noise(datfil);
+} 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Error reading feature file/carc/scratch/projects/mckenzie2016183/code/software/KlustaKwik-1.5/KlustaKwik /carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp 1 -UseDistributional 0 -MaxPossibleClusters 20 -MinClusters 20 -UseFeatures 1111111111111111111111111: Aborted
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 63976 data points of dimension 145.
+That took 2.320779 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 111095 data points of dimension 45.
+That took 1.328111 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 20669 data points of dimension 60.
+That took 0.391172 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 32725 data points of dimension 35.
+That took 0.318288 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 22165 data points of dimension 160.
+That took 0.972580 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 68333 data points of dimension 45.
+That took 0.863902 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 104834 data points of dimension 5.
+That took 0.144772 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 1919 data points of dimension 45.
+That took 0.029941 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 130110 data points of dimension 25.
+That took 0.831130 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 35297 data points of dimension 50.
+That took 0.483189 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 53008 data points of dimension 40.
+That took 0.597798 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 149367 data points of dimension 100.
+That took 4.056343 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 40167 data points of dimension 45.
+That took 0.454278 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 227556 data points of dimension 20.
+That took 1.167014 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 157446 data points of dimension 90.
+That took 3.708311 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 63522 data points of dimension 85.
+That took 1.417042 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 180777 data points of dimension 25.
+That took 1.142200 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 118445 data points of dimension 35.
+That took 1.037190 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 26999 data points of dimension 70.
+That took 0.520295 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 155593 data points of dimension 65.
+That took 2.624866 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 66362 data points of dimension 85.
+That took 1.474289 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 77247 data points of dimension 35.
+That took 0.712288 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 842 data points of dimension 25.
+That took 0.010292 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 106618 data points of dimension 115.
+That took 3.192368 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 19206 data points of dimension 75.
+That took 0.399469 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 154944 data points of dimension 90.
+That took 3.726988 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 272363 data points of dimension 30.
+That took 2.115325 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 83627 data points of dimension 55.
+That took 1.193455 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 17290 data points of dimension 85.
+That took 0.384184 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 22850 data points of dimension 60.
+That took 0.365552 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 95017 data points of dimension 10.
+That took 0.235734 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 85983 data points of dimension 70.
+That took 1.587757 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 115862 data points of dimension 40.
+That took 1.193123 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 52615 data points of dimension 65.
+That took 0.917769 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	1111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 6426 data points of dimension 25.
+That took 0.053698 seconds.
+FileBase	/carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210722/STDP4_210722/STDP4_210722crs.GUI/tmp
+ElecNo	1
+MinClusters	20
+MaxClusters	10
+MaxPossibleClusters	20
+nStarts	1
+RandomSeed	1
+Debug	0
+Verbose	1
+UseFeatures	11111111111111111111111111111111111111111111111111
+DistDump	0
+DistThresh	6.907755
+FullStepEvery	10
+ChangedThresh	0.050000
+Log	1
+Screen	1
+MaxIter	500
+StartCluFile	
+SplitEvery	50
+help	0
+Loaded 35191 data points of dimension 50.
+That took 0.488442 seconds.
+>> {The logical indices contain a true value outside of the array bounds.
+
+Error in sm_assign_noise (line 44)
+    fils = fils(kp);
+
+Error in sm_reClusterKlustakwikCarc (line 92)
+[good,wf,shank] = sm_assign_noise(datfil);
+} 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2022 The MathWorks, Inc.
+             R2022a Update 3 (9.12.0.1975300) 64-bit (glnxa64)
+                                June 2, 2022
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 

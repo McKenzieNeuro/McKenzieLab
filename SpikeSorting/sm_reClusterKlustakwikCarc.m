@@ -1,4 +1,4 @@
-function sm_reClusterKlustakwikCarc(dirN)
+function sm_reClusterKlustakwikCarc(datfil)
 % this function takes output from spyking circus or kilosort and with units
 % with more than thres ISI violations runs klustakwik
 
@@ -13,11 +13,11 @@ recluserThres = .01;
 reclusterISI = .002;
 
 
-dirN = fileparts(dirN);
+dirN = fileparts(datfil);
 % find subdirectory
-fils= getAllExtFiles(dirN,'npy',1)
+fils= getAllExtFiles(dirN,'npy',1);
 
-kp = contains(fils,'pc_features');
+kp = contains(fils,'pc_features') & ~contains(fils,'Kilosort');
 fils = fils(kp);
 
 
@@ -70,8 +70,9 @@ if ~isempty(fils) && length(fils)==1
             
             %recluster
             cmd = [program  ' ' fullfile(a,'tmp') ' 1'];
-            cmd = [cmd ' -UseDistributional 0 -MaxPossibleClusters 20 -MinClusters 20'];
-            
+            cmd = [cmd ' -UseDistributional 0 -MaxClusters 20 -MaxPossibleClusters 20 -MinClusters 20 -UseFeatures ' sprintf('%d',ones(1,size(fet2,2))) ...
+                ' -MaxIter 10000'];
+       
             status = system(cmd);
             
             %relabel
@@ -88,9 +89,9 @@ if ~isempty(fils) && length(fils)==1
     end
     
     
-    % exclude noisy units
-    assign_noise(clufil,ts)
-    %  getAllZeroLag(clufil,ts)
+% exclude noisy units
+%[good,wf,shank] = sm_assign_noise(datfil);
+%sm_MergeCluster(datfil,'good',good,'shank',shank,'wf',wf);
 end
 
 
