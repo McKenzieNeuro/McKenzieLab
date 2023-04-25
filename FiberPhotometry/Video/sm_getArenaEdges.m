@@ -11,7 +11,7 @@ function sm_getArenaEdges(dirN)
 
 % cd('R:\McKenzieLab\DANEHippocampalResponse\NE2h8\LinearTrack\NE2h8-220720-123755')
 
-cd('R:\McKenzieLab\DANEHippocampalResponse\NE2h2 (Named NE2m3)\Novel Environment\NE2h2\NE2h2-220310-101531')
+cd('R:\McKenzieLab\DANEHippocampalResponse\NE2h9\SOR\NE2h9-220419-132755')
 prompt = {'Enter Context IDs (comma separated)'};
 dlg_title = 'Context ID';
 num_lines = 1;

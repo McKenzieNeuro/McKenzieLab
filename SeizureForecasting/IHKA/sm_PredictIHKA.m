@@ -12,9 +12,9 @@
 
 
 FeatureFileOutput = 'E:\data\IHKA\features.mat';
-FeatureFileOutput = 'E:\data\IHKA\features_trans.mat';
+%FeatureFileOutput = 'E:\data\IHKA\features_trans.mat';
 load(FeatureFileOutput)
-ops.ClassifierFileOutput =  'E:\data\IHKA\classification_trans.mat';
+ops.ClassifierFileOutput =  'E:\data\IHKA\classification.mat';
 
 %%
 

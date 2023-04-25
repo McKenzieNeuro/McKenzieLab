@@ -1,6 +1,6 @@
 
 
-fils = getAllExtFiles('R:\McKenzieLab\DANEHippocampalResponse','mat',1);
+fils = getAllExtFiles('R:\DANEHippocampalResponse','mat',1);
 kp = cellfun(@any,regexp(fils,'contextTransition')) & cellfun(@any,regexp(fils,'Novel Environment'));
 fils = fils(kp);
 [dirs,bi] = fileparts(fils);

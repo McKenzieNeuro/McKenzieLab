@@ -46,9 +46,9 @@ for u=1:nCel
     
     adjustedSpikes=cellfun(@(a) spks(spks>a(1) & spks<a(2)),num2cell(ep,2) , 'uni',0);
     adjustedSpikes=cellfun(@(a,b) a-b, adjustedSpikes, num2cell(ts_onset) , 'uni',0);
-    spkhist = cell2mat(cellfun(@(a) reshape(histc(a,bin_times),1,[]),adjustedSpikes, 'UniformOutput', false));
+    spkhist = cell2mat(cellfun(@(a) reshape(histoc(a,bin_times),1,[]),adjustedSpikes, 'UniformOutput', false));
     if ~isempty(kernel)
-        spkhist=cell2mat(cellfun(@(a) imfilter(reshape(histc(a,bin_times),1,[]),kernel,'same'),adjustedSpikes, 'UniformOutput', false));
+        spkhist=cell2mat(cellfun(@(a) imfilter(reshape(histoc(a,bin_times),1,[]),kernel,'same'),adjustedSpikes, 'UniformOutput', false));
     end
     % spkhist = spkhist(:,1:end-1)./bin_duration;%turn into rate
     t = spkhist(:,1:end-1)./bin_duration;
