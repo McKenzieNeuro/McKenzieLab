@@ -1,8 +1,8 @@
-function [ups,dwns]  = sm_getDigitalin(dirName,basename,ch,fs)
+function [ups,dwns]  = sm_getDigitalin(dirName,fname,fs,Nchan)
 
 
 %[x,y] = Process_IntanDigitalChannels([dirName '/' basename '_digitalin.dat']);
-fname = [dirName '/' basename '_digitalin.dat'];
+fname = [dirName filesep fname];
 
 if ~exist(fname)
     fname = [dirName '/digitalin.dat'];
@@ -17,8 +17,12 @@ nbChan = 1;
 fInfo = dir(fname);
 nBytes = fInfo.bytes;
 nbChunks = floor(nBytes/(nbChan*sizeInBytes*chunk));
+
+if isempty(Nchan)
 Nchan = 16;
-Nchan2 = 17;
+end
+Nchan2 = Nchan+1;
+
 pulses = cell(Nchan,1);
 pulses2 = cell(Nchan,1);
 for ii=1:nbChunks
@@ -46,8 +50,7 @@ if ~isempty(remainder)
     x = fread(fidI,nbChan*remainder,'int16');
     digital_word2 = double(x);
     
-    Nchan = 16;
-    Nchan2 = 17;
+  
     for k = 1:Nchan
         tester = (digital_word2 - 2^(Nchan-k))>=0;
         digital_word2 = digital_word2 - tester*2^(Nchan-k);

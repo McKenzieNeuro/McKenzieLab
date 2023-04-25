@@ -1,0 +1,18 @@
+The parameter file /carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726_digitalin.params is not present!
+Do you want SpyKING CIRCUS to create a parameter file? [Y/n] The parameter file /carc/scratch/projects/mckenzie2016183/data/spikeSorting/STDP/STDP/STDP4/STDP4_210726/STDP4_210726_digitalin.params is not present!
+Do you want SpyKING CIRCUS to create a parameter file? [Y/n] Traceback (most recent call last):
+  File "/users/mckenzie/.conda/envs/circus/bin/spyking-circus", line 33, in <module>
+    sys.exit(load_entry_point('spyking-circus==1.1.0', 'console_scripts', 'spyking-circus')())
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/scripts/launch.py", line 165, in main
+    create_params = query_yes_no(Fore.WHITE + "Do you want SpyKING CIRCUS to create a parameter file?")
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/shared/utils.py", line 199, in query_yes_no
+    choice = input().lower()
+EOFError: EOF when reading a line
+Traceback (most recent call last):
+  File "/users/mckenzie/.conda/envs/circus/bin/spyking-circus", line 33, in <module>
+    sys.exit(load_entry_point('spyking-circus==1.1.0', 'console_scripts', 'spyking-circus')())
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/scripts/launch.py", line 165, in main
+    create_params = query_yes_no(Fore.WHITE + "Do you want SpyKING CIRCUS to create a parameter file?")
+  File "/users/mckenzie/.conda/envs/circus/lib/python3.6/site-packages/circus/shared/utils.py", line 199, in query_yes_no
+    choice = input().lower()
+EOFError: EOF when reading a line

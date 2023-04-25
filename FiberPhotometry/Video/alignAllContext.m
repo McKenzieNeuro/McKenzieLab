@@ -1,5 +1,0 @@
-function out = alignAllContext()
-
-
-
-end

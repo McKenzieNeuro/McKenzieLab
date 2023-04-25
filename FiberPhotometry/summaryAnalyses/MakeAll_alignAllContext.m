@@ -14,6 +14,8 @@ for i = 1:length(dirs)
     i
     cd(dirs{i})
     
+    %%
+    % NOTE TO INFANIA: TAKE EVERYTHING BELOW AND TURN INTO ITS OWN SCRIPT
     if exist('arena_edges.mat') && exist('contextTransition.mat')
         v  = load('arena_edges.mat');
         v1 = load('contextTransition.mat');
@@ -100,7 +102,7 @@ for i = 1:length(dirs)
         error([dirs{i} ' missing transitions or edges'])
     end % end test for edges/transitions
     
-    
+    %%
     
 end % end directories
 

@@ -137,7 +137,7 @@ rezToPhy_KSW(rez);
 
 %% save python results file for Klusters
 % disp('Converting to Klusters format')
-sm_ConvertKilosort2Neurosuite(rez);
+%sm_ConvertKilosort2Neurosuite(rez);
 
 %% Remove
 %  temporary file

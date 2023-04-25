@@ -17,7 +17,7 @@ addParameter(p,'clufil',[],@isstr)
 addParameter(p,'minRate',.1,@isnumeric)
 addParameter(p,'noiseISI',.002,@isnumeric)
 addParameter(p,'noiseThres',.005,@isnumeric)
-addParameter(p,'wfCorrThres',.5,@isnumeric)
+addParameter(p,'wfCorrThres',.8,@isnumeric)
 
 
 
@@ -38,9 +38,9 @@ if isempty(clufil)
     %find subdirectory
     fils= getAllExtFiles(dirN,'npy',1);
     
-    kp = contains(fils,'spike_clusters');
+    kp = contains(fils,'spike_clusters') & contains(fils,'Kilosort_2023');
     fils = fils(kp);
-    
+
     
     if ~isempty(fils) && length(fils)==1
         clufil = fils{1};
@@ -76,9 +76,10 @@ end
 
 
 %%
-
+fid1 = fopen([a filesep 'cluster_deletion.tsv'],'wt');
 fid = fopen([a filesep 'cluster_group.tsv'],'wt');
 fprintf(fid, 'cluster_id	group\n');
+fprintf(fid1, 'cluster_id	reason\n');
 uclu = unique(clu);
 nclu = length(uclu);
 maxT = double(max(ts));
@@ -105,6 +106,14 @@ for i = uclu'
 
     if any(cch>pred) || (length(tst)/maxT) < minRate
         fprintf(fid, [num2str(i) '	noise\n']);
+        
+        if any(cch>pred)
+            
+               fprintf(fid1, [num2str(i) '	noisy MUA\n']);
+               
+        else
+               fprintf(fid1, [num2str(i) '	low Rate\n']);
+        end
         good(ix) = false;
         isiVal(ix) =  mean(diff(tst)<noiseISI);
     end
@@ -124,7 +133,10 @@ for i = uclu'
     
     if good(ix) && (channelCorr(ix) > wfCorrThres)
          fprintf(fid, [num2str(i) '	noise\n']);
+           fprintf(fid1, [num2str(i) '	similar waveform\n']);
+               
           good(ix) = false;
+          i
     end
     ix = ix+1;
 end
@@ -133,5 +145,6 @@ end
 
 
 fclose(fid);
+fclose(fid1);
 %%
 end
