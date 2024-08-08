@@ -1,4 +1,4 @@
-function savepath = sm_KiloSortWrapper(varargin)
+    function savepath = sm_KiloSortWrapper(varargin)
 % Creates channel map from Neuroscope xml files, runs KiloSort and
 % writes output data in the Neuroscope/Klusters format.
 % StandardConfig.m should be in the path or copied to the local folder
@@ -23,6 +23,11 @@ function savepath = sm_KiloSortWrapper(varargin)
 % it under the terms of the GNU General Public License as published by
 % the Free Software Foundation; either version 2 of the License, or
 % (at your option) any later version.
+
+% EXAMPLE CALL
+% savepath = sm_KiloSortWrapper('basepath',pwd,'config_version','McKenzie','intan_version','combined','basename','amplifier_analogin_auxiliary_int16');
+
+
 disp('Running Kilosort spike sorting with the Buzsaki lab wrapper')
 
 %% Addpath if needed
@@ -74,6 +79,10 @@ XMLFilePath = fullfile(basepath, [basename '.xml']);
 % if exist(fullfile(basepath,'StandardConfig.m'),'file') %this should actually be unnecessary
 %     addpath(basepath);
 % end
+
+
+
+
 if isempty(config_version)
     disp('Running Kilosort with standard settings')
     ops = KilosortConfiguration(XMLFilePath);
@@ -91,7 +100,7 @@ end
 %find SSD on linux machine
 
 
-ops.fproc = 'E:\Kilosort\temp.dat';
+
 %%
 if ops.GPU
     
@@ -109,6 +118,7 @@ disp('PreprocessingData')
 
 disp('Fitting templates')
 rez = fitTemplates(rez, DATA, uproj);  % fit templates iteratively
+save('kilosortTemp.mat','rez','DATA','-v7.3')
 %%
 disp('Extracting final spike times')
 rez = fullMPMU(rez, DATA); % extract final spike times (overlapping extraction)
@@ -148,10 +158,15 @@ tim = datetime('now');
 save(outfil,'tim')
 
 %%
+disp('delete noise units')
+sm_assign_noise([basepath filesep basename '.dat'],'getWaveform',false)
+
+
+%%
 %make LFP file
 
 if ~exist( fullfile(basepath,[basename,'.lfp']))
-    bz_LFPfromDat(basepath);
+    bz_LFPfromDat(basepath,'basename',basename);
 end
 
 

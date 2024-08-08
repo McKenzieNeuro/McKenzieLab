@@ -28,7 +28,7 @@ for i = 74:length(fils_edf)
     [a,basename] = fileparts(fileOut); % define output directory
     dirOut = [masterDir filesep basename ];
     if ~exist(dirOut)
-        
+        % loop over 4 channels
         for j = 1:4
             sm_getPowerPerChannel(fils_edf{i},j)
         end

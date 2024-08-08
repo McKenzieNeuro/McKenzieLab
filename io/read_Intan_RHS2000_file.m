@@ -7,7 +7,7 @@ function newHeader = read_Intan_RHS2000_file(filename, loadData, loadEvents, iSa
 % This file was modified to offer on the fly small segment data selection
 %
 % loadData       : loads the data defined in iSamplesStart and nSamplesToLoad
-% loadEvents     : loads the events from the entire file (loadData has to be set to 1)
+% loadEvents     : loads the events from the entire file (loadDnrata has to be set to 1)
 % iSamplesStart  : The starting sample
 % nSamplesToLoad : How many samples will be loaded
 %

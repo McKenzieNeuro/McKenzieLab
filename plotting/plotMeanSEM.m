@@ -1,4 +1,4 @@
-function plotMeanSEM(x,y,col,varargin)
+function p = plotMeanSEM(x,y,col,varargin)
 % plots the Mean  + shaded errors bars around the mean
 % x = Nx1 vector describing the columns of y
 % y = M x N matrix where M is the number of observations
@@ -11,7 +11,7 @@ function plotMeanSEM(x,y,col,varargin)
 p = inputParser;
 
 
-addParameter(p,'yAxisFunction',@nanmean) 
+addParameter(p,'yAxisFunction' ,@nanmean) 
 addParameter(p,'ErrorBarFunction',@SEM) 
 
 
@@ -31,7 +31,7 @@ z = ErrorBarFunction(y,1);
 z(isnan(z)) = 0;
 y_m(isnan(y_m)) = 0;
 
-plot(x,y_m,'color',col,'linewidth',2)
+p = plot(x,y_m,'color',col,'linewidth',2);
 hold on
 plotShadedError(x,y_m,z,col,.5)
 hold on

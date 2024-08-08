@@ -43,7 +43,7 @@ TDTdata = TDTbin2mat(dirName);
 % get the photobleached/ isosbestic corrected neural signal (signal_DFoF)
 if isfield(TDTdata.streams,'x465A')
     stream = {'x465A','x405A'};
-    [signal_DFoF,ts_neural,fs] = sm_getSignal_DFoF(dirName,'streams',stream,'isosbestic','x405A');
+    [signal_DFoF,ts_neural,fs] = sm_getSignal_DFoF(dirName,'streams',stream,'isosbestic','x405A','baseline',[5 500]);
 else
     stream = {'x450D','x500D'};
     [signal_DFoF,ts_neural,fs] = sm_getSignal_DFoF(dirName,'streams',stream,'isosbestic','x450D');

@@ -1,4 +1,4 @@
-function [onset,offset,pulse,center] = getPulseTime(fname,ch,type,varargin)
+function [onset,offset,pulse,center] = sm_getPulseTime(fname,ch,type,varargin)
 
 %fname = name of the analogin dat file
 %ch = which channel to detect spikes
@@ -59,8 +59,8 @@ for ii = 1:size(evs,1)
 %     
 
 
-   d = Smooth(double(d - median(d)),5);
-  %  d = double(d - median(d(1:10)));
+   d = Smooth(double(d - median(d)),10);
+    %d = double(d - median(d(1:10)));
  %   subtract baseline (may not be at zero)
     
     
@@ -134,8 +134,15 @@ for ii = 1:size(evs,1)
                 onset_t = onset_t(kp);
                 offset_t = offset_t(kp);
             end
+            
+            if any(onset_t)
+                try
             onset{ii}(i) = [pks(i)/Fs + dt(onset_t)/Fs]';
+                catch
+                    disp('here')
+                end
             offset{ii}(i) = [pks(i)/Fs + dt(offset_t)/Fs]';
+            end
         end
         
         if ~isempty(offset{ii}) &&  ~isempty(onset{ii})

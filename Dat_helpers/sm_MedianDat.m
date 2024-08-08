@@ -17,28 +17,32 @@ function sm_MedianDat(fnameIn,fnameOut,varargin)
 start = 0;
 channelIx = [];
 duration = [];
-
+chanSubSet =[];
 for i = 1:2:length(varargin),
-  if ~isa(varargin{i},'char'),
-    error(['Parameter ' num2str(i+3) ' is not a property (type ''help CopyDat'' for details).']);
-  end
-  switch(lower(varargin{i})),
-    case 'start',
-      start = varargin{i+1};
-      if ~isa(start,'double')
-        error('Incorrect value for property ''start''. Should be char array.');
-      end
-    case 'channelix',
-      channelIx = varargin{i+1};
-      if ~isa(channelIx,'double')
-        error('Incorrect value for property ''chanellIx''. Should be char array.');
-      end
-    case 'duration',
-      duration = varargin{i+1};
-      if ~isa(duration,'double')
-        error('Incorrect value for property ''duration''. Should be char array.');
-      end  
-  end
+    if ~isa(varargin{i},'char'),
+        error(['Parameter ' num2str(i+3) ' is not a property (type ''help CopyDat'' for details).']);
+    end
+    switch(lower(varargin{i})),
+        case 'start',
+            start = varargin{i+1};
+            if ~isa(start,'double')
+                error('Incorrect value for property ''start''. Should be char array.');
+            end
+        case 'channelix',
+            channelIx = varargin{i+1};
+            if ~isa(channelIx,'double')
+                error('Incorrect value for property ''chanellIx''. Should be char array.');
+            end
+        case 'duration',
+            duration = varargin{i+1};
+            if ~isa(duration,'double')
+                error('Incorrect value for property ''duration''. Should be char array.');
+            end
+        case 'chansubset'
+            chanSubSet = varargin{i+1};
+           
+            
+    end
 end
 
 fxml = [fnameIn(1:end-4) '.xml'];
@@ -53,6 +57,12 @@ syst = LoadXml(fxml);
 fInfo = dir(fnameIn);
 
 nbChan = syst.nChannels;
+
+if isempty(chanSubSet)
+    chanSubSet = 1:nbChan;
+end
+
+
 if ~isempty(duration)
     nBytes = syst.SampleRate*duration*sizeInBytes*nbChan;
     if fInfo.bytes<nBytes
@@ -78,8 +88,8 @@ for ii=1:nbChunks
     dat = reshape(dat,nbChan,[]);
  %   dat = [zeros(size(dat,1),1) diff(dat,[],2)];
  %   dat =  median(dat);
-    dat = dat(1:32,:);
-    dat = dat- median(dat);
+    %dat = dat(1:32,:);
+    dat(chanSubSet,:) = dat(chanSubSet,:)- median(dat(chanSubSet,:));
     
     fwrite(fidO,dat(:),'int16');
 end
@@ -91,8 +101,8 @@ if ~isempty(remainder)
 %
  %   dat =  median(dat);
   %     dat = [zeros(size(dat,1),1) diff(dat,[],2)];
-  dat = dat(1:32,:);
-    dat = dat- median(dat);
+ 
+    dat(chanSubSet,:) = dat(chanSubSet,:)- median(dat(chanSubSet,:));
     fwrite(fidO,dat(:),'int16');
 end
 close(h);

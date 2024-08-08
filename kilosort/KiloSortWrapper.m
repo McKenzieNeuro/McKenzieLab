@@ -9,13 +9,13 @@ function savepath = KiloSortWrapper(basepath,basename,config_version,varargin)
 %    Should be run from the data folder, and file basenames are the
 %    same as the name as current directory
 %
-%    KiloSortWrapper(basepath,basenmae)
+%    KiloSortWrapper(basepath,basename)
 %
 %    INPUTS
 %    basepath       path to the folder containing the data
 %    basename       file basenames (of the dat and xml files)
 %
-%    Dependencies:  KiloSort (https://github.com/cortex-lab/KKil    iloSort)
+%    Dependencies:  KiloSort (https://github.com/cortex-lab/KiloSort)
 
 % Copyright (C) 2016 Brendon Watson and the Buzsakilab
 %
@@ -79,7 +79,7 @@ disp('Running Kilosort spike sorting with the Buzsaki lab wrapper')
         ops = KilosortConfiguration(XMLFilePath);
     else
         disp('Running Kilosort with user specific settings')
-        config_string = str2func(['KilosortConfiguration_' config_version]);
+        config_string = str2func(['KilosortConfiguration' config_version]);
      
         ops = config_string(XMLFilePath);
    
@@ -91,7 +91,7 @@ disp('Running Kilosort spike sorting with the Buzsaki lab wrapper')
     %find SSD on linux machine
     
  
-     ops.fproc = 'E:\Kilosort\temp.dat';
+     ops.fproc = 'C:\DATA\temp.dat';
     %%
     if ops.GPU
         

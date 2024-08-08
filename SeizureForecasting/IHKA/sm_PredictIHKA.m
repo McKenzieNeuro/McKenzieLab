@@ -14,7 +14,7 @@
 FeatureFileOutput = 'E:\data\IHKA\features.mat';
 %FeatureFileOutput = 'E:\data\IHKA\features_trans.mat';
 load(FeatureFileOutput)
-ops.ClassifierFileOutput =  'E:\data\IHKA\classification.mat';
+ops.ClassifierFileOutput =  'R:\Analysis\SeizureForecasting\IHKA_rat_RF\classification.mat';
 
 %%
 

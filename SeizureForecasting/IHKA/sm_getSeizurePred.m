@@ -42,9 +42,17 @@ for i = 1:length(seizure_start)
         (ts>seizure_start(i) & ts<seizure_end(i)) | ...
         (ts>seizure_end(i) & ts<seizure_end(i)+600)) = false;
 end
-
+if ~any(isinf(bins))
 [~,trueLabel] = histc(time2seizure,[-inf -(bins) 0 1 2]);
-inTrainingSet = histc(trainingTime,ts)>0;
+else
+    [~,trueLabel] = histc(time2seizure,[ -(bins) 0 1 2]);
+end
+
+if isempty(trainingTime)
+    inTrainingSet = false(size(ts));
+else
+    inTrainingSet = histc(trainingTime,ts)>0;
+end
 %%
 
 
@@ -63,10 +71,12 @@ for i = ts
     dat1 = [dat1;features];
     
     if mod(i,100)== 0
-        estimateLabel = [estimateLabel;predict(rusTree,dat1)];
+        [outpred,conf] = predict(rusTree,dat1);
+        estimateLabel = [estimateLabel;outpred conf];
         dat1 =[];
     elseif i > (dur- mod(dur,100))
-        estimateLabel = [estimateLabel;predict(rusTree,dat1)];
+       [outpred,conf] = predict(rusTree,dat1);
+        estimateLabel = [estimateLabel;outpred conf];
          dat1 =[];
     end
     
