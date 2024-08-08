@@ -13,12 +13,12 @@
 %path where raw data is stored with seizure labels
 ops.RawDataPath = 'R:\IHKA_Scharfman\IHKA data';
 ops.FeaturePath = {'F:\data1\IHKA','E:\data\IHKA'};
-ops.FeatureFileOutput = 'E:\data\IHKA\features_trans.mat';
+ops.FeatureFileOutput = 'E:\data\IHKA\features.mat';
 
 
 % define time windows around to predict (s)
 
-ops.bins = [ 3*3600 3600 600 10];
+ops.bins = [ inf 3600 100 10];
 
 
 % define % of time to take within each time bin
@@ -49,7 +49,7 @@ ops.freqs = logspace(log10(.5),log10(200),20);
 ops.amp_idx = 15:20;
 ops.ph_idx = 1:10;
 
-ops.durFeat = 3; % 2s feature bins
+ops.durFeat = 2; % 2s feature bins
 
 %channel for phase amplitude coupling
 %ch1 = ipsi HPC
@@ -63,7 +63,7 @@ ops.ch_phaseAmp =2;
 ops.nCh_featureFile = 41; %20 power, 20 phase, 1 time series
 ops.nCh_raw = 4; % N = 4 eeg channels
 
-ops.features = @sm_PredictIHKA_calcFeaturesStateTrans;
+ops.features = @sm_PredictIHKA_calcFeatures;
 
 
 
@@ -138,16 +138,30 @@ for i= 1:size(sessions,1)
     TSdata = readtable(sessions{i,1});
     TSdata = table2cell(TSdata);
     
-    seizure_start = cell2mat(TSdata(cellfun(@any,regexp(TSdata(:,6),TSname1)),4));
-    seizure_end = cell2mat(TSdata(cellfun(@any,regexp(TSdata(:,6),TSname2)),4));
+    seizure_start = cell2mat(TSdata(cellfun(@any,regexpi(TSdata(:,6),TSname1)),4));
+    seizure_end = cell2mat(TSdata(cellfun(@any,regexpi(TSdata(:,6),TSname2)),4));
     
     
     %loop over seizures per subject
     for j = 1:length(seizure_start)
         
         %bins around seizure
-        tmp = [seizure_start(j)-ops.bins seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
         
+        if isinf(ops.bins(1))
+            
+            if j ==1 && seizure_start(j) > ops.bins(2)
+                tmp = [0 seizure_start(j)-ops.bins(2:end) seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
+                
+            elseif j ==1 && seizure_start(j) < ops.bins(2)
+                tmp = [nan seizure_start(j)-ops.bins(2:end) seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
+            elseif j >1 && seizure_start(j)-ops.bins(2) > seizure_start(j-1) +ops.timPost
+                 tmp = [seizure_start(j-1)+ops.timPost seizure_start(j)-ops.bins(2:end) seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
+            else
+                 tmp = [nan seizure_start(j)-ops.bins(2:end) seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
+            end
+        else
+             tmp = [seizure_start(j)-ops.bins seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
+        end
         %if seizure is early, delete time
         tmp(tmp<0) = nan;
         

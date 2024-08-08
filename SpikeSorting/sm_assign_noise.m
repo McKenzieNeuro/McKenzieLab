@@ -17,8 +17,8 @@ addParameter(p,'clufil',[],@isstr)
 addParameter(p,'minRate',.1,@isnumeric)
 addParameter(p,'noiseISI',.002,@isnumeric)
 addParameter(p,'noiseThres',.005,@isnumeric)
-addParameter(p,'wfCorrThres',.8,@isnumeric)
-
+addParameter(p,'wfCorrThres',.99,@isnumeric)
+addParameter(p,'getWaveform',true,@islogical)
 
 
 parse(p,varargin{:})
@@ -30,7 +30,7 @@ minRate = p.Results.minRate;
 noiseISI = p.Results.noiseISI;
 noiseThres = p.Results.noiseThres;
 wfCorrThres = p.Results.wfCorrThres;
-
+getWaveform = p.Results.getWaveform;
 if isempty(clufil)
     
     [dirN] = fileparts(datfil);
@@ -38,9 +38,9 @@ if isempty(clufil)
     %find subdirectory
     fils= getAllExtFiles(dirN,'npy',1);
     
-    kp = contains(fils,'spike_clusters') & contains(fils,'Kilosort_2023');
+    kp = contains(fils,'spike_clusters') & contains(fils,'Kilosort_202');
     fils = fils(kp);
-
+    
     
     if ~isempty(fils) && length(fils)==1
         clufil = fils{1};
@@ -93,56 +93,56 @@ alpha = .05;
 % assign as noise due to ISI violations
 for i = uclu'
     tst = ts(clu==i);
-     cch = CrossCorr(tst,tst,binSize,101);
-     
-        
+    cch = CrossCorr(tst,tst,binSize,101);
+    
+    
     pred = mean(cch(1:10));
-     cch = cch(52:56);
-     
-     
+    cch = cch(52:56);
+    
+    
     %if length(tst)/maxT<minRate ||  mean(diff(tst)<noiseISI)>noiseThres
-
-
-
+    
+    
+    
     if any(cch>pred) || (length(tst)/maxT) < minRate
         fprintf(fid, [num2str(i) '	noise\n']);
         
         if any(cch>pred)
             
-               fprintf(fid1, [num2str(i) '	noisy MUA\n']);
-               
+            fprintf(fid1, [num2str(i) '	noisy MUA\n']);
+            
         else
-               fprintf(fid1, [num2str(i) '	low Rate\n']);
+            fprintf(fid1, [num2str(i) '	low Rate\n']);
         end
         good(ix) = false;
         isiVal(ix) =  mean(diff(tst)<noiseISI);
     end
-   % end
+    % end
     ix = ix+1;
 end
 
 
 
-%%
-[wf, shank,channelCorr] = sm_getWaveform(datfil,clu,ts,good);
-
-
-% assign as noise due to waveform abnormalities
-ix = 1;
-for i = uclu'
+if getWaveform
+    [wf, shank,channelCorr] = sm_getWaveform(datfil,clu,ts,good);
     
-    if good(ix) && (channelCorr(ix) > wfCorrThres)
-         fprintf(fid, [num2str(i) '	noise\n']);
-           fprintf(fid1, [num2str(i) '	similar waveform\n']);
-               
-          good(ix) = false;
-          i
+    
+    % assign as noise due to waveform abnormalities
+    ix = 1;
+    for i = uclu'
+        
+        if good(ix) && (channelCorr(ix) > wfCorrThres)
+            fprintf(fid, [num2str(i) '	noise\n']);
+            fprintf(fid1, [num2str(i) '	similar waveform\n']);
+            
+            good(ix) = false;
+            i
+        end
+        ix = ix+1;
     end
-    ix = ix+1;
+    
+    
 end
-
-
-
 
 fclose(fid);
 fclose(fid1);

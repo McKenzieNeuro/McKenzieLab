@@ -28,15 +28,15 @@ function distanceEllipse = ptoe_distance_sm_progress(edges, points)
     
     numEllipseP = length(x);
     distPoint = zeros(npoints,1);
-    for i = 1:npoints
+
         
-        distEllipse = (zeros(numEllipseP,1));
+        distEllipse = zeros(numEllipseP,size(points,1));
         for ii = 1:numEllipseP
-            
-            distEllipse(ii,1) = pdist([points(i,1),points(i,2);x(1,ii),y(1,ii)],'euclidean');
+            distEllipse(ii,:) =  sqrt(sum((points - repmat([x(1,ii),y(1,ii)],size(points,1),1)).^2,2));
+          
         end
-        distanceEllipse(i, 1) =  min(distEllipse);
-    end
+        distanceEllipse =  min(distEllipse)';
+    
 %     
 %     numEllipseP = length(x);
 % %     npoints = size(points,1);

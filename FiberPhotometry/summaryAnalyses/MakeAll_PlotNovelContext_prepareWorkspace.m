@@ -1,5 +1,5 @@
 
-
+close all
 fils = getAllExtFiles('R:\McKenzieLab\DANEHippocampalResponse','mat',1);
 kp = cellfun(@any,regexp(fils,'contextTransition')) & cellfun(@any,regexp(fils,'Novel Environment'));
 fils = fils(kp);
@@ -28,27 +28,24 @@ end
 
 
 
-
-
-
-
-for i = 1:length(dirs)
-    
-    
-    cd(dirs{i})
-    
-    if exist('sessiondata.mat')
-        load('sessiondata.mat')
-    end
-    
-    
-    v = load(fils{i});
-    
-    
-    sessiondata.contextEntry = v.data;
-    save('sessiondata.mat','sessiondata','-v7.3')
-    i
-end
+% 
+% for i = 1:length(dirs)
+% 
+% 
+%     cd(dirs{i})
+% 
+%     if exist('sessiondata.mat')
+%         load('sessiondata.mat')
+%     end
+% 
+% 
+%     v = load(fils{i});
+% 
+% 
+%     sessiondata.contextEntry = v.data;
+%     save('sessiondata.mat','sessiondata','-v7.3')
+%     i
+% end
 
 %%
 k  = gaussian2Dfilter([10000 1],[ 1017.3 1]);
@@ -85,7 +82,7 @@ end
 subj = cellfun(@(a) a(1:5),subj,'uni',0)';
 %%
 
-kp_DA = cellfun(@any,regexp(subj,'DA2'));
+kp_DA = cellfun(@any,regexp(subj,'DA2')) | cellfun(@any,regexp(subj,'DA3'));
 
 kp_NE = cellfun(@any,regexp(subj,'NE'));
 
@@ -172,14 +169,14 @@ end
 dirN = 'E:\Dropbox\UNM\Presentations\2022\SfN\Posters\DANE';
 
 for j = 2
-    close all
+    % close all
     
     
     
     kp_NE = cellfun(@any,regexp(subj,'NE'));
     
     
-    kp_DA = cellfun(@any,regexp(subj,'DA'));
+    kp_DA = cellfun(@any,regexp(subj,'DA2')) | cellfun(@any,regexp(subj,'DA3'));
     
     switch j
         
@@ -279,7 +276,7 @@ set(gca,'fontsize',17)
 hh.Renderer = 'painters';
 
 outfil = [dirN filesep figName];
-saveas(hh,outfil,'epsc');
+% saveas(hh,outfil,'epsc');
 
 %%
  kp  = kp_NE;
@@ -315,4 +312,4 @@ set(gca,'fontsize',17)
 hh.Renderer = 'painters';
 
 outfil = [dirN filesep figName];
-saveas(hh,outfil,'epsc');
+% saveas(hh,outfil,'epsc');

@@ -60,7 +60,7 @@ end
 
 
 if isempty(dirOut)
-    masterDir = 'G:\data\IHKA_Haas';
+    masterDir = 'G:\data\IHKA_Haas\LFS';
     [dirIn,basename] = fileparts(fileOut); % define output directory
     dirOut = [masterDir filesep basename ];
 end
@@ -92,20 +92,16 @@ end
 
 
 %%
-chs = {'_HCc','_HCi1','_HCi2'};
+chs = {'HCc','HCi1','HCi2'};
 chs = chs{channel};
 
-fil = [filename chs '__raw500.h5'];
+fil = strrep(filename,'channel',chs);
 
 if exist(fil)
     ch = h5read(fil,'/data/trace');
 else
     
-    chs = {'_HCc_2','_HCi1_2','_HCi2_2'};
-    chs = chs{channel};
-    
-    fil = [filename chs '__raw500.h5'];
-     ch = h5read(fil,'/data/trace');
+   error('hre')
 end
 %%
 

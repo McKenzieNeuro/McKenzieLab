@@ -10,30 +10,127 @@
 
 %%
 %load classifier, loads 'ops','rusTree','sessions'
-ClassifierFileOutput =  'E:\data\IHKA\classification_trans.mat';
-load(ClassifierFileOutput)
+ClassifierFileOutputDir =  'R:\IHKA_Scharfman\classification';
 
-FeatureFileOutput = 'E:\data\IHKA\features_trans.mat';
-load(FeatureFileOutput,'sesID')
+
+FeatureFileOutput = 'E:\data\IHKA\features.mat';
+load(FeatureFileOutput)
 
 %%
 
 warning off
 % loop over files to predict
 for i = 1:size(sessions,1)
+    ClassifierFileOutput = [ClassifierFileOutputDir filesep 'classification_' num2str(i) '.mat'];
+    load(ClassifierFileOutput)
     featureFile =  sessions{i,2};
     seizureFile = sessions{i,1};
     
     %get times used in training
-    trainingTime = sort(cell2mat(cellfun(@(a) a(a(:,1)==i,2),sesID,'UniformOutput',false)'));
+   % trainingTime = sort(cell2mat(cellfun(@(a) a(a(:,1)==i,2),sesID,'UniformOutput',false)'));
+    trainingTime = [];
     [estimateLabel,trueLabel,inTrainingSet,time2seizure,seizure_start] = sm_getSeizurePred(featureFile,seizureFile,rusTree,trainingTime,ops);
-    [dirOut,fileOut] = fileparts(sessions{i,2});
-    save([dirOut filesep fileOut '_predict.mat'],'estimateLabel','trueLabel','time2seizure','inTrainingSet','seizure_start')
-    disp([' saved: ' dirOut filesep fileOut '_predict.mat'])
+    outfil = ['R:\IHKA_Scharfman\prediction\predict_' num2str(i) '.mat'];
+    save(outfil,'estimateLabel','trueLabel','time2seizure','inTrainingSet','seizure_start')
+    disp([' saved: ' outfil])
 end
 
 
 %%
+
+% load all predictions
+topDir = 'R:\IHKA_Scharfman\prediction';
+fils = getAllExtFiles(topDir,'mat',1);
+kp = contains(fils,'predict') & ~contains(fils,'before');
+fils  = fils(kp);
+
+estimateLabel =[];trueLabel=[];time2seizure =[];confLabel =[];ID=[];
+for i = 1:length(fils)
+    
+    v= load(fils{i});
+    
+    minLen = min(length(v.trueLabel),length(v.estimateLabel));
+    trueLabel = [trueLabel;v.trueLabel(1:minLen)'];
+    estimateLabel = [estimateLabel;v.estimateLabel(1:minLen,1)];
+       confLabel = [confLabel;v.estimateLabel(1:minLen,2:end)];
+    time2seizure = [time2seizure;v.time2seizure(1:minLen)'];
+    ID = [ID;i*ones(minLen,1)];
+    i
+end
+for i =1:4
+ind(:,i) = estimateLabel==i;
+end
+%%
+nexthrvuln = nan(size(trueLabel));
+for i = 1:length(trueLabel)-600
+nexthrvuln(i) = sum(trueLabel(i+1:i+601)==5);
+end
+
+%%
+XX = ind.*confLabel(:,1:4);
+mdl = fitglm(XX,double(nexthrvuln>0),'y ~ x1 +x2+x3+x4','Distribution','binomial');
+mdl1 = fitglm(ones(size(nexthrvuln)),double(nexthrvuln>0),'y ~ x1 ','Distribution','poisson');
+
+%%
+figure
+semilogx(-10000:0,(avghist(time2seizure,predict(mdl,XX),-10000:0))/3600)
+
+hold on
+semilogx(-10000:0,avghist(time2seizure,predict(mdl,XX),-10000:0)./avghist(time2seizure,predict(mdl1,ones(size(time2seizure))),-10000:0))
+
+%%
+clear AUC
+for i = 1:max(ID)
+     kp = ID ==i &trueLabel>0 ;
+for j = 1:6
+   if any(trueLabel(kp)==j)
+[X,Y,T,AUC(i,j)] = perfcurve(trueLabel(kp)==j,confLabel(kp,j),1); 
+   else
+       AUC(i,j) = nan;
+   end
+
+end
+end
+
+%%
+C = confusionmat(trueLabel(trueLabel>0),estimateLabel(trueLabel>0));
+
+figure
+imagesc(C./sum(C,2),[0 1])
+set(gca,'yticklabel',{'3hrs','1hr','10min','10s','sz','post'})
+set(gca,'xticklabel',{'3hrs','1hr','10min','10s','sz','post'})
+xlabel('Predicted class')
+ylabel('Real class')
+
+set(gca,'ydir','normal')
+
+%%
+close all
+figure
+k  = gaussian2Dfilter([1000 1],0);
+for i = 1:5
+    d = double(estimateLabel==i);
+    %d = nanconvn(d,k);
+semilogx(fliplr(avghist(time2seizure,d,-43000:0)))
+hold on
+end
+
+%%
+
+figure
+k  = gaussian2Dfilter([1000 1],3);
+for i = 1:5
+    d = double(estimateLabel==i);
+   
+semilogx(fliplr(avghist(time2seizure,d,-86400:0,@numel)))
+hold on
+end
+
+
+%%
+
+
+
 close all
 figure
 k = gaussian2Dfilter([1 100],[ 1 50]);
@@ -46,24 +143,11 @@ for i = 1:6
     plot([seizure_start seizure_start],[0 1],'--','color','r')
      plot(nanconvn(estimateLabel==i,k'),'k')
 end
-    %%
-    
-     load('E:\data\IHKA\classifier1.mat')
-     
-    %%
-    alldat = training;
-   
-  
-    training = training(ops.N+1:end,:);
-    
-    [pred,score] = predict(rusTree,training);
 
-actual_Y = group(ops.N+1:end);
-predicted_Y = pred;
-C = confusionmat(actual_Y,predicted_Y);
 
 
 %%
+
 
 %get ROC''
 clear FP TP AUC T AUCtmp lb hb
@@ -88,6 +172,26 @@ end
 
 hb = hb-AUCtmp;
 lb = lb-AUCtmp;
+
+
+%%
+
+    %%
+    
+     load('E:\data\IHKA\classifier1.mat')
+     
+    %%
+   
+   
+  
+  
+    [pred,score] = predict(rusTree,training);
+
+actual_Y = group;
+predicted_Y = pred;
+
+%%
+
 %%
 close all
 
@@ -105,11 +209,36 @@ patch(xx,zz,'k','facealpha',.25,'edgecolor','none')
 semilogx(x,AUCtmp,'--','color','k')
 xlim([-18000 0])
 %%
-figure
-imagesc(C./sum(C,2),[0 1])
-set(gca,'yticklabel',{'3hrs','1hr','10min','10s','sz','post'})
-set(gca,'xticklabel',{'3hrs','1hr','10min','10s','sz','post'})
-xlabel('Predicted class')
-ylabel('Real class')
 
-set(gca,'ydir','normal')
+
+%%
+
+ok = cell2mat(dat');
+X  = tsne(nanzscore(ok));
+group = cellfun(@(a,b) a*ones(length(b),1),num2cell(1:6),dat,'UniformOutput',false);
+group = cell2mat(group');
+[~,b] = histc(group,1:6);
+kp = ~any(isnan(ok),2);
+%%
+close all
+k  = gaussian2Dfilter([100 100],5);
+ax  = tight_subplot(1,6);
+for  ii = 1:6
+    axes(ax(ii))
+bin = histcn([X(b(kp)==ii,1),X(b(kp)==ii,2)],-50:50,-50:50)/sum(b(kp)==ii);
+PP(ii,:) = bin(:);
+imagesc(nanconvn(bin,k))
+end
+
+%%
+
+for i = 1:6
+    
+    for j = 1:6
+        
+     kl(i,j) =   KLDiv(PP(i,:),PP(j,:));
+        
+    end
+end
+
+%%

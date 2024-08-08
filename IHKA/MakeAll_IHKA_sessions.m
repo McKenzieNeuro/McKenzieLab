@@ -1213,3 +1213,12 @@ tbl = table(IED,TD,stim_on,subject);
 lme = fitlme(tbl,'IED ~  -1+ stim_on*TD+(1/subject) ')
 
 
+%%
+
+%get mean seizure rate
+topdir = 'R:\DGregg\NeuralData\EDS';
+files2 = getAllExtFiles(topdir,'szr',1);
+keepFiles = contains(files2,'sessiondata');
+files2 = files2(keepFiles);
+files = [files1;files2];
+

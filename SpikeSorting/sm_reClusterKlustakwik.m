@@ -40,7 +40,7 @@ fs = xml.SampleRate;
 if isempty(NPYfil)
     fils= getAllExtFiles(dirN,'npy',1);
     
-    kp = contains(fils,'pc_features') & contains(fils,'Kilosort_2023');
+    kp = contains(fils,'pc_features') & contains(fils,'Kilosort_2024');
     fils = fils(kp);
     
     
@@ -48,7 +48,7 @@ if isempty(NPYfil)
     if ~isempty(fils) && length(fils)==1
         
         NPYfil = fils{1};
-        [NPYdir,b] = fileparts(fils{1});
+        [NPYdir,] = fileparts(fils{1});
     else
         error('speficiy NPY file')
     end

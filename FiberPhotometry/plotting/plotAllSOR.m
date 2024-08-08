@@ -1,10 +1,10 @@
 
 vidScore = getAllExtFiles('R:\McKenzieLab\DANEHippocampalResponse','mat',1);
-SOR_NE = vidScore(cellfun(@any,regexpi(vidScore,'object')) & cellfun(@any,regexp(vidScore,'NE2')) & cellfun(@any,regexp(vidScore,'SOR')));
+% SOR_NE = vidScore(cellfun(@any,regexpi(vidScore,'object')) & cellfun(@any,regexp(vidScore,'NE2')) & cellfun(@any,regexp(vidScore,'SOR')));
 
-SOR_NE = vidScore(cellfun(@any,regexpi(vidScore,'object')) & (cellfun(@any,regexp(vidScore,'DA2')) | cellfun(@any,regexp(vidScore,'DACSD'))) & cellfun(@any,regexp(vidScore,'SOR')))
+% SOR_NE = vidScore(cellfun(@any,regexpi(vidScore,'object')) & (cellfun(@any,regexp(vidScore,'DA2')) | cellfun(@any,regexp(vidScore,'DACSD'))) & cellfun(@any,regexp(vidScore,'SOR')))
 %SOR_NE = vidScore(cellfun(@any,regexpi(vidScore,'foodReward')) & cellfun(@any,regexp(vidScore,'DA2')) );
-
+SOR_NE = vidScore(cellfun(@any,regexpi(vidScore,'object')) & (cellfun(@any,regexp(vidScore,'DA2')) | cellfun(@any,regexp(vidScore,'DA3'))) & cellfun(@any,regexp(vidScore,'SOR')));
 
 
 for i = 1:length(SOR_NE)

@@ -36,7 +36,7 @@ distanceRectangle = nan(size(points,1),1);
 %find distance from the context (assuming edges are aligned
 % each edge shares either a common x-axis or y-axis)
     for m = 1:npoints
-       disp(m);
+       
        dist2side = min(abs(edges(:,1) -  points(m,1)));
        dist2topBottom = min(abs(edges(:,2) -  points(m,2)));
    

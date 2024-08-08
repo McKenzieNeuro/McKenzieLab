@@ -81,7 +81,7 @@ addParameter(p,'frequency',1250,@isnumeric)
 addParameter(p,'stdev',[],@isnumeric)
 addParameter(p,'nChannels',[],@isnumeric)
 addParameter(p,'show','off',@isstr)
-addParameter(p,'basename','[]',@isstr)
+addParameter(p,'basename',[],@isstr)
 addParameter(p,'noise',[],@ismatrix)
 addParameter(p,'passband',[130 200],@isnumeric)
 addParameter(p,'EMGThresh',.9,@isnumeric);
@@ -107,9 +107,9 @@ if isstr(varargin{1})  % if first arg is basepath
     end
     
     if isempty(nChannels)
-        
-        basename = bz_BasenameFromBasepath(basepath);
-        
+        if isempty(basename)
+       basename = bz_BasenameFromBasepath(basepath);
+        end
         [xml, rxml] = LoadXml([basepath filesep basename '.xml']);
         nChannels = xml.nChannels;
     end

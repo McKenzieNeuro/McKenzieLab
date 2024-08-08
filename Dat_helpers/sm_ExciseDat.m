@@ -56,7 +56,7 @@ nbChan = syst.nChannels;
 
 %get first half
 nBytes = syst.SampleRate*start*sizeInBytes*nbChan;
-  
+nBytes = fInfo.bytes;
 nbChunks = floor(nBytes/(nbChan*sizeInBytes*chunk));
 fidO = fopen([fnameOut],'w');
 fidO1 = fopen(['1.' fnameOut],'w');

@@ -8,16 +8,9 @@ function clickVideo1
 % javaaddpath('poi_library/stax-api-1.0.1.jar');
 
 
-secret = [100,111,110,39,116,160,121,111,117,32,109,111,99,107,32,109,101,32,119,105,116,104,32,121,111,117,114,32,112,111,99,107,109,97,114,107,115,32,97,110,100,32,121,111,117,...
-    114,32,115,108,111,119,44,32,115,108,111,119,32,116,114,97,118,101,108,115,46,32,32,32,32,77,111,111,110,44,32,119,104,97,116,32,119,111,117,108,100,32,121,111,117,32,107,110,...
-    111,119,44,32,99,111,108,100,32,97,115,32,99,104,101,101,115,101,63];
 
-secret1 = [77,111,111,110,44,32,121,111,117,32,111,108,100,32,115,112,105,110,115,116,101,114];
-secret3 = [98,111,98,97];
-
-
-prompt = {'Enter Mouse IDs (comma separated)'};
-dlg_title = 'Mouse ID';
+prompt = {'Enter Event IDs (comma separated)'};
+dlg_title = 'Event ID';
 num_lines = 1;
 def = {''};
 ID = [];
@@ -29,10 +22,7 @@ C = strsplit(IDs{1},',');
 
 
 %%
-if strcmpi(C{1},char(secret3))
-    w = warndlg(char(secret),char(secret1));
-    uiwait(w)
-end
+
 [fname,dirname]=uigetfile('*.avi');
 fname=[dirname fname];
 
@@ -74,6 +64,7 @@ if isstr(fname)
     c = figure;
     
     scr =get(0,'MonitorPositions');
+         scr = scr(1,:);
     set(c,'position', [20   scr(4)-100*length(C)   215   70*length(C)],'name','No ID','NumberTitle','off')
     for i = 1:length(C)
         IDb = uicontrol('Parent',c,'Style','pushbutton','String',C{i},...
@@ -268,7 +259,7 @@ end
     function clockFrame(x,y)
         
         if isempty(ID)
-            warndlg('SELECT YOUR MOUSE')
+            warndlg('SELECT YOUR KEY')
             
             
             if(strcmp(t.Running,'on'));
@@ -298,10 +289,7 @@ end
                 start(t);
             end
             
-            if strcmp(y.Key,'quote')
-                warndlg('To a love that sounds like bells','Waking up new')
-            end
-            
+           
             ReleaseFocus(f)
         end
     end
@@ -433,9 +421,9 @@ end
                                     data = [mice(:) num2cell(presses(:,1),2)];
                                     xlswrite([dname filesep FileName],data);
                                     %xlwrite([dname '/' FileName],data); %for linux
-                                    warndlg(['Saved in: ' [dname FileName]],'Enjoy yourself!')
+                                    warndlg(['Saved in: ' [dname FileName]],'Bye!')
                                 case 3
-                                    warndlg('No clicks clocked, no file saved','Enjoy yourself!')
+                                    warndlg('No clicks clocked, no file saved','Bye!')
                             end
                         end
                         
@@ -445,7 +433,7 @@ end
                         
                         
                     else
-                        warndlg('No clicks clocked, no file saved','Enjoy yourself!')
+                        warndlg('No clicks clocked, no file saved','Bye!')
                     end
                     
                     
@@ -453,7 +441,7 @@ end
                     
             end
         else
-            warndlg('No clicks clocked, no file saved','Enjoy yourself!')
+            warndlg('No clicks clocked, no file saved','Bye!')
         end
         close(c)
         delete(f)
