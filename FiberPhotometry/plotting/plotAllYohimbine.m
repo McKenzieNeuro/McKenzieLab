@@ -17,30 +17,23 @@ for i = 1:length(dirs)
     
     cd(dirs{i})
     
-    if ~exist('sessiondata.mat')
+   % if ~exist('sessiondata.mat')
   
         
         saveAllNeuralPosition(pwd)
         
-    end
-    i
+  %  end
     
-end
-
-%%
-
-% save video code with sessions data
-for i = 1:length(dirs)
-    
-    
-    cd(dirs{i})
-    
-    v=load('inject.mat');
+      v=load('inject.mat');
     load('sessiondata.mat')
     sessiondata.inject =v.data;
+   
+  
     save('sessiondata','sessiondata','-v7.3')
     i
 end
+
+
 
 %%
 
@@ -124,10 +117,10 @@ plotMeanSEM(ts_PETH1,cell2mat(PETH1(kp_sal)'),'r')
 ylim([-1 2])
 f = gcf ;
 f.Renderer = 'painters'
-saveas(f,'novel_sal','epsc');
-figure
-plotMeanSEM(ts_PETH1,cell2mat(PETH1(kp_YOH)'),'k')
+%saveas(f,'novel_sal','epsc');
+%figure
+plotMeanSEM(ts_PETH1,cell2mat(PETH1(kp_YOH)')-.5,'k')
 ylim([-1 2])
 f = gcf ;
 f.Renderer = 'painters'
-saveas(f,'novel_yoh','epsc');
+%saveas(f,'novel_yoh','epsc');

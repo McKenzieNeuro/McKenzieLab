@@ -68,4 +68,5 @@ end
 
 
 binnedPop=permute(inbin,[3 2 1]);
+bin_times = bin_times(1:size(binnedPop,2));
 end

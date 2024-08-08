@@ -12,6 +12,7 @@ function [signal_DFoF,ts_data,fs] = sm_getSignal_DFoF(dirName,varargin)
 %       streams = name of TDT data stream
 %       isosbestic = name of isosbestic data stream
 %       returnedDataType = isosbestic correction (default = corrected)
+%       baseline = time for mean and std calc
 
 % OUTPUTS
 %  signal_DFoF = photobleach, isosbestic, zscore signal
@@ -38,6 +39,8 @@ addParameter(p,'streams',{'x465A','x405A'},@iscell) %which LED streams are recor
 addParameter(p,'isosbestic','x405A',@ischar) % which stream is the isosbestic?
 addParameter(p,'endTime',[],@isnumeric) % when was the LED turned off (s)?
 addParameter(p,'returnedDataType','corrected',@ischar) % do we want (corrected,signal, isosbestic,raw)
+addParameter(p,'baseline',[],@ismatrix) % what is the time period for baseline correction?
+
 
 parse(p,varargin{:})
 
@@ -48,7 +51,7 @@ streams = p.Results.streams;
 isosbestic = p.Results.isosbestic;
 endTime = p.Results.endTime;
 returnedDataType = p.Results.returnedDataType;
-
+baseline = p.Results.baseline;
 
 signal = setdiff(streams,isosbestic);
 %%
@@ -91,8 +94,10 @@ else
     end
     
     
-    
-    
+    if ~isempty(baseline)
+    baseline = floor(baseline*fs);
+    baseline(baseline==0) = 1;
+    end
     %%
     
     % subtract photobleach for each stream
@@ -124,7 +129,7 @@ else
                 a = fit(ts_data(skiptime:endTime1)',data.streams.(streams{i}).data(skiptime:endTime1)','exp2');
                 signal_bleach_corr = a(ts_data);
                 signal_bleach_corr = signal_bleach_corr';
-                
+            
                 
         end
         
@@ -159,7 +164,11 @@ else
     
     %calc zscore
     
-    
+    if ~isempty(baseline)
+        skiptime = baseline(1);
+        endTime1 = baseline(2);
+    end
+        
     signal_DFoF_u = mean(signal_isosbesticCorrect(skiptime:endTime1));
     signal_DFoF_std = std(signal_isosbesticCorrect(skiptime:endTime1));
     

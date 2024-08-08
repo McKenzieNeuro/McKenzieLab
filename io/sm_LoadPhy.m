@@ -57,7 +57,7 @@ addParameter(p,'nChannels',32,@isnumeric);
 addParameter(p,'forceReload',false,@islogical);
 addParameter(p,'noPrompts',false,@islogical);
 addParameter(p,'verbose',false,@islogical);
-
+addParameter(p,'basename',[],@isstr);
 
 parse(p,varargin{:});
 
@@ -72,7 +72,10 @@ forceReload = p.Results.forceReload;
 noPrompts = p.Results.noPrompts;
 verbose = p.Results.verbose;
 
-try [sessionInfo] = bz_getSessionInfo(basepath, 'noPrompts', noPrompts);
+basename = p.Results.basename;
+
+
+try [sessionInfo] = sm_getSessionInfo(basepath, 'noPrompts', noPrompts,'baseName',basename);
     fs = sessionInfo.rates.wideband;
     nChannels = sessionInfo.nChannels;
 catch
@@ -123,7 +126,7 @@ else
         cluster_group.cluster_id = uclu;
     end
     try
-        shanks = readNPY(fullfile(kilosort_path, 'shanks.npy')); % done
+        shanks = readNPY(fullfile(kilosort_path, 'channel_shanks.npy')); % done
     catch
         shanks = ones(nclu,1);
         warning('No shanks.npy file, assuming single shank!');
@@ -144,7 +147,7 @@ else
             spikes.times{jj} = double(spike_times(ids))/fs; % cluster time
             spikes.ts{jj} = double(spike_times(ids)); % cluster time
             cluster_id = find(cluster_group.cluster_id == spikes.UID(jj));
-            spikes.shankID(jj) = shanks(cluster_id);
+          %  spikes.shankID(jj) = shanks(cluster_id);
             % spikes.amplitudes{jj} = double(spike_amplitudes(ids));
             jj = jj + 1;
         end
@@ -169,7 +172,7 @@ else
                 if verbose
                     fprintf(' ** %3.i/%3.i for cluster %3.i/%3.i  \n',jj, length(spkTmp), ii, size(spikes.times,2));
                 end
-                wf = cat(3,wf,bz_LoadBinary([basepath filesep sessionInfo.session.name '.dat'],'offset',spkTmp(jj) - (wfWin),...
+                 wf = cat(3,wf,bz_LoadBinary([basepath filesep sessionInfo.session.name '.dat'],'offset',spkTmp(jj) - (wfWin),...
                     'samples',(wfWin * 2)+1,'frequency',sessionInfo.rates.wideband,'nChannels',sessionInfo.nChannels));
             end
             
@@ -255,11 +258,12 @@ if ~isempty(spikes.UID)
     spikes.spindices = [alltimes groups];
 end
 
-sm_WriteResClu(spikes,basepath)
+if ~isfield(spikes,'shankID')
+    spikes.shankID = ones(spikes.numcells,1);
+
 
 end
-
-
+sm_WriteResClu(spikes,basepath)
 % % Compute spike measures
 % if ~isempty(spikes.UID) && getWave
 %     for ii = 1:size(spikes.UID,2)

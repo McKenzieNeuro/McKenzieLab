@@ -13,7 +13,7 @@
 %path where raw data is stored with seizure labels
 ops.RawDataPath = 'E:\Dropbox\Data SamMcKenzie\Data_raw';
 ops.FeaturePath = {'G:\data\IHKA_Haas'};
-ops.FeatureFileOutput = 'G:\data\IHKA_Haas\features.mat';
+ops.FeatureFileOutput = 'G:\data\IHKA_Haas\features_red.mat';
 
 
 % define time windows around to predict (s)
@@ -49,7 +49,7 @@ ops.freqs = logspace(log10(.5),log10(200),20);
 ops.amp_idx = 15:20;
 ops.ph_idx = 1:10;
 
-ops.durFeat = 3; % 2s feature bins
+ops.durFeat = 2; % 2s feature bins
 
 %channel for phase amplitude coupling
 %ch1 = ipsi HPC
@@ -61,7 +61,7 @@ ops.ch_phaseAmp =2;
 
 %information about feature file (getPowerPerChannel)
 ops.nCh_featureFile = 41; %20 power, 20 phase, 1 time series
-ops.nCh_raw = 3; % N = 4 eeg channels
+ops.nCh_raw = 2; % N = 4 eeg channels
 
 ops.features = @sm_PredictIHKA_calcFeatures;
 
@@ -90,22 +90,22 @@ sessions = [];
 
 %find feature files that match annotation file
 for j = 1:length(ops.FeaturePath)
-d = dir(ops.FeaturePath{j});
-d = {d(cell2mat({d.isdir})).name}';
-[a,seizure_fils] = fileparts(fils_h5);
-
-[~,b] = ismember(seizure_fils,d);
-kp = b>0;
-b(~kp) =[];
-seizure_filst = fils_h5(kp);
-
-
-% save list of file names for the paired annotation/feature files
-
-sessions = [sessions;seizure_filst cellfun(@(a) [ops.FeaturePath{j} filesep a filesep a],d(b),'uni',0)];
-
-
-
+    d = dir(ops.FeaturePath{j});
+    d = {d(cell2mat({d.isdir})).name}';
+    [a,seizure_fils] = fileparts(fils_h5);
+    
+    [~,b] = ismember(seizure_fils,d);
+    kp = b>0;
+    b(~kp) =[];
+    seizure_filst = fils_h5(kp);
+    
+    
+    % save list of file names for the paired annotation/feature files
+    
+    sessions = [sessions;seizure_filst cellfun(@(a) [ops.FeaturePath{j} filesep a filesep a],d(b),'uni',0)];
+    
+    
+    
 end
 
 nSessions = size(sessions,1);
@@ -128,8 +128,8 @@ for i= 1:size(sessions,1)
     tims{i} = [];
     
     [a,b] = fileparts(sessions{i,1});
-   
-   
+    
+    
     
     
     seizure_start = table2array(T(contains(table2cell(T(:,1)),b),2));
@@ -161,6 +161,7 @@ for i= 1:size(sessions,1)
         
         
     end
+    sz_on{i} = seizure_start;
     
 end
 
@@ -210,35 +211,45 @@ for i = 1:nSessions
             if ~isnan(tim) && (dur-tim)>ops.durFeat
                 
                 try
-                %get features (some pre calculated, some calculated on the fly)
-                features = ops.features(fname,tim,ops);
-                
-                
-                %save all features for each time bin
-                dat{k} = [dat{k};features];
-                
-                %keep track of which session matches which feature
-                sesID{k} = [sesID{k}; i tim];
-               catch
-                   disp(fname)
-                   disp(['file length: ' num2str(dur) ' time of read:' num2str(tim)])
+                    %get features (some pre calculated, some calculated on the fly)
+                    features = ops.features(fname,tim,ops);
+                    
+                    
+                    %save all features for each time bin
+                    dat{k} = [dat{k};features];
+                    
+                    %keep track of which session matches which feature
+                    sesID{k} = [sesID{k}; i tim];
+                catch
+                    disp(fname)
+                    disp(['file length: ' num2str(dur) ' time of read:' num2str(tim)])
                     
                     
                 end
                 
             end
             
-           
+            
         end
         
         
         
     end
     
-     %save the full feature space
-        save(ops.FeatureFileOutput,'dat','sesID','sessions','ops','-v7.3')
-        i
+    %save the full feature space
+    save(ops.FeatureFileOutput,'dat','sesID','sessions','ops','-v7.3')
+    i
 end
 
 
-
+%%
+filenameps = ['G:\data\IHKA_Haas\all_seiz.ps'];
+filenamepdf= ['G:\data\IHKA_Haas\all_seiz.pdf'];
+for i = 1:nSessions
+    for j = 1:length(sz_on{i})
+       h= plot_sz_gross(fileparts(sessions{i,2}),sz_on{i}(j),'fs',ops.Fs,'nCh_rec',3);
+        print(h, '-dpsc2',filenameps ,'-append')
+        close all
+    end
+end
+sm_ps2pdf(filenameps,filenamepdf,[])

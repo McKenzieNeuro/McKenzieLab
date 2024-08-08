@@ -11,7 +11,7 @@ ops.verbose             = 1; % whether to print command line progress
 ops.showfigures         = 0; % whether to plot figures during optimization
 ops.datatype            = 'dat';  % binary ('dat', 'bin') or 'openEphys'
 ops.fbinary             = [XMLfile(1:end-3) 'dat']; % will be created for 'openEphys'
-
+ops.fproc = 'E:\Kilosort\temp.dat';% PUT YOUR PATH + FILE NAME WITH ~100GB FREE (SSD IS BEST)
 ops.root                = rootpath; % 'openEphys' only: where raw files are
 ops.fs                  = xml.SampleRate;        % sampling rate
 

@@ -10,10 +10,10 @@
 
 %%
 %load classifier, loads 'ops','rusTree','sessions'
-ClassifierFileOutput =  'G:\data\IHKA_Haas\classification.mat';
+ClassifierFileOutput =  'G:\data\IHKA_Haas\classification_red.mat';
 load(ClassifierFileOutput)
 
-FeatureFileOutput = 'E:\data\IHKA\features_trans.mat';
+FeatureFileOutput = 'G:\data\IHKA_Haas\features_red.mat';
 load(FeatureFileOutput,'sesID')
 
 %%
@@ -137,3 +137,7 @@ end
 ylim(100*[-1 3.5])
 ixx = ixx+1;
 end
+
+
+%%
+

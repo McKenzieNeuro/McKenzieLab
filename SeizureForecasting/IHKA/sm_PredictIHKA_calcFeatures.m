@@ -83,8 +83,8 @@ end
 nFreq = length(ops.freqs);
 nPairs = nchoosek(ops.nCh_raw,2);
 cxy = nan(nFreq,nPairs); ix=1;
-for ch1 = 1:3
-    for ch2 = ch1+1:3
+for ch1 = 1:nCh_raw
+    for ch2 = ch1+1:nCh_raw
         [cxy(:,ix),f] = mscohere(rD(:,ch1),rD(:,ch2),[],[],ops.freqs,ops.Fs);
         ix= ix+1;
     end

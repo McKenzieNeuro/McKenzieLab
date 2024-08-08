@@ -11,9 +11,9 @@
 
 
 
-FeatureFileOutput = 'G:\data\IHKA_Haas\features.mat';
+FeatureFileOutput = 'G:\data\IHKA_Haas\features_red.mat';
 load(FeatureFileOutput)
-ops.ClassifierFileOutput =  'G:\data\IHKA_Haas\classification.mat';
+ops.ClassifierFileOutput =  'G:\data\IHKA_Haas\classification_red.mat';
 
 %%
 
@@ -34,7 +34,7 @@ group = group(ops.rix);
 %set up classifer
 
 
-ops.N = round(size(training,1)/2);         % Number of observations in the training sample
+ops.N = round(size(training,1));         % Number of observations in the training sample
 ops.t = templateTree('MaxNumSplits',ops.N);
 ops.NumLearningCycles = 500;
 ops.Learners = ops.t;
