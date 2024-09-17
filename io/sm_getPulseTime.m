@@ -141,7 +141,13 @@ for ii = 1:size(evs,1)
                 catch
                     disp('here')
                 end
+                try
             offset{ii}(i) = [pks(i)/Fs + dt(offset_t)/Fs]';
+                catch
+                   if isempty(offset_t)
+                        offset{ii}(i) = [pks(i)/Fs + dt(end)/Fs]';
+                   end
+                end
             end
         end
         
