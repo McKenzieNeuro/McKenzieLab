@@ -1,0 +1,16 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2021 The MathWorks, Inc.
+             R2021a Update 5 (9.10.0.1739362) 64-bit (glnxa64)
+                               August 9, 2021
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+{Error using getXPctTim
+Too many output arguments.
+
+Error in sm_PredictHarvard_getAllFeatures_CARC (line 210)
+        [sz{k},bad] = getXPctTim(tims{i}(:,k:k+1), ops.pct(k),1);
+} 

@@ -1,0 +1,2 @@
+/var/spool/slurm/slurmd/job1941663/slurm_script: line 16: syntax error near unexpected token `('
+/var/spool/slurm/slurmd/job1941663/slurm_script: line 16: `matlab -singleCompThread -nodisplay  -nodesktop  -nojvm -r sm_PredictIHKA_CARC($SLURM_ARRAY_TASK_ID); exit;"'
