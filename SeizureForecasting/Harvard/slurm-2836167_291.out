@@ -1,0 +1,15 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2021 The MathWorks, Inc.
+             R2021a Update 5 (9.10.0.1739362) 64-bit (glnxa64)
+                               August 9, 2021
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+{Unrecognized function or variable 'sz_conf'.
+
+Error in sm_PredictHarvard_getAllFeatures_CARC (line 212)
+        sz_conf1 =  repmat(sz_conf{i}(~bad),1,size(sz{k} ,2));
+} 

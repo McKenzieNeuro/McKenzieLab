@@ -1,0 +1,19 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2021 The MathWorks, Inc.
+             R2021a Update 5 (9.10.0.1739362) 64-bit (glnxa64)
+                               August 9, 2021
+
+[Warning: Unable to load Toolbox Path Cache
+/users/mckenzie/.matlab/R2021a/toolbox_cache-9.10.0-3890578762-glnxa64.xml. The
+cache file is not in the correct format. It will be regenerated upon quitting
+MATLAB.] 
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+{Index in position 1 exceeds array bounds (must not exceed 50716).
+
+Error in sm_PredictHarvard_getAllFeatures_CARC (line 189)
+    fname = sessions{i,2};
+} 

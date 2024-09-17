@@ -1,0 +1,12 @@
+# create conda env "sparcnet"
+$conda create -n sparcnet python=3.6 anaconda
+$conda activate sparcnet
+
+# configure dependences
+$conda install -c conda-forge hdf5storage
+$pip install mne
+$pip install torch==1.5.0+cpu torchvision==0.6.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
+
+# run sparcnet1.0
+($conda activate sparcnet)
+$python fcn_run_sparcnet1.py *input_dir *output_dir *sampling_rate
