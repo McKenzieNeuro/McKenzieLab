@@ -12,11 +12,14 @@ else
 [~, idx]=min(abs(a-b),[],2);
 end
 match=b1(idx);
-idx(isnan(b1))=nan;
-match(isnan(b1))=nan;
 
-idx(isinf(b1))=nan;
-match(isinf(b1))=nan;
+% idx(isnan(b1))=nan;
+% match(isnan(b1))=nan;
+% 
+% idx(isinf(b1))=nan;
+% match(isinf(b1))=nan;
+
+
 match=match(:);
 
 if isempty(match)

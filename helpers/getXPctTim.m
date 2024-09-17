@@ -1,4 +1,4 @@
-function Y = getXPctTim(X,prc,Tim)
+function [Y,bad] = getXPctTim(X,prc,Tim)
 % function gets random time bins within the bounds of X
 
 % Inputs
@@ -19,7 +19,8 @@ if all(isnan(X(:)))
 end
 
 % only consider inputs with onset and offset
-X(any(isnan(X),2),:) = [];
+bad = any(isnan(X),2);
+X(bad,:) = [];
 
 if isempty(X)
     Y = [];

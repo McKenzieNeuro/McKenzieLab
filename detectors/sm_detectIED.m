@@ -135,8 +135,8 @@ for i = ch
     %get standard deviation
     if get_std
         
-        if isinf(baselineDur)
-            baselineDur = ts(end);
+        if isinf(baselineDur) || baselineDur > analyze_duration
+            baselineDur = ts(end) - start_time;
         end
         
         ixx = floor(1:baselineDur*fs);
@@ -145,7 +145,9 @@ for i = ch
     
     
     % get the time points where the data is nSTD times over baseline s.t.d.
-    IED = ts((tmp)>nSTD*st(idx));
+    kp = (tmp)>nSTD*st(idx);
+    kp = diff([0;kp])>0;
+    IED = ts(kp);
     
     
     
