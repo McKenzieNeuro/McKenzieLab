@@ -1,37 +1,22 @@
 function [whl,in,threshF] = sm_ExtractLed(file,outname,varargin)
 
-% This code tests an approximate median filter for separating out the red
-% and blue leds mounted on top of the subjects head
-% I was using the DataMax system, which was synced using a red LED. Hence,
-% I am tracking the x,y position of the animal as well as when the sync
-% light comes on.
+p = inputParser;
+addParameter(p,'threshF',[],@isnumeric);
+addParameter(p,'in',[],@isnumeric);
+addParameter(p,'plotIt',true,@islogical);
 
 
-plotIt = true;
+
+parse(p,varargin{:});
+
+threshF = p.Results.threshF;
+in = p.Results.in;
+plotIt = p.Results.plotIt;
+
+
 readerobj  = VideoReader(file);
 width      = readerobj.Width;
 height     = readerobj.Height;
-   out = [];
-  in = [];
-    threshF = [];
-if length(varargin) ==1
-    in = varargin{1};
-    
-elseif length(varargin) ==2
-     in = varargin{1};
-    threshF = varargin{2};
-    elseif length(varargin) ==3
-    
-         in = varargin{1};
-          threshF = varargin{2};
-          
-           elseif length(varargin) ==4
-      
-         in = varargin{1};
-          threshF = varargin{2};
-          plotIt = varargin{4};
-          
-end
 
 % Initial frame
 Fint       = 1;
