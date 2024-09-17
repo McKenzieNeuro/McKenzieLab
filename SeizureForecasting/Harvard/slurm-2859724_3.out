@@ -1,0 +1,18 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2021 The MathWorks, Inc.
+             R2021a Update 5 (9.10.0.1739362) 64-bit (glnxa64)
+                               August 9, 2021
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+{Error using load
+Unable to read MAT-file
+/carc/scratch/projects/bshuttleworth2016391/mckenzie2016183/data/HarvardEEGDatabase/bids/sub-S0001114485255/ses-11/eeg/sub-S0001114485255_ses-11_task-cEEG_eeg_features.mat.
+File might be corrupt.
+
+Error in sm_trainModel_CARC (line 24)
+    v(i) = load(fils{i});
+} 

@@ -1,0 +1,35 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2021 The MathWorks, Inc.
+             R2021a Update 5 (9.10.0.1739362) 64-bit (glnxa64)
+                               August 9, 2021
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+
+master_feats =
+
+    '/carc/scratch/projects/bshuttleworth2016391/mckenzie2016183/data/HarvardEEGDatabase/bids/allfeat.mat'
+
+
+s1 = 
+
+  struct with fields:
+
+         dat: {1x6 cell}
+           i: 1
+         ops: [1x1 struct]
+       sesID: {1x6 cell}
+    sessions: {15792x2 cell}
+        tims: {1x15792 cell}
+
+{Error using save
+Unable to write file
+/carc/scratch/projects/bshuttleworth2016391/mckenzie2016183/data/HarvardEEGDatabase/bids/allfeat.mat:
+No such file or directory.
+
+Error in sm_collectFeats (line 18)
+    save(master_feats,outvar,"-append","-nocompression")
+} 
