@@ -23,7 +23,7 @@ C = strsplit(IDs{1},',');
 
 %%
 
-[fname,dirname]=uigetfile('*.avi');
+[fname,dirname]=uigetfile('*.mp4');
 fname=[dirname fname];
 
 if isstr(fname)

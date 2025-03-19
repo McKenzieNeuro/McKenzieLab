@@ -1,4 +1,4 @@
-function [whl,in,threshF] = sm_ExtractLed2(file,varargin)
+function [whl,in,threshF,outTable] = sm_ExtractLed2(file,varargin)
 
 p = inputParser;
 addParameter(p,'threshF',1,@isnumeric);
@@ -13,6 +13,10 @@ threshF = p.Results.threshF;
 in = p.Results.in;
 plotIt = p.Results.plotIt;
 inputch = p.Results.inputch;
+% ts_video = interp1(outTable.VideoFrameNumber,outTable.IntanTime,1:maxFrame,'linear','extrap');
+
+%%
+
 
 
 readerobj  = VideoReader(file);
@@ -300,8 +304,27 @@ ts_syn_back = ts_syn_back(b,:);
 ts_syn= [ts_syn;ts_syn_back];
 kp = abs(diff(ts_syn(:,1))-diff(ts_syn(:,3)))<1;
 ts_syn = ts_syn(kp,:);
+
+IntanTime= ts_syn(:,1);
+VideoFrameNumber = ts_syn(:,2);
+ExpectedVideoTime = ts_syn(:,3);
+
+%get the intan time for each video frame
+[VideoFrameNumber,b] = sort(VideoFrameNumber);
+
+IntanTime = IntanTime(b);
+
+[VideoFrameNumber,b] = unique(VideoFrameNumber);
+IntanTime = IntanTime(b);
+
+ %ok = fit(IntanTime, VideoFrameNumber,'poly1');
+%pt =feval(ok,IntanTime);
+                                    
+                                    
+outTable = table(IntanTime,VideoFrameNumber,ExpectedVideoTime);
+
 outfil = [vidDir filesep 'ts_syn.mat'];
-save(outfil,'ts_syn','in')
+save(outfil,'outTable','in')
 %%
 
 
