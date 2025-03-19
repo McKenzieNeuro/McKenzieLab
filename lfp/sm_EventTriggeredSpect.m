@@ -115,7 +115,7 @@ end
 nfreq = length(freqs);
 ts = ((1:numpts)/fs)  - plotIntervals(1);
 h = figure;
-imagesc(ts,[],nanmean(wavspec,3))
+imagesc(ts,[],nanmean(zscore(wavspec,[],2),3),[-.5 .5])
 set(gca,'ytick',1:10:nfreq,...
     'yticklabel',round(freqs(1:10:end)*10)/10,'ydir','normal')
 %

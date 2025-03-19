@@ -13,7 +13,7 @@
 ClassifierFileOutputDir =  'R:\IHKA_Scharfman\classification';
 
 
-FeatureFileOutput = 'E:\data\IHKA\features.mat';
+FeatureFileOutput = 'E:\data\IHKA\featuresPCP.mat';
 load(FeatureFileOutput)
 
 %%

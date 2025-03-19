@@ -1,15 +1,17 @@
 function sm_getAllPredictHarvard(idx)
+modelDir = '/carc/scratch/projects/bshuttleworth2016391/mckenzie2016183/data/HarvardEEGDatabase/models';
 
 %load global sessions
 raw = load('/carc/scratch/projects/bshuttleworth2016391/mckenzie2016183/data/HarvardEEGDatabase/models/features/raw_sessions.mat');
 
 %get currect file
 fname = raw.sessions{idx,2};
-readDir = fileparts(raw.sessions{idx,1});
+[readDir,sesName] = fileparts(raw.sessions{idx,2});
 
-
+outfil = [readDir filesep sesName '_prediction.mat'];
+sz_tim = raw.tims{idx}(:,5:6);
 % get all models
-models = getAllExtFiles('/carc/scratch/projects/bshuttleworth2016391/mckenzie2016183/data/HarvardEEGDatabase/models','mat',0);
+models = getAllExtFiles(modelDir,'mat',0);
 kp = contains(models,'model_');
 models = models(kp);
 
@@ -27,17 +29,21 @@ end
 models = models(kp);
 
 %load relevant models
-
+trainingTime = [];
 for i = 1:length(models)
     
-      v = load(models{i});
-      
-       features = sm_PredictHarvard_calcFeatures(fname,tim,v.output.feature_ops)
-      clear v
+    v = load(models{i});
+    disp('here')
+    [estimateLabel,trueLabel,inTrainingSet,time2seizure,seizure_start] = sm_getSeizurePredHarvard(fname,sz_tim,v.output.model,trainingTime,v.output.feature_ops);
+    pred.estimateLabel{i} = estimateLabel;
+    pred.trueLabel = trueLabel;
+    pred.time2seizure = time2seizure;
+    pred.seizure_start = seizure_start;
+    pred.model_fname{i} = models{i};
+    
+    
+    
+    clear v
+    save(outfil,'pred','-v7.3')
+    disp(['save: ' outfil ' model: ' num2str(i)])
 end
-
-%choose file
-
-
-% loop over file
-output.feature_ops.features

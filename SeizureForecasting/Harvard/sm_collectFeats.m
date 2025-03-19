@@ -5,6 +5,7 @@ fils = getAllExtFiles(topDir,'mat',1);
 kp = contains(fils,'eeg_features.mat');
 
 fils  = fils(kp);
+
 master_feats = '/carc/scratch/projects/bshuttleworth2016391/mckenzie2016183/data/HarvardEEGDatabase/bids/allfeat.mat';
 save(master_feats,'fils')
 % 

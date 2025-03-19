@@ -5,7 +5,7 @@ function [spikes] = sm_LoadPhy(varargin)
 %
 %   [spikes] = bz_loadPhy(varargin)
 %
-% INPUTS
+% optional INPUTS
 %
 % basepath        -path to recording (where .dat are)
 % kilosort_path   -path to kilosort* folder after phy curing (by default

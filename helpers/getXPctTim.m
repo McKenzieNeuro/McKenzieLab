@@ -15,6 +15,7 @@ function [Y,bad] = getXPctTim(X,prc,Tim)
 % return empty matrix if no input
 if all(isnan(X(:)))
     Y = [];
+    bad = [];
     return
 end
 

@@ -25,7 +25,7 @@ p.addRequired('cellin', @iscell);
 
 p.addParamValue('ys', 1:length(cellin), @(x) length(x)==length(cellin));
 p.addParamValue('color', [0 0 0], @(x) size(x,2)==3);
-p.addParamValue('Marker', '|', @ischar);
+p.addParamValue('Marker', '.', @ischar);
 p.addParamValue('ydim',[-.2; .2], @(c) numel(c)==2); % upper and lower bounds on each integer
 p.addParamValue('siz', 25, @(x) length(x)==1);
 

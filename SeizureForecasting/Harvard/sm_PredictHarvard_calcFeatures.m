@@ -22,21 +22,18 @@ function features = sm_PredictHarvard_calcFeatures(fname,tim,ops)
 
 %get feature meta data
 
-nCh_featureFile = ops.nCh_featureFile;
 Fs  = ops.Fs_data;
 durFeat = ops.durFeat;
-ch_phaseAmp = ops.ch_phaseAmp;
+%ch_phaseAmp = ops.ch_phaseAmp;
 nCh_raw = ops.nCh_raw;
-amp_idx = ops.amp_idx;
-ph_idx = ops.ph_idx;
+
 
 %%
 
-
+nfreq = length(ops.freqs)-1;
 
 %loop over channels
-features =nan(20,nCh_raw);
-comod = nan(length(amp_idx),length(ph_idx));
+features =nan(nfreq,nCh_raw);
 
 datfil = matfile(fname);
 idx1 = floor(tim*Fs);
@@ -63,30 +60,30 @@ for ch = 1:nCh_raw
     
     
     %calculate phase/amplitude correlation in time window
-    
-    if ch==ch_phaseAmp
-        
-        ix1 = 1;
-        
-    
-        
-        
-        % choose subset of frequencies for power
-        for apr = amp_idx
-            
-            
-            ix2 = 1;
-            
-            % choose subset of frequencies for phase
-            for idx = ph_idx
-                
-                
-                comod(ix1,ix2) = circ_corrcl(filtered_phase(:,idx),wavespec_amp(:,apr));
-                ix2 = ix2+1;
-            end
-            ix1 = ix1+1;
-        end
-    end
+%     
+%     if ch==ch_phaseAmp
+%         
+%         ix1 = 1;
+%         
+%     
+%         
+%         
+%         % choose subset of frequencies for power
+%         for apr = amp_idx
+%             
+%             
+%             ix2 = 1;
+%             
+%             % choose subset of frequencies for phase
+%             for idx = ph_idx
+%                 
+%                 
+%                 comod(ix1,ix2) = circ_corrcl(filtered_phase(:,idx),wavespec_amp(:,apr));
+%                 ix2 = ix2+1;
+%             end
+%             ix1 = ix1+1;
+%         end
+%     end
 end
 
 
@@ -109,8 +106,8 @@ end
 
 
 % full feature space
-% [Ch1-Ch4 PSD, phase ampl corr., coherence]
 
-features = [features(:)' comod(:)' cxy(:)'];
+features = [features(:)' cxy(:)'];
+%features = [features(:)' comod(:)' cxy(:)'];
 
 end
