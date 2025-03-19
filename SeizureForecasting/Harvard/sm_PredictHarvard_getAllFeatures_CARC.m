@@ -11,7 +11,8 @@ function sm_PredictHarvard_getAllFeatures_CARC(idx)
 sz_idx = 1;
 
 %%
-basefil = '/carc/scratch/projects/bshuttleworth2016391/mckenzie2016183/data/HarvardEEGDatabase/bids/allfils3.mat';
+basefil = '/carc/scratch/projects/bshuttleworth2016391/mckenzie2016183/data/HarvardEEGDatabase/models/features/raw_sessions3.mat';
+outdir = '/carc/scratch/projects/bshuttleworth2016391/mckenzie2016183/data/HarvardEEGDatabase/models/features/';
 if ~exist(basefil)
     
     
@@ -28,7 +29,7 @@ if ~exist(basefil)
     %   seizure:    100%
     %   post ictal: 20%
     
-    ops.pct = [.005 .05 .2 .5 .5 .2];
+    ops.pct = [.01 .05 .2 .5 .5 .2];
     
     ops.nBins = length(ops.pct);
     
@@ -38,18 +39,15 @@ if ~exist(basefil)
     % info for full feature space
     
     % frequency bands for coherence. must match sm_getPowerPerChannel
-    ops.freqs = logspace(log10(.5),log10(99),21);
+    ops.freqs = logspace(log10(.5),log10(99),6);
     
-    % frequency selection for phase/amplitude (must match index in getPowerPerChannel)
-    ops.amp_idx = 15:20;
-    ops.ph_idx = 1:10;
     
-    ops.durFeat = 5; % 5s feature bins
     
-    ops.ch_phaseAmp =2;
+    ops.durFeat = 2; % 2s feature bins
     
-    %information about feature file (getPowerPerChannel)
-    ops.nCh_featureFile = 41; %20 power, 20 phase, 1 time series
+    
+    
+    
     
     %channels={'Fp1';'F3';'C3';'P3';'F7';'T3';'T5';'O1';'Fz';'Cz';'Pz';'Fp2';'F4';'C4';'P4';'F8';'T4';'T6';'O2'};
     ops.nCh_raw = 20; % N = 20 eeg channels
@@ -114,12 +112,12 @@ if ~exist(basefil)
                 if isinf(ops.bins(1))
                     
                     if j ==1 && seizure_start(j) > ops.bins(2)
-                        tmp = [0 seizure_end(j)-ops.bins(2:end) seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
+                        tmp = [0 seizure_start(j)-ops.bins(2:end) seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
                         
                     elseif j ==1 && seizure_start(j) < ops.bins(2)
-                        tmp = [nan seizure_end(j)-ops.bins(2:end) seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
-                    elseif j >1 && seizure_start(j)-ops.bins(2) > seizure_end(j-1) +ops.timPost
-                        tmp = [seizure_end(j-1)+ops.timPost seizure_start(j)-ops.bins(2:end) seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
+                        tmp = [nan seizure_start(j)-ops.bins(2:end) seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
+                    elseif  j >1 && seizure_start(j)-ops.bins(2) > seizure_end(j-1) +ops.timPost
+                        tmp = [seizure_start(j-1)+ops.timPost seizure_start(j)-ops.bins(2:end) seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
                     else
                         tmp = [nan seizure_start(j)-ops.bins(2:end) seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
                     end
@@ -185,21 +183,24 @@ end
 clear sz dat sesID
 
 
-for k = 1:ops.nBins
-    
-    dat{k} =[];
-    sesID{k} = [];
-end
+
 
 
 
 
 %loop over number of sessions
-idx = (idx-1)*25+1:(idx-1)*25+25;
+idx = (idx-1)*16+1:(idx-1)*16+16;
 %%
 for i = idx
-    fname = sessions{i,2};
-    ops.outname = strrep(fname,'.mat','_features.mat');
+    for k = 1:ops.nBins
+        
+        dat{k} =[];
+        sesID{k} = [];
+    end
+    
+    [~,fname]= fileparts(sessions{i,2});
+    
+    ops.outname = [outdir fname '_features.mat'];
     
     if ~exist(ops.outname )
         %loop of time bins
@@ -224,26 +225,27 @@ for i = idx
                 tim = sz{k}(ev)-ops.durFeat;
                 c = sz_conf1(ev);
                 %make sure the even does not exceed duration of recording
-                if ~isnan(tim) && (dur-tim)>ops.durFeat && tim<dur
-                    
-                    %  try
-                    %get features (some pre calculated, some calculated on the fly)
-                    features = ops.features(fname,tim,ops);
-                    if ~isempty(features)
+                try
+                    if ~isnan(tim) && (dur-tim)>ops.durFeat && tim<dur
                         
-                        %save all features for each time bin
-                        dat{k} = [dat{k};features];
-                        
-                        %keep track of which session matches which feature
-                        sesID{k} = [sesID{k}; i tim c];
+                        %  try
+                        %get features (some pre calculated, some calculated on the fly)
+                        features = ops.features(sessions{i,2},tim,ops);
+                        if ~isempty(features)
+                            
+                            %save all features for each time bin
+                            dat{k} = [dat{k};features];
+                            
+                            %keep track of which session matches which feature
+                            sesID{k} = [sesID{k}; i tim c];
+                            
+                        end
                         
                     end
-                    % catch
-                    %     disp(fname)
-                    %     disp(['file length: ' num2str(dur) ' time of read:' num2str(tim)])
+                catch
+                    disp(fname)
+                    disp(['file length: ' num2str(dur) ' time of read:' num2str(tim)])
                     
-                    
-                    % end
                     
                 end
                 
@@ -258,6 +260,8 @@ for i = idx
         
         
         save(ops.outname,'dat','sesID','sessions','ops','i','tims','-v7.3')
+        disp(['saved: ' ops.outname])
+        
     end
 end
 end

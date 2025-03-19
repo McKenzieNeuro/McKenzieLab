@@ -1,4 +1,4 @@
-function sm_MergeDats(fnameIn,fnameOut)
+function sm_MergeDats(fnameIn,fnameOut,channels,nbChan)
 
 sizeInBytes = 2; % .
 chunk = 1e5; % depends on the system
@@ -6,7 +6,7 @@ chunk = 1e5; % depends on the system
 fInfo = dir(fnameIn{1});
 
 nBytes = fInfo.bytes;
-nbChunks = floor(nBytes/(sizeInBytes*chunk));
+nbChunks = floor(nBytes/(sizeInBytes*chunk*nbChan));
 fidO = fopen(fnameOut,'w');
 
 nFiles = length(fnameIn);
@@ -22,18 +22,29 @@ for ii=1:nbChunks
     
     dat = nan(nFiles,chunk);
     for jj = 1:nFiles
-        dat(jj,:) = fread(fidI(jj),chunk,'int16');
+        
+        
+        tmp = fread(fidI(jj),nbChan*chunk,'int16');
+        tmp = reshape(tmp,nbChan,[]);
+        tmp = tmp(channels,:);
+        dat(jj,:) = tmp;
+        
     end
     
     
     fwrite(fidO,dat(:),'int16');
 end
 
-remainder = nBytes/(sizeInBytes) - nbChunks*chunk;
+remainder = nBytes/(sizeInBytes) - chunk*nbChan;
 if ~isempty(remainder)
-    dat = nan(nFiles,remainder);
+    dat = nan(nFiles,floor(remainder/nbChan));
     for jj = 1:nFiles
-        dat(jj,:) = fread(fidI(jj),remainder,'int16');
+       
+        tmp = fread(fidI(jj),remainder,'int16');
+        tmp = reshape(tmp,nbChan,[]);
+        tmp = tmp(channels,:);
+        dat(jj,:) = tmp;
+        
     end
     
     
