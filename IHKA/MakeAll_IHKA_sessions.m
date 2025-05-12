@@ -4,14 +4,19 @@
 
 % make all LFP
 
-dirs = readtable('R:\DGregg\NeuralData\thetaInduction_Controll.xlsx');
+dirs = readtable('R:\DGregg\NeuralData\thetaInduction_Stim2.xlsx');
 
-dirs = strrep(dirs.Folder,'McKenzieLab\','');
-dirs = dirs(~cellfun(@isempty,dirs));
-dirs = dirs(~contains(dirs,'hr'));
+dirsTop = strrep(dirs.RootFolder,'McKenzieLab\','');
+
+kp = ~cellfun(@isempty,dirsTop) | ~contains(dirsTop,'hr');
+dirsTop = dirsTop(kp);
+
+subfolder = dirs.DataFolder(kp);
+dirs1 = cellfun(@(a,b) [a filesep b],dirsTop,subfolder,'uni',0);
+
 %%
-for i = 1:length(dirs)
-    cd(dirs{i})
+for i = 135:length(dirs1)
+    cd(dirs1{i})
     
     if ~exist('amplifier.lfp')
         %error('here')
@@ -69,7 +74,7 @@ chReg = [...
     {'LDT(L1)'};...
     {'LDT(L2)'}];
 %%
-topdir = 'R:\DGregg\NeuralData\EDS\';
+topdir = 'R:\DGregg\NeuralData\PCP\Recordings\OpenLoop\';
 files = getAllExtFiles(topdir,'mat',1);
 keepFiles = contains(files,'recInfo') & ~contains(files,'WASH');
 files = files(keepFiles);
@@ -131,7 +136,7 @@ for kk = 1:length(lfpsubdir)
                 if oldInfo
                     syst = find(contains(recInfo(:,2),'RHS'));
                 else
-                    syst = find(contains({recInfo.system},'RHD'));
+                    syst = find(contains({recInfo.system},'RHS'));
                 end
                 kp = contains(lfpfiles,lfpsubdir{kk}) & contains(lfpfiles,'RHS');
                 
@@ -172,7 +177,14 @@ for kk = 1:length(lfpsubdir)
                 if oldInfo
                     subjectName = recInfo{syst,3}{1+ii,2}{1};
                 elseif ~isempty(recInfo.fileData(ii).subject)
+                    
+                    if iscell(recInfo.fileData(ii).subject)
+                        
                     subjectName = recInfo.fileData(ii).subject{1};
+                    
+                    else
+                           subjectName = recInfo.fileData(ii).subject;
+                    end
                 else 
                     skip = true;
                 end
@@ -226,7 +238,6 @@ for kk = 1:length(lfpsubdir)
                         
                     else
                         
-                        if ~isfield(recInfo.fileData(ii),'stim1_timeStamps') || isempty(recInfo.fileData(ii).stim1_timeStamps)
                             % check in the stim.dat
                             f = getAllExtFiles(lfpsubdir{kk},'dat',1);
                             
@@ -252,13 +263,24 @@ for kk = 1:length(lfpsubdir)
                             end
                             stimType = recInfo.fileData(ii).stim1_type;
                             stimAmp = recInfo.fileData(ii).stim1_uA;
-                        else
-                            disp('here')
-                        end
-                        
-                        chName = {recInfo.fileData(ii).data.site}';
-                        tmp = {recInfo.fileData(ii).data.chan}';
-                        chNum = cellfun(@(a) str2num(a(3:end)),tmp);
+                      
+                            if isfield(recInfo.fileData(ii),'data')
+                                chName = {recInfo.fileData(ii).data.site}';
+                                tmp = {recInfo.fileData(ii).data.chan}';
+                                chNum = cellfun(@(a) str2num(a(3:end)),tmp);
+                                
+                            else
+                                chName =  [...
+                                    {'PrL(L)' };...
+                                    {'PrL(R)' };...
+                                    {'AVT(L)' };...
+                                    {'BLA(R)' };...
+                                    {'CA1(L)' };...
+                                    {'CA1(R)' };...
+                                    {'LDT(L1)'};...
+                                    {'LDT(L2)'}];
+                                chNum = 0:7;
+                            end
                         
                     end
                     
@@ -491,6 +513,7 @@ end
 
 
 files = getAllExtFiles('R:\DGregg\NeuralData','mat',1);
+%files = getAllExtFiles('R:\DGregg\NeuralData\PCP\Recordings\OpenLoop\','mat',1);
 keepFiles = contains(files,'sessiondata');
 
 files = files(keepFiles);
@@ -511,7 +534,7 @@ end
 
 % save days post KA
 
-
+clear datInj
 datInj(:,1) = [...
     {'EDS 1.0'} ; ...
     {'EDS 1.3'}; ...
@@ -527,6 +550,7 @@ datInj(:,1) = [...
     {'EDS 4.2'}; ...
     {'EDS 5.1'}; ...
     {'EDS 1.1'} ; ...
+    {'PCP 4.0'} ; ...
     ];
 
 
@@ -544,6 +568,7 @@ datInj{11,2} = datenum(2023,3,24);
 datInj{12,2} = datenum(2023,3,27);
 datInj{13,2} = datenum(2023,4,20);
 datInj{14,2} = datenum(2022,6,17);
+datInj{15,2} = datenum(2024,3,18);
 
 datInj{1,3} = '6/17/2022';
 datInj{2,3} = '6/18/2022';
@@ -559,11 +584,13 @@ datInj{11,3} = '3/24/2023';
 datInj{12,3} = '3/27/2023';
 datInj{13,3} = '4/20/2023';
 datInj{14,3} = '6/17/2022';
+datInj{15,3} = '3/18/2024';
 
+%%
 for i = 1:length(files)
     load(files{i})
     
-    if ~isfield(sessiondata,'days_post_IHKA')
+    if ~isfield(sessiondata,'days_post_pilo')
         ixx = regexp(files{i},'RH');
         d = files{i}(ixx+4:ixx+9);
         
@@ -577,9 +604,9 @@ for i = 1:length(files)
             
             d=sessiondata.lfpFile{1}(ixx(1)+1:ixx(1)+6);
         else
-            ixx = regexp(sessiondata.lfpFile,'_23');
+            ixx = regexp(sessiondata.lfpFile,'_24');
             if isempty(ixx)
-                ixx = regexp(sessiondata.lfpFile,'_22');
+                ixx = regexp(sessiondata.lfpFile,'_25');
             end
             d=sessiondata.lfpFile(ixx(1)+1:ixx(1)+6);
         end
@@ -596,7 +623,7 @@ for i = 1:length(files)
         if b>0
             sessiondata.date_injected =  datInj{b,3};
             sessiondata.date_recorded = [num2str(M) '/' num2str(D) '/'  num2str(Y)];
-            sessiondata.days_post_IHKA = dat - datInj{b,2};
+            sessiondata.days_post_pilo = dat - datInj{b,2};
             save(files{i},'sessiondata')
         else
             disp('here')
@@ -609,7 +636,15 @@ end
 
 
 
+%%
 
+for i = 182:length(files)
+  cd(fileparts(files{i}))  
+  if exist('events.evt.szr')
+  movefile('events.evt.szr','manualDetect.evt.szr')
+  end
+  i
+end
 
 %%
 %annotate seizures
@@ -781,7 +816,7 @@ end
 
 
 %%
-% pick up here in 2025
+
 % link seizures with TD/IED
 for i = 1:length(files)
     dirN = fileparts(files{i});
@@ -840,9 +875,17 @@ for i = 1:length(files)
                 sub = strrep(sessiondata.subject,' ','');
                 
                 if ~isempty(ev.description)
-                    kp_on = contains(ev.description,['sz_on_' sub]);
-                    kp_off = contains(ev.description,['sz_off_' sub]);
                     
+                    if ~contains(sessiondata.subject,'PCP')
+                        kp_on = contains(ev.description,['sz_on_' sub]);
+                        kp_off = contains(ev.description,['sz_off_' sub]);
+                        
+                        
+                    else
+                        
+                        kp_on = contains(ev.description,'SeizureStart');
+                        kp_off = contains(ev.description,'SeizureStop');
+                    end
                     ep = [ev.time(kp_on) ev.time(kp_off)];
                     
                     if any(ep(:,1)>ep(:,2))
@@ -878,15 +921,17 @@ for i = 1:length(files)
         if ~isempty(sessiondata.seizure)
           
             
-            n = histc(sessiondata.seizure(:,1),eps);
+            [n,b] = histc(sessiondata.seizure(:,1),eps);
             n = n(1:3);
-           
+           sz_dur = accumarray(b,diff(sessiondata.seizure,[],2),[3 1],@nanmean,nan);
             sessiondata.seizure_rate = [n(:)./dur(:)]';
             sessiondata.seizure_num = n;
+            sessiondata.seizure_duration = sz_dur';
         else
             
             sessiondata.seizure_rate = [0 0 0];
             sessiondata.seizure_num = [ 0 0 0];
+              sessiondata.seizure_duration = [nan nan nan];
         end
        
         sessiondata.seizure_obs = dur;
@@ -902,7 +947,7 @@ end
 %%
 
 % do some IED/TD analysis
-for i = 1:length(files)
+for i = 182:length(files)
     dirN = fileparts(files{i});
     cd(dirN)
     
@@ -963,8 +1008,11 @@ for i = 1:length(files)
             
             
             IED_sub =[];
+            sessiondata.IED_dur(j) = totDur;
+            
             for k = 1:length(sessiondata.IED)
                 kp = InIntervals(sessiondata.IED{k},ep);
+                sessiondata.IED_num(k,j) =  sum(kp);
                 sessiondata.IED_rate(k,j) = sum(kp)/totDur;
                 IED_sub{k} = sessiondata.IED{k}(kp);
             end
@@ -1000,7 +1048,7 @@ for i = 1:length(files)
         
         
        
-        sessiondata.binnedPopStart = nansum(binnedPopStart);
+        sessiondata.binnedPopStart = nansum1(binnedPopStart);
         
         [binnedPopEnd,bin_times]=populationMatrix(spikes,1800,3600,5400,stimEpoch(end,end));
         
@@ -1014,9 +1062,9 @@ for i = 1:length(files)
          if ~isempty(sessiondata.seizure)
              tts = stimEpoch(end,end)+bin_times;
              kp = ~InIntervals(tts,sessiondata.seizure);
-             binnedPopStart(:,kp) = nan;
+             binnedPopEnd(:,kp) = nan;
          end
-          sessiondata.binnedPopEnd = nansum(binnedPopEnd);
+          sessiondata.binnedPopEnd = nansum1(binnedPopEnd);
         save(files{i},'sessiondata')
    % end
     
@@ -1025,626 +1073,152 @@ end
 
 
 
-%%
-chReg = [...
-    {'PrL(L)' };...
-    {'PrL(R)' };...
-    {'AVT(L)' };...
-    {'BLA(R)' };...
-    {'CA1(L)' };...
-    {'CA1(R)' };...
-    {'gRSC (L)'};...
-    {'LDT(L1)'}];
-
-
-IED_rate_control =[];
-TD_control =[];
-IED_syn_stim =[];
-IED_syn_con =[];
-IED_rate_stim =[];
-TD_stim =[];
-stim_sub =[];
-con_sub =[];
-binnedPopStart =[];
-binnedPopEnd =[];
-ISI_stim =[];
-sz_stim =[];
-sz_stim_num =[];
-sz_stim_obs =[];
-daysPost_stim = [];
-daysPost_con =[];
-f_stim= [];
-IED_rate_pre =[];
-binnedTDEnd =[];
-binnedTDStart =[];
-sz_control =[];
-subj_id = [];
-filID_stim = [];
-for i = 1:length(files)
-    dirN = fileparts(files{i});
-    cd(dirN)
-    
-    load(files{i})
-    [~,chIDX] = ismember(chReg,sessiondata.channel);
-    if isfield(sessiondata,'IED')
-        if contains(sessiondata.StimType,'mono') & sessiondata.StimAmp >0
-            
-            tmp = nan(8,3);
-            tmp(chIDX>0,:) = sessiondata.IED_rate(chIDX(chIDX>0),:);
-            f_stim= [f_stim; {files{i}}];
-            IED_syn_stim = cat(4,IED_syn_stim,sessiondata.IED_syn);
-            IED_rate_stim = cat(3,IED_rate_stim,tmp);
-            TD_stim = [TD_stim;sessiondata.TD];
-            sz_stim = [sz_stim;sessiondata.seizure_rate(:)'];
-            sz_stim_num = [sz_stim_num;sessiondata.seizure_num(:)'];
-            sz_stim_obs = [sz_stim_obs;sessiondata.seizure_obs(:)'];
-            stim_sub = [stim_sub;{sessiondata.subject}];
-            binnedPopEnd = [binnedPopEnd;sessiondata.binnedPopEnd];
-            binnedPopStart = [binnedPopStart;sessiondata.binnedPopStart];
-            
-            
-            tmp = avghist(sessiondata.ts-sessiondata.stimON(1),sessiondata.theta_delta',-3600:1800);
-            binnedTDStart = [binnedTDStart; tmp];
-            
-            tmp = avghist(sessiondata.ts-sessiondata.stimON(end),sessiondata.theta_delta',-1800:3600);
-            binnedTDEnd = [binnedTDEnd; tmp];
-          
-            
-            daysPost_stim = [daysPost_stim;sessiondata.days_post_IHKA];
-            ISI_stim = [ISI_stim; median(diff(sessiondata.stimON)) sessiondata.StimAmp];
-            
-            
-            [~,b] = histc(sessiondata.theta_delta(sessiondata.ts<floor(sessiondata.stimON(1))),0:.05:3);
-            ok = sum(cell2mat(cellfun(@(a) histoc(a,sessiondata.ts(sessiondata.ts<floor(sessiondata.stimON(1))))',sessiondata.IED,'uni',0)'));
-            
-            IED_rate_pret =  accumarray(b(b>0),ok(b>0)',[length(0:.05:3) 1],@nanmean,nan);
-            
-            
-            
-            IED_rate_pre = [IED_rate_pre; IED_rate_pret'];
-            
-            
-            [~,ID] = ismember(sessiondata.subject,datInj(:,1));
-            filID_stim = [filID_stim;i];
-            subj_id = [subj_id;ID];
-        elseif strmatch(sessiondata.StimType,'none')
-            tmp = nan(8,3);
-            tmp(chIDX>0,:) = sessiondata.IED_rate(chIDX(chIDX>0),:);
-            
-            IED_syn_con = cat(4,IED_syn_con,sessiondata.IED_syn);
-            IED_rate_control = cat(3,IED_rate_control,tmp);
-            TD_control = [TD_control;sessiondata.TD];
-            sz_control = [sz_control;sessiondata.seizure_rate];
-            con_sub = [con_sub;{sessiondata.subject}];
-            daysPost_con = [daysPost_con;sessiondata.days_post_IHKA];
-        end
-        
-    end
-    i
-end
-%%
-
-
-close all
-figure
-ax = tight_subplot(3,4);
-u = unique(subj_id)';
-clear p_sz
-for i = 1:length(u)
-    axes(ax(i))
-    
-    errorbar(1:3,nanmean(sz_stim(subj_id==u(i),:)),SEM(sz_stim(subj_id==u(i),:)))
-    title(datInj{u(i),1})
-    
-    xlim([0 4])
-    %ylim([.5 1.5])
-    
-    if ismember(i,[4 8 12])
-        set(gca,'xtick',1:3,'xticklabel',{'pre','stim','post'})
-    else
-        set(gca,'xtick',1:3,'xticklabel','')
-    end
-    
-    [~,p_sz(i)] = ttest(sz_stim(subj_id==u(i),1),sz_stim(subj_id==u(i),2));
-    
-    
-end
-
-%%
-%close all
-figure
-ax = tight_subplot(3,4);
-u = unique(subj_id)';
-clear p_TD
-for i = 1:length(u)
-    axes(ax(i))
-    
-    errorbar(1:3,nanmean(TD_stim(subj_id==u(i),:)),SEM(TD_stim(subj_id==u(i),:)))
-    title(datInj{u(i),1})
-    
-    xlim([0 4])
-    ylim([.5 1.5])
-    
-    if ismember(i,[4 8 12])
-        set(gca,'xtick',1:3,'xticklabel',{'pre','stim','post'})
-    else
-        set(gca,'xtick',1:3,'xticklabel','')
-    end
-    
-    [~,p_TD(i)] = ttest(TD_stim(subj_id==u(i),1),TD_stim(subj_id==u(i),2));
-    
-    
-end
-%%
-
-close all
-figure
-ax = tight_subplot(3,4);
-
-tt=[];ix=1;
-for i = 1:length(u)
-    axes(ax(i))
-    tmp = squeeze(nansum(IED_rate_stim(:,:,subj_id==u(i))))';
-    
-    tt(ix,:) = nanmean(tmp);
-    errorbar(1:3,nanmean(tmp),SEM(tmp))
-    title(datInj{u(i),1})
-    
-    xlim([0 4])
-    %  ylim([.5 1.5])
-    
-    if ismember(i,[4 8 12])
-        set(gca,'xtick',1:3,'xticklabel',{'pre','stim','post'})
-    else
-        set(gca,'xtick',1:3,'xticklabel','')
-    end
-    ix = ix+1;
-end
 
 
 %%
-close all
 
-any_sz = accumarray(subj_id,sz_stim(:,1),[],@sum,nan);
-any_sz = ismember(subj_id,find(any_sz>0));
-gd_target = ~ismember(stim_sub,{'EDS 3.0','EDS 5.1'});
-
-kp = any_sz & gd_target;
-
-
-kp_subj = ~ismember(datInj(:,1),{'EDS 3.0','EDS 5.1','EDS 2.2','EDS 2.0'});
-pre = accumarray(subj_id,sz_stim(:,1),[14 1],@mean,nan)*3600;
-stim = accumarray(subj_id,sz_stim(:,2),[14 1],@mean,nan)*3600;
-post = accumarray(subj_id,sz_stim(:,3),[14 1],@mean,nan)*3600;
-
-figure
- loglog(pre(kp_subj),stim(kp_subj),'o')
- hold on
- plot([0:.01e-3:1.6e-3]*3600,[0:.01e-3:1.6e-3]*3600)
- xlabel('Pre stim rate')
- ylabel('Stim rate')
-%%
-kp = ~ismember(stim_sub,{'EDS 3.0','EDS 5.1','EDS 2.2','EDS 2.0'});
-kp1 = repmat(kp,3,1);
-nes = size(sz_stim,1);
-sz_rate =([sz_stim(:,1);sz_stim(:,2);sz_stim(:,3)]*3600);
-sz_num =[sz_stim_num(:,1);sz_stim_num(:,2);sz_stim_num(:,3)];
- 
- 
-effort = log([sz_stim_obs(:,1);sz_stim_obs(:,2);sz_stim_obs(:,3)]);
-block = categorical([ones(nes,1);2*ones(nes,1);3*ones(nes,1)]);
-sesID = repmat([1:nes]',3,1);
-subjID = repmat(subj_id,3,1);
-theta = TD_stim(:);
-dat = table(sz_num,block,sesID,subjID,theta);
-dat = dat(kp1,:);
-y = fitglme(dat,'sz_num ~   block   + (1|sesID:subjID) + (1|subjID)','link','log','distribution','poisson','Offset',effort(kp1));
-y_hat = predict(y,dat,'Offset',effort(kp1));
-
- IED_r = squeeze(nansum(IED_rate_stim))';
- 
- 
-%nanmean(sz_num(double(block)==1 & kp1))-nanmean(sz_num(double(block)==2 & kp1))
-%nanmean(y_hat(double(block(kp1))==1)) - nanmean(y_hat(double(block(kp1))==2))
-%%
-close all
-kp_IED = ~ismember(stim_sub,{'EDS 3.0','EDS 5.1'});
-td1 = binnedTDStart(kp_IED,1:3600);
-IED1 = binnedPopStart(kp_IED,1:3600);
-
-pre =[];
-for i = 1:size(td1,1)
-    pre(i,:) =  avghist(td1(i,:),IED1(i,:),0:.1:3) ;
-end
-
-
-
-td2 = [binnedTDStart(:,3600:end-1) binnedTDEnd(:,1:1799)];
-IED2 = [binnedPopStart(:,3600:end-1) binnedPopEnd(:,1:1800)];
-
-stim =[];
-for i = 1:size(td1,1)
-    stim(i,:) =  avghist(td2(i,:),IED2(i,:),0:.1:3) ;
-end
-
-p= [];
-for i = 1:size(stim,2)
-    
-    [p(i)] = signtest(pre(:,i),stim(:,i));
-end
-p(p>.05) = nan;
-
-p(~isnan(p)) = .6;
-figure
-plotMeanSEM(0:.1:3,pre,'k','yAxisFunction',@nanmean)
-plotMeanSEM(0:.1:3,stim,'r','yAxisFunction',@nanmean)
-
-%plot(0:.1:3,p,'o')
-xlim([.6 1.3])
-%%
-close all
-k = gaussian2Dfilter([10000 1],1250/16);
-% typical example
-144
-154
-for i = 144:length(files)
-    load(files{i})
-    if isfield(sessiondata,'IED') & ~isempty( sessiondata.stimON)
-        %load(  'R:\DGregg\NeuralData\EDS\OL3\2-7-2023(12.59)\RHS_230207_130000\EDS 2.2.sessiondata.mat')
-        figure
-        ts1 = (0: sessiondata.ts(end)) - sessiondata.stimON(1);
-        set(gcf,'position',[697    57   560   479]);
-        plot(sessiondata.ts-sessiondata.stimON(1),sessiondata.theta_delta)
-        hold on
-        plot(ts1,nanconvn(histc( sessiondata.IED{2},0: sessiondata.ts(end)),k)*50)
-        plot([sessiondata.stimON(1) sessiondata.stimON(1)]- sessiondata.stimON(1),[0 7])
-        plot([sessiondata.stimON(end) sessiondata.stimON(end)]- sessiondata.stimON(1),[0 7])
-        xlim([-2100 7200])
-        waitforbuttonpress
-        close all
-        
-    end
-end
-%%
-
-ISI_stim =[];CA1_AMYG =[];
+%now link state and pose
 
 for i = 1:length(files)
+    cd(fileparts(files{i}))
+    v = load(files{i});
+    sessiondata = v.sessiondata;
+    
+    %if ~isfield(sessiondata,'sleepData')
     dirN = fileparts(files{i});
-    cd(dirN)
+    
+    %find associated video
+    f= getAllExtFiles(dirN,'mp4',0);
+    
+    if isempty(f)
+        f= getAllExtFiles(fileparts(dirN),'mp4',0);
+    end
+    
+    % f = f(contains(f,sessiondata.subject) & ~contains(f,'Pose')  & ~contains(f,'Sync'));
+    f = f(~contains(f,'Pose')  & ~contains(f,'Sync') & ~contains(f,'_O')); % for LDT
+    if ~isempty(f)
+        
+        if (length(f)==1 || ~contains(files{i},'LTD'))
+            
+            if ~all(contains(files{i},'LTD'))  && any(contains(f,sessiondata.subject))
+                
+                
+                f = f(contains(f,sessiondata.subject));
+            end
+            if length(f)>1
+                kp = contains(f,'(2)');
+                f= f(kp);
+            end
+            if length(f)~=1
+                error('too many')
+            end
+            
+            %
+            
+            
+            
+            sessiondata.videoFile = f{1};
+            poseFile = strrep(sessiondata.videoFile,'.mp4','_poseData.mat');
+            sleepFile = strrep(sessiondata.videoFile,'.mp4','_sleepData2.mat');
+            if exist(poseFile)
+                sessiondata.poseData = load(poseFile);
+                fprintf([num2str(i) ' poseFound '])
+            end
+            if exist(sleepFile)
+                sessiondata.sleepData = load(sleepFile);
+                fprintf(['sleepFound \n'])
+            else
+                fprintf(['\n'])
+            end
+            
+            
+            
+            
+            
+            
+            save(files{i},'sessiondata')
+            
+        else
+            %deal with LDT
+            clear idx
+            idx(1) = find(contains(f,'Initial'));
+            idx(2) = find(contains(f,'uA'));
+            idx(3) = find(contains(f,'Final'));
+            
+            
+            if any(idx==0)
+                error('no video for LDT')
+            else
+                
+                for ff = 1:3
+                    sessiondata.videoFile{ff} = f{idx(ff)};
+                    poseFile = strrep(sessiondata.videoFile{ff},'.mp4','_poseData.mat');
+                    sleepFile = strrep(sessiondata.videoFile{ff},'.mp4','_sleepData2.mat');
+                    if exist(poseFile)
+                        
+                        if ff ==1
+                            sessiondata.poseData = load(poseFile);
+                        else
+                            tmp = load(poseFile);
+                            offset = sum(sessiondata.fileDur(1:ff-1));
+                            sessiondata.poseData.XY =  [sessiondata.poseData.XY; tmp.XY];
+                            sessiondata.poseData.neuralTS =  [sessiondata.poseData.neuralTS; tmp.neuralTS+offset];
+                            sessiondata.poseData.velocity =  [sessiondata.poseData.velocity; tmp.velocity];
+                        end
+                        
+                        
+                    end
+                    
+                    if exist(sleepFile)
+                        
+                        if ff ==1
+                            sessiondata.sleepData = load(sleepFile);
+                        else
+                            tmp = load(sleepFile);
+                            offset = sum(sessiondata.fileDur(1:ff-1));
+                            sessiondata.sleepData.SleepState.ints.WAKEstate =  [sessiondata.sleepData.SleepState.ints.WAKEstate; tmp.SleepState.ints.WAKEstate+offset];
+                            sessiondata.sleepData.SleepState.ints.NREMstate =  [sessiondata.sleepData.SleepState.ints.NREMstate; tmp.SleepState.ints.NREMstate+offset];
+                            sessiondata.sleepData.SleepState.ints.REMstate =  [sessiondata.sleepData.SleepState.ints.REMstate; tmp.SleepState.ints.REMstate+offset];
+                            sessiondata.sleepData.SleepState.idx.states =  [ sessiondata.sleepData.SleepState.idx.states ;  tmp.SleepState.idx.states ];
+                            sessiondata.sleepData.SleepState.idx.timestamps =  [ sessiondata.sleepData.SleepState.idx.timestamps ;  tmp.SleepState.idx.timestamps+offset ];
+                            
+                        end
+                        
+                        
+                    end
+                    
+                    
+                end
+                
+                 save(files{i},'sessiondata')
+            end
+            
+        end
+        
+        
+    else
+        warning('missing videos')
+        
+    end
+    
+    
+end
+
+
+    % end
+%%
+
+for i = 182:length(files)
     
     load(files{i})
     
-    if sessiondata.StimAmp>0 && isfield(sessiondata,'IED') && strcmp(sessiondata.StimType,'mono')
+    if contains(sessiondata.StimType,'mono') & (isempty(sessiondata.stimON) & sessiondata.StimAmp>0)
         
-        
-        preEpoch = [0 sessiondata.stimON(1)];
-        postEpoch = [sessiondata.stimON(end) sessiondata.ts(end)];
-        stimEpoch =  [sessiondata.stimON(1:end-1)+3 sessiondata.stimON(2:end)-.25];
-        ok =[];
-        for j = 1:3
-            switch j
-                case 1
-                    ep = preEpoch;
-                    
-                case 2
-                    ep = stimEpoch;
-                    
-                case 3
-                    ep = postEpoch;
-                    
-            end
-            
-            totDur = sum(diff(ep,[],2));
-            
-            
-            
-            [chIDX2] = ismember(sessiondata.channel,'BLA(R)');
-            [chIDX1] = ismember(sessiondata.channel,'CA1(R)');
-            
-            if any(chIDX2)
-                
-                kp1 = InIntervals(sessiondata.IED{chIDX1},ep);
-                kp2 = InIntervals(sessiondata.IED{chIDX2},ep);
-                ok(j,:) = CrossCorr(sessiondata.IED{chIDX1}(kp1),sessiondata.IED{chIDX2}(kp2),1,101)/sum(kp1);
-                
-            end
-        end
-        CA1_AMYG = cat(3,CA1_AMYG,ok);
-        
+        sessiondata.StimType = 'none';
+        save(files{i},'sessiondata')
     end
     i
 end
 
-%%
-
-close all
-ax  = tight_subplot(2,2)
-
-for i = 1:4
-    axes(ax(i))
-    if i<4
-        imagesc(nanmean(IED_syn_stim(:,:,i,:) ,4),[0 .5])
-        %  colormap('bluewhitered')
-    else
-        imagesc(nanmean(IED_syn_con(:,:,2,:),4),[0 .5])
-        %colormap('bluewhitered')
-    end
-    
-end
-%%
-k  = gaussian2Dfilter([ 1 10000 ],400);
-k1 =k;
-k2 = k;
-k1(1:5000) = 0;
-
-k1 = k1*2;
-k2(5001:end) = 0;
-
-k2 = k2*2;
-
-binnedPopStart1 =[];
-binnedPopEnd1 =[];
-close all
-for i = 1:size(binnedPopStart,1)
-    
-    binnedPopStart1(i,:) = (nanconvn(binnedPopStart(i,:) - nanmean(binnedPopStart(i,1800:3600)),k1));%./ nanmedian(binnedPopStart(i,1:3600));
-    binnedPopEnd1(i,:) = nanconvn(binnedPopEnd(i,:) - nanmean(binnedPopStart(i,1800:3600)),k1);%./ nanmedian(binnedPopStart(i,1:3600));
-    binnedTDStart1(i,:) = nanconvn(binnedTDStart(i,:) - nanmean(binnedTDStart(i,1800:3600)),k1);
-    binnedTDEnd1(i,:) = nanconvn(binnedTDEnd(i,:) - nanmean(binnedTDEnd(i,1800:3600)),k1);
-    
-end
-%%
-binnedPopStart1(isinf(binnedPopStart1)) = nan;
-binnedPopEnd1(isinf(binnedPopEnd1)) = nan;
-
-kp = ismember(subj_id,u(p_TD<.025));
-binnedPopStart1 = binnedPopStart1(kp,:);
-binnedPopEnd1 = binnedPopEnd1(kp,:);
-binnedTDStart1 = binnedTDStart1(kp,:);
-binnedTDEnd1 = binnedTDEnd1(kp,:);
-close all
-figure
-plotMeanSEM(-3600:1799-60,binnedPopStart1(:,1:end-60),'k')
-hold on
-plotMeanSEM(1801+100:7200,(binnedPopEnd1(:,101:end)),'k')
-
-
-plotMeanSEM(-3600:1799-60,binnedTDStart1(:,1:end-61),'r')
-hold on
-plotMeanSEM(1801+100:7200,(binnedTDEnd1(:,102:end)),'r')
-
-
-set(gca,'xtick',[-3600:600:1730 1800:600:7200],'xticklabel',[-3600:600:1730 -1800:600:3600])
-xlim([-1800 5400])
-pp=[];
-for i = 1:5400
-    pp(i) = signtest(binnedPopStart1(:,i));
-end
-
-pp(pp>.05) = nan;
-pp(~isnan(pp)) = .27;
-
-plot(-3600:1799-60,pp(1:end-60),'k','linewidth',6)
-
-pp =[];
-for i = 1:5400
-    pp(i) = signtest(binnedPopEnd1(:,i));
-end
-
-pp(pp>.05) = nan;
-pp(~isnan(pp)) = .27;
-
-plot(1801+100:7200,pp(101:end),'k','linewidth',6)
-
-
-
-pp=[];
-for i = 1:5400
-    pp(i) = signtest(binnedTDStart1(:,i));
-end
-
-pp(pp>.05) = nan;
-pp(~isnan(pp)) = .25;
-
-plot(-3600:1799-60,pp(1:end-60),'r','linewidth',6)
-
-pp =[];
-for i = 1:5400
-    pp(i) = signtest(binnedTDEnd1(:,i));
-end
-
-pp(pp>.05) = nan;
-pp(~isnan(pp)) = .25;
-
-plot(1801+100:7200,pp(101:end),'r','linewidth',6)
-
-
-plot([0 0],[-.1 .05],'k')
-plot([3600 3600],[-.1 .05],'k')
-%%
-IED_mean_stim_12 =[];
-for i = 1:7
-    
-    if i<7
-        IED_mean_stim_12(i,:) = (IED_rate_stim(i,2,:) - IED_rate_stim(i,1,:))./(IED_rate_stim(i,1,:));
-    else
-        IED_mean_stim_12(i,:) = (sum(IED_rate_stim(7:8,2,:),1) - sum(IED_rate_stim(7:8,1,:),1))./( sum(IED_rate_stim(7:8,1,:),1));
-    end
-end
-
-
-IED_mean_stim_23 =[];
-for i = 1:7
-    
-    
-    IED_mean_stim_23(i,:) = (IED_rate_stim(i,2,:) - IED_rate_stim(i,3,:))./(IED_rate_stim(i,2,:) + IED_rate_stim(i,3,:));
-end
-
-IED_mean_stim_13 =[];
-for i = 1:7
-    
-    if i<7
-        IED_mean_stim_13(i,:) = (IED_rate_stim(i,3,:) - IED_rate_stim(i,1,:))./(IED_rate_stim(i,3,:) + IED_rate_stim(i,1,:));
-    else
-        IED_mean_stim_13(i,:) = (sum(IED_rate_stim(7:8,3,:),1) - sum(IED_rate_stim(7:8,1,:),1))./(sum(IED_rate_stim(7:8,3,:),1) + sum(IED_rate_stim(7:8,1,:),1));
-    end
-end
-
-TD_stim_mean = (TD_stim(:,2) - TD_stim(:,1))./( TD_stim(:,1));
-IED_mean_stim_12(isinf(IED_mean_stim_12)) = nan;
-
 
 %%
-usub = unique(stim_sub);
-
-[~,b] = ismember(stim_sub,usub);
-
-close all
-for i = 1:6
-    figure
-    
-    violin(num2cell(IED_mean_stim_12(:,b==i),2)')
-    subj_mean(i,:) = mean(IED_mean_stim_12(:,b==i),2);
-    title(usub{i})
-end
-
-%%
-figure
-
-
-x = [IED_mean_stim_12(:)];
-g = [linearize(repmat([1:7]',1,size(IED_mean_stim_12,2)))];
-
-
-boxplot(x,g,'notch','on')
-hold on
-plot([0 8],[0 0],'k')
-
-
-
-%%
-ok = squeeze((nansum(IED_rate_stim(:,:,:))- repmat(nansum(IED_rate_stim(:,1,:)),1,3,1))./repmat(nansum(IED_rate_stim(:,1,:)),1,3,1));
-ok1 = squeeze((nansum(IED_rate_control(:,:,:))- repmat(nansum(IED_rate_control(:,1,:)),1,3,1))./repmat(nansum(IED_rate_control(:,1,:)),1,3,1));
-
-
-ok = squeeze((nansum(IED_rate_stim(:,:,:),1)));
-%ok1 = squeeze((nansum(IED_rate_control(:,:,:),1)));
-
-
-%ok = ok(:,daysPost_stim>190);
-%ok1 = ok1(:,daysPost_con>190);
-x = [ok(:);ok1(:)];
-g = [linearize(repmat([1:3]',1,size(ok,2))); linearize(repmat([4:6]',1,size(ok1,2)))];
-figure
-boxplot(x,g,'notch','on')
-%%
-close all
-figure
-ok = squeeze((nansum(IED_rate_stim(:,:,:),1)));
-plot(0:.01:1,cumsum(histc(ok(1,:),0:.01:1))/57)
-hold on
-plot(0:.01:1,cumsum(histc(ok(2,:),0:.01:1))/57)
-
-figure
-plot(.6:.01:1.6,cumsum(histc(TD_stim(:,1),.6:.01:1.6))/57)
-hold on
-plot(.6:.01:1.6,cumsum(histc(TD_stim(:,2),.6:.01:1.6))/57)
-
-%%
-usub = unique(stim_sub);
-
-[~,b] = ismember(stim_sub,usub);
-
-IED_mean_stim_12_all = squeeze(nansum(IED_rate_stim));
-IED_mean_stim_12_all = (IED_mean_stim_12_all(2,:)-IED_mean_stim_12_all(1,:))./(IED_mean_stim_12_all(1,:));
-close all
-figure
-col = linspecer(14,'jet');
-for i = 1:14
-    
-    
-    plot(TD_stim_mean(b==i),IED_mean_stim_12_all(b==i),'.','color',col{i},'markersize',30)
-    hold on
-    if i ==1
-        plot([-.15 .25],[0 0],'k')
-        plot([0 0],[-1 1],'k')
-    end
-end
-
-%%
-N=0;
-for i = 1:length(files)
-    
-    load(files{i})
-    if strcmp(sessiondata.subject,'EDS 1.1')
-        cd(fileparts(files{i}))
-        disp('here')
-    end
-end
-
-%%
-[~,b] = ismember(stim_sub,usub);
-[~,b1] = ismember(con_sub,usub);
-close all
-col = flipud(linspecer(6,'jet'))
-for i = 1:7
-    
-    plot(daysPost_stim(b==i),squeeze(sum(IED_rate_stim(:,2,b==i),1)) ,'x','color',col{i})
-    hold on
-    plot(daysPost_con(b1==i),squeeze(sum(IED_rate_control(:,2,b1==i),1)) ,'o','color',col{i})
-end
-plot([160 240],[0 0],'k')
-
-figure
-
-col = flipud(linspecer(6,'jet'))
-for i = 1:6
-    
-    plot(daysPost_stim(b==i),squeeze(sum(IED_rate_stim(:,1,b==i),1)) ,'x','color',col{i})
-    hold on
-    plot(daysPost_con(b1==i),squeeze(sum(IED_rate_control(:,1,b1==i),1)) ,'o','color',col{i})
-end
-plot([160 240],[0 0],'k')
-
-%%
-[~,b_stim] = ismember(stim_sub,usub);
-[~,b_con] = ismember(con_sub,usub);
-
-N_stim = size(TD_stim,1);
-N_con = size(TD_control,1);
-
-IEDtot_stim = squeeze((nansum(IED_rate_stim(:,:,:),1)))';
-IEDtot_con = squeeze((nansum(IED_rate_control(:,:,:),1)))';
-
-%b_stim = repmat(b_stim,1,3);
-condition_stim = repmat(1:3,N_stim,1);
-session_stim = repmat([1:N_stim]',1,3);
-
-
-
-%b_con = repmat(b_con,1,3);
-condition_con = repmat(1:3,N_con,1);
-session_con = repmat([1:N_con]',1,3);
-
-IED = [IEDtot_stim(:,2) - IEDtot_stim(:,1);IEDtot_con(:,2)-IEDtot_con(:,1)];
-TD = [TD_stim(:,2)-TD_stim(:,1);TD_control(:,2)-TD_control(:,1)];
-%condition = categorical([condition_stim(:);condition_con(:)]);
-subject = usub([b_stim(:);b_con(:)]);
-%session = [session_stim(:);session_con(:)];
-stim_on = (categorical([ones(numel(b_stim(:)),1);2*ones(numel(b_con(:)),1)]));
-
-
-tbl = table(IED,TD,stim_on,subject);
-lme = fitlme(tbl,'IED ~  -1+ stim_on*TD+(1/subject) ')
-
-
-%%
-
-%get mean seizure rate
-topdir = 'R:\DGregg\NeuralData\EDS';
-files2 = getAllExtFiles(topdir,'szr',1);
-keepFiles = contains(files2,'sessiondata');
-files2 = files2(keepFiles);
-files = [files1;files2];
-
