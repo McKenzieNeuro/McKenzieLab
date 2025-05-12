@@ -85,7 +85,7 @@ XMLFilePath = fullfile(basepath, [basename '.xml']);
 
 if isempty(config_version)
     disp('Running Kilosort with standard settings')
-    ops = KilosortConfiguration(XMLFilePath);
+    ops = sm_KilosortConfiguration(XMLFilePath);
 else
     disp('Running Kilosort with user specific settings')
     config_string = str2func(['KilosortConfiguration_' config_version]);

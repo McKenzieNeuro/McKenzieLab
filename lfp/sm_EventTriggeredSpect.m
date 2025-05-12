@@ -1,4 +1,4 @@
-function h = sm_EventTriggeredSpect(lfpfile,events,varargin)
+function [h,wavspec,ts,freqs] = sm_EventTriggeredSpect(lfpfile,events,varargin)
 % This function calculated the event triggered spectrogram from a single
 %channels of a flat binary file and returns that spectra and makes a plot
 %
@@ -28,6 +28,7 @@ addParameter(p,'figureName','myPETH.fig',@ischar);
 addParameter(p,'fs',1250,@isnumeric);
 addParameter(p,'channel',1,@isnumeric);
 addParameter(p,'nchannels',[],@isnumeric);
+addParameter(p,'plotIt',true,@islogical);
 
 parse(p,varargin{:})
 
@@ -38,9 +39,10 @@ plotIntervals = p.Results.plotIntervals;
 figureName = p.Results.figureName;
 channel = p.Results.channel;
 nchannels = p.Results.nchannels;
+plotIt = p.Results.plotIt;
 
 fs = p.Results.fs;
-
+h = nan;
 
 
 
@@ -114,13 +116,16 @@ end
 
 nfreq = length(freqs);
 ts = ((1:numpts)/fs)  - plotIntervals(1);
-h = figure;
-imagesc(ts,[],nanmean(zscore(wavspec,[],2),3),[-.5 .5])
-set(gca,'ytick',1:10:nfreq,...
-    'yticklabel',round(freqs(1:10:end)*10)/10,'ydir','normal')
-%
-if savefig
-    
-    saveas(h,figureName)
+
+if plotIt
+    h = figure;
+    imagesc(ts,[],nanmean(zscore(wavspec,[],2),3),[-.5 .5])
+    set(gca,'ytick',1:10:nfreq,...
+        'yticklabel',round(freqs(1:10:end)*10)/10,'ydir','normal')
+    %
+    if savefig
+        
+        saveas(h,figureName)
+    end
 end
 end
