@@ -11,14 +11,14 @@
 
 
 %path where raw data is stored with seizure labels
-ops.RawDataPath = 'E:\Dropbox\Scn1a_EEG_for_SM\Chandni';
+ops.RawDataPath = 'C:\Users\samckenzie\Downloads\Chandni';
 ops.FeaturePath = {[]};
-ops.FeatureFileOutput = 'E:\Dropbox\Scn1a_EEG_for_SM\Chandni\analysis\features.mat';
+ops.FeatureFileOutput = 'C:\Users\samckenzie\Downloads\Chandni\analysis\features.mat';
 
 
 % define time windows around to predict (s)
 
-ops.bins = [ 10 100 1000 inf];
+ops.bins = [-inf -300 0 100 ];
 
 
 % define % of time to take within each time bin
@@ -29,7 +29,7 @@ ops.bins = [ 10 100 1000 inf];
 %   seizure:    100%
 %   post ictal: 20%
 
-ops.pct = [ 1 1 .2 .2];
+ops.pct = [1 .01 1 1 ];
 
 ops.nBins = length(ops.pct);
 
@@ -37,7 +37,7 @@ ops.nBins = length(ops.pct);
 ops.timPost = nan;
 
 % info for full feature space
-ops.Fs  = 2000; % sampling rate of lfp files
+ops.Fs  = 1000; % sampling rate of lfp files
 
 
 
@@ -125,7 +125,7 @@ for i= 1:size(sessions,1)
     seizure_start = seizure_start(end);
     seizure_end = seizure_end(end);
     
-        tmp = [seizure_end seizure_end+ops.bins];
+        tmp = [0 300 seizure_start seizure_end seizure_end+100 ];
         
         
         %get file dur 

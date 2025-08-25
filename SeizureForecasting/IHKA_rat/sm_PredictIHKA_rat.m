@@ -11,10 +11,11 @@
 
 
 
-FeatureFileOutput = 'R:\Analysis\SeizureForecasting\IHKA_rat_RF\featuresPCP4.mat';
+
+FeatureFileOutput = 'R:\Analysis\SeizureForecasting\IHKA_rat_RF\features_pilo.mat';
 %FeatureFileOutput = 'E:\data\IHKA\features_trans.mat';
 load(FeatureFileOutput)
-ops.ClassifierFileOutput =  'R:\Analysis\SeizureForecasting\IHKA_rat_RF\modelPCP4.mat';
+ops.ClassifierFileOutput =  'R:\Analysis\SeizureForecasting\IHKA_rat_RF\model_pilo.mat';
 
 %%
 sesID1 = cell2mat(sesID');

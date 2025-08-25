@@ -11,9 +11,16 @@
 
 
 %path where raw data is stored with seizure labels
-ops.RawDataPath = 'R:\IHKA_Scharfman\IHKA data';
-ops.FeaturePath = {'F:\data1\IHKA','E:\data\IHKA'};
-ops.FeatureFileOutput = 'E:\data\IHKA\features.mat';
+ops.RawDataPath = 'R:\McKenzieLab\IHKA_Scharfman\IHKA data';
+ops.FeaturePath = {'R:\McKenzieLab\IHKA_Scharfman\IHKA'};
+ops.FeatureFileOutput = 'C:\Users\AlMaynes\Documents\NeuroLab\features\features.mat';
+
+%Log Saving XXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+logFile = 'C:\Users\AlMaynes\Documents\NeuroLab\Last-Runtime-Log.txt';
+if exist(logFile, 'file')
+    delete(logFile);
+end
+fid = fopen(logFile, 'w'); % Open file in append mode ('a' = append, 'w' = overwrite)
 
 
 % define time windows around to predict (s)
@@ -221,9 +228,15 @@ for i = 1:nSessions
         for ev = 1:numel(sz{k})
             
             %find duration of the file
+            fprintf(fid, 'BEGIN---\n');
             powerFil = [fname '_1.dat'];
             s = dir(powerFil);
+            fprintf(fid, 'powerFil: %s\n', powerFil);
+            fprintf(fid, 's.bytes: %d\n', s.bytes);
+            fprintf(fid, 'ops.nCh_featureFile: %d\n', ops.nCh_featureFile);
+            fprintf(fid, 'ops.Fs: %d\n', ops.Fs);
             dur = s.bytes/ops.nCh_featureFile/ops.Fs/2;
+            fprintf(fid, 'END---\n');
             
             tim = sz{k}(ev)-ops.durFeat;
             %make sure the even does not exceed duration of recording
@@ -235,7 +248,7 @@ for i = 1:nSessions
                 
                 
                 %save all features for each time bin
-                dat{k} = [dat{k};features];
+                dat{k}  = [dat{k};features];
                 
                 %keep track of which session matches which feature
                 sesID{k} = [sesID{k}; i tim];

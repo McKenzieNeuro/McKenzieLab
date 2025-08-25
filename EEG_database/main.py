@@ -5,12 +5,12 @@ from pyedflib import highlevel
 import numpy as np
 
 
-def remove_sensitive_data_and_adjust_time(edf_file_path, output_file_path, time_shift):
+def remove_sensitive_data_and_adjust_time(edf_file_path, output_file_path):
     # Open the original EDF file
 
-    signals, signal_headers, header = pyedflib.highlevel.read_edf(edf_file_path, digital=True)
+    signals, signal_headers, header = pyedflib.highlevel.read_edf(edf_file_path, digital=True, start=0, stop=1000)
     startdate = header['startdate']
-    startdate = startdate - timedelta(days=time_shift)
+    startdate = startdate - timedelta(days=7)
     header['annotations'] = []
     header['patientname'] = ''
     header['birthdate'] = ''

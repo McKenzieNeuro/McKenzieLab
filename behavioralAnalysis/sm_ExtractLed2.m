@@ -313,9 +313,8 @@ ExpectedVideoTime = ts_syn(:,3);
 [VideoFrameNumber,b] = sort(VideoFrameNumber);
 
 IntanTime = IntanTime(b);
+ExpectedVideoTime = ExpectedVideoTime(b);
 
-[VideoFrameNumber,b] = unique(VideoFrameNumber);
-IntanTime = IntanTime(b);
 
  %ok = fit(IntanTime, VideoFrameNumber,'poly1');
 %pt =feval(ok,IntanTime);

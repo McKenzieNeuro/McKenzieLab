@@ -1,7 +1,7 @@
 function feat = sm_GetDataFeature_rat(data,tim,ops)
 % data is either the full path to a binary file or an Nxch int16 matrix
 % where N = number of samples. If data is a matrix, tim is not used
-% 
+%
 % tim = time point to read from file
 % ops = options describing how to calculate features (wavelet)
 %
@@ -14,7 +14,11 @@ function feat = sm_GetDataFeature_rat(data,tim,ops)
 % ops.durFeat = time window to calculate features
 
 if isstr(data)
-    data = LoadBinary(data,'nchannels',ops.nCh_featureFile,'frequency',ops.Fs,'channels',ops.ch_subj,'duration', ops.durFeat,'start',tim);
+    
+    
+    fxml = strrep(data,'lfp','xml');
+    xml = LoadXml(fxml);
+    data = LoadBinary(data,'nchannels',xml.nChannels,'frequency',ops.Fs,'channels',ops.ch_subj,'duration', ops.durFeat,'start',tim);
 end
 stim_art = any(any(abs(data)>ops.art_thres));
 nfreq = length(ops.freqs);

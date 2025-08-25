@@ -11,10 +11,12 @@
 
 
 
-FeatureFileOutput = 'E:\data\IHKA\features.mat';
+FeatureFileOutput = 'C:\Users\AlMaynes\Documents\NeuroLab\features\features.mat';
+%FeatureFileOutput = 'R:\McKenzieLab\IHKA_Scharfman\features\features.mat';
 %FeatureFileOutput = 'E:\data\IHKA\features_trans.mat';
 load(FeatureFileOutput)
-ops.ClassifierFileOutput =  'R:\Analysis\SeizureForecasting\IHKA_rat_RF\classification.mat';
+ops.ClassifierFileOutput =  'C:\Users\AlMaynes\Documents\NeuroLab\models\classification.mat';
+%ops.ClassifierFileOutput =  'R:\Analysis\SeizureForecasting\IHKA_rat_RF\classification.mat';
 
 %%
 

@@ -10,11 +10,10 @@
 
 
 
-
-FeatureFileOutput = 'E:\Dropbox\Scn1a_EEG_for_SM\Chandni\analysis\features.mat';
+ClassifierFileOutputDir = 'C:\Users\samckenzie\Downloads\Chandni\analysis\classification\';
+ops.FeatureFileOutput = 'C:\Users\samckenzie\Downloads\Chandni\analysis\features.mat';
 %FeatureFileOutput = 'E:\data\IHKA\features_trans.mat';
-load(FeatureFileOutput)
-ops.ClassifierFileOutput =  'E:\Dropbox\Scn1a_EEG_for_SM\Chandni\analysis\model.mat';
+load(ops.FeatureFileOutput)
 
 %%
 sesID1 = cell2mat(sesID');
@@ -27,38 +26,49 @@ training = cell2mat(dat');
 %define the groups (1:length(dat))
 group = cell2mat(cellfun(@(a,b) b*ones(size(a,1),1),dat,num2cell(1:length(dat)),'uni',0)');
 
+%only consider pre vs post
 
+kp = ismember(group,[1 ops.nGroup   ]);
+training = training(kp,:);
+group = group(kp);
+sesID1 = sesID1(kp);
 % randomly sort for cross validation
 ops.rix  = (mod(sesID1(:,1),2)==1);
 %ops.rix = true(size(group,1),1);
-%ops.rix = sesID1(:,1)~=1;
 
-%set up classifer
+for ii = 1:10
+ops.rix = sesID1(:,1)~=ii & sesID1<11;
 
-
-ops.N = sum(ops.rix );         % Number of observations in the training sample
-ops.t = templateTree('MaxNumSplits',ops.N);
-ops.NumLearningCycles = 100;
-ops.Learners = ops.t;
-ops.LearnRate = 0.1;
-ops.Method = 'RUSBoost';
-
-%train model
-rusTree = fitcensemble(training(ops.rix ,:),group(ops.rix ,:),'Method',ops.Method, ...
-    'NumLearningCycles',ops.NumLearningCycles,'Learners',ops.Learners,'LearnRate',ops.LearnRate);
+    %set up classifer
 
 
+    ops.N = sum(ops.rix );         % Number of observations in the training sample
+    ops.t = templateTree('MaxNumSplits',100);
+    ops.NumLearningCycles = 100;
+    ops.Learners = ops.t;
+    ops.LearnRate = 0.1;
+    ops.Method = 'RUSBoost';
+
+    %train model
+    rusTree = fitcensemble(training(ops.rix ,:),group(ops.rix ,:),'Method',ops.Method, ...
+        'NumLearningCycles',ops.NumLearningCycles,'Learners',ops.Learners,'LearnRate',ops.LearnRate);
 
 
-%save (does not resave features, does save filename)
-save(ops.ClassifierFileOutput,'ops','rusTree','training','group','sessions','-v7.3')
-%%
 
-[label,conf] = predict(rusTree,training(~ops.rix ,:));
-actual = group(~ops.rix ,:);
-C = confusionmat(actual,label);
-C1 = C./nansum(C,2);
-C2 = C./nansum(C,1);
+ops.ClassifierFileOutput =  [ClassifierFileOutputDir filesep 'classification_' num2str(ii) '.mat'];
+
+    %save (does not resave features, does save filename)
+   save(ops.ClassifierFileOutput,'ops','rusTree','training','group','sessions','-v7.3')
+    
+
+   % [label,conf] = predict(rusTree,training(~ops.rix ,:));
+   % actual = group(~ops.rix ,:);
+   % C = confusionmat(actual,label);
+   % C1 = C./nansum(C,2);
+    %C2(:,:,ii) = C./nansum(C,1);
+    ii
+end
+
 %%
 for i = 1:4
     [X,Y,~,auc(i)] = perfcurve(actual==i,nanmean(conf(:,i),2),1);
@@ -66,9 +76,10 @@ end
 %%
 figure
 imagesc(C1)
-set(gca,'xtick',1:3,'xticklabel',[10 100 1000],'ytick',1:3,'yticklabel',[10 100 1000])
+set(gca,'xtick',1:3,'xticklabel',{'0-10','10-100','100-1000'},'ytick',1:3,'yticklabel',{'0-10','10-100','100-1000'})
 ylabel('Real')
 xlabel('Predicted')
+set(gca,'ydir','normal')
 %%
 d = LoadBinary('Labels_4Ch_1Hz.dat','nchannels',4,'channels',1,'frequency',1);
 dur = length(d);

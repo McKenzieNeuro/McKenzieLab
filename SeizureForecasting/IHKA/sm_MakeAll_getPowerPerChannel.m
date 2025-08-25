@@ -2,7 +2,7 @@
 
 FilePath = 'R:\IHKA_Scharfman\IHKA data';
 
-fils_edf = getAllExtFiles(FilePath,'edf',1);
+fils_edf = getAllExtFiles(FilePath,'edf',1); %getAllExtFiles function defined in the McKenzieLab helpers folder
 fils_txt = getAllExtFiles(FilePath,'txt',1);
 [~,b_edf] = cellfun(@fileparts,fils_edf,'uni',0);
 [~,b_txt] = cellfun(@fileparts,fils_txt,'uni',0);
@@ -20,7 +20,7 @@ edf_fils = fils_edf(ismember(b_edf,goodFils));
 
 masterDir = 'E:\data\IHKA';
 
-for i = 74:length(fils_edf)
+for i = 1:length(fils_edf)
     
     % check if file exists
     fileOut = regexprep(fils_edf{i},' ','_');
