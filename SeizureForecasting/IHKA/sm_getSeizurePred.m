@@ -25,6 +25,10 @@ seizure_end = cell2mat(TSdata(cellfun(@any,regexp(TSdata(:,6),TSname2)),4));
 
 powerFil = [fname '_1.dat'];
 s = dir(powerFil);
+disp(powerFil)
+disp(s.bytes);
+disp(nCh_featureFil);
+disp(Fs)
 dur = s.bytes/nCh_featureFil/Fs/2;
 
 

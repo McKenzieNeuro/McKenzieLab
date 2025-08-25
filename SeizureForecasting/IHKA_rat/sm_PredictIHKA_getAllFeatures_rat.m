@@ -11,9 +11,10 @@
 
 
 %path where raw data is stored with seizure labels
-ops.RawDataPath = 'R:\DGregg\NeuralData\EDS_Cohort2';
+%ops.RawDataPath = 'R:\DGregg\NeuralData\EDS_Cohort2';
+ops.RawDataPath = 'R:\DGregg\NeuralData\PCP\Recordings\OpenLoop';
 ops.FeaturePath = {[]};
-ops.FeatureFileOutput = 'R:\Analysis\SeizureForecasting\IHKA_rat_RF\features.mat';
+ops.FeatureFileOutput = 'R:\Analysis\SeizureForecasting\IHKA_rat_RF\features_pilo.mat';
 
 
 % define time windows around to predict (s)
@@ -29,7 +30,7 @@ ops.bins = [ inf 3600 100 10];
 %   seizure:    100%
 %   post ictal: 20%
 
-ops.pct = [.75 .3 .2 1 1 .5];
+ops.pct = [.05 .05 .05 1 1 .05];
 
 ops.nBins = length(ops.pct);
 
@@ -48,11 +49,11 @@ ops.freqs = logspace(log10(2),log10(300),20);
 
 
 ops.durFeat = 4; % 4s feature bins
-ops.ops.art_thres = 5e4;
+ops.art_thres = 5e4;
 
 %information about feature file (getPowerPerChannel)
 ops.nCh_featureFile = 32; % if no XML assume 4 rats @ 8ch each
-ops.ch_subj = 1:8;
+ops.ch_subj = 1:8; % this needs to be updated for >1 rat per dat file
 ops.nCh_raw = length(ops.ch_subj); % N = 8 eeg channels
 
 ops.features = @sm_GetDataFeature_rat;
@@ -113,56 +114,59 @@ for i= 1:size(sessions,1)
     
     
     ev = LoadEvents(sessions{i,1});
-    kp_on = contains(ev.description,subjName) & contains(ev.description,'sz_on');
-    kp_off = contains(ev.description,subjName) & contains(ev.description,'sz_off');
-    
-    
-    seizure_start = ev.time(kp_on);
-    seizure_end = ev.time(kp_off);
-    
-    
-    %loop over seizures per subject
-    for j = 1:length(seizure_start)
+    %  kp_on = contains(ev.description,subjName) & contains(ev.description,'sz_on');
+    %  kp_off = contains(ev.description,subjName) & contains(ev.description,'sz_off');
+    if ~isempty(ev.description)
+        kp_on = contains(ev.description,'Start');
+        kp_off =  contains(ev.description,'Stop');
         
-        %bins around seizure
         
-        if isinf(ops.bins(1))
+        seizure_start = ev.time(kp_on);
+        seizure_end = ev.time(kp_off);
+        
+        
+        %loop over seizures per subject
+        for j = 1:length(seizure_start)
             
-            if j ==1 && seizure_start(j) > ops.bins(2)
-                tmp = [0 seizure_start(j)-ops.bins(2:end) seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
+            %bins around seizure
+            
+            if isinf(ops.bins(1))
                 
-            elseif j ==1 && seizure_start(j) < ops.bins(2)
-                tmp = [nan seizure_start(j)-ops.bins(2:end) seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
-            elseif j >1 && seizure_start(j)-ops.bins(2) > seizure_start(j-1) +ops.timPost
-                tmp = [seizure_start(j-1)+ops.timPost seizure_start(j)-ops.bins(2:end) seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
+                if j ==1 && seizure_start(j) > ops.bins(2)
+                    tmp = [0 seizure_start(j)-ops.bins(2:end) seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
+                    
+                elseif j ==1 && seizure_start(j) < ops.bins(2)
+                    tmp = [nan seizure_start(j)-ops.bins(2:end) seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
+                elseif j >1 && seizure_start(j)-ops.bins(2) > seizure_start(j-1) +ops.timPost
+                    tmp = [seizure_start(j-1)+ops.timPost seizure_start(j)-ops.bins(2:end) seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
+                else
+                    tmp = [nan seizure_start(j)-ops.bins(2:end) seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
+                end
             else
-                tmp = [nan seizure_start(j)-ops.bins(2:end) seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
+                tmp = [seizure_start(j)-ops.bins seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
             end
-        else
-            tmp = [seizure_start(j)-ops.bins seizure_start(j) seizure_end(j) seizure_end(j)+ops.timPost];
+            %if seizure is early, delete time
+            tmp(tmp<0) = nan;
+            
+            
+            %if bin overlaps with prior seizure, delete
+            if j>1
+                tmp(tmp<seizure_start(j-1)) = nan;
+            end
+            
+            % if bin overlaps with next seizure, delete
+            if j<length(seizure_start)
+                tmp(tmp>seizure_start(j+1)) = nan;
+            end
+            
+            %save time bins per seizure per subject
+            tims{i} = [tims{i};tmp];
+            
+            
         end
-        %if seizure is early, delete time
-        tmp(tmp<0) = nan;
-        
-        
-        %if bin overlaps with prior seizure, delete
-        if j>1
-            tmp(tmp<seizure_start(j-1)) = nan;
-        end
-        
-        % if bin overlaps with next seizure, delete
-        if j<length(seizure_start)
-            tmp(tmp>seizure_start(j+1)) = nan;
-        end
-        
-        %save time bins per seizure per subject
-        tims{i} = [tims{i};tmp];
-        
         
     end
-    
 end
-
 %%
 
 % clear feature variable that will be used to aggregate across sesions
@@ -179,9 +183,10 @@ end
 
 
 %loop over number of sessions
-for i = 36:nSessions
+for i = 1:nSessions
     fname = sessions{i,2};
-    
+     fxml = strrep(fname,'lfp','xml');
+     xml = LoadXml(fxml);
     if ~isempty(tims{i})
         %loop of time bins
         for k = 1:ops.nBins
@@ -203,7 +208,10 @@ for i = 36:nSessions
                 %find duration of the file
                 
                 s = dir(fname);
-                dur = s.bytes/ops.nCh_featureFile/ops.Fs/2;
+             
+                % GET number of channels 
+                
+                dur = s.bytes/xml.nChannels/ops.Fs/2;
                 
                 tim = sz{k}(ev)-ops.durFeat;
                 %make sure the even does not exceed duration of recording

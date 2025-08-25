@@ -20,7 +20,7 @@ for ch = 1:nLoop
     fwrite(fidO,F(:),'int16');
 end
 
-idx = [idx(2)+1 nSample];
+idx = [idx(2)+1 floor(nSample)];
 [F, TimeVector] = in_fread(sFile, ChannelMat,1,idx);
 EEG_kp = contains({ChannelMat.Channel.Type},'EEG');
 F(EEG_kp,:) = F(EEG_kp,:) - repmat(median(F(EEG_kp,:)),sum(EEG_kp),1);

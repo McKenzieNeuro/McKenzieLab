@@ -8,7 +8,7 @@ fils = fils(kp);
 fils =  fils(b);
 
 %%
-clear ses
+%clear ses
 for i = 1:length(fils)
     subDir = fileparts(fils{i});
     xmlfil = [subDir filesep 'amplifier.xml'];
@@ -63,7 +63,7 @@ fils =  fils(b);
 
 idx = length(ses)+1;
 %%
-idx=1
+%idx=1
 for i = 144:length(fils)
     subDir = fileparts(fils{i});
     xmlfil = [subDir filesep 'amplifier.xml'];

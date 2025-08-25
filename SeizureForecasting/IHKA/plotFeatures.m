@@ -1,5 +1,6 @@
 %%
-%N = round(size(training,1)/2);         % Number of observations in the training sample
+%load('R:\McKenzieLab\IHKA_Scharfman\features\features.mat')
+N = round(size(training,1)/2);         % Number of observations in the training sample
 %label = predict(rusTree,training); % only N+1 CV
 
 %zT  = zscore(training);
@@ -13,7 +14,8 @@
 %EEG3 -> Ipsilateral hippocampal
 %EEG4 -> Contralateral hippocampal
 
-load('E:\data\IHKA\features.mat')
+%load('E:\data\IHKA\features.mat')
+load('C:\Users\AlMaynes\Documents\NeuroLab\features\features.mat')
 
 
 %%
@@ -327,18 +329,18 @@ kp2 = Y(:,1)>20 & Y(:,1) < 30 & Y(:,2)> -30 & Y(:,2)< -20;
 %%
 
 
-dirN = 'E:\Dropbox\UNM\Analysis\IHKA\data';
+%dirN = 'E:\Dropbox\UNM\Analysis\IHKA\data';
 fils = getAllExtFiles(dirN,'mat',0);
 
 fils = fils(1:end);
 
 
 
-power_dirN = 'F:\data1\IHKA';
+%power_dirN = 'F:\data1\IHKA';
 filP = dir(power_dirN);
 filP = {filP.name}';
 
-filenameps = 'E:\Dropbox\UNM\Analysis\IHKA\allPredict.ps';
+%filenameps = 'E:\Dropbox\UNM\Analysis\IHKA\allPredict.ps';
 
 O =[];
 ts =[];
@@ -384,18 +386,18 @@ end
 
 
 %%
-dirN = 'E:\Dropbox\UNM\Analysis\IHKA\data';
+%dirN = 'E:\Dropbox\UNM\Analysis\IHKA\data';
 fils = getAllExtFiles(dirN,'mat',0);
 
 fils = fils(1:end);
 
 
 
-power_dirN = 'F:\data1\IHKA';
+%power_dirN = 'F:\data1\IHKA';
 filP = dir(power_dirN);
 filP = {filP.name}';
 
-filenameps = 'E:\Dropbox\UNM\Analysis\IHKA\allPredict.ps';
+%filenameps = 'E:\Dropbox\UNM\Analysis\IHKA\allPredict.ps';
 
 O =[];
 ts =[];
