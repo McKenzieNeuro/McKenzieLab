@@ -4,7 +4,6 @@ keepFiles = contains(files,'sessiondata');
 
 files = files(keepFiles);
 
-%%
 
 %%
 
@@ -27,10 +26,10 @@ subjs =  [...
     {'EDS 1.1'} ; ...
     {'PCP 4.0'} ; ...
     ];
-%idx = 1;
+idx = 1;
 
-%clear output
-for i = 5:length(subjs)
+clear output
+for i = 1:length(subjs)
     kp  = contains(files,subjs{i});
     
     tmp = files(kp);

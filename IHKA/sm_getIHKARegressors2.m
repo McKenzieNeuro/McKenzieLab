@@ -191,6 +191,36 @@ end
 
 output.FE_full = FE_full;
 output.FE_sleep = FE_sleep;
+
+dat1 = dat_all(in_Stim==0,:);
+
+try
+    mdl_full = fitglme(dat1,'ied_bin ~  1+ TD + vel1 + sleepState1  ','link','log','distribution','poisson');
+    
+    [beta,b,c] =   fixedEffects(mdl_full);
+    [~,b] = ismember(b.Name,vars);
+    
+    FE_full(b(b>0)) = beta(b>0);
+catch
+    FE_full= nan(1,4);
+end
+
+try
+    sleep = fitglme(dat1,'ied_bin ~    sleepState1  ','link','log','distribution','poisson');
+    
+    
+    [beta,b,c] =   fixedEffects(sleep);
+    [~,b] = ismember(b.Name,vars(3:4));
+    
+    FE_sleep(b(b>0)) = beta(b>0);
+catch
+    FE_sleep = nan(1,2);
+end
+
+output.FE_full_baseline = FE_full;
+output.FE_sleep_baseline = FE_sleep;
+
+
 output.subj = sessiondata.subject;
 output.StimAmp = sessiondata.StimAmp;
 output.StimType = sessiondata.StimType;

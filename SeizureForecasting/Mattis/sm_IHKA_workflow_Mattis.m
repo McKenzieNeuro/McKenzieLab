@@ -6,7 +6,7 @@ sm_PredictIHKA_getAllFeatures_Mattis
 sm_PredictIHKA_Mattis
 
 %run model for all times for all files
-sm_MakeAllSeizurePred
+sm_MakeAllSeizurePred_Mattis
 
 
 

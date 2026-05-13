@@ -1,0 +1,13 @@
+Current problem #1:
+@ Line 1663
+	predictModel only works if 2 channels are selected 
+	
+One rat closedLoopV8_singlebox.m
+	Working after change to 
+
+                  Line 1661:       inputdata = inputdata(modelOPs.ch_subj,:);
+
+	With all channels enabled.  Only pulls 3/7 redefined in model file ops.ch_subj. 
+
+	Plan: New GUI element to select ALL channels and then select model channels
+		Bypasses model.ch_subj AND dataChan

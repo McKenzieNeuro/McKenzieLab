@@ -11,9 +11,9 @@
 
 
 %path where raw data is stored with seizure labels
-ops.RawDataPath = 'C:\Users\samckenzie\Downloads\Chandni';
+ops.RawDataPath = 'E:\Dropbox\EEG_NRI_Meiling\het';
 ops.FeaturePath = {[]};
-ops.FeatureFileOutput = 'C:\Users\samckenzie\Downloads\Chandni\analysis\features.mat';
+ops.FeatureFileOutput = 'E:\Dropbox\EEG_NRI_Meiling\code\features.mat';
 
 
 % define time windows around to predict (s)
@@ -51,9 +51,9 @@ ops.durFeat = 4; % 4s feature bins
 ops.ops.art_thres = 5e4;
 
 %information about feature file (getPowerPerChannel)
-ops.nCh_featureFile = 16; % if no XML assume 4 rats @ 8ch each
-ops.ch_subj = 3:4;
-ops.nCh_raw = 2; % N = 2 eeg channels
+ops.nCh_featureFile = 24; % if no XML assume 4 rats @ 8ch each
+ops.ch_subj = 9;
+ops.nCh_raw = 1; % N = 1 eeg channels
 
 ops.features = @sm_GetDataFeature_Mattis;
 
@@ -71,7 +71,7 @@ ops.features = @sm_GetDataFeature_Mattis;
 
 % find all lfp files and evt.szr  files (with seizure labels)
 fils_lfp = getAllExtFiles(ops.RawDataPath,'dat',1);
-fils_szr = getAllExtFiles(ops.RawDataPath,'szr',1);
+fils_szr = getAllExtFiles(ops.RawDataPath,'ict',1);
 
 % find all lfp files with annotations
 [b_lfp] = cellfun(@fileparts,fils_lfp,'uni',0);
@@ -113,6 +113,7 @@ for i= 1:size(sessions,1)
     
     
     ev = LoadEvents(sessions{i,1});
+    if ~isempty(ev.description)
     kp_on = contains(ev.description,'sz_on');
     kp_off = contains(ev.description,'sz_off');
     
@@ -125,7 +126,7 @@ for i= 1:size(sessions,1)
     seizure_start = seizure_start(end);
     seizure_end = seizure_end(end);
     
-        tmp = [0 300 seizure_start seizure_end seizure_end+100 ];
+        tmp = [0 120 seizure_start seizure_end seizure_end+100 ];
         
         
         %get file dur 
@@ -140,7 +141,7 @@ for i= 1:size(sessions,1)
         
     end
     
-
+end
 
 %%
 

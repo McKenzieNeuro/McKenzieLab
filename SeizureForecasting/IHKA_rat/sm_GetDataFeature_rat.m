@@ -22,15 +22,15 @@ if isstr(data)
 end
 stim_art = any(any(abs(data)>ops.art_thres));
 nfreq = length(ops.freqs);
-
+nCh_subj = length(ops.ch_subj);
 %initialize
-feat= nan(1,nfreq*ops.nCh_raw);
+feat= nan(1,nfreq*nCh_subj);
 if ~stim_art
     
     
     
     %loop
-    for j = 1:ops.nCh_raw
+    for j = 1:size(data,2)
         
         % wavelet decomposition
         tmp = abs(awt_freqlist(double(data(:,j)),ops.Fs,ops.freqs))';
@@ -40,7 +40,7 @@ if ~stim_art
             
             % for the sampling window, take the mean power at each frequency.
             tmp = mean(tmp,2);
-            feat((jj-1)*ops.nCh_raw+j)  = tmp(jj);
+            feat((jj-1)*nCh_subj+j)  = tmp(jj);
         end
         
         

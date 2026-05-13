@@ -292,4 +292,4 @@ ok = Est(kp);
 con(i,:) = nanmean(ok(idx));
 end
 %%
-save('R:\DANEHippocampalResponse\Workspaces\novelContext.mat')
+% save('R:\DANEHippocampalResponse\Workspaces\novelContext.mat')

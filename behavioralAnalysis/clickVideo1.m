@@ -19,7 +19,7 @@ tbl = [];
 IDs = inputdlg(prompt,dlg_title,num_lines,def);
 if ~isempty(IDs)
 C = strsplit(IDs{1},',');
-
+C = C(:);
 
 %%
 
@@ -49,6 +49,7 @@ if isstr(fname)
     if(exist('frame','var')~=1 || isempty(frame))
         frame = 1;
     end
+    
     
     % Initialize frame rate.
     rate = 1;
@@ -333,7 +334,7 @@ end
         gFont.size=9;
         gFont.name='Helvetica';
         if any(presses)
-            figData = mltable(fig, tbl, 'CreateTable', columninfo, rowHeight, [C(presses(:,2))' num2cell(presses(:,1),2)], gFont);
+            figData = mltable(fig, tbl, 'CreateTable', columninfo, rowHeight, [C(presses(:,2)) num2cell(presses(:,1),2)], gFont);
             uiwait(fig)
         end
         ReleaseFocus(f)
@@ -400,7 +401,7 @@ end
                             presses = sortrows(presses,2);
                             mice = C(presses(:,2));
                            % presses(:,1) = presses(:,1)/vid.FrameRate;
-                            data = [mice' num2cell(presses(:,1),2)];
+                            data = [mice num2cell(presses(:,1),2)];
                             deltam = cell(size(presses,1),3);
                             deltam(1:2:end,2) = mice(1:2:end)';
                             deltam(1:2:end,3) = num2cell(presses(2:2:end,1) - presses(1:2:end,1),2);

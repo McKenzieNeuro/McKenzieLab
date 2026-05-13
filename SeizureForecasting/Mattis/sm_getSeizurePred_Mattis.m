@@ -3,7 +3,7 @@ function [estimateLabel] = sm_getSeizurePred_Mattis(fname,rusTree,sz_off,ops)
 s = dir(fname);
 dur = s.bytes/ops.nCh_featureFile/ops.Fs/2;
 
-ts = sz_off:sz_off+600;
+ts = sz_off:sz_off+1800;
 ts = ceil(ts);
 %get prediction
 estimateLabel =[];

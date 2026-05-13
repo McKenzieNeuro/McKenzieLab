@@ -218,12 +218,20 @@ while ~eot & ~isempty(udeblank(deblank(str)))
     end
     %< Attributs
     f_beg   = strfind(new_tag, ' ');
+    
+
     if isempty(f_beg)
       new_attribs = '';
       if eot
 	new_tag = new_tag(1:end-1);
       end
     else
+      % BH Added 3/26/2026
+      % fixes "Colon operands must be real scalars." error
+      % If two spaces were in tag, f_beg would be a vector and break
+      % execution
+
+      f_beg = f_beg(1);
       new_attribs = new_tag(f_beg+1:end);
       if eot
 	new_attribs = new_attribs(1:end-1);
