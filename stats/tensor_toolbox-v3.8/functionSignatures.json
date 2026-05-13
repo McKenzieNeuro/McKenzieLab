@@ -1,0 +1,456 @@
+{
+    "_schemaVersion": "1.0.0",
+    "cp_als": {
+        "inputs": [
+            {
+                "name": "X",
+                "kind": "required",
+                "purpose": "tensor"
+            },
+            {
+                "name": "R",
+                "kind": "required",
+                "purpose": "CP rank"
+            },
+            {
+                "name": "tol",
+                "kind": "namevalue",
+                "purpose": "stopping tolerance (default: 1e-4)"
+            },
+            {
+                "name": "maxiters",
+                "kind": "namevalue",
+                "purpose": "maximum iterations (default: 50)"
+            },
+            {
+                "name": "init",
+                "kind": "namevalue",
+                "purpose": "factor matrix initialization: 'random' (default),'nvecs', cell array"
+            },
+            {
+                "name": "printitn",
+                "kind": "namevalue",
+                "purpose": "print iteration frequency (default: 1, 0 for none)"
+            },
+            {
+                "name": "dimorder",
+                "kind": "namevalue",
+                "purpose": "order of dimensions (default: 1:ndims(X))"
+            },
+            {
+                "name": "fixsigns",
+                "kind": "namevalue",
+                "purpose": "fix signs of factors (default: true)"
+            }
+        ]
+    },    
+    "create_problem": {
+        "inputs": [
+            {
+                "name": "Type",
+                "kind": "namevalue",
+                "type": ["char","choices={'CP', 'Tucker'}"],
+                "purpose": "type of tensor decomposition (default: 'CP')"
+            },
+            {
+                "name": "Size",
+                "kind": "namevalue",
+                "type": "numeric",
+                "purpose": "size of the tensor, defaults to [100,100,100]"
+            },
+            {
+                "name": "Num_Factors",
+                "kind": "namevalue",
+                "type": "integer",
+                "purpose": "number of factors (rank), defaults to 2"
+            },
+            {
+                "name": "Noise",
+                "kind": "namevalue",
+                "type": "scalar",
+                "purpose": "amount of Gaussian noise to add (default: 0.10)"
+            },
+            {
+                "name": "State",
+                "kind": "namevalue",
+                "purpose": "state of random number generator"
+            },
+            {
+                "name": "Factor_Generator",
+                "kind": "namevalue",
+                "type": ["string", "function_handle", "choices={'rand', 'randn', 'orthogonal', 'stochastic','<function handle>'}"],
+                "purpose": "method/function to generate factor matrices (default: 'randn')"
+            },
+            {
+                "name": "Lambda_Generator",
+                "kind": "namevalue",
+                "type": ["string", "function_handle", "choices={'rand', 'randn', 'orthogonal', 'stochastic','<function handle>'}"],
+                "purpose": "method/function to generate lambda vector for CP (default: 'rand')"
+            },
+            {
+                "name": "Core_Generator",
+                "kind": "namevalue",
+                "type": ["string", "function_handle", "choices={'rand', 'randn', '<function handle>'}"],
+                "purpose": "method/function to generate core tensor for Tucker (default: 'randn')"
+            },
+            {
+                "name": "Soln",
+                "kind": "namevalue",
+                "purpose": "desired solution as ktensor or ttensor"
+            },
+            {
+                "name": "Symmetric",
+                "kind": "namevalue",
+                "type": ["cell", "numeric"],
+                "purpose": "list of modes that should be symmetric"
+            },
+            {
+                "name": "M",
+                "kind": "namevalue",
+                "type": ["scalar", "tensor", "sptensor"],
+                "purpose": "proportion of missing data as a value in [0,1] *or* pattern of missing data as a tensor or sptensor with ones for known values (default: 0 - no missing data)"
+            },
+            {
+                "name": "Sparse_M",
+                "kind": "namevalue",
+                "type": "logical",
+                "purpose": "generate sparse missing data pattern (default: false)"
+            },
+            {
+                "name": "Sparse_Generation",
+                "kind": "namevalue",
+                "type": ["scalar"],
+                "purpose": "generate sparse count tensor for CP (0 = no sparse generation, >0 = number/percent nonzeros, default: 0)"
+            }
+        ]
+    },
+    "cp_apr": {
+        "inputs": [
+            {
+                "name": "X",
+                "kind": "required",
+                "purpose": "input tensor (tensor or sptensor), must be nonnegative"
+            },
+            {
+                "name": "R",
+                "kind": "required",
+                "purpose": "desired CP rank (positive integer)"
+            },
+            {
+                "name": "alg",
+                "kind": "namevalue",
+                "type": ["string", "choices={'pqnr', 'pdnr', 'mu'}"],
+                "purpose": "algorithm: 'pqnr' (default), 'pdnr', or 'mu'"
+            },
+            {
+                "name": "stoptol",
+                "kind": "namevalue",
+                "purpose": "tolerance on KKT violation (default: 1e-4)"
+            },
+            {
+                "name": "stoptime",
+                "kind": "namevalue",
+                "purpose": "maximum number of seconds to run (default: 1e6)"
+            },
+            {
+                "name": "maxiters",
+                "kind": "namevalue",
+                "purpose": "maximum number of iterations (default: 1000)"
+            },
+            {
+                "name": "init",
+                "kind": "namevalue",
+                "purpose": "initial guess: 'random' (default) or ktensor"
+            },
+            {
+                "name": "maxinneriters",
+                "kind": "namevalue",
+                "purpose": "maximum inner iterations per outer iteration (default: 10)"
+            },
+            {
+                "name": "epsDivZero",
+                "kind": "namevalue",
+                "purpose": "safeguard against divide by zero (default: 1e-10)"
+            },
+            {
+                "name": "printitn",
+                "kind": "namevalue",
+                "purpose": "print every n outer iterations; 0 for none (default: 1)"
+            },
+            {
+                "name": "printinneritn",
+                "kind": "namevalue",
+                "purpose": "print every n inner iterations (default: 0)"
+            },
+            {
+                "name": "kappa",
+                "kind": "namevalue",
+                "purpose": "offset to fix complementary slackness (mu only, default: 100)"
+            },
+            {
+                "name": "kappatol",
+                "kind": "namevalue",
+                "purpose": "tolerance on complementary slackness (mu only, default: 1e-10)"
+            },
+            {
+                "name": "epsActive",
+                "kind": "namevalue",
+                "purpose": "Bertsekas tolerance for active set (pdnr/pqnr only, default: 1e-8)"
+            },
+            {
+                "name": "mu0",
+                "kind": "namevalue",
+                "purpose": "initial damping parameter (pdnr only, default: 1e-5)"
+            },
+            {
+                "name": "precompinds",
+                "kind": "namevalue",
+                "purpose": "precompute sparse tensor indices (pdnr/pqnr only, default: true)"
+            },
+            {
+                "name": "inexact",
+                "kind": "namevalue",
+                "purpose": "compute inexact Newton steps (pdnr only, default: true)"
+            },
+            {
+                "name": "lbfgsMem",
+                "kind": "namevalue",
+                "purpose": "number of vector pairs to store for L-BFGS (pqnr only, default: 3)"
+            }
+        ]
+    },
+    
+    "cp_arls_lev": {
+        "inputs": [
+            {
+                "name": "X",
+                "kind": "required",
+                "purpose": "input tensor (tensor or sptensor)"
+            },
+            {
+                "name": "R",
+                "kind": "required",
+                "purpose": "desired CP rank (positive integer)"
+            },
+            {
+                "name": "thresh",
+                "kind": "namevalue",
+                "purpose": "hybrid sampling include threshold, empty for none (default: [])"
+            },
+            {
+                "name": "epoch",
+                "kind": "namevalue",
+                "purpose": "number of iterations between convergence checks (default: 5)"
+            },
+            {
+                "name": "maxepochs",
+                "kind": "namevalue",
+                "purpose": "maximum number of epochs (default: 50)"
+            },
+            {
+                "name": "newitol",
+                "kind": "namevalue",
+                "purpose": "quit after this many epochs with no improvement (default: 3)"
+            },
+            {
+                "name": "tol",
+                "kind": "namevalue",
+                "purpose": "improvement tolerance, i.e., fit - maxfit > tol (default: 1e-4)"
+            },
+            {
+                "name": "printitn",
+                "kind": "namevalue",
+                "purpose": "print fit every n epochs; 0 for no printing (default: 10)"
+            },
+            {
+                "name": "init",
+                "kind": "namevalue",
+                "type": ["string", "choices={'random', 'RRF', '<cell array'}"],
+                "purpose": "initial guess: 'random' (default), 'RRF', or cell array"
+            },
+            {
+                "name": "nsamplsq",
+                "kind": "namevalue",
+                "purpose": "number of least-squares row samples (default: 2^17)"
+            },
+            {
+                "name": "nsampfit",
+                "kind": "namevalue",
+                "purpose": "number of samples for estimated fit (default: [])"
+            },
+            {
+                "name": "truefit",
+                "kind": "namevalue",
+                "type": ["string", "choices={'never', 'final', 'iter'}"],
+                "purpose": "calculate true fit: 'never' (default), 'final', or 'iter'"
+            },
+            {
+                "name": "dimorder",
+                "kind": "namevalue",
+                "purpose": "order to loop through dimensions (default: 1:ndims(X))"
+            }
+        ]
+    },
+    "cp_arls": {
+        "inputs": [
+            {
+                "name": "X",
+                "kind": "required",
+                "purpose": "input tensor (dense tensor)"
+            },
+            {
+                "name": "R",
+                "kind": "required",
+                "purpose": "desired CP rank (positive integer)"
+            },
+            {
+                "name": "mix",
+                "kind": "namevalue",
+                "type": ["logical"],
+                "purpose": "include FJLT transformations (default: true)"
+            },
+            {
+                "name": "epoch",
+                "kind": "namevalue",
+                "purpose": "number of iterations between convergence checks (default: 5)"
+            },
+            {
+                "name": "maxepochs",
+                "kind": "namevalue",
+                "purpose": "maximum number of epochs (default: 1000)"
+            },
+            {
+                "name": "newitol",
+                "kind": "namevalue",
+                "purpose": "quit after this many epochs with no improvement (default: 5)"
+            },
+            {
+                "name": "tol",
+                "kind": "namevalue",
+                "purpose": "tolerance for improvement, i.e., fit - maxfit > tol (default: 0)"
+            },
+            {
+                "name": "fitthresh",
+                "kind": "namevalue",
+                "purpose": "terminate when fit > fitthresh (default: 1.000)"
+            },
+            {
+                "name": "printitn",
+                "kind": "namevalue",
+                "purpose": "print fit every n epochs; 0 for no printing (default: 10)"
+            },
+            {
+                "name": "init",
+                "kind": "namevalue",
+                "type": ["string", "choices={'random', 'nvecs', '<cell array>'}"],
+                "purpose": "initial guess: 'random' (default), 'nvecs', or cell array"
+            },
+            {
+                "name": "nsamplsq",
+                "kind": "namevalue",
+                "purpose": "number of least-squares row samples (default: ceil(10*R*log2(R)))"
+            },
+            {
+                "name": "nsampfit",
+                "kind": "namevalue",
+                "purpose": "number of entry samples for approximate fit (default: 2^14)"
+            },
+            {
+                "name": "dimorder",
+                "kind": "namevalue",
+                "purpose": "order to loop through dimensions (default: 1:ndims(X))"
+            },
+            {
+                "name": "truefit",
+                "kind": "namevalue",
+                "type": ["logical"],
+                "purpose": "calculate true fit (default: false)"
+            }
+        ]
+    },
+    "tensor": {
+        "inputs": [
+            {
+                "name": "input",
+                "kind": "positional",
+                "purpose": "input data or tensor to convert/copy"
+            },
+            {
+                "name": "sz",
+                "kind": "positional",
+                "purpose": "reshape size"
+            }
+        ]
+    },
+    "tensor": {
+        "inputs": [
+            {
+                "name": "func",
+                "kind": "required",
+                "type": "function_handle",
+                "purpose": "generating function"
+            },
+            {
+                "name": "sz",
+                "kind": "required",
+                "purpose": "size"
+            }
+        ]
+    },
+    
+
+    "sptensor": {
+        "inputs": [
+            {
+                "name": "subs",
+                "kind": "positional",
+                "purpose": "subscripts of nonzero entries (p x n array)"
+            },
+            {
+                "name": "vals",
+                "kind": "positional",
+                "purpose": "values for each subscript (p x 1 array or scalar)"
+            },
+            {
+                "name": "sz",
+                "kind": "positional",
+                "purpose": "size of the tensor (1 x n array, optional)"
+            },
+            {
+                "name": "accum",
+                "kind": "positional",
+                "purpose": "function to accumulate repeats (default: @sum, optional)"
+            },
+            {
+                "name": "type",
+                "kind": "positional",
+                "purpose": "'sparse' or 'incomplete' (default: 'sparse', optional)"
+            }
+        ]
+    },
+    "sptensor": {
+        "inputs": [
+            {
+                "name": "fun",
+                "kind": "positional",
+                "type": "function_handle",
+                "purpose": "function handle to generate values"
+            },
+            {
+                "name": "sz",
+                "kind": "positional",
+                "purpose": "size of the tensor"
+            },
+            {
+                "name": "p",
+                "kind": "positional",
+                "purpose": "number or proportion of entries"
+            },
+            {
+                "name": "type",
+                "kind": "positional",
+                "purpose": "'sparse' or 'incomplete' (default: 'sparse', optional)"
+            }
+        ]
+    }
+}

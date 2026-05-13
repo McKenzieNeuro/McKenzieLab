@@ -1,6 +1,6 @@
 %%
 %load('R:\McKenzieLab\IHKA_Scharfman\features\features.mat')
-N = round(size(training,1)/2);         % Number of observations in the training sample
+%N = round(size(training,1)/2);         % Number of observations in the training sample
 %label = predict(rusTree,training); % only N+1 CV
 
 %zT  = zscore(training);
@@ -15,9 +15,9 @@ N = round(size(training,1)/2);         % Number of observations in the training 
 %EEG4 -> Contralateral hippocampal
 
 %load('E:\data\IHKA\features.mat')
-load('C:\Users\AlMaynes\Documents\NeuroLab\features\features.mat')
+%load('C:\Users\AlMaynes\Documents\NeuroLab\features\features.mat')
 
-
+load('R:\IHKA_Scharfman\features\features.mat')
 %%
 TSname1 = 'seizure st';
 
@@ -39,6 +39,18 @@ for i = 1:length(sessions)
     tot = tot+length(tmp);
     % now get times in training
 end
+%%
+%get total size of database
+fils = getAllExtFiles('R:\IHKA_Scharfman\IHKA','dat',1);
+kp=  contains(fils,'_4.dat');
+fils = fils(kp);
+
+clear fileDur
+for i = 1:length(fils)
+    fileDur(i) = sm_getFileDur(fils{i},'nChannels',41,'fs',2000);
+end
+
+
 %%
 % get subject info
 
@@ -104,7 +116,7 @@ for j = 1:6
         %kp = kp2;
         semilogx(1,1)
         hold on
-        plotMeanSEM(freqs(1:20), (trainU(:,ix,j)),col{i})
+        plotMeanSEM(freqs(1:20), (trainU(:,ix,j)),col{i},'ErrorBarFunction',@SEM)
         hold on
         
         
@@ -176,9 +188,11 @@ figure
 for i = 1:4
     
     ix = (i-1)*20+(1:20);
-    semilogx(freqs,(F_ratio_Feature(ix)))
+    semilogx(freqs,(F_ratio_Feature(ix)),'linewidth',6)
     hold on
 end
+       legend({'C Cort','I Cort','I H','C H'},'Location','northwest')
+set(gca,'fontsize',16)
 %%
 
 idx = (20*4)+ ( 1: ( length(apr)*length(idx1))) ; % phase amp coupling
@@ -212,7 +226,9 @@ for j = 1:6
     else
         title('post')
     end
-    
+      
+colormap('hot')
+set(gca,'fontsize',16)
 end
 
 %%
@@ -229,7 +245,7 @@ figure
     ylabel('Amplitude freq.')
     
    
-
+colormap('hot')
 %%
 figure
 col = linspecer(6,'jet');
@@ -240,9 +256,12 @@ for j = 1:6
         ix = (140 + (i-1)*20)  + (1:20);
         kp = group==j;
         %kp=kp1;
-        semilogx(freqs(1:20), nanmean(training(kp ,ix)),'linewidth',3,'color',col{i})
-        hold on
+        semilogx(1,1)
         
+%        semilogx(freqs(1:20), nanmean(training(kp ,ix)),'linewidth',3,'color',col{i})
+        hold on
+         plotMeanSEM(freqs(1:20), training(kp ,ix),col{i})
+
         
         ylim([0 1])
     end
@@ -257,10 +276,13 @@ for j = 1:6
     end
     if j ==1
         
-        legend({'C Cort/I Cort','C Cort/I H','C Cort/C H','I Cort/I H','I Cort/C H','I H/C H'},'Location','northwest')
+     %   legend({'C Cort/I Cort','C Cort/I H','C Cort/C H','I Cort/I H','I Cort/C H','I H/C H'},'Location','northwest')
         
         
     end
+    colormap('hot')
+    set(gca,'fontsize',16)
+    ylim([0 .5])
 end
 %%
 col = linspecer(6,'jet');
@@ -277,8 +299,13 @@ figure
         hold on
         
         
+    set(gca,'fontsize',16)
        
-    end
+    
+ end
+    
+         legend({'C Cort/I Cort','C Cort/I H','C Cort/C H','I Cort/I H','I Cort/C H','I H/C H'},'Location','northwest')
+
 %get coherence
 %%
 figure

@@ -105,7 +105,11 @@ end
 
 
 fs = readerobj.FrameRate;
-threshF = prctile(diff(whl),97);
+
+if ~ isempty(threshF)
+    threshF = prctile(diff(whl),98);
+end
+
 up_vid = find(diff([0;[0;diff(whl)>threshF]])>0);
 dwn_vid = find(diff([0;[0;diff(whl)<-threshF]])>0);
 
@@ -304,6 +308,12 @@ ts_syn_back = ts_syn_back(b,:);
 ts_syn= [ts_syn;ts_syn_back];
 kp = abs(diff(ts_syn(:,1))-diff(ts_syn(:,3)))<1;
 ts_syn = ts_syn(kp,:);
+
+%delete points that are way off
+diff_expect  = abs(ts_syn(:,3) - ts_syn(:,1));
+kp = diff_expect < 10*median(diff_expect);
+ts_syn = ts_syn(kp,:);
+
 
 IntanTime= ts_syn(:,1);
 VideoFrameNumber = ts_syn(:,2);

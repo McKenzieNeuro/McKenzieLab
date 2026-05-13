@@ -1,0 +1,679 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>Symmetric Tucker Decomposition</title>
+<meta name="generator" content="MATLAB 24.2">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2025-07-06">
+<meta name="DC.source" content="tucker_sym_doc.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:90%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:2.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+.banner{ background-color:#15243c; text-align:center;}
+.navigate {font-size:0.8em; padding:0px; line-height:100%; }
+
+pre, code { font-size:14px; }
+tt { font-size: 1.0em; font-weight:bold; background:#f7f7f7; padding-right:5px; padding-left:5px }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:20px 0px 0px; border-top:1px dotted #878787; font-size:0.9em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; padding:0px 20px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="banner">
+<a href="index.html"><img src="Tensor-Toolbox-for-MATLAB-Banner.png"></a>
+</div>
+<div class="content">
+<h1>Symmetric Tucker Decomposition</h1>
+<!--introduction-->
+<p>
+<p class="navigate">
+&#62;&#62; <a href="index.html">Tensor Toolbox</a>
+&#62;&#62; <a href="tucker.html">Tucker Decompositions</a>
+&#62;&#62; <a href="tucker_sym_doc.html">Symmetric Tucker</a>
+</p>
+</p>
+<p>The function <tt>tucker_sym</tt> computes the best symmetric rank-(R,R,...,R) approximation of a symmetric tensor S, according to the specified rank R. The result returned in T is a ttensor with all factors equal. S must be a tensor (not a symtensor) and must be exactly symmetric.</p>
+<p>The method is based on the algorithm described in: * Phillip A. Regalia, Monotonically Convergent Algorithms for Symmetric Tensor Approximation, Linear Algebra and its Applications 438(2):875-890, 2013, <a href="http://dx.doi.org/10.1016/j.laa.2011.10.033">http://dx.doi.org/10.1016/j.laa.2011.10.033</a>
+</p>
+<!--/introduction-->
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#1">Create a symmetric tensor of size 4x4x4</a>
+</li>
+<li>
+<a href="#2">Compute a symmetric Tucker decomposition with rank 2 with default parameters</a>
+</li>
+<li>
+<a href="#3">We do the same test again, but provide user-specified initial guesses</a>
+</li>
+<li>
+<a href="#4">We do the same test again, but use the n-vecs initialization method</a>
+</li>
+<li>
+<a href="#5">Comparison of errors with different initialization methods</a>
+</li>
+<li>
+<a href="#6">Example: Symmetric tensor with known rank-2 decomposition</a>
+</li>
+</ul>
+</div>
+<h2 id="1">Create a symmetric tensor of size 4x4x4</h2>
+<pre class="codeinput">rng(0); <span class="comment">%&lt;-- Set seed for reproducibility</span>
+S = tensor(@randn,[4,4,4]);
+S = symmetrize(S);
+</pre>
+<h2 id="2">Compute a symmetric Tucker decomposition with rank 2 with default parameters</h2>
+<p>Except for the rank, all parameters are optional. We specify here that we want to print the fit every 10 iterations. The usual default is every iteration. By default, the initial guess is random. Since this is a nonconvex problem, we will run the algorithm multiple times to find the best solution.</p>
+<pre class="codeinput">best_err = inf;
+best_T = [];
+errs = zeros(3,1); <span class="comment">% Store errors for the first 3 examples</span>
+<span class="keyword">for</span> i = 1:10
+	rng(i); <span class="comment">% Set different seed each time</span>
+	T_tmp = tucker_sym(S,2,<span class="string">'printitn'</span>,10);
+	err = norm(S - full(T_tmp)) / norm(S);
+	<span class="keyword">if</span> err &lt; best_err
+		best_err = err;
+		best_T = T_tmp;
+	<span class="keyword">end</span>
+<span class="keyword">end</span>
+errs(1) = best_err;
+fprintf(<span class="string">'\n\n*** Best relative error over 10 runs: %g ***\n'</span>, best_err);
+disp(best_T)
+</pre>
+<pre class="codeoutput">
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: random
+Return type: ttensor
+
+ Iter 10: rel. change in X = 1.993136e+00
+ Iter 20: rel. change in X = 2.367469e-05
+ Iter 30: rel. change in X = 2.961379e-07
+ Iter 40: rel. change in X = 3.704293e-09
+ Iter 49: rel. change in X = 7.181217e-11
+Final relative error: 8.334750e-01
+
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: random
+Return type: ttensor
+
+ Iter 10: rel. change in X = 3.968407e-04
+ Iter 20: rel. change in X = 8.389887e-07
+ Iter 30: rel. change in X = 5.553515e-09
+ Iter 37: rel. change in X = 8.519612e-11
+Final relative error: 7.961686e-01
+
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: random
+Return type: ttensor
+
+ Iter 10: rel. change in X = 4.967143e-05
+ Iter 20: rel. change in X = 2.022365e-09
+ Iter 23: rel. change in X = 9.745062e-11
+Final relative error: 8.198031e-01
+
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: random
+Return type: ttensor
+
+ Iter 10: rel. change in X = 1.057355e-03
+ Iter 20: rel. change in X = 7.013479e-07
+ Iter 30: rel. change in X = 2.409872e-10
+ Iter 32: rel. change in X = 4.545516e-11
+Final relative error: 7.378318e-01
+
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: random
+Return type: ttensor
+
+ Iter 10: rel. change in X = 6.805640e-04
+ Iter 20: rel. change in X = 9.664977e-08
+ Iter 29: rel. change in X = 9.171225e-11
+Final relative error: 6.765288e-01
+
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: random
+Return type: ttensor
+
+ Iter 10: rel. change in X = 1.773809e-03
+ Iter 20: rel. change in X = 1.884608e-06
+ Iter 30: rel. change in X = 1.624699e-09
+ Iter 34: rel. change in X = 8.947762e-11
+Final relative error: 6.766387e-01
+
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: random
+Return type: ttensor
+
+ Iter 10: rel. change in X = 3.004369e-01
+ Iter 20: rel. change in X = 2.070062e-03
+ Iter 30: rel. change in X = 3.471168e-06
+ Iter 40: rel. change in X = 5.826140e-09
+ Iter 47: rel. change in X = 6.649890e-11
+Final relative error: 6.663817e-01
+
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: random
+Return type: ttensor
+
+ Iter 10: rel. change in X = 7.402992e-02
+ Iter 20: rel. change in X = 7.122327e-04
+ Iter 30: rel. change in X = 4.405379e-06
+ Iter 40: rel. change in X = 2.716151e-08
+ Iter 50: rel. change in X = 1.674617e-10
+ Iter 52: rel. change in X = 6.052126e-11
+Final relative error: 7.891046e-01
+
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: random
+Return type: ttensor
+
+ Iter 10: rel. change in X = 2.381543e-02
+ Iter 20: rel. change in X = 1.025224e-04
+ Iter 30: rel. change in X = 3.346359e-07
+ Iter 40: rel. change in X = 1.091047e-09
+ Iter 45: rel. change in X = 6.229899e-11
+Final relative error: 8.071541e-01
+
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: random
+Return type: ttensor
+
+ Iter 10: rel. change in X = 1.144115e-02
+ Iter 20: rel. change in X = 3.687818e-04
+ Iter 30: rel. change in X = 1.248129e-05
+ Iter 40: rel. change in X = 4.411647e-07
+ Iter 50: rel. change in X = 1.606548e-08
+ Iter 60: rel. change in X = 5.909997e-10
+ Iter 66: rel. change in X = 6.653694e-11
+Final relative error: 7.406452e-01
+
+
+*** Best relative error over 10 runs: 0.666382 ***
+ans is a ttensor of size 4 x 4 x 4
+	ans.core is a tensor of size 2 x 2 x 2
+		ans.core(:,:,1) = 
+	   -0.8818    1.4306
+	    1.4306   -0.2805
+		ans.core(:,:,2) = 
+	    1.4306   -0.2805
+	   -0.2805   -2.2030
+	ans.U{1} = 
+		   -0.5433    0.5931
+		   -0.5974   -0.2862
+		    0.0982    0.7404
+		   -0.5817   -0.1350
+	ans.U{2} = 
+		   -0.5433    0.5931
+		   -0.5974   -0.2862
+		    0.0982    0.7404
+		   -0.5817   -0.1350
+	ans.U{3} = 
+		   -0.5433    0.5931
+		   -0.5974   -0.2862
+		    0.0982    0.7404
+		   -0.5817   -0.1350
+</pre>
+<h2 id="3">We do the same test again, but provide user-specified initial guesses</h2>
+<pre class="codeinput">best_err = inf;
+best_T = [];
+<span class="keyword">for</span> i = 1:10
+	rng(i); <span class="comment">% Set different seed each time</span>
+	X0 = randn(4,2); <span class="comment">% Initial guess for factor matrix</span>
+	T_tmp = tucker_sym(S,2,<span class="string">'init'</span>,X0,<span class="string">'printitn'</span>,10);
+	err = norm(S - full(T_tmp)) / norm(S);
+	<span class="keyword">if</span> err &lt; best_err
+		best_err = err;
+		best_T = T_tmp;
+	<span class="keyword">end</span>
+<span class="keyword">end</span>
+errs(2) = best_err;
+fprintf(<span class="string">'\n\n*** Best relative error over 10 runs (user init): %g ***\n'</span>, best_err);
+disp(best_T)
+</pre>
+<pre class="codeoutput">
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: user-provided
+Return type: ttensor
+
+ Iter 10: rel. change in X = 4.119526e-02
+ Iter 20: rel. change in X = 3.047757e-02
+ Iter 30: rel. change in X = 5.084022e-02
+ Iter 40: rel. change in X = 1.702917e-02
+ Iter 50: rel. change in X = 1.477118e-04
+ Iter 60: rel. change in X = 1.028134e-06
+ Iter 70: rel. change in X = 7.212640e-09
+ Iter 79: rel. change in X = 8.319420e-11
+Final relative error: 8.638623e-01
+
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: user-provided
+Return type: ttensor
+
+ Iter 10: rel. change in X = 1.599719e-03
+ Iter 20: rel. change in X = 9.599357e-04
+ Iter 30: rel. change in X = 1.058735e-03
+ Iter 40: rel. change in X = 2.205713e-03
+ Iter 50: rel. change in X = 1.936684e-02
+ Iter 60: rel. change in X = 2.020894e-03
+ Iter 70: rel. change in X = 4.614973e-10
+ Iter 71: rel. change in X = 9.920835e-11
+Final relative error: 8.178410e-01
+
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: user-provided
+Return type: ttensor
+
+ Iter 10: rel. change in X = 4.952388e-06
+ Iter 19: rel. change in X = 4.212445e-11
+Final relative error: 8.930580e-01
+
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: user-provided
+Return type: ttensor
+
+ Iter 10: rel. change in X = 2.748723e-02
+ Iter 20: rel. change in X = 1.995712e-03
+ Iter 30: rel. change in X = 1.198167e-04
+ Iter 40: rel. change in X = 6.574993e-06
+ Iter 50: rel. change in X = 5.009613e-07
+ Iter 60: rel. change in X = 2.309549e-08
+ Iter 70: rel. change in X = 1.895766e-09
+ Iter 80: rel. change in X = 9.578569e-11
+Final relative error: 7.268388e-01
+
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: user-provided
+Return type: ttensor
+
+ Iter 10: rel. change in X = 9.924103e-03
+ Iter 20: rel. change in X = 8.831319e-05
+ Iter 30: rel. change in X = 7.842128e-07
+ Iter 40: rel. change in X = 6.963572e-09
+ Iter 49: rel. change in X = 9.917060e-11
+Final relative error: 8.915486e-01
+
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: user-provided
+Return type: ttensor
+
+ Iter 10: rel. change in X = 5.525827e-05
+ Iter 20: rel. change in X = 4.083307e-09
+ Iter 24: rel. change in X = 9.030115e-11
+Final relative error: 8.863422e-01
+
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: user-provided
+Return type: ttensor
+
+ Iter 10: rel. change in X = 3.944911e-03
+ Iter 20: rel. change in X = 5.363932e-05
+ Iter 30: rel. change in X = 6.962089e-07
+ Iter 40: rel. change in X = 9.036423e-09
+ Iter 50: rel. change in X = 1.172881e-10
+ Iter 51: rel. change in X = 7.595905e-11
+Final relative error: 8.566810e-01
+
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: user-provided
+Return type: ttensor
+
+ Iter 10: rel. change in X = 1.292455e-02
+ Iter 20: rel. change in X = 8.400218e-05
+ Iter 30: rel. change in X = 3.583701e-07
+ Iter 40: rel. change in X = 1.528702e-09
+ Iter 45: rel. change in X = 9.984268e-11
+Final relative error: 8.169955e-01
+
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: user-provided
+Return type: ttensor
+
+ Iter 10: rel. change in X = 1.335792e-02
+ Iter 20: rel. change in X = 8.125965e-09
+ Iter 24: rel. change in X = 2.657894e-11
+Final relative error: 8.221815e-01
+
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: user-provided
+Return type: ttensor
+
+ Iter 10: rel. change in X = 4.458519e-05
+ Iter 20: rel. change in X = 1.272609e-09
+ Iter 23: rel. change in X = 5.514294e-11
+Final relative error: 8.429423e-01
+
+
+*** Best relative error over 10 runs (user init): 0.726839 ***
+ans is a ttensor of size 4 x 4 x 4
+	ans.core is a tensor of size 2 x 2 x 2
+		ans.core(:,:,1) = 
+	    0.2591   -1.8347
+	   -1.8347   -0.0258
+		ans.core(:,:,2) = 
+	   -1.8347   -0.0258
+	   -0.0258    0.1413
+	ans.U{1} = 
+		   -0.6941   -0.0516
+		    0.0120   -0.5852
+		   -0.6632    0.3509
+		   -0.2796   -0.7292
+	ans.U{2} = 
+		   -0.6941   -0.0516
+		    0.0120   -0.5852
+		   -0.6632    0.3509
+		   -0.2796   -0.7292
+	ans.U{3} = 
+		   -0.6941   -0.0516
+		    0.0120   -0.5852
+		   -0.6632    0.3509
+		   -0.2796   -0.7292
+</pre>
+<h2 id="4">We do the same test again, but use the n-vecs initialization method</h2>
+<p>This initialization is more expensive but generally works very well. This initialization method is deterministic, so we don't need to set the random seed.</p>
+<pre class="codeinput">T = tucker_sym(S,2,<span class="string">'init'</span>,<span class="string">'nvecs'</span>,<span class="string">'printitn'</span>,10);
+errs(3) = norm(S - full(T)) / norm(S);
+</pre>
+<pre class="codeoutput">Computing 2 leading e-vectors.
+
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: nvecs
+Return type: ttensor
+
+ Iter 10: rel. change in X = 1.498092e-06
+ Iter 20: rel. change in X = 3.673933e-11
+Final relative error: 6.816876e-01
+</pre>
+<h2 id="5">Comparison of errors with different initialization methods</h2>
+<p>The first two methods are repeated runs with random initializations, while the third method is a single run with the n-vecs initialization. Generally, the n-vecs initialization is better than a random initialization, but it is not guaranteed to find the best solution. Repeated runs with random initializations may find a better solution than a single run with n-vecs.</p>
+<pre class="codeinput">fprintf(<span class="string">'\nSummary of best relative errors for each initialization method:\n'</span>);
+fprintf(<span class="string">'  Default random init (best of 10): %g\n'</span>, errs(1));
+fprintf(<span class="string">'  User random init (best of 10):    %g\n'</span>, errs(2));
+fprintf(<span class="string">'  N-vecs init (single run):         %g\n'</span>, errs(3));
+</pre>
+<pre class="codeoutput">
+Summary of best relative errors for each initialization method:
+  Default random init (best of 10): 0.666382
+  User random init (best of 10):    0.726839
+  N-vecs init (single run):         0.681688
+</pre>
+<h2 id="6">Example: Symmetric tensor with known rank-2 decomposition</h2>
+<p>If we know the rank, then <tt>tucker_sym</tt> should compute an exact decomposition with an error of zero (or very close to zero due to numerical errors).</p>
+<pre class="codeinput">
+<span class="comment">% Create a symmetric factor matrix</span>
+A = rand(4,2);
+<span class="comment">% Construct a symmetric core tensor (2x2x2)</span>
+G = tensor(rand(2,2,2));
+<span class="comment">% Build the symmetric Tucker tensor</span>
+S_known = ttensor(G, {A, A, A});
+<span class="comment">% Symmetrize to ensure exact symmetry</span>
+S_known = symmetrize(full(S_known));
+<span class="comment">% Compute the symmetric Tucker decomposition</span>
+T_est = tucker_sym(S_known, 2);
+disp(<span class="string">'Relative error between original and estimated tensor:'</span>);
+disp(norm(S_known - full(T_est)) / norm(S_known));
+</pre>
+<pre class="codeoutput">
+Symmetric Tucker:
+Tensor size: 4 x 4 x 4
+Rank (R): 2
+Tolerance (matrix rel diff): 1.00e-10
+Max iterations: 1000
+Initialization: random
+Return type: ttensor
+
+ Iter  1: rel. change in X = 1.002407e+00
+ Iter  2: rel. change in X = 2.283370e-14
+Final relative error: 9.196364e-16
+Relative error between original and estimated tensor:
+   9.1964e-16
+
+</pre>
+<p class="footer">Tensor Toolbox for MATLAB: <a href="index.html">www.tensortoolbox.org</a>.</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+%% Symmetric Tucker Decomposition
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a>
+% &#62;&#62; <a href="tucker.html">Tucker Decompositions</a>
+% &#62;&#62; <a href="tucker_sym_doc.html">Symmetric Tucker</a>
+% </p>
+% </html>
+%
+% The function |tucker_sym| computes the best symmetric rank-(R,R,...,R)
+% approximation of a symmetric tensor S, according to the specified rank R.
+% The result returned in T is a ttensor with all factors equal. S must be a
+% tensor (not a symtensor) and must be exactly symmetric.
+%
+% The method is based on the algorithm described in:
+% * Phillip A. Regalia, Monotonically Convergent Algorithms for Symmetric Tensor Approximation,
+%   Linear Algebra and its Applications 438(2):875-890, 2013, http://dx.doi.org/10.1016/j.laa.2011.10.033
+
+
+%% Create a symmetric tensor of size 4x4x4
+rng(0); %<REPLACE_WITH_DASH_DASH Set seed for reproducibility
+S = tensor(@randn,[4,4,4]);
+S = symmetrize(S);
+
+%% Compute a symmetric Tucker decomposition with rank 2 with default parameters
+% Except for the rank, all parameters are optional. We specify here that
+% we want to print the fit every 10 iterations. The usual default is every iteration.
+% By default, the initial guess is random. Since this is a nonconvex problem,
+% we will run the algorithm multiple times to find the best solution.
+best_err = inf;
+best_T = [];
+errs = zeros(3,1); % Store errors for the first 3 examples
+for i = 1:10
+	rng(i); % Set different seed each time
+	T_tmp = tucker_sym(S,2,'printitn',10);
+	err = norm(S - full(T_tmp)) / norm(S);
+	if err < best_err
+		best_err = err;
+		best_T = T_tmp;
+	end
+end
+errs(1) = best_err;
+fprintf('\n\n*** Best relative error over 10 runs: %g ***\n', best_err);
+disp(best_T)
+
+%% We do the same test again, but provide user-specified initial guesses
+best_err = inf;
+best_T = [];
+for i = 1:10
+	rng(i); % Set different seed each time
+	X0 = randn(4,2); % Initial guess for factor matrix
+	T_tmp = tucker_sym(S,2,'init',X0,'printitn',10);
+	err = norm(S - full(T_tmp)) / norm(S);
+	if err < best_err
+		best_err = err;
+		best_T = T_tmp;
+	end
+end
+errs(2) = best_err;
+fprintf('\n\n*** Best relative error over 10 runs (user init): %g ***\n', best_err);
+disp(best_T)
+
+%% We do the same test again, but use the n-vecs initialization method
+% This initialization is more expensive but generally works very well.
+% This initialization method is deterministic, so we don't need to set 
+% the random seed.  
+T = tucker_sym(S,2,'init','nvecs','printitn',10);
+errs(3) = norm(S - full(T)) / norm(S);
+
+%% Comparison of errors with different initialization methods
+% The first two methods are repeated runs with random initializations,
+% while the third method is a single run with the n-vecs initialization.
+% Generally, the n-vecs initialization is better than a random initialization,
+% but it is not guaranteed to find the best solution. Repeated runs with
+% random initializations may find a better solution than a single run with n-vecs.
+fprintf('\nSummary of best relative errors for each initialization method:\n');
+fprintf('  Default random init (best of 10): %g\n', errs(1));
+fprintf('  User random init (best of 10):    %g\n', errs(2));
+fprintf('  N-vecs init (single run):         %g\n', errs(3));
+
+%% Example: Symmetric tensor with known rank-2 decomposition
+% If we know the rank, then |tucker_sym| should compute an exact decomposition
+% with an error of zero (or very close to zero due to numerical errors).
+
+% Create a symmetric factor matrix
+A = rand(4,2);
+% Construct a symmetric core tensor (2x2x2)
+G = tensor(rand(2,2,2));
+% Build the symmetric Tucker tensor
+S_known = ttensor(G, {A, A, A});
+% Symmetrize to ensure exact symmetry
+S_known = symmetrize(full(S_known));
+% Compute the symmetric Tucker decomposition
+T_est = tucker_sym(S_known, 2);
+disp('Relative error between original and estimated tensor:');
+disp(norm(S_known - full(T_est)) / norm(S_known));
+##### SOURCE END #####
+-->
+</body>
+</html>

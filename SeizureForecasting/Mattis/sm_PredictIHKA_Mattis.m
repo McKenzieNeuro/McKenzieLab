@@ -7,11 +7,8 @@
 % and saves the feature file
 % features are loaded into the variable 'dat' which is is a cell array
 % with each element as a category (time bin) to predict
-
-
-
-ClassifierFileOutputDir = 'C:\Users\samckenzie\Downloads\Chandni\analysis\classification\';
-ops.FeatureFileOutput = 'C:\Users\samckenzie\Downloads\Chandni\analysis\features.mat';
+ops.FeatureFileOutput = 'E:\Dropbox\EEG_NRI_Meiling\code\features.mat';
+ClassifierFileOutputDir = 'E:\Dropbox\EEG_NRI_Meiling\code\classification\';
 %FeatureFileOutput = 'E:\data\IHKA\features_trans.mat';
 load(ops.FeatureFileOutput)
 
@@ -36,7 +33,7 @@ sesID1 = sesID1(kp);
 ops.rix  = (mod(sesID1(:,1),2)==1);
 %ops.rix = true(size(group,1),1);
 
-for ii = 1:10
+for ii = 1:15
 ops.rix = sesID1(:,1)~=ii & sesID1<11;
 
     %set up classifer

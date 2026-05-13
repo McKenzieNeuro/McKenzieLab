@@ -1,4 +1,4 @@
-function [signal_DFoF,ts_data,fs] = sm_getSignal_DFoF(dirName,varargin)
+function [signal_DFoF,ts_data,fs,data] = sm_getSignal_DFoF(dirName,varargin)
 %% Loads corrected, normalized fiber photometry signal
 % Neural data should be stored in TDT format and read with TDT's SDK TDTbin2mat
 % neural data should be stored in dirName
