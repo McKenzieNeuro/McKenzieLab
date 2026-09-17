@@ -1,4 +1,4 @@
-function feat = sm_GetDataFeature_rat_bh(data,tim,ops)
+function feat = sm_GetDataFeature_rat_sk(data,tim,ops)
 % data is either the full path to a binary file or an Nxch int16 matrix
 % where N = number of samples. If data is a matrix, tim is not used
 %
@@ -36,10 +36,10 @@ if ~stim_art
         tmp = abs(awt_freqlist(double(data(:,j)),ops.Fs,ops.freqs))';
         
         %loop over the frequencies
-        for jj = 1:nfreq+3
+        for jj = 1:nfreq+2
             
             % for the sampling window, take the mean power at each frequency.
-            if jj<20
+            if jj<nfreq
                 tmp = mean(tmp,2);
                 feat((jj-1)*nCh_subj+j)  = tmp(jj);
             end

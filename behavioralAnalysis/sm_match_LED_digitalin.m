@@ -25,7 +25,7 @@ if ~iscell(whls)
 end
 
 
-if ~isempty(merge_cond) && ~strcmp(merge_cond,'1Intan1Vid')
+if ~isempty(merge_cond) && ~strcmp(merge_cond,'1Intan2Vid')
     
     switch merge_cond
         case '2Intan2Vid'

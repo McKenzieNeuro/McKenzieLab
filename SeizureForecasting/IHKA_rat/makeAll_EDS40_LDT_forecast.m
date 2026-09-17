@@ -79,7 +79,7 @@ CA1_stim = [...
 
 stim_ses_CA1 = find(ismember(fileparts(vv.sessions(:,1)),CA1_stim));
 %%
-
+clear ok
 close all
 ix=1;
 for i = 2:4

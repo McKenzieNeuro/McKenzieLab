@@ -11,7 +11,6 @@
 
 
 
-
 FeatureFileOutput = 'R:\Analysis\SeizureForecasting\IHKA_rat_RF\features_pilo.mat';
 %FeatureFileOutput = 'E:\data\IHKA\features_trans.mat';
 load(FeatureFileOutput)
@@ -89,7 +88,12 @@ for i = 1:dur
 end
 save('prediction.mat','label','conf')
 
+
+
 %%
+
+
+%plots closed loop stim for pr(sz<10s)
 close all
 k = gaussian2Dfilter([100 1],.1);
 dirN{1} = 'R:\DGregg\NeuralData\PCP\Recordings\ClosedLoop_model_0uA\9-27-2024(16.44)\RHS_240927_164533';
@@ -102,7 +106,7 @@ dirN{7} = 'R:\DGregg\NeuralData\PCP\Recordings\ClosedLoop_model_0-87uA\10-8-2024
 dirN{8} = 'R:\DGregg\NeuralData\PCP\Recordings\ClosedLoop_model_0-87uA\10-9-2024(6.3)\RHS_241009_060500';
 stimD = [0 1 1 1 0 1 0 1];
 figure
-for i =8
+for i =1:8
     cd(dirN{i})
     d = LoadBinary('Labels_4Ch_1Hz.dat','nchannels',4,'channels',1,'frequency',1);
     
@@ -237,15 +241,16 @@ end
 %%
 close all
 k = gaussian2Dfilter([1000 1],1);
-pr = nanconvn(d1==400,k');
+pr = nanconvn(d1==300 | d1==400  ,k);
 
 [ix1,early,late,ts] = sm_getIndicesAroundEvent(stim,300,300,1,length(d));
 kp = ~early & ~late;
 ix1=ix1(kp,:);
 [ix,early,late,ts] = sm_getIndicesAroundEvent(potentialStim,300,300,1,length(d));
 ix = ix(kp,:);
+ok  =(pr(ix(kp,:)));
 figure
-plotMeanSEM(ts,(pr(ix(kp,:))),'k')
+plotMeanSEM(ts,ok,'k')
 hold on
 tmp = pr(ix1);
 
@@ -260,6 +265,9 @@ for i = 1:600
 end
 
 hold on
+plot(ts(1:300),double(p(1:300)<.05)*1.2,'.')
+%plot(ts(316:end)<.05),double(p(316:end)<.05)*1.2,'.')
+ylim([0 1.4])
 
 %%
 figure

@@ -31,7 +31,7 @@ for i = 1:length(dirs)
     %find TDT directory
     dirN = fileparts(getAllExtFiles(dirs{i},'Tbk',1));
     %data = TDTbin2mat(dirN);
-    [signal_DFoF2,ts_data2,fs,data] = sm_getSignal_DFoF(dirN{1});
+    [signal_DFoF2,ts_data2,fs,data] = sm_getSignal_DFoF(dirN);
     k = gaussian2Dfilter([fs 1],fs);
     signal_DFoF = nanconvn(signal_DFoF2,k');
     % signal_DFoF = nanconvn(data.streams.x405A.data,k');

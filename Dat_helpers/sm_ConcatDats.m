@@ -1,4 +1,4 @@
-function sm_ConcatDats(fnamesin,fnameout)
+function fil(fnamesin,fnameout)
 %this function merges fnamesin and copies to fnameout
 %fnamesin is a cell array with full file paths
 cmd = 'COPY /B';

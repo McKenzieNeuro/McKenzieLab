@@ -1,4 +1,4 @@
-function [f1, sensitivity, specificity] = computeClassificationMetrics(y_true, y_pred)
+function [f1, sensitivity, specificity,precision] = computeClassificationMetrics(y_true, y_pred)
     % Ensure inputs are column vectors
     y_true = y_true(:);
     y_pred = y_pred(:);

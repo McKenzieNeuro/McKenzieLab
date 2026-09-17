@@ -85,7 +85,7 @@ clear whl
 
 fils = getAllExtFiles(dirN,'mp4',1);
 kp = ~contains(fils,'snapshot'); % exclude DLC
-fil = fils(kp);
+fils = fils(kp);
 
 
 ts_vid = nan(size(fils));

@@ -1,7 +1,7 @@
 clear all
 
 % Load Model file for RUSTree
-modelPath="R:\Analysis\McKenzieLab\postIctalSD\Refactor\Models\model_pilo_bilateral_27FEB26_sk.mat";
+modelPath="R:\ASommer\Matlab\Models\model_pilo_bilateral_27FEB26_used_14MAY26.mat";
 model = load(modelPath);
 
 % Fs of raw data
@@ -30,33 +30,42 @@ modelOPs.Fs = dFs; % The Fs assigned to modelOPs is the Fs used for
 
 %% Load data for one epoch to test
 
-time=7400;
+time=0;
+v.sessiondata.xml.nChannels=16;
 
-folder="R:\ASommer\PilocarpineRecordings\PTP_5.1\2-19-2026(9.36)\RHS_260219_093829\"
+folder="R:\ASommer\PilocarpineRecordings\PTP_Opto\Baseline\5-13-2026(10.59)\RHD_260513_110031\";
 amp="amplifier.dat";
 datpath=[folder+amp];
-v=load("R:\ASommer\PilocarpineRecordings\PTP_5.1\2-19-2026(9.36)\RHS_260219_093829\PTP 5.1.sessiondata.mat")
-
 data = LoadBinary(datpath,'nchannels',v.sessiondata.xml.nChannels,'frequency', ...
-    v.sessiondata.xml.SampleRate,'channels',modelOPs.ch_subj,'duration', modelOPs.durFeat,'start',time);
+    Fs,'channels',modelOPs.ch_subj,'duration', modelOPs.durFeat,'start',time);
 
 
-
-folder="R:\ASommer\PilocarpineRecordings\PTP_5.1\2-19-2026(9.36)\RHS_260219_093829\"
 amp="amplifier.lfp";
 datpath=[folder+amp];
-v=load("R:\ASommer\PilocarpineRecordings\PTP_5.1\2-19-2026(9.36)\RHS_260219_093829\PTP 5.1.sessiondata.mat")
-
 lfp_data = LoadBinary(datpath,'nchannels',v.sessiondata.xml.nChannels,'frequency', ...
-    v.sessiondata.xml.lfpSampleRate,'channels',modelOPs.ch_subj,'duration', modelOPs.durFeat,'start',time);
+    dFs,'channels',modelOPs.ch_subj,'duration', modelOPs.durFeat,'start',time);
+
+
+folder="R:\ASommer\PilocarpineRecordings\PTP_Opto\Baseline\5-13-2026(10.59)\"
+amp="amplifier_16Ch_1.25KHz_int16.dat";
+datpath=[folder+amp];
+saved_data = LoadBinary(datpath,'nchannels',v.sessiondata.xml.nChannels,'frequency', ...
+    dFs,'channels',modelOPs.ch_subj,'duration', modelOPs.durFeat,'start',time);
+saved_data=saved_data/0.195;
 
 %% Plot if desired
+close all
 
 figure
 plot(data)
 
 figure
 plot(lfp_data)
+
+figure
+plot(saved_data)
+legend('CA1 Contact 1', 'CA1 Contact 2')
+title('Downsampled Real Time Data')
 %% Test various downsampling schema
 
 %%%%
@@ -102,6 +111,7 @@ t1=datetime('now');
 lfp_convds_data=[];
 for channel =1:size(data,2);
     lfp_convds_data(:,channel)=convLPFilttest(double(data(:,channel)),dFs/2,Fs,[],Fs/dFs)';
+    % lfp_convds_data(:,channel)=BZfilt(double(data(:,channel)),450/(Fs/2),Fs/dFs);
 end
 lfp_convds_feats = modelOPs.features(lfp_convds_data,[],modelOPs);
 [lfp_convds_label,lfp_convds_conf] = predict(model.rusTree,lfp_convds_feats);
@@ -134,6 +144,11 @@ lfp_dec_feats = modelOPs.features(lfp_dec_data,[],modelOPs);
 [lfp_dec_label,lfp_dec_conf] = predict(model.rusTree,lfp_dec_feats);
 tdec=second(datetime('now'))-second(t1);
 
+
+sig = data(1:20000*4,:);
+filtdata=[];
+filtdata(:,1) = BZfilt(sig(:,1),Fs,dFs)';
+filtdata(:,2) = BZfilt(sig(:,2),Fs,dFs)';
 
 %%
 figure
@@ -170,3 +185,24 @@ pdist2(lfp_feats,lfp_dec_feats,"Euclidean")
 
 
 %%
+figure
+plot(lfp_data(1:100,1),'r');
+hold on
+plot(saved_data(1:100,1),'b');
+plot(filtdata(2:101,1),'k');
+legend('lfp.dat','datacheck.mat','BZfilt')
+
+lfp_convds_data(1:100)
+lfp_lpds_data(1:100)
+lfp_dec_data(1:100)
+
+mean(double(lfp_data(1:5000,1))./double(filtdata(1:5000,1)))
+
+mean(modelOPs.features(lfp_data(1:5000,:),[],modelOPs)./modelOPs.features(double(filtdata(1:5000,:)),[],modelOPs))
+
+
+mean(modelOPs.features(lfp_data(1:5000,:),[],modelOPs)./modelOPs.features(double(saved_data(1:5000,:)),[],modelOPs))
+
+
+
+

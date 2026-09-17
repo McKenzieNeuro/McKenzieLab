@@ -2,7 +2,7 @@ function [binnedPop,bin_times]=populationMatrix(spikes,secbefore,secafter,nbins,
 %self is an object with the current epoch and all cells and ts
 %secbefore the time before the event occurred
 %sec after the time(s) after the event occurred
-%binSize is size of each bin in sec
+%nbins is the number of bins between secbefore and secafter
 %row=cell %column=time % z=trial
 
 normalize = false;

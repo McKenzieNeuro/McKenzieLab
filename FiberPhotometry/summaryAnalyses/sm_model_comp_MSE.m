@@ -1,5 +1,5 @@
 function [MSE_full,MSE_red,b_full,pred,MSE_full_tim] = sm_model_comp_MSE(IV,DV,isTime,kp_train,fitRed)
-gs = GlobalSearch;
+%gs = GlobalSearch;
 
 nSamples = size(DV,1);
 
@@ -146,7 +146,7 @@ if fitRed
             
             f = [f ' + ' num2str(regFactor)  ' * b(' num2str(bC+1) ')^2 +' num2str(regFactor)  '* b(' num2str(bC+3) ')^2'];
             x0 = [x0 0 -.01 0 -.001  ];
-            lb = [lb 0 -.1 -bound -.001 ];
+            lb = [lb 0 -.01 -bound -.001 ];
             ub = [ub bound -.001 0 -.0001];
             bC = bC+4;
         end

@@ -343,7 +343,7 @@ plot(repmat(1:nvar,nsubj,1)'+(rand(nvar,nsubj)-.5)/5,100*ok','o')
             
             %isTime = [false true];
             [MSE_full(j), MSE_red(j,:),b_all_HC(j,:),pred] = sm_model_comp_MSE(IV,DV,isTime,kp_train,true);
-            
+          
           %  pred_tim_HC(j,:) = avghist(x1,pred,0:600);
           %  real_tim_HC(j,:) = avghist(x1,y,0:600);
             %

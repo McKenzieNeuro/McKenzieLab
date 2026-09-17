@@ -307,255 +307,255 @@ figure
          legend({'C Cort/I Cort','C Cort/I H','C Cort/C H','I Cort/I H','I Cort/C H','I H/C H'},'Location','northwest')
 
 %get coherence
-%%
-figure
-mat = histcn([ group((N+1):end) label(N+1:end)],1:6,1:6)./repmat(histc( group((N+1):end),1:6),1,6);
-imagesc(mat)
-colorbar
-set(gca,'ydir','normal','xtick',1:6,'xticklabel',{'3hrs','1hr','10min','10s','Sz','PI'},'ytick',1:6,'yticklabel',{'3hrs','1hr','10min','10s','Sz','PI'})
-title('Prob(Estimate| True)')
-ylabel('True')
-xlabel('Estimate')
-
-%%
-for i = 1:6
-    TP = group ==i & label ==i;
-    FP = group~=i & label ==i;
-    FN = group ==i & label~=i;
-    TN = group~=i & label~=i;
-    
-    Sp(i) = sum(TN)/(sum(TN) + sum(FP));
-    
-    Se(i) = sum(TP)/(sum(TP) + sum(FN));
-end
-figure
-plot(Sp,'o')
-hold on
-plot(Se,'o')
-legend('Specificity','Sensitivity')
-set(gca,'ydir','normal','xtick',1:6,'xticklabel',{'3hrs','1hr','10min','10s','Sz','PI'})
-
-ylabel('Sensitivity/Specificity')
-xlabel('time to seizure')
-xlim([0 7])
-
-%%
-
-k = gaussian2Dfilter([100 100],[ 2 2]);
-figure
-ix = -70:70;
-for i = 1:6
-    
-    subplot(3,2,i)
-    imagesc(ix,ix,nanconvn(histcn(Y(group==i,:),ix,ix),k)/sum(group==i))
-end
-
-%%
-kp1 = Y(:,1)>-40 & Y(:,1) < -30 & Y(:,2)> -5 & Y(:,2)< 5;
-kp2 = Y(:,1)>20 & Y(:,1) < 30 & Y(:,2)> -30 & Y(:,2)< -20;
-%%
-
-
-%dirN = 'E:\Dropbox\UNM\Analysis\IHKA\data';
-fils = getAllExtFiles(dirN,'mat',0);
-
-fils = fils(1:end);
-
-
-
-%power_dirN = 'F:\data1\IHKA';
-filP = dir(power_dirN);
-filP = {filP.name}';
-
-%filenameps = 'E:\Dropbox\UNM\Analysis\IHKA\allPredict.ps';
-
-O =[];
-ts =[];
-TMP =[];
-sz_start =0;
-for j = 1:length(fils)
-    load(fils{j})
-    [a,bn] = fileparts(fils{j});
-    
-    %get dat file
-    % h= figure;
-    % ax = tight_subplot(6,1);
-    
-    
-    ok = cell2mat(cellfun(@(a) estimateLabel' ==a,num2cell(1:6),'uni',0)');
-    
-    
-    sz_start = length(find(diff((trueLabel == 5) >0)))+sz_start;
-    
-    [~,b] = histc(ts1,-6000:0);
-    k = gaussian2Dfilter([1 1000],[ 1 2]);
-    ok = double(ok);
-    
-    for i = 1:6
-        
-        
-        ok(i,:) = (nanconvn(ok(i,:) , k));
-        
-        
-        
-        
-    end
-    
-    mix = min(size(ok,2),length(ts1));
-    ts1 = ts1(1:mix);
-    ok = ok(:,1:mix);
-    
-    O = [O ok];
-    
-    ts = [ts ts1(1:size(ok,2))];
-    j
-end
-
-
-%%
-%dirN = 'E:\Dropbox\UNM\Analysis\IHKA\data';
-fils = getAllExtFiles(dirN,'mat',0);
-
-fils = fils(1:end);
-
-
-
-%power_dirN = 'F:\data1\IHKA';
-filP = dir(power_dirN);
-filP = {filP.name}';
-
-%filenameps = 'E:\Dropbox\UNM\Analysis\IHKA\allPredict.ps';
-
-O =[];
-ts =[];
-TMP =[];
-
-for j = 1:length(fils)
-    load(fils{j})
-    [a,bn] = fileparts(fils{j});
-    
-    %get dat file
-    h= figure;
-    ax = tight_subplot(6,1);
-    
-    
-    ok = cell2mat(cellfun(@(a) estimateLabel' ==a,num2cell(1:6),'uni',0)');
-    
-    
-    sz_start = find(diff((trueLabel == 5) >0));
-    
-    [~,b] = histc(ts1,-6000:0);
-    k = gaussian2Dfilter([1 1000],[ 1 10]);
-    ok = double(ok);
-    
-    for i = 1:6
-        
-        axes(ax(i))
-        ok(i,:) = (nanconvn(ok(i,:) , k));
-        
-        
-        hold on
-        plot([sz_start' sz_start'],[0 1],'color',[.7 .7 .7])
-        plot(ok(i,:),'k')
-        
-    end
-    
-    mix = min(size(ok,2),length(ts1));
-    ts1 = ts1(1:mix);
-    ok = ok(:,1:mix);
-    
-    
-    %    print(h, '-dpsc2',filenameps ,'-append');
-    close all
-    onset = find(diff(ok(3,:)>.7)>0);
-    offset = find(diff(ok(3,:)<.7)>0);
-    
-    %get seizure time
-    sz_ix = find(ts1>-1 & ts1<=0);
-    
-    % load power
-    basename =  filP{find(cellfun(@any,regexp(filP,bn(1:end-8))))};
-    ff = [power_dirN '/' basename '/' basename '_3.dat'];
-    
-    % gd = onset(find((bestmatch(onset,sz_ix) - onset') < 1200 & (bestmatch(onset,sz_ix) - onset') > 600));
-    %onset = sz_ix;
-    onset = onset( (onset>600) & (onset<(size(ok,2)-600)));
-    
-    tmp1 = nan(240000,20,length(onset));
-    for n = 1:length(onset)
-        
-        tp = LoadBinary(ff,'nchannels',41,'frequency',2000,'channels',2:2:40,'duration', 1200,'start',onset(n)-600);
-        %      tmp(:,:,n) = abs(awt_freqlist(double(tp(1:10:end)),2000,1:200));
-        tmp1(:,:,n) = tp(1:10:end,:);
-    end
-    
-    TMP(:,:,j) = nanmean(tmp1,3);
-    
-    O = [O ok];
-    
-    ts = [ts ts1(1:size(ok,2))];
-    j
-end
-
-%ps2pdf('psfile', filenameps ,'pdffile','E:\Dropbox\UNM\Analysis\IHKA\allPredict.pdf','gscommand','C:\Program Files (x86)\gs\gs9.54.0\bin\gswin32.exe')
-%%
-
-s1 = 1:10;
-s2 = 11:13;
-s3 = 14:23;
-freqs = logspace(log10(.5),log10(200),20);
-figure
-imagesc(-600:(1/200):600,[],nanmean(TMP(:,:,s2),3)'/1000,[-.25 .25])
-%xlim([-50 100])
-set(gca,'ydir','normal','ytick',1:20','yticklabel',round(10*freqs)/10)
-xlabel('time to 10-600s warning onset(s)')
-ylabel('frequency')
-colormap('jet')
-%%
-figure
-imagesc(ok)
-
-
-%%
-
-figure
-%    idx = find((diff(O(3,:)>.5)>0));
-idx2 = find((diff(O(3,:)<.5)>0));
-
-plot(0:60:3600,histc(idx2 - idx,0:60:3600)/length(idx),'k')
-xlim([0 1000])
-
-%semilogx(0:60:3600,histc(idx2 - idx(1:end-1),0:60:3600)/length(idx),'r')
-
-
-
-%plot(0:60:3600,histc(idx2 - idx,0:60:3600)/length(idx),'k')
-
-sz_ix = find(ts>-1 & ts<=0);
-xx=[];
-for i = 1:length(idx)
-    xx = [xx;sz_ix(find( sz_ix>idx(i),1,'first'))-idx(i)];
-    
-    
-    
-end
-hold on
-plot(0:300:3600,histc(xx,0:300:3600)/sum(xx<3600))
-
-%%
-
-dt = 1;
-bins = -4*3600:dt:0;
-NN = length(bins);
-[~,b] = histc(ts,bins);
-figure
-semilogx(bins,accumarray(b(b~=0)',O(1,b~=0)',[NN 1],@nanmean,nan),'b')
-hold on
-semilogx(bins,accumarray(b(b~=0)',O(3,b~=0)',[NN 1],@nanmean,nan),'g')
-
-semilogx(bins,accumarray(b(b~=0)',O(4,b~=0)',[NN 1],@nanmean,nan),'r')
-semilogx(bins,accumarray(b(b~=0)',O(5,b~=0)',[NN 1],@nanmean,nan),'k')
-
-legend('>1hr','10-600s','0-10s','seizure')
-%%
+% %%
+% figure
+% mat = histcn([ group((N+1):end) label(N+1:end)],1:6,1:6)./repmat(histc( group((N+1):end),1:6),1,6);
+% imagesc(mat)
+% colorbar
+% set(gca,'ydir','normal','xtick',1:6,'xticklabel',{'3hrs','1hr','10min','10s','Sz','PI'},'ytick',1:6,'yticklabel',{'3hrs','1hr','10min','10s','Sz','PI'})
+% title('Prob(Estimate| True)')
+% ylabel('True')
+% xlabel('Estimate')
+% 
+% %%
+% for i = 1:6
+%     TP = group ==i & label ==i;
+%     FP = group~=i & label ==i;
+%     FN = group ==i & label~=i;
+%     TN = group~=i & label~=i;
+%     
+%     Sp(i) = sum(TN)/(sum(TN) + sum(FP));
+%     
+%     Se(i) = sum(TP)/(sum(TP) + sum(FN));
+% end
+% figure
+% plot(Sp,'o')
+% hold on
+% plot(Se,'o')
+% legend('Specificity','Sensitivity')
+% set(gca,'ydir','normal','xtick',1:6,'xticklabel',{'3hrs','1hr','10min','10s','Sz','PI'})
+% 
+% ylabel('Sensitivity/Specificity')
+% xlabel('time to seizure')
+% xlim([0 7])
+% 
+% %%
+% 
+% k = gaussian2Dfilter([100 100],[ 2 2]);
+% figure
+% ix = -70:70;
+% for i = 1:6
+%     
+%     subplot(3,2,i)
+%     imagesc(ix,ix,nanconvn(histcn(Y(group==i,:),ix,ix),k)/sum(group==i))
+% end
+% 
+% %%
+% kp1 = Y(:,1)>-40 & Y(:,1) < -30 & Y(:,2)> -5 & Y(:,2)< 5;
+% kp2 = Y(:,1)>20 & Y(:,1) < 30 & Y(:,2)> -30 & Y(:,2)< -20;
+% %%
+% 
+% 
+% %dirN = 'E:\Dropbox\UNM\Analysis\IHKA\data';
+% fils = getAllExtFiles(dirN,'mat',0);
+% 
+% fils = fils(1:end);
+% 
+% 
+% 
+% %power_dirN = 'F:\data1\IHKA';
+% filP = dir(power_dirN);
+% filP = {filP.name}';
+% 
+% %filenameps = 'E:\Dropbox\UNM\Analysis\IHKA\allPredict.ps';
+% 
+% O =[];
+% ts =[];
+% TMP =[];
+% sz_start =0;
+% for j = 1:length(fils)
+%     load(fils{j})
+%     [a,bn] = fileparts(fils{j});
+%     
+%     %get dat file
+%     % h= figure;
+%     % ax = tight_subplot(6,1);
+%     
+%     
+%     ok = cell2mat(cellfun(@(a) estimateLabel' ==a,num2cell(1:6),'uni',0)');
+%     
+%     
+%     sz_start = length(find(diff((trueLabel == 5) >0)))+sz_start;
+%     
+%     [~,b] = histc(ts1,-6000:0);
+%     k = gaussian2Dfilter([1 1000],[ 1 2]);
+%     ok = double(ok);
+%     
+%     for i = 1:6
+%         
+%         
+%         ok(i,:) = (nanconvn(ok(i,:) , k));
+%         
+%         
+%         
+%         
+%     end
+%     
+%     mix = min(size(ok,2),length(ts1));
+%     ts1 = ts1(1:mix);
+%     ok = ok(:,1:mix);
+%     
+%     O = [O ok];
+%     
+%     ts = [ts ts1(1:size(ok,2))];
+%     j
+% end
+% 
+% 
+% %%
+% %dirN = 'E:\Dropbox\UNM\Analysis\IHKA\data';
+% fils = getAllExtFiles(dirN,'mat',0);
+% 
+% fils = fils(1:end);
+% 
+% 
+% 
+% %power_dirN = 'F:\data1\IHKA';
+% filP = dir(power_dirN);
+% filP = {filP.name}';
+% 
+% %filenameps = 'E:\Dropbox\UNM\Analysis\IHKA\allPredict.ps';
+% 
+% O =[];
+% ts =[];
+% TMP =[];
+% 
+% for j = 1:length(fils)
+%     load(fils{j})
+%     [a,bn] = fileparts(fils{j});
+%     
+%     %get dat file
+%     h= figure;
+%     ax = tight_subplot(6,1);
+%     
+%     
+%     ok = cell2mat(cellfun(@(a) estimateLabel' ==a,num2cell(1:6),'uni',0)');
+%     
+%     
+%     sz_start = find(diff((trueLabel == 5) >0));
+%     
+%     [~,b] = histc(ts1,-6000:0);
+%     k = gaussian2Dfilter([1 1000],[ 1 10]);
+%     ok = double(ok);
+%     
+%     for i = 1:6
+%         
+%         axes(ax(i))
+%         ok(i,:) = (nanconvn(ok(i,:) , k));
+%         
+%         
+%         hold on
+%         plot([sz_start' sz_start'],[0 1],'color',[.7 .7 .7])
+%         plot(ok(i,:),'k')
+%         
+%     end
+%     
+%     mix = min(size(ok,2),length(ts1));
+%     ts1 = ts1(1:mix);
+%     ok = ok(:,1:mix);
+%     
+%     
+%     %    print(h, '-dpsc2',filenameps ,'-append');
+%     close all
+%     onset = find(diff(ok(3,:)>.7)>0);
+%     offset = find(diff(ok(3,:)<.7)>0);
+%     
+%     %get seizure time
+%     sz_ix = find(ts1>-1 & ts1<=0);
+%     
+%     % load power
+%     basename =  filP{find(cellfun(@any,regexp(filP,bn(1:end-8))))};
+%     ff = [power_dirN '/' basename '/' basename '_3.dat'];
+%     
+%     % gd = onset(find((bestmatch(onset,sz_ix) - onset') < 1200 & (bestmatch(onset,sz_ix) - onset') > 600));
+%     %onset = sz_ix;
+%     onset = onset( (onset>600) & (onset<(size(ok,2)-600)));
+%     
+%     tmp1 = nan(240000,20,length(onset));
+%     for n = 1:length(onset)
+%         
+%         tp = LoadBinary(ff,'nchannels',41,'frequency',2000,'channels',2:2:40,'duration', 1200,'start',onset(n)-600);
+%         %      tmp(:,:,n) = abs(awt_freqlist(double(tp(1:10:end)),2000,1:200));
+%         tmp1(:,:,n) = tp(1:10:end,:);
+%     end
+%     
+%     TMP(:,:,j) = nanmean(tmp1,3);
+%     
+%     O = [O ok];
+%     
+%     ts = [ts ts1(1:size(ok,2))];
+%     j
+% end
+% 
+% %ps2pdf('psfile', filenameps ,'pdffile','E:\Dropbox\UNM\Analysis\IHKA\allPredict.pdf','gscommand','C:\Program Files (x86)\gs\gs9.54.0\bin\gswin32.exe')
+% %%
+% 
+% s1 = 1:10;
+% s2 = 11:13;
+% s3 = 14:23;
+% freqs = logspace(log10(.5),log10(200),20);
+% figure
+% imagesc(-600:(1/200):600,[],nanmean(TMP(:,:,s2),3)'/1000,[-.25 .25])
+% %xlim([-50 100])
+% set(gca,'ydir','normal','ytick',1:20','yticklabel',round(10*freqs)/10)
+% xlabel('time to 10-600s warning onset(s)')
+% ylabel('frequency')
+% colormap('jet')
+% %%
+% figure
+% imagesc(ok)
+% 
+% 
+% %%
+% 
+% figure
+% %    idx = find((diff(O(3,:)>.5)>0));
+% idx2 = find((diff(O(3,:)<.5)>0));
+% 
+% plot(0:60:3600,histc(idx2 - idx,0:60:3600)/length(idx),'k')
+% xlim([0 1000])
+% 
+% %semilogx(0:60:3600,histc(idx2 - idx(1:end-1),0:60:3600)/length(idx),'r')
+% 
+% 
+% 
+% %plot(0:60:3600,histc(idx2 - idx,0:60:3600)/length(idx),'k')
+% 
+% sz_ix = find(ts>-1 & ts<=0);
+% xx=[];
+% for i = 1:length(idx)
+%     xx = [xx;sz_ix(find( sz_ix>idx(i),1,'first'))-idx(i)];
+%     
+%     
+%     
+% end
+% hold on
+% plot(0:300:3600,histc(xx,0:300:3600)/sum(xx<3600))
+% 
+% %%
+% 
+% dt = 1;
+% bins = -4*3600:dt:0;
+% NN = length(bins);
+% [~,b] = histc(ts,bins);
+% figure
+% semilogx(bins,accumarray(b(b~=0)',O(1,b~=0)',[NN 1],@nanmean,nan),'b')
+% hold on
+% semilogx(bins,accumarray(b(b~=0)',O(3,b~=0)',[NN 1],@nanmean,nan),'g')
+% 
+% semilogx(bins,accumarray(b(b~=0)',O(4,b~=0)',[NN 1],@nanmean,nan),'r')
+% semilogx(bins,accumarray(b(b~=0)',O(5,b~=0)',[NN 1],@nanmean,nan),'k')
+% 
+% legend('>1hr','10-600s','0-10s','seizure')
+% %%
 

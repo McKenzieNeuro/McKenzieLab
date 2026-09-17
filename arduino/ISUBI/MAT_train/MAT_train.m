@@ -6,7 +6,7 @@ clc;
 
 %% Serial Configuration
 
-port = "COM3";      % CHANGE THIS
+port = "COM3";      % CHECK THIS
 baud = 115200;
 
 arduinoObj = serialport(port, baud);
@@ -32,17 +32,20 @@ cmd = sprintf('%d,%.3f,%d\n', ...
     trainLength);
 
 fprintf('Sending command:\n%s\n', cmd);
-
-%% Send Command
-
-write(arduinoObj, cmd, "string");
-
-%% Wait for Arduino Response
+%% Start background flashes
+write(arduinoObj, "START_BG\n", "string");
 
 response = readline(arduinoObj);
 
-fprintf('Arduino response: %s\n', response);
+disp(response)
 
-%% Cleanup
+pause(60)
 
-clear arduinoObj;
+%% Stop Background flashes 
+write(arduinoObj, "STOP_BG\n", "string");
+
+%% Send Command 
+write(arduinoObj, cmd, "string"); 
+
+%% Wait for Arduino Response 
+response = readline(arduinoObj); fprintf('Arduino response: %s\n', response); %% Cleanup clear arduinoObj;

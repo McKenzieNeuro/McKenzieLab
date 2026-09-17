@@ -703,17 +703,18 @@ b_all_NE =[];MSE_full =[];MSE_red=[];b_full=[];pred_tim=[];
         inter = ones(sum(kp),1);
         x1 = timeFrmEntry(kp);
         x2 =  [vel1(kp) acc1(kp) distEdg1(kp) ];
-        x3 = time_rear(kp);
+        x3 = time_rear(kp);%
         y = neural(kp);
-        IV = [inter x2 x3];
+        IV = [inter x2 x1 x3];
         %  IV =[inter x1];
         DV = neural(kp);
-        isTime = false(5,1);
-        isTime([5 ]) = true;
+        isTime = false(6,1);
+        isTime([5:6 ]) = true;
         
         %isTime = [false true];
+     
         [MSE_full(j), MSE_red(j,:),b_all_NE(j,:),pred] = sm_model_comp_MSE(IV,DV,isTime,kp_train,true);
-        
+         
         %  pred_tim(i,:,j) = avghist(x1,pred,0:600);
         else
             MSE_full(j) = nan;
@@ -751,6 +752,48 @@ b_all_NE =[];MSE_full =[];MSE_red=[];b_full=[];pred_tim=[];
             
         end
     end
+    
+    %%
+    
+    
+%get forward
+
+b_all_NE =[];MSE_full =[];MSE_red=[];b_full=[];pred_tim=[];
+
+    for j = 1:8
+        
+        kp = kp_Novel==1 & subjID==j ;%& ts_tot>1000;
+        if any(kp) 
+        %cross val
+        dayN = dayNum(kp);
+        
+        kp_train = mod(dayN,2)==0;
+       % kp_train = true(sum(kp),1);
+        inter = ones(sum(kp),1);
+        x1 = timeFrmEntry(kp);
+        x2 =  [vel1(kp) acc1(kp) distEdg1(kp) ];
+        x3 = time_rear(kp);%
+        y = neural(kp);
+        IV = [inter x2 x1 x3];
+        %  IV =[inter x1];
+        DV = neural(kp);
+        isTime = false(6,1);
+        isTime([5:6 ]) = true;
+        
+        %isTime = [false true];
+         [~,MSE_mat(:,:,j)] = sm_model_comp_MSE_forwards(IV,DV,isTime,kp_train,true);
+      %  [MSE_full(j), MSE_red(j,:),b_all_NE(j,:),pred] = sm_model_comp_MSE(IV,DV,isTime,kp_train,true);
+         
+        %  pred_tim(i,:,j) = avghist(x1,pred,0:600);
+        else
+            MSE_full(j) = nan;
+            MSE_red(j,:) = nan;
+            b_all_NE_day(j,:) = nan;
+            
+        end
+        
+        end
+    
     
 
     

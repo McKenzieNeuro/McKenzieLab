@@ -1,12 +1,20 @@
 function ky_getCornerPointTransitions
-% load java excel libraries for linux system
-% javaaddpath('poi_library/poi-3.8-20120326.jar');
-% javaaddpath('poi_library/poi-ooxml-3.8-20120326.jar');
-% javaaddpath('poi_library/poi-ooxml-schemas-3.8-20120326.jar');
-% javaaddpath('poi_library/xmlbeans-2.3.0.jar');
-% javaaddpath('poi_library/dom4j-1.6.1.jar');
-% javaaddpath('poi_library/stax-api-1.0.1.jar');
+% Video annotation tool for marking context transitions
+% Includes 2d projective (homography) correction so that each context is 
+% always mapped into a consistent world-space coordinate frame regardless
+% of camera shake between frames
 
+% Instability correction overview:
+% 1. "Mark perimeter" defines a context: user clicks 4 corners and a 
+% reference homography tform_ref is stored (pixel --> world cm)
+% 2. Whenever the camera is unstable, the user navigates to the first 
+% affected frame and presses "Mark Instability". They re-click the same 4
+% corners; a new homography is stored keyed to that frame number. That
+% correction applies to all subsequent frames until either the next 
+% instability correction or the next context transition
+% 3. pixelToWorld() (standalone, bottom of file) always selects the most 
+% recent applicable transform for any given frame, so downstream place-
+% field code always receives stable world-space coordinates
 
 
 prompt = {'Enter Event IDs (comma separated)'};
@@ -19,8 +27,10 @@ tbl = [];
 c = [];
 f = [];
 t = [];
+
 IDs = inputdlg(prompt,dlg_title,num_lines,def);
-if ~isempty(IDs)
+if isempty(IDs); return; end
+
 C = strsplit(IDs{1},',');
 C = C(:);
 

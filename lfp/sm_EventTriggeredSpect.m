@@ -28,6 +28,7 @@ addParameter(p,'figureName','myPETH.fig',@ischar);
 addParameter(p,'fs',1250,@isnumeric);
 addParameter(p,'channel',1,@isnumeric);
 addParameter(p,'nchannels',[],@isnumeric);
+addParameter(p,'clims',[-.5 .5],@isnumeric);
 addParameter(p,'plotIt',true,@islogical);
 
 parse(p,varargin{:})
@@ -40,6 +41,7 @@ figureName = p.Results.figureName;
 channel = p.Results.channel;
 nchannels = p.Results.nchannels;
 plotIt = p.Results.plotIt;
+clims = p.Results.clims;
 
 fs = p.Results.fs;
 h = nan;
@@ -119,7 +121,7 @@ ts = ((1:numpts)/fs)  - plotIntervals(1);
 
 if plotIt
     h = figure;
-    imagesc(ts,[],nanmean(zscore(wavspec,[],2),3),[-.5 .5])
+    imagesc(ts,[],nanmean(zscore(wavspec,[],2),3),clims)
     set(gca,'ytick',1:10:nfreq,...
         'yticklabel',round(freqs(1:10:end)*10)/10,'ydir','normal')
     %

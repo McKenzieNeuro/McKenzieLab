@@ -6,12 +6,13 @@ dirs = [ ...
     {'R:\DANEHippocampalResponse\NE2h18\Opto Stim\NE2h18_250623'};...
     {'R:\DANEHippocampalResponse\NE2h19\Opto Stim\NE2h19_250624'};...
     {'R:\DANEHippocampalResponse\NE2h18\Opto Stim\NE2h18_250627'};...
-    {'R:\DANEHippocampalResponse\NE2h20\Opto Stim\NE2h20_250627'};...
-    {'R:\DANEHippocampalResponse\NE2h20\Opto Stim\NE2h20_250630'};...
+
+    {'R:\DANEHippocampalResponse\NE2h20\Opto Stim\NE2h20_250626\'};...
     
     ];
 
 %%
+NE_peth2 = [];
 for i = 1:length(dirs)
     
     cd(dirs{i})
@@ -36,8 +37,8 @@ for i = 1:length(dirs)
      fils=  getAllExtFiles(dirs{i},'Tbk',1);
     TDTdir = fileparts(fils{1});
    
-    [signal_DFoF2,ts_data2,fs] = sm_getSignal_DFoF(TDTdir);
-    data = TDTbin2mat(TDTdir);
+    [signal_DFoF2,ts_data2,fs,data] = sm_getSignal_DFoF(TDTdir);
+
     %load stims
     stim  = data.epocs.Pe1_.onset;
     
@@ -63,12 +64,17 @@ for i = 1:length(dirs)
     
     
     [ix,early,late,ts] = sm_getIndicesAroundEvent(stim,100,200,fs,length(signal_DFoF2));
-    [~,b1] = bestmatch(0,ts);
-    [~,b2] = bestmatch(10,ts);
+    [~,b1] = bestmatch(-30,ts);
+    [~,b2] = bestmatch(30,ts);
     kp = ~early & ~late;
-    stim_intan = stim_intan(kp);
-    ix = ix(kp,:);
-    
+%     nTDT = sum(kp);
+%     
+%     
+%     
+%     stim_intan = stim_intan(1:sum(kp));
+%     stim_intan = stim_intan(kp);
+     ix = ix(kp,:);
+%     
     
     stim = stim(kp);
     
@@ -76,7 +82,7 @@ for i = 1:length(dirs)
     signal_DFoF = nanconvn(signal_DFoF2,k');
     
     NE_peth = signal_DFoF(ix);
-    
+    NE_peth2 = [NE_peth2;NE_peth];
     % fit
     
     x=ts(b2:end);
@@ -102,67 +108,70 @@ for i = 1:length(dirs)
         rmse(ii) = gof.rmse;
     end
     %get spectra
-    
-    kp =params>median(params);
-    lfpfil = [Intandir filesep 'amplifier_analogin_auxiliary_int16.lfp'];
-  
-    if ~exist(lfpfil)
-          bz_LFPfromDat(Intandir,'basename','amplifier_analogin_auxiliary_int16')
-    end
-    figure
-    [h,wavspec,ts,freqs] = sm_EventTriggeredSpect(lfpfil,stim_intan,'channel',ch,'freqs',logspace(log10(2),log10(300),50));
-    
-    
-    figure
-    [~,b] = histc(params,-.02:.002:-.006);
-    col = linspecer(max(b),'jet');
-    
-    base_lfp = nanmedian(wavspec(:,1000:62500,:),2);
-    base_lfp = squeeze(base_lfp);
-    for ii  = 1:max(b)
-        
-        semilogx(freqs,nanmean(base_lfp(:,b==ii&rmse'<.15),2),'color',col{ii},'linewidth',2)
-        hold on
-    end
-    
-    colormap(cell2mat(col))
-    cbh = colorbar; % Get the handle to the current colorbar
-    
-    numTicks = 8; % Set the desired number of ticks
-    cbh.Ticks = linspace(0, 1, numTicks); % Create tick locations from 0 to 1
-    cbh.TickLabels = num2cell(-.05:.005:0);
-    xlabel('frequency')
-    ylabel('power')
-    cbh.Label.String = 'NE dedcay';
-    
-    
-    %        plot(f,x,y)
-    %     gof.rmse
-    %        waitforbuttonpress
-    %        close all
-    
-    close all
-    col = flipud(linspecer(length(stim),'jet'));
-    [~,b] = sort(params(:,1));
-    figure
-    for ii = length(stim):-1:1
-        if rmse(ii)<.25
-            plot(x,NE_peth1(b(ii),:),'color',col{ii})
-            
-        end
-        hold on
-    end
-    
-    col = linspecer(length(stim),'jet');
-    [~,b] = sort(params(:,1));
-    figure
-    for ii = 1:length(stim)
-        if rmse(ii)<.25
-            plot(x,NE_peth1(b(ii),:),'color',col{ii})
-            
-        end
-        hold on
-    end
+%     
+%     kp =params>median(params);
+%     lfpfil = [Intandir filesep 'amplifier_analogin_auxiliary_int16.lfp'];
+%   
+%     if ~exist(lfpfil)
+%           bz_LFPfromDat(Intandir,'basename','amplifier_analogin_auxiliary_int16')
+%     end
+%     
+% %     
+%     figure
+%     [h,wavspec,ts,freqs] = sm_EventTriggeredSpect(lfpfil,stim_intan,'channel',ch,'freqs',logspace(log10(2),log10(300),50));
+%     
+%     
+%     figure
+%     [~,b] = histc(params,-.02:.002:-.006);
+%     col = linspecer(max(b),'jet');
+%     
+%     base_lfp = nanmedian(wavspec(:,1000:62500,:),2);
+%     base_lfp = squeeze(base_lfp);
+%     for ii  = 1:max(b)
+%         
+%         semilogx(freqs,nanmean(base_lfp(:,b==ii&rmse'<.15),2),'color',col{ii},'linewidth',2)
+%         hold on
+%     end
+%     
+%     colormap(cell2mat(col))
+%     cbh = colorbar; % Get the handle to the current colorbar
+%     
+%     numTicks = 8; % Set the desired number of ticks
+%     cbh.Ticks = linspace(0, 1, numTicks); % Create tick locations from 0 to 1
+%     cbh.TickLabels = num2cell(-.05:.005:0);
+%     xlabel('frequency')
+%     ylabel('power')
+%     cbh.Label.String = 'NE dedcay';
+%     
+%     
+%     %        plot(f,x,y)
+%     %     gof.rmse
+%     %        waitforbuttonpress
+%     %        close all
+%     
+%     close all
+%     col = flipud(linspecer(length(stim),'jet'));
+%     [~,b] = sort(params(:,1));
+%     figure
+%     for ii = length(stim):-1:1
+%         if rmse(ii)<.25
+%             plot(x,NE_peth1(b(ii),:),'color',col{ii})
+%             
+%         end
+%         hold on
+%     end
+%     
+%     col = linspecer(length(stim),'jet');
+%     [~,b] = sort(params(:,1));
+%     figure
+%     for ii = 1:length(stim)
+%         if rmse(ii)<.25
+%             plot(x,NE_peth1(b(ii),:),'color',col{ii})
+%             
+%         end
+%         hold on
+%     end
+
 end
 
 

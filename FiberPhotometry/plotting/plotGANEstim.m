@@ -31,7 +31,7 @@ dirs = [...
     {'R:\DANEHippocampalResponse\NE2h22\NE2h22_251029'};... % no stim
     {'R:\DANEHippocampalResponse\NE2h23\NE2h23_251029'};... % no stim
     {'R:\DANEHippocampalResponse\NE2h24\NE2h24_251029'};... % no stim
-    {'R:\DANEHippocampalResponse\NE2h24\NE2h24_251024'};... % no stim
+    %{'R:\DANEHippocampalResponse\NE2h24\NE2h24_251024'};... % no stim
     
 
    
@@ -313,7 +313,7 @@ for i = 1:length(ses)
         ok = ok(kp);
         [~,iix] = bestmatch(ok,ts);
         iix = iix+repmat(round(-60*fs): round(fs*90),length(iix),1);
-        kp = all(iix<=length(tmpA) & iix>0,2);
+        kp = all(iix<=length(tmpB) & iix>0,2);
         iix = iix(kp,:);
         
         tmpB = tmpB(iix);

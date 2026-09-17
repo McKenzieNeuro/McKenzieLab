@@ -1,4 +1,4 @@
-function [lfp] = bz_GetLFP(varargin)
+function [lfp] = sm_GetLFP(varargin)
 % bz_GetLFP - Get local field potentials.
 %
 %  Load local field potentials from disk. No longer dependent on

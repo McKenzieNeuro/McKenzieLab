@@ -15,6 +15,22 @@ const int LEDPin = 12;
 
 String inputString = "";
 bool commandComplete = false;
+bool trainRunning = false;
+
+/* =========================
+   Background Pulse Settings
+   ========================= */
+
+const unsigned long bgPulseWidth = 100; // ms
+
+// Base ISI in ms
+const unsigned long bgISI = 60;
+
+// ±10% jitter
+const float jitterFraction = 0.10;
+
+unsigned long nextBgPulseTime = 0;
+
 
 void setup()
 {
