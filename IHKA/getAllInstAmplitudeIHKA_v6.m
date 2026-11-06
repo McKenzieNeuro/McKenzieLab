@@ -255,7 +255,7 @@ onsetHYP = onsetType == 2;
 clear Beta p_val
 for b = 1:2
 for k = 1:8
-kpN = ~isnan(timeNext) & behavioral==b &is_evoked==1 ; % analysze time to next
+kpN = ~isnan(timeNext) & behavioral==1 &is_evoked==1 ; % analysze time to next
 X = [c_fit(kpN,k)  szdur(kpN) ];
 Y = timeNext(kpN);
 

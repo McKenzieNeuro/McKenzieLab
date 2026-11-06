@@ -13,7 +13,8 @@
 %path where raw data is stored with seizure labels
 %ops.RawDataPath = 'R:\DGregg\NeuralData\EDS_Cohort2';
 % ops.RawDataPath = 'R:\DGregg\NeuralData\PCP\Recordings\';
-ops.RawDataPath = {'R:\DGregg\NeuralData\PTP\Recordings','R:\DGregg\NeuralData\PCP\Recordings','R:\ASommer\PilocarpineRecordings\PTP_5.1'};
+% ops.RawDataPath = {'R:\DGregg\NeuralData\PTP\Recordings','R:\DGregg\NeuralData\PCP\Recordings','R:\ASommer\PilocarpineRecordings\PTP_5.1'};
+ops.RawDataPath = 'R:\ASommer\PilocarpineRecordings\Tests\RT vs Offline\8-21-2026(14.37)\RHD_260821_143809';
 
 ops.FeaturePath = {[]};
 ops.FeatureFileOutput = 'R:\Analysis\SeizureForecasting\IHKA_rat_RF\features_pilo2.mat';

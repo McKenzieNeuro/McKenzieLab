@@ -6,7 +6,7 @@ bp        = [.1 300];
 preTime   = 120;   % s of pre-ictal LFP loaded
 postTime  = 600;   % s of post-ictal LFP loaded
 fixedWinS = 120;   % s: baseline estimation window at the start of preTime
-dt  = 10;    % s: bin width for post-ictal power traces
+dt  = 1;    % s: bin width for post-ictal power traces
 nPostBins = postTime/dt;
 outlierMAD = 5;    % samples beyond this many MAD-equivalent SDs from the
                     % preictal median are treated as spikes and excluded
@@ -70,7 +70,7 @@ for i = 1:length(seizure)
     % i
     fprintf('extracted session %d/%d\n', i, length(seizure));
 end
-
+save('R:\DGregg\NeuralData\workspace_1minBin.mat');
 
 %% subject grouping to find IHKA
 clear subj
@@ -88,7 +88,7 @@ for i = 1:length(seizure)
 
     for j = 1:length(seizure(i).data)
         seizure(i).data(j).pctSupp = pctSuppBin{i}(j,:,:);
-        seizure(i).data(j).pctSupp_mean = nanmean(pctSuppBin{i}(j,1:end-20,6),2);
+        seizure(i).data(j).pctSupp_mean = nanmean(pctSuppBin{i}(j,1:end-20,:),2);
         % seizure(i).data(j).excitability = excitabilityBin{i}(j,:);
 
         spontStr = char(seizure(i).data(j).spontaneous);
@@ -158,7 +158,8 @@ P = [];
 ft = fittype('A*exp(-x/tau)+c', ...
     'independent','x', ...
     'coefficients',{'A','tau','c'});
-
+% ft2 = fittype('A1*exp(-x/tau1) + A2*exp(-x/(tau1+dtau)) + c', ...
+%     'independent','x','coefficients',{'A1','tau1','A2','dtau','c'});
 
 s_id = [];% (session, seizure)
 
@@ -199,12 +200,12 @@ for i = 1:length(seizure1)
             generalized = [generalized; seizure1(i).data(j).generalized == 1];
             isSpont(end+1,1) = strcmp(char(seizure1(i).data(j).spontaneous),'spontaneous');
             P(end+1,:,:) = seizure1(i).data(j).pctSupp;
-            t = [(1:size(P,2))*10]';
+            t = [(1:size(P,2))*dt]';
             s_id(end+1) = i;
 
 
             for k = 1:size(P,3)
-                PI_power = -seizure1(i).data(j).pctSupp(1,:,k)';
+                PI_power = -seizure1(i).data(j).pctSupp(1,:,k)';  % pctSupp is dimension 1 x timebins x nChannels (1x600x8)
                 y = PI_power;
 
 
@@ -214,24 +215,29 @@ for i = 1:length(seizure1)
                 c0 = 0;
 
                 opts = fitoptions(ft);
-                opts.StartPoint = [A0 tau0 c0];
+                opts.StartPoint = [A0 tau0 c0]; %{'A1','tau1','A2','dtau','c'}
+                opts.Lower = [-100   0.5  -100];   % A1<=0, A2>=0, dtau>=0
+                opts.Upper = [ 100   300   100];   % size to your data
+
 
                 % A can be positive or negative; tau must be positive.
                 % NOTE: y is on the percent-suppression scale (pctSupp is
                 % -100*(IA-bl)/bl), not the old raw-fraction scale, so the
                 % offset bound is widened accordingly (was +/-10, sized for
                 % a +/-1-ish fractional y).
-                opts.Lower = [-Inf 0 -100];
-                opts.Upper = [ Inf 100 100];
+                % opts.Lower = [-10 0.5 -100];
+                % opts.Upper = [ 10 300 100];
                 kp_nan = ~isnan(y);
                 [f,gof] = fit(t(kp_nan),y(kp_nan),ft,opts);
 
 
                 seizure1(i).data(j).A(k)   = f.A;
                 seizure1(i).data(j).tau(k) = f.tau;
+                % seizure1(i).data(j).A2(k)   = f.A2;
+                % seizure1(i).data(j).dtau(k) = f.dtau;
                 seizure1(i).data(j).c(k) = f.c;
                 seizure1(i).data(j).R2(k) = gof.rsquare;
-                seizure1(i).data(j).Y_hat(:,k) = f.A.*exp(-t/f.tau)+f.c;
+                seizure1(i).data(j).Y_hat(:,k) = f.A.*exp(-t/f.tau)+f.c; %'A1*exp(-x/tau1) + A2*exp(-x/(tau1+dtau)) + c'
             end
     end
 end
@@ -249,9 +255,31 @@ R2_fit    = cell2mat(arrayfun(@(a) cell2mat({a.data.R2}'), seizure1, 'uni',0)');
 
 onsetHYP = onsetType == 2;
 
+%% visualize fits
+close all
+for i = 1:length(seizure1)
+   for j = 1:length(seizure1(i).data)
+      for k = 1:8
+                PI_power = -seizure1(i).data(j).pctSupp(1,:,k)'; % pctSupp is dimension 1 x timebins x nChannels (1x600x8)
+                y = PI_power;
+                y_hat = seizure1(i).data(j).Y_hat(:,k);
+                plot(y)
+                hold on
+                plot(y_hat,'k')
+                title(['tau: ' num2str(seizure1(i).data(j).tau(k)) ' A: ' num2str(seizure1(i).data(j).A(k)) ' c ' num2str(seizure1(i).data(j).c(k))])
+                waitforbuttonpress
+                close all
+      end
+   end
+end
+
 %% 
+
+analysisdur = 120;
+nAnalysisBins = analysisdur/dt;
+
 clear beta_cox p_cox
-for t = 1:nPostBins
+for t = 1:nAnalysisBins
     for ch = 1:8
         tmp = [];
 
@@ -298,83 +326,88 @@ for t = 1:nPostBins
 
         coxModel = fitcox(X, Y, 'Censoring', censored);
         beta_cox(ch,t,:) = coxModel.Coefficients.Beta;
-        p_cox(ch,t,:) = coxModel.Coefficients.pValue;
+        p_cox(ch,t,:)    = coxModel.Coefficients.pValue;
+        se_cox(ch,t,:)   = coxModel.Coefficients.SE;
+        C = coxModel.CoefficientCovariance;
+        beta_conv(ch,t)  = beta_cox(ch,t,1) + beta_cox(ch,t,3);
+        se_conv(ch,t)    = sqrt(C(1,1) + C(3,3) + 2*C(1,3));
     end
 
 end
 
 %%
-clear Beta p_val coef_ci
-for b = 1:2
-    for k = 1:8
-        kpN = ~isnan(timeNext) & behavioral==b; % analysze time to next
-        X = [A(kpN,k)  szdur(kpN) ];
-        Y = timeNext(kpN);
-
-        censored = [censoredR(kpN)];
-
-        coxModel = fitcox(X, Y, 'Censoring', censored);
-        Beta(k,b,:)  =coxModel.Coefficients.Beta(1);
-        p_val(k,b,:) =       coxModel.Coefficients.pValue(1);
-        ci = coefci(coxModel);
-
-        coef_ci(k,b,:) = ci(1,:);
-    end
-end
-close all
-figure
-
-x = 1:8;
-
-% Plot as grouped bars
-b = bar(x, Beta, 'grouped');
-hold on
-
-% Get actual center positions of each bar
-x1 = b(1).XEndPoints;
-x2 = b(2).XEndPoints;
-
-% Error bars
-errorbar(x1, Beta(:,1), ...
-    Beta(:,1)-coef_ci(:,1,1), ...
-    coef_ci(:,1,2)-Beta(:,1), ...
-    'linestyle','none','color','b');
-
-errorbar(x2, Beta(:,2), ...
-    Beta(:,2)-coef_ci(:,2,1), ...
-    coef_ci(:,2,2)-Beta(:,2), ...
-    'linestyle','none','color','r');
-
-yline(0,'k-')
-
-sig1 = p_val(:,1,1);
-sig1(sig1>.05) = nan;
-sig1(~isnan(sig1)) = 1;
-
-sig1a = nan(8,1);
-sig1a(p_val(:,1,1)<.1 & p_val(:,1,1)> .05) = 1;
-
-
-
-sig2 = p_val(:,2);
-sig2(sig2>.05) = nan;
-sig2(~isnan(sig2)) = 1;
-
-sig2a = nan(8,1);
-sig2a(p_val(:,2,1)<.1 & p_val(:,2,1)> .05) = 1;
-
-
-plot(1.17:8.17,-sig2*3,'*','color','r')
-text(1.17:8.17,-sig2a*3,'#','color','r')
-plot(.87:7.87,sig1*2,'*','color','b')
-text(.87:7.87,sig1a*2,'#','color','b')
-legend({'Conv.','Non-Conv.','',''})
-ylim([-4, 2.5])
+% clear Beta p_val coef_ci
+% for b = 1:2
+%     for k = 1:8
+%         kpN = ~isnan(timeNext) & behavioral==b; % analysze time to next
+%         X = [c_fit(kpN,k)  szdur(kpN) ];
+%         Y = timeNext(kpN);
+% 
+%         censored = [censoredR(kpN)];
+% 
+%         coxModel = fitcox(X, Y, 'Censoring', censored);
+%         Beta(k,b,:)  =coxModel.Coefficients.Beta(1);
+%         p_val(k,b,:) =       coxModel.Coefficients.pValue(1);
+%         ci = coefci(coxModel);
+% 
+%         coef_ci(k,b,:) = ci(1,:);
+%     end
+% end
+% close all
+% figure
+% 
+% x = 1:8;
+% 
+% % Plot as grouped bars
+% b = bar(x, Beta, 'grouped');
+% hold on
+% 
+% % Get actual center positions of each bar
+% x1 = b(1).XEndPoints;
+% x2 = b(2).XEndPoints;
+% 
+% % % Error bars
+% % errorbar(x1, Beta(:,1), ...
+% %     Beta(:,1)-coef_ci(:,1,1), ...
+% %     coef_ci(:,1,2)-Beta(:,1), ...
+% %     'linestyle','none','color','b');
+% % 
+% % errorbar(x2, Beta(:,2), ...
+% %     Beta(:,2)-coef_ci(:,2,1), ...
+% %     coef_ci(:,2,2)-Beta(:,2), ...
+% %     'linestyle','none','color','r');
+% 
+% yline(0,'k-')
+% 
+% sig1 = p_val(:,1,1);
+% sig1(sig1>.05) = nan;
+% sig1(~isnan(sig1)) = 1;
+% 
+% sig1a = nan(8,1);
+% sig1a(p_val(:,1,1)<.1 & p_val(:,1,1)> .05) = 1;
+% 
+% 
+% 
+% sig2 = p_val(:,2);
+% sig2(sig2>.05) = nan;
+% sig2(~isnan(sig2)) = 1;
+% 
+% sig2a = nan(8,1);
+% sig2a(p_val(:,2,1)<.1 & p_val(:,2,1)> .05) = 1;
+% 
+% 
+% plot(1.17:8.17,-sig2*3,'*','color','r')
+% text(1.17:8.17,-sig2a*3,'#','color','r')
+% plot(.87:7.87,sig1*2,'*','color','b')
+% text(.87:7.87,sig1a*2,'#','color','b')
+% legend({'Conv.','Non-Conv.','',''})
+% title('Cox model with c and sz dur')
+% ylim([-4, 2.5])
 
 %%
 close all
 figure
-ts_plot = 1:10:ts(end);
+ts_plot = 1:dt:nAnalysisBins;
 ax  = tight_subplot(4,2);
 for i = 1:8
     
@@ -385,7 +418,7 @@ for i = 1:8
     if any(ix)
         plot(ts_plot(ix),1.8,'.','markersize',10,'color','k')
     end
-    xlim([0 300])
+    xlim([0 nAnalysisBins])
     ylim([.25 5])
     
     title(chName{i})
@@ -405,8 +438,8 @@ colLVF = [100/255,170/255,215/255];
 colHYP = [233/255,152/255,117/255];
 
 ts_PETH_bin = (1:nPostBins)*dt;
-kpLVF = logical(isSpont) & (behavioral==1);
-kpHYP = logical(isSpont) & behavioral==2;
+kpLVF = logical(isSpont) & (behavioral==1);% & onsetType==1;
+kpHYP = logical(isSpont) & behavioral==2;% & onsetType==2;
 
 % fprintf('\npostictal timecourse: n spontaneous Convulsive = %d, non-Convulsive = %d\n', ...
 %     sum(kpLVF), sum(kpHYP));
@@ -526,5 +559,131 @@ xtickangle(45)
 ylabel('Hazard ratio (per SD postictal suppression)')
 legend({conditions.name},'Location','best')
 title('Suppression''s effect on next-seizure risk, fit separately by behavioral manifestation')
+
+%% View data!
+
+winBin  = 120; % window to average suppression (seconds)
+binwidth = 2;
+nBin2min = winBin/binwidth;        
+nSim     = 5000; % number of simulations for dip test (VALIDATE THIS, derived from python packages)
+minN     = 10; % minimum number of seizures allowed for analysis (to allow reasonable statistics)
+minR2    = -Inf; % Apparently this variable can be used to drop poor fits, python example was 0.3 (Check implication)
+useCoxSubset = false; % Included in case this should be run on only the Cox-eligible seizures (true = cox seizures only)
+histColor = [100/255,170/255,215/255];
+
+%
+suppBinned = reshape(mean(P(:,1:nBin2min,:), 2, 'omitnan'), size(P,1), size(P,3)) * 100; % (% suppression binned for the duration specified in winBin)
+
+paramNames = {'Suppression, 0-120 s (%)', 'A', '\tau (s)', 'c'};
+paramData  = {suppBinned, A_fit, tau_fit, c_fit};
+isFit      = [false true true true];      % R2 filter
+nP = numel(paramNames);
+
+if useCoxSubset == true
+    kpSz = ~isnan(timeNext) & ~isnan(szdur);   % same rows the Cox fits use, if cox changes, then this should also be updated
+else
+    kpSz = true(size(szdur));
+end
+
+%
+dipD  = nan(nCh, nP);
+dipPv = nan(nCh, nP);
+nUsed = zeros(nCh, nP);
+
+for ch = 1:nCh
+    figure('Name', chName{ch}, 'Color', 'w', 'Position', [100 200 1300 320]);
+    tl = tiledlayout(1, nP, 'TileSpacing', 'compact', 'Padding', 'compact');
+    title(tl, chName{ch}, 'FontWeight', 'bold');
+
+    for p = 1:nP
+        v  = paramData{p}(:, ch);
+        kp = kpSz & isfinite(v);
+        if isFit(p), kp = kp & (R2_fit(:, ch) >= minR2); end
+        v = v(kp);
+        n = numel(v);
+        nUsed(ch, p) = n;
+
+        if n >= minN
+            [dipD(ch,p), dipPv(ch,p)] = hartigansDip(v, nSim);
+        end
+
+        ax = nexttile;
+        % nb = max(6, min(15, ceil(sqrt(max(n,1)))));
+        nb = nBin2min;
+        if n > 0
+            histogram(ax, v, nb, 'FaceColor', histColor, 'EdgeColor', 'w');
+        end
+        xlabel(paramNames{p});
+        if p == 1, ylabel('# seizures'); end
+        box off; set(ax, 'FontSize', 11);
+
+        if isnan(dipPv(ch,p))
+            ttl = sprintf('n=%d', n);
+            tcol = [0 0 0];
+        else
+            ttl = sprintf('n=%d   D=%.3f   p=%.3g', n, dipD(ch,p), dipPv(ch,p));
+            tcol = [0 0 0];
+            if dipPv(ch,p) < .05, tcol = [0.8 0 0]; end   % red = multimodal at p<.05
+        end
+        title(ax, ttl, 'FontSize', 10, 'Color', tcol, 'FontWeight', 'normal'); % display the output of the dip test function 
+    end
+end
+
+% 
+v = szdur(kpSz & isfinite(szdur));
+[Dsz, Psz] = hartigansDip(v, nSim);
+figure('Name', 'szdur', 'Color', 'w');
+histogram(v, max(6, min(15, ceil(sqrt(numel(v))))), 'FaceColor', histColor, 'EdgeColor', 'w');
+xlabel('Seizure duration (s)'); ylabel('# seizures'); box off
+title(sprintf('n=%d   D=%.3f   p=%.3g', numel(v), Dsz, Psz), 'FontWeight', 'normal');
+
+% 
+[chIdx, pIdx] = ndgrid(1:nCh, 1:nP);
+Tdip = table(string(chName(chIdx(:)))', string(paramNames(pIdx(:)))', ...
+             nUsed(:), dipD(:), dipPv(:), ...
+             'VariableNames', {'Channel','Parameter','n','Dip','p'});
+valid = ~isnan(Tdip.p);
+q = nan(height(Tdip), 1);
+[ps, ord] = sort(Tdip.p(valid));
+m = numel(ps);
+qs = min(1, cummin(ps(:) .* m ./ (1:m)', 'reverse'));
+tmp = nan(m,1); tmp(ord) = qs;
+q(valid) = tmp;
+Tdip.q_FDR = q;
+% disp(Tdip)
+
+%% Check tau with suppression (onlu CA1R first)
+indices = find(tau_fit(:,6) > 99);
+highTau = ismember(1:numel(tau_fit(:,6)),indices);
+otherTau = ~ismember(1:numel(tau_fit(:,6)),indices);
+t1 = (P(highTau,1:12,6)); % 1:12 should be the first 12 bins of 10 seconds each
+t2 = (P(otherTau,1:12,6));
+t3 = nan(numel(t2),1); % these are the non-maximum tau elements
+t3(1:numel(t1)) = t1; % these are the maximum tau elements
+figure
+plotMeanSEM(1:12,t1,'b')
+hold on
+plotMeanSEM(1:12,t2,'r')
+% data = [t3(:), t2(:)];
+% 
+% boxplot(data)
+
+
+%%
+% figure
+% for ii = 1:numel(indices)
+%     plot(P(indices(ii),1:12,6))
+%     hold on
+% end
+% 
+% figure
+% for ii = 1:numel(indices)
+%     plot(P(indices(ii),1:12,6))
+%     hold on
+% end
+
+%% generate figures
+% histograms 
+
 
 

@@ -24,7 +24,7 @@ stim_art = any(any(abs(data)>ops.art_thres));
 nfreq = length(ops.freqs);
 nCh_subj = length(ops.ch_subj);
 %initialize
-feat= nan(1,(nfreq*nCh_subj)+4);
+feat= nan(1,(nfreq+2)*nCh_subj);
 if ~stim_art
     
     

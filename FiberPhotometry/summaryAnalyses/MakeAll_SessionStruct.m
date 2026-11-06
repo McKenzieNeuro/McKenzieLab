@@ -1,24 +1,45 @@
 %get all Session structs for novel context
 
-topDir = 'R:\DANEHippocampalResponse\DA3h7\';
-fils = getAllExtFiles(topDir,'mat',1);
-kp = contains(fils,'Novel Env') & contains(fils,'DA3');% & ~contains(fils,'NE2h10');
+topDir = 'R:\DANEHippocampalResponse\';
+fils = getAllExtFiles(topDir,'txt',1);
+kp = contains(fils,'Novel Env') & contains(fils,'NEmut');% & ~contains(fils,'NE2h10');
 dirs = unique(fileparts(fils(kp)));
 
 
-%%
 
+%%
+for i = 1:length(dirs)
+    cd(dirs{i})
+    disp(dirs{i})
+    if ~isfile([dirs{i},'\ContextTransitionRevised.mat'])
+        vidpath=getAllExtFiles(dirs{i},'avi',1);
+        videoContactSheet(vidpath{:});
+        disp('Label contexts in format: homecage,BB')
+        sm_labelTDTvideo();
+        pause()
+    end
+    if ~isfile([dirs{i},'\arena_edges.mat'])
+        disp('Label contexts in format: homecage1,BB1,homecage2')
+        sm_getArenaEdges(dirs{i});
+        pause()
+    end
+    
+
+end
+
+%%
  makeField = {'MergeDLCwNeural','MergeContextEntryandEdges','alignEdgPosition_pix2cm','MergeVelocityAcceleration',...
         'MergeTimeFromTransition','MergeDist2Edge'};
     
-    
 for i = 1:length(dirs)
+    cd(dirs{i})
     sm_MakeSessionStruct(dirs{i},'makeField',makeField)
     i
 end
 %%
 
 for i = 1:length(dirs)
+    cd(dirs{i})
     sm_MakeSessionStruct(dirs{i},'makeField',{'newBaseline'})
     i
 end
@@ -26,7 +47,7 @@ end
 %%
 
 %once all sessions are processed then define # of days per session
-
+cd(dirs{1})
 sm_MakeSessionStruct(dirs{1},'makeField',{'MergeDaysInContext'})
 
 %%

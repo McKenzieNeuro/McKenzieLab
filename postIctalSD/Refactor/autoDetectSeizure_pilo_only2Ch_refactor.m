@@ -1,7 +1,7 @@
  % topDirs{1} = 'R:\DGregg\NeuralData\PTP';
  % topDirs{2} = 'R:\DGregg\NeuralData\PCP';
 %topDirs{1} = 'R:\ASommer\PilocarpineRecordings\PTP_5.1';
-topDirs{1} = 'R:\ASommer\PilocarpineRecordings\Tests\UnpluggedTest\';
+topDirs{1} = 'R:\ASommer\PilocarpineRecordings\Tests\RT vs Offline';
 % topDirs{1} = 'R:\DGregg\NeuralData\PTP';
 fils = [];
 for i = 1:length(topDirs)
@@ -93,7 +93,7 @@ end
 
 %%
 
-subjID =  'Test';
+subjID =  'PTP 5.2';
 
 kp = contains(fils,subjID);
 
@@ -102,9 +102,9 @@ fils1 = fils(kp);
 %%
 
 
-FeatureFileOutput = 'R:\Analysis\McKenzieLab\postIctalSD\Refactor\Features\features_pilo18FEB26.mat';
+FeatureFileOutput = 'R:\ASommer\PilocarpineRecordings\Model_info\Features\features_pilo_18JUN26.mat';
 load(FeatureFileOutput)
-ClassifierFileOutput = 'R:\Analysis\McKenzieLab\postIctalSD\Refactor\Models\model_pilo_bilateral_18FEB26.mat';
+ClassifierFileOutput = 'R:\ASommer\PilocarpineRecordings\Model_info\Models\model_pilo_bilateral_18JUN26.mat';
 load(ClassifierFileOutput)
 %%
 

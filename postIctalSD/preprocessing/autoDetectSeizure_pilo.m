@@ -1,6 +1,6 @@
  % topDirs{1} = 'R:\DGregg\NeuralData\PTP';
  % topDirs{2} = 'R:\DGregg\NeuralData\PCP';
-topDirs{1} = 'R:\DGregg\NeuralData\PTP\Recordings';
+topDirs{1} = 'R:\ASommer\PilocarpineRecordings\Tests\RT vs Offline';
 % topDirs{1} = 'R:\DGregg\NeuralData\PTP';
 fils = [];
 for i = 1:length(topDirs)
@@ -92,7 +92,7 @@ end
 
 %%
 
-subjID =  'PTP 4.2';
+subjID =  'PTP 5.2';
 
 kp = contains(fils,subjID);
 
@@ -102,10 +102,10 @@ channelID = [5,6]; %% This will pull only the bilateral hippocampal channels
 %%
 
 
-FeatureFileOutput = 'R:\Analysis\SeizureForecasting\IHKA_rat_RF\features_pilo2.mat';
+FeatureFileOutput = 'R:\Analysis\McKenzieLab\postIctalSD\Refactor\Features\features_pilo_18JUN26.mat';
 %FeatureFileOutput = 'E:\data\IHKA\features_trans.mat';
 load(FeatureFileOutput)
-ClassifierFileOutput =  'R:\Analysis\SeizureForecasting\IHKA_rat_RF\model_pilo.mat';
+ClassifierFileOutput =  'R:\ASommer\Matlab\Models\model_pilo_bilateral_18JUN26.mat';
 load(ClassifierFileOutput)
 %%
 

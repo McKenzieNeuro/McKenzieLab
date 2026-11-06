@@ -1,7 +1,7 @@
 clear all
 
 % Load Model file for RUSTree
-modelPath="R:\ASommer\Matlab\Models\model_pilo_bilateral_27FEB26_used_14MAY26.mat";
+modelPath="R:\ASommer\PilocarpineRecordings\Model_info\Models\model_pilo_bilateral_29SEP26.mat";
 model = load(modelPath);
 
 % Fs of raw data
@@ -58,9 +58,13 @@ close all
 
 figure
 plot(data)
+legend('CA1 Contact 1', 'CA1 Contact 2')
+title('amplifier.dat Data')
 
 figure
 plot(lfp_data)
+legend('CA1 Contact 1', 'CA1 Contact 2')
+title('.lfp Data')
 
 figure
 plot(saved_data)

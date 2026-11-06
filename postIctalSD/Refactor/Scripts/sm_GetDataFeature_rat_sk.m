@@ -39,14 +39,14 @@ if ~stim_art
         for jj = 1:nfreq+2
             
             % for the sampling window, take the mean power at each frequency.
-            if jj<nfreq
+            if jj<=nfreq
                 tmp = mean(tmp,2);
                 feat((jj-1)*nCh_subj+j)  = tmp(jj);
             end
-            if jj==(nfreq)
+            if jj==(nfreq+1)
                 feat((jj-1)*nCh_subj+j)  = skewness(double(data(:,j)));
             end
-            if jj==(nfreq+1)
+            if jj==(nfreq+2)
                 feat((jj-1)*nCh_subj+j)  = kurtosis(double(data(:,j)));
             end
         end

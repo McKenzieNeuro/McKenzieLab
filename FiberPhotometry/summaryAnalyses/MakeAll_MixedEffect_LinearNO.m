@@ -698,3 +698,58 @@ ru(i,:) = nanmean(ok(idx));
 ok = Est(kp);
 con(i,:) = nanmean(ok(idx));
 end
+
+%%
+
+
+
+PETH_obj=[];
+ts_obj=[];
+PETH_first=[];
+ts_first=[];
+
+clear ru con
+kp = kp_Novel==1;
+win_sec=30;
+
+nanMask = isnan(time2NO)';
+next_is_nan = [nanMask(2:end), false]; 
+nextNanidx = ~nanMask & next_is_nan;
+time2NOchg=time2NO;
+time2NOchg(nextNanidx)=0;
+
+
+clear ru con
+   
+
+    [PETH_first,ts_first]=addtoPETH(time2NOchg,ts_tot,neural,win_sec,sesID,PETH_first,ts_first,'first');
+    win_t = linspace(-win_sec,win_sec,20*win_sec);
+    plotMeanSEM(win_t,PETH_first,'r')
+    % hold on
+    % [PETH_obj,ts_obj]=addtoPETH(time2NOchg,ts_tot,neural,win_sec,sesID,PETH_obj,ts_obj,[]);
+    % plotMeanSEM(win_t,PETH_obj,'r')
+
+    xlabel({'Time (s) relative to' , 'Novel Object sampling'})
+    ylabel('Signal_N_E')
+
+%%
+firstsamples=ts_first(:,round(size(ts_first,2)/2))
+
+NOlatency=[];
+uSes=unique(sesID);
+for sesNo=1:length(unique(sesID))
+    kp=sesID==uSes(sesNo);
+    ts_ses=ts_tot(kp);
+    ts_samp=firstsamples(sesNo);
+
+    idxFirst=find(ts_ses==ts_samp);
+    sampsPostEntry=find(timeFrmEntry(kp)==0)-idxFirst;
+    idxEntry=min(-sampsPostEntry(sampsPostEntry<0));
+
+    time2firstNO=ts_ses(idxFirst)-ts_ses(idxFirst-idxEntry);
+    NOlatency=[NOlatency,time2firstNO];
+end
+
+NOlatency
+
+boxplot(NOlatency)

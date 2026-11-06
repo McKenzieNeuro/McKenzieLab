@@ -36,11 +36,15 @@ for i = 1:length(dirs)
     
     %go to directory and load all files
     cd(dirs{i})
-    %basename = bz_BasenameFromBasepath(dirs{i});
+    basename = bz_BasenameFromBasepath(dirs{i});
     
-    load([basename '.spikes.cellinfo.mat'])
+ %   load([basename '.spikes.cellinfo.mat'])
+ 
+ if exist('pulse_info.mat')
     load('pulse_info.mat')
-    
+ elseif  exist('stim_info.mat')
+     load('stim_info.mat')
+ end
     
     %load([basename '.CellParams.mat'])
     %load([basename '-states.mat'])
